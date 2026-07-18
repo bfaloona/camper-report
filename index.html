@@ -98,6 +98,36 @@
   .flag { color: var(--pop-med); cursor: help; }
   .legend { font-size: 11.5px; color: var(--ink-3); margin-top: 10px; }
   footer { margin-top: 26px; font-size: 11.5px; color: var(--ink-3); border-top: 1px solid var(--hairline); padding-top: 12px; }
+
+  /* Detail overlay */
+  tbody tr { cursor: pointer; }
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: none;
+    align-items: flex-start; justify-content: center; z-index: 50; overflow-y: auto; padding: 4vh 16px; }
+  .overlay.open { display: flex; }
+  .detail-panel { background: var(--surface); border-radius: 14px; max-width: 880px; width: 100%;
+    padding: 20px 26px 26px; position: relative; margin-bottom: 6vh; }
+  .detail-close { position: absolute; top: 12px; right: 14px; background: var(--wash); color: var(--ink-2);
+    border: none; border-radius: 999px; width: 30px; height: 30px; font-size: 15px; cursor: pointer; }
+  .detail-panel .photo-strip { border-radius: 10px; overflow: hidden; margin: 12px 0; }
+  .detail-panel .photo-cell { cursor: zoom-in; }
+  .detail-h { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 2px; }
+  .detail-h h2 { margin: 0; font-size: 20px; }
+  .detail-h .trim { color: var(--ink-2); font-size: 13px; }
+  .mfr-link { font-size: 12px; padding: 3px 10px; border: 1px solid var(--hairline); border-radius: 999px; white-space: nowrap; }
+  .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 18px; margin: 12px 0; }
+  .detail-sec { border-top: 1px solid var(--hairline); padding-top: 10px; margin-top: 12px; font-size: 13px; }
+  .detail-sec h3 { font-size: 12px; color: var(--ink-3); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .detail-sec ul { margin: 0; padding-left: 18px; }
+  .detail-sec li { margin-bottom: 3px; }
+  .method-note { font-size: 12px; color: var(--ink-2); }
+
+  /* Lightbox */
+  .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none;
+    align-items: center; justify-content: center; flex-direction: column; z-index: 60; cursor: zoom-out; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 94vw; max-height: 86vh; object-fit: contain; }
+  .lightbox .cap { color: #e8e8e4; font-size: 13px; margin-top: 10px; text-align: center; padding: 0 16px; }
+  .photo-cell { cursor: zoom-in; }
 </style>
 </head>
 <body>
@@ -132,6 +162,9 @@
 
   <footer id="footer"></footer>
 </div>
+
+<div id="detail-overlay" class="overlay"><div class="detail-panel" id="detail-panel"></div></div>
+<div id="lightbox" class="lightbox"><img id="lb-img" src="" alt=""><div class="cap" id="lb-cap"></div></div>
 
 <script>
 const DATA = /*DATA-START*/{
@@ -214,6 +247,7 @@ const DATA = /*DATA-START*/{
     }
    },
    "trim_rationale": "Camping communities prefer the Hybrid for overnight HVAC (engine auto-cycles) and 41 mpg; XLE is the value pick in build threads — adds blind-spot monitoring, dual-zone climate over LE for ~$1,500.",
+   "model_url": "https://www.toyota.com/rav4hybrid/",
    "last_verified": "2026-07-18"
   },
   {
@@ -295,6 +329,7 @@ const DATA = /*DATA-START*/{
     "cargo": null
    },
    "trim_rationale": "Titanium was the top US trim, offered only as the long-wheelbase (120.6 in) passenger wagon with rear liftgate.",
+   "model_url": "https://www.kbb.com/ford/transit-connect-passenger-wagon/",
    "last_verified": "2026-07-18"
   },
   {
@@ -375,6 +410,7 @@ const DATA = /*DATA-START*/{
     }
    },
    "trim_rationale": "Entry trim of the 2024 lineup — cheapest, most plentiful used; identical V6, dimensions, and Honda Sensing as upper trims. Conversion kits fit all 2018+ trims. Note: Magic Slide 2nd-row seats are heavy (~68 lb each) to remove and leave bracket humps in the floor.",
+   "model_url": "https://automobiles.honda.com/odyssey",
    "last_verified": "2026-07-18"
   },
   {
@@ -438,6 +474,7 @@ const DATA = /*DATA-START*/{
     "cargo": null
    },
    "trim_rationale": "All 2015 US trims share the 157-hp 2.5L I4 / 5-sp auto / FWD, so trim doesn't affect camping capability. Grand Touring adds sunroof (sleeping ventilation), heated leather seats (easy cleanup), fog lights, rear parking sensors for a small used-price premium.",
+   "model_url": "https://www.kbb.com/mazda/mazda5/",
    "last_verified": "2026-07-18"
   },
   {
@@ -514,6 +551,7 @@ const DATA = /*DATA-START*/{
     "cargo": null
    },
    "trim_rationale": "XLE+ gets the camper-critical 1500W AC inverter option (not on LE); e-AWD costs ~1 mpg and is the common camper choice. MPG shown FWD (AWD 35/36).",
+   "model_url": "https://www.toyota.com/sienna/",
    "last_verified": "2026-07-18"
   },
   {
@@ -589,6 +627,7 @@ const DATA = /*DATA-START*/{
     "cargo": null
    },
    "trim_rationale": "Touring L keeps 2nd-row Stow 'n Go buckets (Pinnacle's quilted 2nd row does NOT stow; Hybrid loses 2nd-row Stow 'n Go to battery). MPG FWD (AWD 17/25).",
+   "model_url": "https://www.chrysler.com/pacifica.html",
    "last_verified": "2026-07-18"
   },
   {
@@ -670,6 +709,7 @@ const DATA = /*DATA-START*/{
     }
    },
    "trim_rationale": "Base Select has identical battery/32-mi EV range/safety as upper trims for $3–6k less; campers strip the interior anyway. FWD-only, no tow rating. Camper draw: silent electric climate overnight + 82 MPGe.",
+   "model_url": "https://www.chrysler.com/pacifica.html",
    "last_verified": "2026-07-18"
   },
   {
@@ -745,6 +785,7 @@ const DATA = /*DATA-START*/{
     "cargo": null
    },
    "trim_rationale": "Critical config note: ONLY the LX Seat Package's three 2nd-row seats remove individually. Standard Slide-Flex captain's chairs aren't designed to remove; SX Prestige VIP lounge seats can't be removed at all — worst for camping.",
+   "model_url": "https://www.kia.com/us/en/carnival",
    "last_verified": "2026-07-18"
   },
   {
@@ -822,6 +863,7 @@ const DATA = /*DATA-START*/{
     }
    },
    "trim_rationale": "YEAR-CAP EXCEPTION: hybrid debuted MY2025 in the US — listed at its earliest available year (2025), not the 2024 cap. EX = power doors/liftgate + full ADAS at ~$10k under SX Prestige. 1.6T + motor, 242 hp, FWD.",
+   "model_url": "https://www.kia.com/us/en/carnival",
    "last_verified": "2026-07-18"
   },
   {
@@ -907,6 +949,7 @@ const DATA = /*DATA-START*/{
     }
    },
    "trim_rationale": "One trim per body style; Passenger Van (windows, 7–8 seats, rear HVAC) is the pop-top converters' base. 2.0T I4 208 hp, RWD, 9-sp auto (2021+). Pop-tops add ~4–8 in height.",
+   "model_url": "https://www.kbb.com/mercedes-benz/metris-passenger/",
    "last_verified": "2026-07-18"
   },
   {
@@ -983,6 +1026,7 @@ const DATA = /*DATA-START*/{
     "cargo": null
    },
    "trim_rationale": "SLT was the top passenger trim. 2.4L I4 178 hp, 9-sp auto, FWD. Interior height 48.7 in — no standing; 48.4 in between wheel wells.",
+   "model_url": "https://www.kbb.com/ram/promaster-city/",
    "last_verified": "2026-07-18"
   },
   {
@@ -1056,6 +1100,7 @@ const DATA = /*DATA-START*/{
     }
    },
    "trim_rationale": "Premium = volume camper trim: 11.6-in screen + roof rails, keeps the 26/32-mpg NA 2.5L (Wilderness turbo: 21/26, +$6–8k, 9.5-in clearance for off-grid buyers). All 2020–2025 share identical cargo dims.",
+   "model_url": "https://www.subaru.com/vehicles/outback",
    "last_verified": "2026-07-18"
   },
   {
@@ -1128,6 +1173,7 @@ const DATA = /*DATA-START*/{
     "cargo": null
    },
    "trim_rationale": "Wilderness = enthusiast camping pick: 9.2-in clearance, A/T tires, roof rack rated for rooftop tents, 3,000-lb tow. Budget builds use Premium (26/33 mpg, 68.1-in height).",
+   "model_url": "https://www.subaru.com/vehicles/forester",
    "last_verified": "2026-07-18"
   },
   {
@@ -1199,6 +1245,7 @@ const DATA = /*DATA-START*/{
     "cargo": null
    },
    "trim_rationale": "Sport is the entry hybrid trim — cheapest way into the 40-mpg-combined hybrid campers want; Sport-L adds only leather/power tailgate. MPG FWD (AWD 40/34).",
+   "model_url": "https://automobiles.honda.com/cr-v-hybrid",
    "last_verified": "2026-07-18"
   },
   {
@@ -1271,6 +1318,7 @@ const DATA = /*DATA-START*/{
     "cargo": null
    },
    "trim_rationale": "LE = cheapest, best mpg (57/56 vs 52/52 XLE+), and most cargo of the gen (23.8 vs 20.3 cu ft). NOTE: most Prius dwellers actually prefer the roomier, cheaper 4th gen (2016–2022, up to 34.3 cu ft folded) — the 5th gen's fastback roof cut ~7 cu ft. Candidate prior-gen row.",
+   "model_url": "https://www.toyota.com/prius/",
    "last_verified": "2026-07-18"
   },
   {
@@ -1343,6 +1391,7 @@ const DATA = /*DATA-START*/{
     }
    },
    "trim_rationale": "TRD Off-Road over SR5 (+$2–3k) for locking rear diff, Crawl Control, Multi-Terrain Select — the community-default overlanding trim. 4.0L V6 270 hp, 5-sp auto, part-time 4WD. Thirstiest vehicle in this report (17 combined).",
+   "model_url": "https://www.toyota.com/4runner/",
    "last_verified": "2026-07-18"
   },
   {
@@ -1416,6 +1465,7 @@ const DATA = /*DATA-START*/{
     }
    },
    "trim_rationale": "XLE = volume used trim (power liftgate, roof rails) ~$4–5k under Limited; 120V/1500W cargo outlet requires Limited/Platinum. 243 hp hybrid; AWD costs ~1 mpg. MPG shown AWD (FWD 36/35).",
+   "model_url": "https://www.toyota.com/highlanderhybrid/",
    "last_verified": "2026-07-18"
   }
  ]
@@ -1438,7 +1488,8 @@ const COLUMNS = [
   { key: 'mpgc', label: 'MPG city', num: true, get: v => v.mpg.city },
   { key: 'mpgh', label: 'MPG hwy', num: true, get: v => v.mpg.hwy },
   { key: 'pop', label: 'Camper pop.', num: true, get: v => POP_ORDER[v.camper_popularity.rating] || 0 },
-  { key: 'kits', label: 'Kits', num: true, get: v => v.conversion_products.length }
+  { key: 'kits', label: 'Kits', num: true, get: v => v.conversion_products.length },
+  { key: 'mfr', label: 'Link', num: false, get: v => v.make }
 ];
 
 let state = { fClass: '', fPower: '', fPop: '', sortKey: 'vehicle', sortDir: 1, view: 'cards' };
@@ -1481,6 +1532,7 @@ function renderCards(rows) {
         <span class="badge ${v.powertrain}">${PT_LABEL[v.powertrain]}</span>
         <span class="badge cls">${v.class}</span>
         <span class="badge cls">${v.generation_span}</span>
+        ${v.model_url ? '<a class="badge cls mfr-link" href="' + v.model_url + '" target="_blank" rel="noopener">Model page &#8599;</a>' : ''}
       </div>
       <div class="specs">
         <div class="spec"><div class="k">KBB (${v.listed_year})</div><div class="v">$${fmt(v.kbb_value_usd.low)}–$${fmt(v.kbb_value_usd.high)}</div></div>
@@ -1512,7 +1564,7 @@ function renderTable(rows) {
     render();
   });
   document.getElementById('tbody').innerHTML = rows.map(v => `
-    <tr>
+    <tr data-id="${v.id}">
       <td class="veh-cell">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${v.generation_span}</span></td>
       <td>${v.class}</td>
       <td>${PT_LABEL[v.powertrain]}</td>
@@ -1526,6 +1578,7 @@ function renderTable(rows) {
       <td class="num">${v.mpg.hwy}</td>
       <td><span class="pop ${v.camper_popularity.rating}" title="${v.camper_popularity.evidence}">${v.camper_popularity.rating}</span></td>
       <td class="num">${v.conversion_products.length}</td>
+      <td>${v.model_url ? '<a href="' + v.model_url + '" target="_blank" rel="noopener" title="Model page">&#8599;</a>' : ''}</td>
     </tr>`).join('');
 }
 
@@ -1550,6 +1603,82 @@ document.getElementById('f-power').onchange = e => { state.fPower = e.target.val
 document.getElementById('f-pop').onchange = e => { state.fPop = e.target.value; render(); };
 document.getElementById('btn-cards').onclick = () => { state.view = 'cards'; render(); };
 document.getElementById('btn-table').onclick = () => { state.view = 'table'; render(); };
+// ---- Detail view + lightbox ----
+function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+
+function showLightbox(url, cap) {
+  document.getElementById('lb-img').src = url;
+  document.getElementById('lb-cap').textContent = cap || '';
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+function showDetail(id) {
+  const v = DATA.vehicles.find(x => x.id === id);
+  if (!v) return;
+  const c = v.cargo_length_behind_front_seats_in;
+  const mpgExtra = v.mpg.mpge ? ' · ' + v.mpg.mpge + ' MPGe · ' + v.mpg.ev_range_mi + ' mi EV' : '';
+  document.getElementById('detail-panel').innerHTML = `
+    <button class="detail-close" title="Close">&#10005;</button>
+    <div class="detail-h">
+      <h2>${v.make} ${v.model}</h2>
+      <span class="trim">${v.listed_year} ${v.trim} · ${v.generation_span}</span>
+      <span class="badge ${v.powertrain}">${PT_LABEL[v.powertrain]}</span>
+      <span class="badge cls">${v.class}</span>
+      ${v.model_url ? '<a class="mfr-link" href="' + v.model_url + '" target="_blank" rel="noopener">Model page &#8599;</a>' : ''}
+    </div>
+    <div class="photo-strip">
+      ${photoCell(v.photos.exterior, 'Exterior')}
+      ${photoCell(v.photos.dashboard, 'Dashboard')}
+      ${photoCell(v.photos.cargo, 'Cargo')}
+    </div>
+    <div class="detail-grid">
+      <div class="spec"><div class="k">KBB (${v.listed_year})</div><div class="v">$${fmt(v.kbb_value_usd.low)}–$${fmt(v.kbb_value_usd.high)}</div></div>
+      <div class="spec"><div class="k">MPG city/hwy</div><div class="v">${v.mpg.city} / ${v.mpg.hwy}${mpgExtra}</div></div>
+      <div class="spec"><div class="k">Exterior L×W×H</div><div class="v">${v.exterior_in.length} × ${v.exterior_in.width} × ${v.exterior_in.height} in</div></div>
+      <div class="spec"><div class="k">Cargo length behind front seats</div><div class="v">${c.value} in †</div></div>
+      <div class="spec"><div class="k">Camper popularity</div><div class="v pop ${v.camper_popularity.rating}">${v.camper_popularity.rating}</div></div>
+      <div class="spec"><div class="k">Last verified</div><div class="v">${v.last_verified}</div></div>
+    </div>
+    <div class="detail-sec"><h3>Cargo measurement method</h3>
+      <div class="method-note">${esc(c.method)} ${c.source ? '(<a href="' + c.source + '" target="_blank" rel="noopener">source</a>)' : ''}</div></div>
+    <div class="detail-sec"><h3>KBB assumption</h3>
+      <div class="method-note">${esc(v.kbb_value_usd.assumption)} (<a href="${v.kbb_value_usd.source}" target="_blank" rel="noopener">source</a>)</div></div>
+    <div class="detail-sec"><h3>Safety — ${esc(v.safety.suite)}</h3>
+      <ul>${v.safety.features.map(f => '<li>' + esc(f) + '</li>').join('')}</ul></div>
+    <div class="detail-sec"><h3>Camper popularity evidence</h3>
+      <div class="method-note">${esc(v.camper_popularity.evidence)}</div></div>
+    <div class="detail-sec"><h3>Conversion products (${v.conversion_products.length})</h3>
+      <ul>${v.conversion_products.map(p => '<li><a href="' + p.url + '" target="_blank" rel="noopener">' + esc(p.name) + '</a></li>').join('')}</ul></div>
+    <div class="detail-sec"><h3>Why this trim</h3>
+      <div class="method-note">${esc(v.trim_rationale)}</div></div>`;
+  document.getElementById('detail-overlay').classList.add('open');
+}
+function closeDetail() { document.getElementById('detail-overlay').classList.remove('open'); }
+
+// photo clicks anywhere (cards + detail) -> lightbox
+document.addEventListener('click', e => {
+  const img = e.target.closest('.photo-cell img');
+  if (img) { showLightbox(img.src, img.alt + (img.parentNode.querySelector('.ph-label') ? ' — ' + img.parentNode.querySelector('.ph-label').textContent : '')); return; }
+});
+// table row click -> detail (ignore links)
+document.getElementById('tbody').addEventListener('click', e => {
+  if (e.target.closest('a')) return;
+  const tr = e.target.closest('tr[data-id]');
+  if (tr) showDetail(tr.dataset.id);
+});
+// close interactions
+document.getElementById('lightbox').addEventListener('click', closeLightbox);
+document.getElementById('detail-overlay').addEventListener('click', e => {
+  if (e.target.id === 'detail-overlay' || e.target.closest('.detail-close')) closeDetail();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.getElementById('lightbox').classList.contains('open')) closeLightbox();
+    else closeDetail();
+  }
+});
+
 document.getElementById('updated').textContent = DATA.updated;
 document.getElementById('footer').innerHTML =
   'Living document — maintained with Claude in the Camper Van project. Source data with full citations lives in the project (<code>vehicles.json</code>). ' +
