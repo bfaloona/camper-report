@@ -48,6 +48,11 @@
   .view-toggle { margin-left: auto; display: flex; border: 1px solid var(--hairline); border-radius: 8px; overflow: hidden; }
   .view-toggle button { background: var(--surface); color: var(--ink-2); border: none; padding: 6px 14px; font-size: 13px; cursor: pointer; }
   .view-toggle button.active { background: var(--accent); color: #fff; }
+  .compare-btn { border: 1px solid var(--accent); color: var(--accent-deep); background: var(--surface);
+    border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .compare-btn.active { background: var(--accent); color: #fff; }
+  .compare-btn:disabled { opacity: 0.5; cursor: default; }
+  .sel-cell input { cursor: pointer; width: 15px; height: 15px; }
   .count-note { font-size: 12px; color: var(--ink-3); }
 
   /* Cards */
@@ -145,6 +150,7 @@
     <div class="control-group"><label for="f-pop">Camper popularity</label>
       <select id="f-pop"><option value="">All</option><option>High</option><option>Medium</option><option>Low</option></select></div>
     <span class="count-note" id="count-note"></span>
+    <button id="btn-compare" class="compare-btn" style="display:none"></button>
     <div class="view-toggle">
       <button id="btn-cards" class="active">Cards</button>
       <button id="btn-table">Table</button>
@@ -1476,6 +1482,7 @@ const POP_ORDER = { High: 3, Medium: 2, Low: 1 };
 const PT_LABEL = { gas: 'Gas', hybrid: 'Hybrid', phev: 'PHEV', ev: 'EV' };
 
 const COLUMNS = [
+  { key: 'sel', label: 'Sel', num: false, get: v => '' },
   { key: 'vehicle', label: 'Vehicle', num: false, get: v => v.make + ' ' + v.model },
   { key: 'class', label: 'Class', num: false, get: v => v.class },
   { key: 'powertrain', label: 'Power', num: false, get: v => PT_LABEL[v.powertrain] || v.powertrain },
@@ -1492,10 +1499,12 @@ const COLUMNS = [
   { key: 'mfr', label: 'Link', num: false, get: v => v.make }
 ];
 
-let state = { fClass: '', fPower: '', fPop: '', sortKey: 'vehicle', sortDir: 1, view: 'cards' };
+let state = { fClass: '', fPower: '', fPop: '', sortKey: 'vehicle', sortDir: 1, view: 'cards',
+  selected: new Set(), compareMode: false };
 
 function filtered() {
   return DATA.vehicles.filter(v =>
+    (!state.compareMode || state.selected.has(v.id)) &&
     (!state.fClass || v.class === state.fClass) &&
     (!state.fPower || v.powertrain === state.fPower) &&
     (!state.fPop || v.camper_popularity.rating === state.fPop));
@@ -1560,11 +1569,13 @@ function renderTable(rows) {
   }).join('');
   thead.querySelectorAll('th').forEach(th => th.onclick = () => {
     const k = th.dataset.key;
+    if (k === 'sel') return;
     if (state.sortKey === k) state.sortDir *= -1; else { state.sortKey = k; state.sortDir = COLUMNS.find(c => c.key === k).num ? -1 : 1; }
     render();
   });
   document.getElementById('tbody').innerHTML = rows.map(v => `
     <tr data-id="${v.id}">
+      <td class="sel-cell"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"></td>
       <td class="veh-cell">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${v.generation_span}</span></td>
       <td>${v.class}</td>
       <td>${PT_LABEL[v.powertrain]}</td>
@@ -1584,7 +1595,10 @@ function renderTable(rows) {
 
 function render() {
   const rows = sorted(filtered());
-  document.getElementById('count-note').textContent = rows.length + ' of ' + DATA.vehicles.length + ' vehicles';
+  document.getElementById('count-note').textContent = state.compareMode
+    ? 'Comparing ' + rows.length + ' vehicles'
+    : rows.length + ' of ' + DATA.vehicles.length + ' vehicles';
+  if (typeof updateCompareUI === 'function') updateCompareUI();
   if (state.view === 'cards') { renderCards(rows); }
   else { renderTable(rows); }
   document.getElementById('cards').style.display = state.view === 'cards' ? '' : 'none';
@@ -1661,12 +1675,38 @@ document.addEventListener('click', e => {
   const img = e.target.closest('.photo-cell img');
   if (img) { showLightbox(img.src, img.alt + (img.parentNode.querySelector('.ph-label') ? ' — ' + img.parentNode.querySelector('.ph-label').textContent : '')); return; }
 });
-// table row click -> detail (ignore links)
+// table row click -> detail (ignore links); checkbox click -> toggle compare selection
 document.getElementById('tbody').addEventListener('click', e => {
+  const cb = e.target.closest('input[data-sel]');
+  if (cb) {
+    if (cb.checked) state.selected.add(cb.dataset.sel); else state.selected.delete(cb.dataset.sel);
+    if (state.compareMode && state.selected.size === 0) state.compareMode = false;
+    if (state.compareMode) render(); else updateCompareUI();
+    return;
+  }
   if (e.target.closest('a')) return;
   const tr = e.target.closest('tr[data-id]');
   if (tr) showDetail(tr.dataset.id);
 });
+
+function updateCompareUI() {
+  const btn = document.getElementById('btn-compare');
+  const n = state.selected.size;
+  if (state.compareMode) {
+    btn.style.display = ''; btn.classList.add('active');
+    btn.textContent = 'Clear compare (' + n + ')'; btn.disabled = false;
+  } else if (n > 0) {
+    btn.style.display = ''; btn.classList.remove('active');
+    btn.textContent = 'Compare (' + n + ')'; btn.disabled = n < 2;
+  } else {
+    btn.style.display = 'none'; btn.classList.remove('active');
+  }
+}
+document.getElementById('btn-compare').onclick = () => {
+  if (state.compareMode) { state.compareMode = false; state.selected.clear(); }
+  else if (state.selected.size >= 2) { state.compareMode = true; state.view = 'table'; }
+  render();
+};
 // close interactions
 document.getElementById('lightbox').addEventListener('click', closeLightbox);
 document.getElementById('detail-overlay').addEventListener('click', e => {
