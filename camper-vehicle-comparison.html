@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camper Conversion Vehicle Comparison</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb;
+    --ink-1: #0b0b0b; --ink-2: #52514e; --ink-3: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab;
+    --badge-hybrid: #e7f2e7; --badge-hybrid-ink: #006300;
+    --badge-gas: #f0efec; --badge-gas-ink: #52514e;
+    --badge-phev: #e4eefb; --badge-phev-ink: #1c5cab;
+    --badge-ev: #ede9fb; --badge-ev-ink: #4a3aa7;
+    --pop-high: #006300; --pop-med: #a06b00; --pop-low: #898781;
+    --wash: #f3f2ef;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19;
+      --ink-1: #ffffff; --ink-2: #c3c2b7; --ink-3: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec;
+      --badge-hybrid: #12300f; --badge-hybrid-ink: #7ed67e;
+      --badge-gas: #2c2c2a; --badge-gas-ink: #c3c2b7;
+      --badge-phev: #142a47; --badge-phev-ink: #86b6ef;
+      --badge-ev: #241d4d; --badge-ev-ink: #b0a7f2;
+      --pop-high: #0ca30c; --pop-med: #c98500; --pop-low: #898781;
+      --wash: #232322;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink-1);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.45; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 20px 60px; }
+  header h1 { font-size: 22px; margin: 0 0 4px; }
+  header .sub { color: var(--ink-2); font-size: 13px; margin-bottom: 18px; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
+  .control-group { display: flex; align-items: center; gap: 6px; }
+  .control-group label { font-size: 12px; color: var(--ink-3); }
+  select { background: var(--surface); color: var(--ink-1); border: 1px solid var(--hairline);
+    border-radius: 8px; padding: 6px 8px; font-size: 13px; }
+  .view-toggle { margin-left: auto; display: flex; border: 1px solid var(--hairline); border-radius: 8px; overflow: hidden; }
+  .view-toggle button { background: var(--surface); color: var(--ink-2); border: none; padding: 6px 14px; font-size: 13px; cursor: pointer; }
+  .view-toggle button.active { background: var(--accent); color: #fff; }
+  .count-note { font-size: 12px; color: var(--ink-3); }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .photo-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; background: var(--page); }
+  .photo-cell { position: relative; aspect-ratio: 4/3; overflow: hidden; background: var(--wash); }
+  .photo-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-cell .ph-label { position: absolute; left: 0; bottom: 0; right: 0; font-size: 10px; padding: 2px 6px;
+    background: rgba(0,0,0,0.55); color: #fff; }
+  .photo-missing { display: flex; align-items: center; justify-content: center; font-size: 11px;
+    color: var(--ink-3); text-align: center; padding: 6px; height: 100%; }
+  .card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .card-title { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .card-title h2 { font-size: 16px; margin: 0; }
+  .card-title .trim { font-size: 12px; color: var(--ink-2); }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+  .badge.gas { background: var(--badge-gas); color: var(--badge-gas-ink); }
+  .badge.hybrid { background: var(--badge-hybrid); color: var(--badge-hybrid-ink); }
+  .badge.phev { background: var(--badge-phev); color: var(--badge-phev-ink); }
+  .badge.ev { background: var(--badge-ev); color: var(--badge-ev-ink); }
+  .badge.cls { background: var(--wash); color: var(--ink-2); font-weight: 500; }
+  .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 12.5px; }
+  .spec .k { color: var(--ink-3); font-size: 11px; }
+  .spec .v { font-variant-numeric: tabular-nums; }
+  .pop { font-weight: 600; }
+  .pop.High { color: var(--pop-high); } .pop.Medium { color: var(--pop-med); } .pop.Low { color: var(--pop-low); }
+  details { border-top: 1px solid var(--hairline); padding-top: 8px; }
+  details summary { cursor: pointer; font-size: 12px; color: var(--accent-deep); }
+  details ul { margin: 6px 0 0; padding-left: 18px; font-size: 12px; color: var(--ink-2); }
+  details li { margin-bottom: 3px; }
+  a { color: var(--accent-deep); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .foot-note { font-size: 11px; color: var(--ink-3); border-top: 1px solid var(--hairline); padding-top: 8px; margin-top: auto; }
+
+  /* Table */
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; min-width: 1080px; font-size: 12.5px; }
+  th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  th { font-size: 11px; color: var(--ink-3); font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none; position: sticky; top: 0; background: var(--surface); }
+  th.num, td.num { text-align: right; }
+  td.num { font-variant-numeric: tabular-nums; }
+  th .arrow { font-size: 9px; }
+  tbody tr:hover { background: var(--wash); }
+  .veh-cell { font-weight: 600; white-space: nowrap; }
+  .veh-cell .trim-sm { display: block; font-weight: 400; font-size: 11px; color: var(--ink-2); white-space: normal; }
+  .flag { color: var(--pop-med); cursor: help; }
+  .legend { font-size: 11.5px; color: var(--ink-3); margin-top: 10px; }
+  footer { margin-top: 26px; font-size: 11.5px; color: var(--ink-3); border-top: 1px solid var(--hairline); padding-top: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Camper Conversion Vehicle Comparison</h1>
+    <div class="sub">Passenger cars &amp; vans as camper-conversion platforms · One camping-favored trim per model · Listed year = latest available, capped at 2024 · Updated <span id="updated"></span></div>
+  </header>
+
+  <div class="controls">
+    <div class="control-group"><label for="f-class">Class</label>
+      <select id="f-class"><option value="">All</option></select></div>
+    <div class="control-group"><label for="f-power">Powertrain</label>
+      <select id="f-power"><option value="">All</option></select></div>
+    <div class="control-group"><label for="f-pop">Camper popularity</label>
+      <select id="f-pop"><option value="">All</option><option>High</option><option>Medium</option><option>Low</option></select></div>
+    <span class="count-note" id="count-note"></span>
+    <div class="view-toggle">
+      <button id="btn-cards" class="active">Cards</button>
+      <button id="btn-table">Table</button>
+    </div>
+  </div>
+
+  <div id="cards" class="cards"></div>
+  <div id="table-view" class="table-wrap" style="display:none">
+    <table>
+      <thead><tr id="thead-row"></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div class="legend">† community- or vendor-measured, not an official spec — hover for method. KBB ranges assume good condition, typical mileage (retrieved July 2026; regional). Photos: Wikimedia Commons where available; gaps noted.</div>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+const DATA = /*DATA-START*/{
+  "updated": "2026-07-18",
+  "vehicles": [
+    {
+      "id": "toyota-rav4-hybrid-xa50",
+      "make": "Toyota", "model": "RAV4 Hybrid", "trim": "XLE Hybrid AWD",
+      "class": "SUV", "powertrain": "hybrid",
+      "generation_span": "2019–2025 (5th gen)",
+      "listed_year": 2024,
+      "kbb_value_usd": { "low": 30000, "high": 33000, "assumption": "2024 XLE Hybrid, good condition, ~25–30k mi", "source": "https://www.kbb.com/toyota/rav4-hybrid/2024/xle-sport-utility-4d/" },
+      "exterior_in": { "length": 180.9, "width": 73.0, "height": 67.0 },
+      "cargo_length_behind_front_seats_in": { "value": 73, "method": "Community-measured; corroborated by BamBeds 73-in platform. Floor stepped, ~39–40 in between wheel wells. ±2 in with seat position.", "source": "https://www.autoroamer.com/posts/can-you-sleep-in-a-toyota-rav4-car-camping-guide.html" },
+      "mpg": { "city": 41, "hwy": 38 },
+      "safety": { "suite": "Toyota Safety Sense 2.5+ (standard)", "features": ["Pre-Collision System w/ Pedestrian Detection", "Full-Speed Dynamic Radar Cruise", "Lane Departure Alert w/ Steering Assist", "Lane Tracing Assist", "Road Sign Assist", "Auto High Beams", "Blind Spot Monitor + Rear Cross-Traffic (std on XLE)"] },
+      "camper_popularity": { "rating": "High", "evidence": "Among the most common non-van car-camping platforms: dozens of build threads (rav4world.com, r/GoRAV4) and 4+ dedicated commercial conversion products." },
+      "conversion_products": [
+        { "name": "Luno AIR mattress (RAV4 2019+)", "url": "https://lunolife.com/products/luno-air-mattress-for-rav4" },
+        { "name": "BamBeds platform (2019–2025), $899", "url": "https://bambeds.com/products/toyota-rav4" },
+        { "name": "Wheels & Feels camper kit w/ kitchen", "url": "https://wheelsfeels.com/shop/car-kitchens/camper-kit-toyota-rav4" },
+        { "name": "Compass Camper aluminum platform", "url": "https://compasscamper.com/products/toyota-rav4-camper-conversion-kit" }
+      ],
+      "photos": {
+        "exterior": { "url": "https://upload.wikimedia.org/wikipedia/commons/2/25/%2719_Toyota_RAV4_Hybrid_Trimax.jpg" },
+        "dashboard": { "url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/2019_Toyota_RAV4_Interior.jpg", "note": "pre-2023 refresh" },
+        "cargo": { "url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Toyota_RAV4_2019_%28XA50%29_CUV_Trunk.jpg", "note": "seats up" }
+      },
+      "trim_rationale": "Hybrid preferred for overnight HVAC (engine auto-cycles) and 41 mpg; XLE adds blind-spot monitoring and dual-zone climate over LE for ~$1,500.",
+      "last_verified": "2026-07-18"
+    },
+    {
+      "id": "ford-transit-connect-gen2",
+      "make": "Ford", "model": "Transit Connect", "trim": "Titanium Passenger Wagon (LWB)",
+      "class": "Compact van", "powertrain": "gas",
+      "generation_span": "2014–2023 (2nd gen; US-discontinued)",
+      "listed_year": 2023,
+      "kbb_value_usd": { "low": 24000, "high": 28700, "assumption": "2023 Titanium wagon, good condition, typical miles; final-year models hold value", "source": "https://www.kbb.com/ford/transit-connect-passenger-wagon/2023/titanium-van-4d/" },
+      "exterior_in": { "length": 190.0, "width": 72.0, "height": 71.6 },
+      "cargo_length_behind_front_seats_in": { "value": 84, "method": "Community-measured (Transit Connect Forum, LWB wagon, rows folded): 84 in, up to 89 in with passenger seat forward. No official wagon figure.", "source": "https://fordtransitconnectforum.com/topic/8441-connect-wagon-cargo-dimensions/" },
+      "mpg": { "city": 24, "hwy": 28 },
+      "safety": { "suite": "Ford Co-Pilot360 (standard 2019+)", "features": ["Pre-Collision Assist w/ AEB + pedestrian detection", "Blind Spot Info System w/ Cross-Traffic Alert", "Lane-Keeping System", "Auto High Beams", "Rearview camera", "Available: adaptive cruise, active park assist"] },
+      "camper_popularity": { "rating": "Medium", "evidence": "Unusually well-served micro-camper scene for a compact van: 6+ dedicated kit vendors and active forum build threads; smaller community than full-size vans." },
+      "conversion_products": [
+        { "name": "TNT Vans DIY kit", "url": "https://tnt-vans.com/products/ford-transit-connect-camper-van-conversion" },
+        { "name": "Roadloft removable kit", "url": "https://roadloft.com/en-us/products/camper-conversion-kit-ford-transit-connect" },
+        { "name": "Freeway Camper Kit", "url": "https://www.freewaycamperkit.com/en/connect/" },
+        { "name": "Contravans conversions + kits", "url": "https://www.contravans.com/ford-transit-connect-camper-van-conversions/" },
+        { "name": "Simpler Ways DIY kit (cargo)", "url": "https://simplerways.co/products/ford-transit-connect-cargo-campervan-conversion-kit" },
+        { "name": "VanLab flat-pack kit (LWB)", "url": "https://wearevanlab.com/products/transit-connect" }
+      ],
+      "photos": {
+        "exterior": { "url": "https://upload.wikimedia.org/wikipedia/commons/8/86/20_Ford_Transit_Connect_Wagon_XL.jpg", "note": "2020 XL wagon" },
+        "dashboard": null,
+        "cargo": null
+      },
+      "trim_rationale": "Titanium was the top US trim, offered only as the LWB passenger wagon with rear liftgate. 2.0L I4, 162 hp, FWD.",
+      "last_verified": "2026-07-18"
+    },
+    {
+      "id": "honda-odyssey-rl6",
+      "make": "Honda", "model": "Odyssey", "trim": "EX-L",
+      "class": "Minivan", "powertrain": "gas",
+      "generation_span": "2018–present (5th gen)",
+      "listed_year": 2024,
+      "kbb_value_usd": { "low": 30240, "high": 33940, "assumption": "2024 EX-L, good condition, typical miles", "source": "https://www.kbb.com/honda/odyssey/2024/ex-l-minivan-4d/" },
+      "exterior_in": { "length": 205.2, "width": 78.5, "height": 69.6 },
+      "cargo_length_behind_front_seats_in": { "value": 78, "method": "Vendor-verified (Roadloft 78-in platform, 2nd row removed + 3rd row stowed); no official Honda figure. Floor has 2nd-row bracket humps — not flat without a platform.", "source": "https://roadloft.com/en-us/products/camper-conversion-kit-honda-odyssey" },
+      "mpg": { "city": 19, "hwy": 28 },
+      "safety": { "suite": "Honda Sensing (standard)", "features": ["Collision Mitigation Braking (CMBS)", "Forward Collision Warning", "Road Departure Mitigation", "Lane Keeping Assist", "Adaptive Cruise w/ Low-Speed Follow", "Traffic Sign Recognition", "Blind Spot Info System w/ Cross Traffic Monitor (std 2024)", "Auto high beams"] },
+      "camper_popularity": { "rating": "Medium", "evidence": "4+ dedicated kit vendors and active communities (odyclub.com, r/minivancamping) — but a clear second to the Sienna, whose hybrid mpg and AWD make it the community default." },
+      "conversion_products": [
+        { "name": "Roadloft full kit (2018+), $4,645", "url": "https://roadloft.com/en-us/products/camper-conversion-kit-honda-odyssey" },
+        { "name": "Vanpackers RL6 modular kit, $5,195", "url": "https://vanpackers.com/en-us/products/conversion-kit-honda-odyssey-rl6" },
+        { "name": "RiverLeaf folding bed platform", "url": "https://riverleafcamper.com/pages/honda-odyssey-camper-conversion-kit" },
+        { "name": "Freeway Camper Kit", "url": "https://www.freewaycamperkit.com/en/odyssey/" }
+      ],
+      "photos": {
+        "exterior": { "url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/2021_Honda_Odyssey_EX-L_%28facelift%29%2C_front_1.1.21.jpg" },
+        "dashboard": { "url": "https://upload.wikimedia.org/wikipedia/commons/3/32/2023_Honda_Odyssey_interior.jpg", "note": "2023 Touring" },
+        "cargo": { "url": "https://roadloft.com/cdn/shop/files/HO.png?v=1769095577", "note": "Roadloft kit installed" }
+      },
+      "trim_rationale": "EX-L is the 2024 entry trim — cheapest and most plentiful used, identical V6/dimensions/Honda Sensing as upper trims. Note: Magic Slide 2nd-row seats are heavy (~68 lb each) to remove and leave floor bracket humps.",
+      "last_verified": "2026-07-18"
+    },
+    {
+      "id": "mazda5-gen3",
+      "make": "Mazda", "model": "Mazda5", "trim": "Grand Touring",
+      "class": "Compact minivan", "powertrain": "gas",
+      "generation_span": "2012–2015 (3rd gen; US-discontinued)",
+      "listed_year": 2015,
+      "kbb_value_usd": { "low": 5700, "high": 7650, "assumption": "2015 Grand Touring, good condition, typical mileage for age", "source": "https://www.kbb.com/mazda/mazda5/2015/grand-touring-minivan-4d/" },
+      "exterior_in": { "length": 180.5, "width": 68.9, "height": 63.6 },
+      "cargo_length_behind_front_seats_in": { "value": 75, "method": "Community-measured (Mazdas247 forum): ~75 in with 2nd row slid forward, 66–72 in otherwise; rows folded. 2nd row doesn't fold flat — bridge with platform or remove seats. Twin mattress fits.", "source": "https://mazdas247.com/forum/threads/camping-with-mazda5.123840845/" },
+      "mpg": { "city": 21, "hwy": 28 },
+      "safety": { "suite": "None — predates modern ADAS (no AEB, blind-spot, adaptive cruise, or lane keeping)", "features": ["ABS w/ EBD + brake assist", "Dynamic Stability Control + traction control", "Dual front, front-side, and 3-row curtain airbags", "Rear parking sensors (Touring/GT)", "Fog lights (Touring/GT)"] },
+      "camper_popularity": { "rating": "Medium", "evidence": "Cult micro-camper following: one dedicated commercial kit (RiverLeaf), multiple YouTube/TikTok build series, long-running Mazdas247 camping threads — small community vs. Sienna/Odyssey scenes." },
+      "conversion_products": [
+        { "name": "RiverLeaf 'Grand Teton' kit (2006–2015), $3,490", "url": "https://riverleafcamper.com/pages/mazda-5-camper-conversion-kit" },
+        { "name": "DIY builds (predominant approach)", "url": "https://www.youtube.com/watch?v=ov3Ou4zRS-Q" }
+      ],
+      "photos": {
+        "exterior": { "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/2012_Mazda5_--_03-09-2011.jpg" },
+        "dashboard": null,
+        "cargo": null
+      },
+      "trim_rationale": "All 2015 US trims share the 157-hp 2.5L I4 / 5-sp auto / FWD. Grand Touring adds sunroof (sleeping ventilation), heated leather, fog lights, rear parking sensors for a small used premium.",
+      "last_verified": "2026-07-18"
+    }
+  ]
+}/*DATA-END*/;
+
+const fmt = n => n.toLocaleString('en-US');
+const POP_ORDER = { High: 3, Medium: 2, Low: 1 };
+const PT_LABEL = { gas: 'Gas', hybrid: 'Hybrid', phev: 'PHEV', ev: 'EV' };
+
+const COLUMNS = [
+  { key: 'vehicle', label: 'Vehicle', num: false, get: v => v.make + ' ' + v.model },
+  { key: 'class', label: 'Class', num: false, get: v => v.class },
+  { key: 'powertrain', label: 'Power', num: false, get: v => PT_LABEL[v.powertrain] || v.powertrain },
+  { key: 'listed_year', label: 'Year', num: true, get: v => v.listed_year },
+  { key: 'kbb', label: 'KBB ($)', num: true, get: v => v.kbb_value_usd.low },
+  { key: 'length', label: 'L (in)', num: true, get: v => v.exterior_in.length },
+  { key: 'width', label: 'W (in)', num: true, get: v => v.exterior_in.width },
+  { key: 'height', label: 'H (in)', num: true, get: v => v.exterior_in.height },
+  { key: 'cargo', label: 'Cargo len (in)', num: true, get: v => v.cargo_length_behind_front_seats_in.value },
+  { key: 'mpgc', label: 'MPG city', num: true, get: v => v.mpg.city },
+  { key: 'mpgh', label: 'MPG hwy', num: true, get: v => v.mpg.hwy },
+  { key: 'pop', label: 'Camper pop.', num: true, get: v => POP_ORDER[v.camper_popularity.rating] || 0 },
+  { key: 'kits', label: 'Kits', num: true, get: v => v.conversion_products.length }
+];
+
+let state = { fClass: '', fPower: '', fPop: '', sortKey: 'vehicle', sortDir: 1, view: 'cards' };
+
+function filtered() {
+  return DATA.vehicles.filter(v =>
+    (!state.fClass || v.class === state.fClass) &&
+    (!state.fPower || v.powertrain === state.fPower) &&
+    (!state.fPop || v.camper_popularity.rating === state.fPop));
+}
+function sorted(rows) {
+  const col = COLUMNS.find(c => c.key === state.sortKey) || COLUMNS[0];
+  return [...rows].sort((a, b) => {
+    const av = col.get(a), bv = col.get(b);
+    const cmp = col.num ? (av - bv) : String(av).localeCompare(String(bv));
+    return cmp * state.sortDir;
+  });
+}
+
+function photoCell(p, label) {
+  if (!p) return '<div class="photo-cell"><div class="photo-missing">No stable ' + label.toLowerCase() + ' photo yet</div></div>';
+  const note = p.note ? ' · ' + p.note : '';
+  return '<div class="photo-cell"><img src="' + p.url + '" alt="' + label + '" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.innerHTML=\'<div class=photo-missing>Photo unavailable</div>\'"><div class="ph-label">' + label + note + '</div></div>';
+}
+
+function renderCards(rows) {
+  document.getElementById('cards').innerHTML = rows.map(v => `
+  <div class="card">
+    <div class="photo-strip">
+      ${photoCell(v.photos.exterior, 'Exterior')}
+      ${photoCell(v.photos.dashboard, 'Dashboard')}
+      ${photoCell(v.photos.cargo, 'Cargo')}
+    </div>
+    <div class="card-body">
+      <div class="card-title">
+        <h2>${v.make} ${v.model}</h2>
+        <span class="trim">${v.listed_year} ${v.trim}</span>
+      </div>
+      <div class="badges">
+        <span class="badge ${v.powertrain}">${PT_LABEL[v.powertrain]}</span>
+        <span class="badge cls">${v.class}</span>
+        <span class="badge cls">${v.generation_span}</span>
+      </div>
+      <div class="specs">
+        <div class="spec"><div class="k">KBB (${v.listed_year})</div><div class="v">$${fmt(v.kbb_value_usd.low)}–$${fmt(v.kbb_value_usd.high)}</div></div>
+        <div class="spec"><div class="k">MPG city/hwy</div><div class="v">${v.mpg.city} / ${v.mpg.hwy}</div></div>
+        <div class="spec"><div class="k">Exterior L×W×H</div><div class="v">${v.exterior_in.length} × ${v.exterior_in.width} × ${v.exterior_in.height} in</div></div>
+        <div class="spec"><div class="k">Cargo length behind front seats</div><div class="v">${v.cargo_length_behind_front_seats_in.value} in <span class="flag" title="${v.cargo_length_behind_front_seats_in.method}">†</span></div></div>
+        <div class="spec"><div class="k">Camper popularity</div><div class="v pop ${v.camper_popularity.rating}" title="${v.camper_popularity.evidence}">${v.camper_popularity.rating}</div></div>
+        <div class="spec"><div class="k">Safety suite</div><div class="v">${v.safety.suite}</div></div>
+      </div>
+      <details><summary>Safety features (${v.safety.features.length})</summary>
+        <ul>${v.safety.features.map(f => '<li>' + f + '</li>').join('')}</ul></details>
+      <details><summary>Conversion products (${v.conversion_products.length})</summary>
+        <ul>${v.conversion_products.map(p => '<li><a href="' + p.url + '" target="_blank" rel="noopener">' + p.name + '</a></li>').join('')}</ul></details>
+      <details><summary>Why this trim</summary><ul><li>${v.trim_rationale}</li></ul></details>
+      <div class="foot-note">Verified ${v.last_verified} · KBB: ${v.kbb_value_usd.assumption} (<a href="${v.kbb_value_usd.source}" target="_blank" rel="noopener">source</a>) · Cargo: <a href="${v.cargo_length_behind_front_seats_in.source}" target="_blank" rel="noopener">measurement source</a></div>
+    </div>
+  </div>`).join('');
+}
+
+function renderTable(rows) {
+  const thead = document.getElementById('thead-row');
+  thead.innerHTML = COLUMNS.map(c => {
+    const arrow = state.sortKey === c.key ? '<span class="arrow">' + (state.sortDir === 1 ? '▲' : '▼') + '</span>' : '';
+    return '<th class="' + (c.num ? 'num' : '') + '" data-key="' + c.key + '">' + c.label + ' ' + arrow + '</th>';
+  }).join('');
+  thead.querySelectorAll('th').forEach(th => th.onclick = () => {
+    const k = th.dataset.key;
+    if (state.sortKey === k) state.sortDir *= -1; else { state.sortKey = k; state.sortDir = COLUMNS.find(c => c.key === k).num ? -1 : 1; }
+    render();
+  });
+  document.getElementById('tbody').innerHTML = rows.map(v => `
+    <tr>
+      <td class="veh-cell">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${v.generation_span}</span></td>
+      <td>${v.class}</td>
+      <td>${PT_LABEL[v.powertrain]}</td>
+      <td class="num">${v.listed_year}</td>
+      <td class="num" title="${v.kbb_value_usd.assumption}">${fmt(v.kbb_value_usd.low)}–${fmt(v.kbb_value_usd.high)}</td>
+      <td class="num">${v.exterior_in.length}</td>
+      <td class="num">${v.exterior_in.width}</td>
+      <td class="num">${v.exterior_in.height}</td>
+      <td class="num">${v.cargo_length_behind_front_seats_in.value} <span class="flag" title="${v.cargo_length_behind_front_seats_in.method}">†</span></td>
+      <td class="num">${v.mpg.city}</td>
+      <td class="num">${v.mpg.hwy}</td>
+      <td><span class="pop ${v.camper_popularity.rating}" title="${v.camper_popularity.evidence}">${v.camper_popularity.rating}</span></td>
+      <td class="num">${v.conversion_products.length}</td>
+    </tr>`).join('');
+}
+
+function render() {
+  const rows = sorted(filtered());
+  document.getElementById('count-note').textContent = rows.length + ' of ' + DATA.vehicles.length + ' vehicles';
+  if (state.view === 'cards') { renderCards(rows); }
+  else { renderTable(rows); }
+  document.getElementById('cards').style.display = state.view === 'cards' ? '' : 'none';
+  document.getElementById('table-view').style.display = state.view === 'table' ? '' : 'none';
+  document.getElementById('btn-cards').classList.toggle('active', state.view === 'cards');
+  document.getElementById('btn-table').classList.toggle('active', state.view === 'table');
+}
+
+// init filters
+const classes = [...new Set(DATA.vehicles.map(v => v.class))].sort();
+const powers = [...new Set(DATA.vehicles.map(v => v.powertrain))];
+classes.forEach(c => document.getElementById('f-class').insertAdjacentHTML('beforeend', '<option>' + c + '</option>'));
+powers.forEach(p => document.getElementById('f-power').insertAdjacentHTML('beforeend', '<option value="' + p + '">' + (PT_LABEL[p] || p) + '</option>'));
+document.getElementById('f-class').onchange = e => { state.fClass = e.target.value; render(); };
+document.getElementById('f-power').onchange = e => { state.fPower = e.target.value; render(); };
+document.getElementById('f-pop').onchange = e => { state.fPop = e.target.value; render(); };
+document.getElementById('btn-cards').onclick = () => { state.view = 'cards'; render(); };
+document.getElementById('btn-table').onclick = () => { state.view = 'table'; render(); };
+document.getElementById('updated').textContent = DATA.updated;
+document.getElementById('footer').innerHTML =
+  'Living document — maintained with Claude in the Camper Van project. Source data with full citations lives in the project (<code>vehicles.json</code>). ' +
+  'KBB values are regional estimates and drift over time; each record carries a retrieval date. Records unverified for 6+ months should be re-checked before purchase decisions. ' +
+  'Photo licenses: Wikimedia Commons (public domain / CC BY-SA); one vendor marketing image (Odyssey cargo, © Roadloft) pending an open-license replacement.';
+render();
+</script>
+</body>
+</html>
