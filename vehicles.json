@@ -1,0 +1,2125 @@
+{
+  "$schema_note": "Source of truth for the Camper Van comparison report. One record per vehicle-generation. listed_year = min(latest model year available, 2024). All measurements in inches. Update last_verified whenever a record is re-researched.",
+  "updated": "2026-07-18",
+  "vehicles": [
+    {
+      "id": "toyota-rav4-hybrid-xa50",
+      "make": "Toyota",
+      "model": "RAV4 Hybrid",
+      "trim": "XLE Hybrid AWD",
+      "class": "SUV",
+      "powertrain": "hybrid",
+      "generation_span": "2019–2025 (5th gen XA50; 6th gen debuts 2026)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 30000,
+        "high": 33000,
+        "assumption": "2024 XLE Hybrid, good condition, ~25–30k mi; low = trade-in/private-party, high = KBB Fair Purchase Price (~$32,950). Retrieved 2026-07.",
+        "source": "https://www.kbb.com/toyota/rav4-hybrid/2024/xle-sport-utility-4d/"
+      },
+      "exterior_in": {
+        "length": 180.9,
+        "width": 73.0,
+        "height": 67.0
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 73,
+        "method": "community-measured (not an official Toyota spec); corroborated by BamBeds 73-in platform. Floor is stepped, not flat; ~39–40 in between wheel wells. Varies ±2 in with front-seat position.",
+        "source": "https://www.autoroamer.com/posts/can-you-sleep-in-a-toyota-rav4-car-camping-guide.html"
+      },
+      "mpg": {
+        "city": 41,
+        "hwy": 38
+      },
+      "safety": {
+        "suite": "Toyota Safety Sense 2.5+ (standard)",
+        "features": [
+          "Pre-Collision System w/ Pedestrian Detection",
+          "Full-Speed Dynamic Radar Cruise",
+          "Lane Departure Alert w/ Steering Assist",
+          "Lane Tracing Assist",
+          "Road Sign Assist",
+          "Auto High Beams",
+          "Blind Spot Monitor + Rear Cross-Traffic (std on XLE)"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "High",
+        "evidence": "Among the most common non-van car-camping platforms: dozens of build threads (rav4world.com, r/GoRAV4, r/carcamping) and 4+ dedicated commercial conversion products for 2019–2025."
+      },
+      "conversion_products": [
+        {
+          "name": "Luno AIR mattress for RAV4 (2019+)",
+          "url": "https://lunolife.com/products/luno-air-mattress-for-rav4",
+          "type": "vehicle-specific air mattress"
+        },
+        {
+          "name": "BamBeds RAV4 platform (2019–2025)",
+          "url": "https://bambeds.com/products/toyota-rav4",
+          "type": "wooden sleeping platform, 73 in, $899"
+        },
+        {
+          "name": "Wheels & Feels RAV4 camper kit",
+          "url": "https://wheelsfeels.com/shop/car-kitchens/camper-kit-toyota-rav4",
+          "type": "drawer kit w/ pull-out kitchen + platform"
+        },
+        {
+          "name": "Compass Camper RAV4 kit",
+          "url": "https://compasscamper.com/products/toyota-rav4-camper-conversion-kit",
+          "type": "aluminum platform w/ drawer options"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/2/25/%2719_Toyota_RAV4_Hybrid_Trimax.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:%2719_Toyota_RAV4_Hybrid_Trimax.jpg",
+          "license": "Public domain"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/2019_Toyota_RAV4_Interior.jpg",
+          "note": "Pre-2023-refresh infotainment shown",
+          "source_page": "https://commons.wikimedia.org/wiki/File:2019_Toyota_RAV4_Interior.jpg",
+          "license": "CC BY-SA 4.0"
+        },
+        "cargo": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Toyota_RAV4_2019_%28XA50%29_CUV_Trunk.jpg",
+          "note": "Seats up, not folded",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Toyota_RAV4_2019_(XA50)_CUV_Trunk.jpg",
+          "license": "CC BY-SA 3.0"
+        }
+      },
+      "trim_rationale": "Camping communities prefer the Hybrid for overnight HVAC (engine auto-cycles) and 41 mpg; XLE is the value pick in build threads — adds blind-spot monitoring, dual-zone climate over LE for ~$1,500.",
+      "model_url": "https://www.toyota.com/rav4hybrid/",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 69.8,
+        "config": "Behind front row, 60/40 rear seatbacks folded (37.5 behind rear seats)",
+        "source": "https://www.edmunds.com/toyota/rav4-hybrid/2024/st-402013834/features-specs/"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5",
+        "jd_power": "80/100 (2024)",
+        "known_issues": "3rd of 26 compact SUVs, $429/yr avg. Watch: 2019–20 fuel-pump recall, hybrid coolant bypass valve failures, 12V battery drain.",
+        "source": "https://repairpal.com/reliability/toyota/rav4"
+      },
+      "camper_pros": [
+        "39–41 mpg and 500+ mile range",
+        "Hybrid cycles climate control overnight quietly",
+        "Standard AWD + 8.1-in clearance for dirt-road sites",
+        "Huge platform/mattress aftermarket",
+        "Top-tier reliability and resale"
+      ],
+      "camper_cons": [
+        "69.8 cu ft — smallest practical volume in the group",
+        "Rear seats neither remove nor fold flat — platform required",
+        "~6-ft sleeping only with front seats slid forward",
+        "Low roof — no sitting up inside",
+        "No van-style stealth; gear visible through glass"
+      ],
+      "sources": [
+        "https://www.edmunds.com/toyota/rav4-hybrid/2024/st-402013834/features-specs/",
+        "https://www.kbb.com/toyota/rav4-hybrid/2024/xle-sport-utility-4d/",
+        "https://rav4resource.com/sleeping-in-a-toyota-rav4/",
+        "https://www.toyota.com/content/dam/toyota/brochures/pdf/2024/rav4_ebrochure.pdf",
+        "https://www.rav4world.com/threads/2019-rav4-camper-conversion-sleeping-platform.319440/"
+      ],
+      "notes": "MPG 41/38 applies to all 2024 hybrid trims except Woodland. KBB values regional (pulled ZIP 43085)."
+    },
+    {
+      "id": "ford-transit-connect-gen2",
+      "make": "Ford",
+      "model": "Transit Connect",
+      "trim": "Titanium Passenger Wagon (LWB, liftgate)",
+      "class": "Compact van",
+      "powertrain": "gas",
+      "generation_span": "2014–2023 (2nd gen; discontinued in US after 2023)",
+      "listed_year": 2023,
+      "kbb_value_usd": {
+        "low": 24000,
+        "high": 28700,
+        "assumption": "2023 Titanium wagon, good condition, typical mileage; low = KBB Good trade-in, high = Fair Purchase Price. Final-year models hold value post-discontinuation. Retrieved 2026-07.",
+        "source": "https://www.kbb.com/ford/transit-connect-passenger-wagon/2023/titanium-van-4d/"
+      },
+      "exterior_in": {
+        "length": 190.0,
+        "width": 72.0,
+        "height": 71.6
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 84,
+        "method": "community-measured (Ford Transit Connect Forum, LWB wagon, 2nd/3rd rows folded): 84 in, up to 89 in with front passenger seat forward. No official wagon figure; LWB cargo van official max is ~87.3 in.",
+        "source": "https://fordtransitconnectforum.com/topic/8441-connect-wagon-cargo-dimensions/"
+      },
+      "mpg": {
+        "city": 24,
+        "hwy": 28
+      },
+      "safety": {
+        "suite": "Ford Co-Pilot360 (standard on 2019+)",
+        "features": [
+          "Pre-Collision Assist w/ AEB + pedestrian detection",
+          "Blind Spot Info System (BLIS) w/ Cross-Traffic Alert",
+          "Lane-Keeping System",
+          "Auto High Beams",
+          "Rearview camera",
+          "Available: adaptive cruise, active park assist"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "Unusually well-served micro-camper scene for a compact van: 6+ dedicated kit vendors and active build threads on fordtransitconnectforum.com; smaller community than full-size vans."
+      },
+      "conversion_products": [
+        {
+          "name": "TNT Vans DIY kit",
+          "url": "https://tnt-vans.com/products/ford-transit-connect-camper-van-conversion",
+          "type": "DIY kit"
+        },
+        {
+          "name": "Roadloft Transit Connect kit",
+          "url": "https://roadloft.com/en-us/products/camper-conversion-kit-ford-transit-connect",
+          "type": "removable kit"
+        },
+        {
+          "name": "Freeway Camper Kit",
+          "url": "https://www.freewaycamperkit.com/en/connect/",
+          "type": "modular kit"
+        },
+        {
+          "name": "Contravans",
+          "url": "https://www.contravans.com/ford-transit-connect-camper-van-conversions/",
+          "type": "professional conversion + kits"
+        },
+        {
+          "name": "Simpler Ways cargo DIY kit",
+          "url": "https://simplerways.co/products/ford-transit-connect-cargo-campervan-conversion-kit",
+          "type": "DIY kit (cargo van)"
+        },
+        {
+          "name": "VanLab flat-pack kit (LWB)",
+          "url": "https://wearevanlab.com/products/transit-connect",
+          "type": "flat-pack DIY kit"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/8/86/20_Ford_Transit_Connect_Wagon_XL.jpg",
+          "note": "2020 facelift LWB wagon, XL trim (no facelift Titanium photo on Commons)",
+          "source_page": "https://commons.wikimedia.org/wiki/File:20_Ford_Transit_Connect_Wagon_XL.jpg",
+          "license": "CC0"
+        },
+        "dashboard": null,
+        "cargo": null
+      },
+      "trim_rationale": "Titanium was the top US trim, offered only as the long-wheelbase (120.6 in) passenger wagon with rear liftgate.",
+      "model_url": "https://www.kbb.com/ford/transit-connect-passenger-wagon/",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 106.0,
+        "config": "LWB wagon, 2nd+3rd rows folded flat into floor",
+        "source": "https://www.edmunds.com/ford/transit-connect-passenger-wagon/2023/features-specs/"
+      },
+      "reliability": {
+        "score": 3.0,
+        "scale": "RepairPal /5",
+        "jd_power": "Not rated (2023)",
+        "known_issues": "5th of 21 commercial vans but $926/yr avg; 6F35/8F35 transmission shudder/failure is the dominant used-buyer complaint.",
+        "source": "https://repairpal.com/reliability/ford/transit-connect"
+      },
+      "camper_pros": [
+        "106 cu ft with long flat load floor — best sleep/build space of the compacts",
+        "Rows fold flat into floor — no seat-storage problem",
+        "Boxy walls + sliding doors + off-the-shelf kits",
+        "Work-van looks = excellent urban stealth",
+        "Minivan footprint parks anywhere"
+      ],
+      "camper_cons": [
+        "Weakest reliability here (3.0/5) — known transmission failures",
+        "~24 mpg combined, no better than larger vans",
+        "Discontinued 2023 — parts/support outlook",
+        "FWD only, low clearance",
+        "Must idle for overnight heat/AC"
+      ],
+      "sources": [
+        "https://www.edmunds.com/ford/transit-connect-passenger-wagon/2023/st-401955158/features-specs/",
+        "https://www.kbb.com/ford/transit-connect-passenger-wagon/2023/titanium-van-4d/",
+        "https://www.cars.com/research/ford-transit_connect-2023/specs/432080/",
+        "https://fordauthority.com/2023/03/ford-transit-connect-officially-dead-after-2023-model-year/",
+        "https://fordtransitconnectforum.com/topic/8441-connect-wagon-cargo-dimensions/",
+        "https://vandimensions.com/database/ford/connect-2013"
+      ],
+      "notes": "2.0L GDI I4, 162 hp, 8-sp auto, FWD only. Dashboard/cargo photos unavailable from stable sources (Commons has none for 2nd gen; Edmunds CDN blocks hotlinking) — find replacements later."
+    },
+    {
+      "id": "honda-odyssey-rl6",
+      "make": "Honda",
+      "model": "Odyssey",
+      "trim": "EX-L",
+      "class": "Minivan",
+      "powertrain": "gas",
+      "generation_span": "2018–present (5th gen RL6; facelift 2021)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 30240,
+        "high": 33940,
+        "assumption": "2024 EX-L, good condition, typical mileage; KBB Fair Purchase Price $33,940, private-party $30,240–$33,640. Retrieved 2026-07.",
+        "source": "https://www.kbb.com/honda/odyssey/2024/ex-l-minivan-4d/"
+      },
+      "exterior_in": {
+        "length": 205.2,
+        "width": 78.5,
+        "height": 69.6
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 78,
+        "method": "vendor-verified / community-measured (no official Honda figure): Roadloft's 2018+ kit delivers a 78-in platform behind front seats with 2nd row removed + 3rd row stowed. Floor has 2nd-row bracket humps — not flat without a platform.",
+        "source": "https://roadloft.com/en-us/products/camper-conversion-kit-honda-odyssey"
+      },
+      "mpg": {
+        "city": 19,
+        "hwy": 28
+      },
+      "safety": {
+        "suite": "Honda Sensing (standard)",
+        "features": [
+          "Collision Mitigation Braking (CMBS)",
+          "Forward Collision Warning",
+          "Road Departure Mitigation",
+          "Lane Keeping Assist",
+          "Adaptive Cruise w/ Low-Speed Follow",
+          "Traffic Sign Recognition",
+          "Blind Spot Info System w/ Cross Traffic Monitor (std 2024)",
+          "Auto high beams"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "4+ dedicated kit vendors, dedicated blog (odysseycamper.com), active odyclub.com and r/minivancamping threads — but a clear second to the Sienna, whose hybrid mpg and AWD make it the community default."
+      },
+      "conversion_products": [
+        {
+          "name": "Roadloft Odyssey kit (2018+)",
+          "url": "https://roadloft.com/en-us/products/camper-conversion-kit-honda-odyssey",
+          "type": "full removable kit (bed, kitchen, fridge slot), $4,645"
+        },
+        {
+          "name": "Vanpackers Odyssey RL6 kit",
+          "url": "https://vanpackers.com/en-us/products/conversion-kit-honda-odyssey-rl6",
+          "type": "modular no-tools kit, 48×70-in bed (76 w/ ext), $5,195"
+        },
+        {
+          "name": "RiverLeaf Odyssey kit (2005–2025)",
+          "url": "https://riverleafcamper.com/pages/honda-odyssey-camper-conversion-kit",
+          "type": "folding bed platform, 72×46 in"
+        },
+        {
+          "name": "Freeway Camper Kit — Odyssey",
+          "url": "https://www.freewaycamperkit.com/en/odyssey/",
+          "type": "modular bed/kitchen kit"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/2021_Honda_Odyssey_EX-L_%28facelift%29%2C_front_1.1.21.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:2021_Honda_Odyssey_EX-L_(facelift),_front_1.1.21.jpg",
+          "license": "CC BY-SA 4.0"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/32/2023_Honda_Odyssey_interior.jpg",
+          "note": "2023 Touring dashboard",
+          "source_page": "https://commons.wikimedia.org/wiki/File:2023_Honda_Odyssey_interior.jpg",
+          "license": "CC BY-SA 4.0"
+        },
+        "cargo": {
+          "url": "https://roadloft.com/cdn/shop/files/HO.png?v=1769095577",
+          "note": "Kit installed, 2nd row removed — replace if Commons/press alternative appears",
+          "source_page": "https://roadloft.com/en-us/products/camper-conversion-kit-honda-odyssey",
+          "license": "© Roadloft marketing image (hotlinkable, not open-license)"
+        }
+      },
+      "trim_rationale": "Entry trim of the 2024 lineup — cheapest, most plentiful used; identical V6, dimensions, and Honda Sensing as upper trims. Conversion kits fit all 2018+ trims. Note: Magic Slide 2nd-row seats are heavy (~68 lb each) to remove and leave bracket humps in the floor.",
+      "model_url": "https://automobiles.honda.com/odyssey",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 158.0,
+        "config": "2nd row removed + 3rd row stowed in floor well (144.9 std / 158.0 max)",
+        "source": "https://hondanews.com/en-US/honda-automobiles/releases/release-5003aaa39c009393f5d06d620f00fe4b-2024-honda-odyssey-specs"
+      },
+      "reliability": {
+        "score": 3.5,
+        "scale": "RepairPal /5",
+        "jd_power": "77/100 (2024)",
+        "known_issues": "3rd of 8 minivans, $547/yr. Watch: 9/10-speed harsh shifting, power sliding-door actuators, infotainment (mostly 2018–19).",
+        "source": "https://repairpal.com/reliability/honda/odyssey"
+      },
+      "camper_pros": [
+        "158 cu ft behind front row — full mattress + gear",
+        "3rd row stows flat; 2nd row removes for long flat platform",
+        "Minivan anonymity + sliding doors = stealthy urban overnights",
+        "19/28 mpg respectable for the volume",
+        "Car-like ride, strong safety scores"
+      ],
+      "camper_cons": [
+        "2nd-row seats ~68 lb each, stored at home",
+        "Transmission + sliding-door electronics are the trouble spots",
+        "FWD only, low clearance",
+        "No hybrid — overnight climate means idling",
+        "Removed-seat floor needs a leveling layer"
+      ],
+      "sources": [
+        "https://www.kbb.com/honda/odyssey/2024/ex-l-minivan-4d/",
+        "https://hondanews.com/en-US/honda-automobiles/releases/release-5003aaa39c009393f5d06d620f00fe4b-2024-honda-odyssey-specs",
+        "https://www.autoroamer.com/posts/honda-odyssey-cargo-dimensions-for-sleeping.html",
+        "https://www.thewaywardhome.com/honda-odyssey-camper-conversion/",
+        "https://odysseycamper.com/honda-odyssey-interior-measurements/"
+      ],
+      "notes": "Height 69.6 per hondanews 2024 spec (some sources 68.3 w/o rails). 2024 lineup starts at EX-L (LX/EX dropped)."
+    },
+    {
+      "id": "mazda5-gen3",
+      "make": "Mazda",
+      "model": "Mazda5",
+      "trim": "Grand Touring",
+      "class": "Compact minivan",
+      "powertrain": "gas",
+      "generation_span": "2012–2015 (3rd gen CW, US; discontinued after 2015)",
+      "listed_year": 2015,
+      "kbb_value_usd": {
+        "low": 5700,
+        "high": 7650,
+        "assumption": "2015 Grand Touring, good condition, typical mileage for age; low = private-party fair/good, high = KBB Fair Purchase Price. Retrieved 2026-07.",
+        "source": "https://www.kbb.com/mazda/mazda5/2015/grand-touring-minivan-4d/"
+      },
+      "exterior_in": {
+        "length": 180.5,
+        "width": 68.9,
+        "height": 63.6
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 75,
+        "method": "community-measured (Mazdas247 forum, 2nd-gen car sharing wheelbase/packaging with 3rd gen): ~75 in with 2nd row slid forward, 72 in locked, 66 in fully rearward; rows folded. 2nd row doesn't fold flat — builds bridge it or remove seats. Twin mattress (75×39) fits.",
+        "source": "https://mazdas247.com/forum/threads/camping-with-mazda5.123840845/"
+      },
+      "mpg": {
+        "city": 21,
+        "hwy": 28
+      },
+      "safety": {
+        "suite": "None — predates modern ADAS (no AEB, blind-spot, adaptive cruise, or lane keeping on any US trim)",
+        "features": [
+          "ABS w/ EBD + brake assist",
+          "Dynamic Stability Control + traction control",
+          "Dual front, front-side, and 3-row curtain airbags",
+          "Rear parking sensors (Touring/GT)",
+          "Fog lights (Touring/GT)"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "Cult micro-camper following: one dedicated commercial kit (RiverLeaf), multiple YouTube/TikTok build series, long-running Mazdas247 camping threads — small community vs. Sienna/Odyssey scenes."
+      },
+      "conversion_products": [
+        {
+          "name": "RiverLeaf 'Grand Teton' Mazda5 kit (2006–2015), $3,490",
+          "url": "https://riverleafcamper.com/pages/mazda-5-camper-conversion-kit",
+          "type": "no-drill removable kit: bed platform, storage, stove, sink, water"
+        },
+        {
+          "name": "DIY builds (predominant approach)",
+          "url": "https://www.youtube.com/watch?v=ov3Ou4zRS-Q",
+          "type": "plywood-platform DIY documented on YouTube/TikTok/forums"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/2012_Mazda5_--_03-09-2011.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:2012_Mazda5_--_03-09-2011.jpg",
+          "license": "Public domain"
+        },
+        "dashboard": null,
+        "cargo": null
+      },
+      "trim_rationale": "All 2015 US trims share the 157-hp 2.5L I4 / 5-sp auto / FWD, so trim doesn't affect camping capability. Grand Touring adds sunroof (sleeping ventilation), heated leather seats (easy cleanup), fog lights, rear parking sensors for a small used-price premium.",
+      "model_url": "https://www.kbb.com/mazda/mazda5/",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 44.4,
+        "config": "Behind 2nd row, 3rd row folded (no official behind-front-row figure; 2nd-row seatbacks fold forward)",
+        "source": "https://cars.usnews.com/cars-trucks/mazda/mazda5/interior"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5",
+        "jd_power": "Not rated for 2015 (overall 71/100)",
+        "known_issues": "22nd of 36 compact cars, $581/yr. Watch: A/C compressor ~40k mi, sliding-door latches, clutch wear on 2012 manuals.",
+        "source": "https://repairpal.com/reliability/mazda/5"
+      },
+      "camper_pros": [
+        "Cheapest entry in the report — well under $10k used",
+        "Sliding doors in a compact footprint: top stealth + tight parking",
+        "Solid 4.0/5 RepairPal; simple NA 2.5L cheap to fix",
+        "Rear seats fold to a nearly flat floor",
+        "Light and easy on narrow campground roads"
+      ],
+      "camper_cons": [
+        "Only 44.4 cu ft official — 6-footers sleep diagonally",
+        "~24 mpg combined, no economy payoff",
+        "Discontinued 2015: aging cars, no kit aftermarket",
+        "157 hp underpowered when loaded",
+        "Aging A/C + door hardware are likely trip-spoilers"
+      ],
+      "sources": [
+        "https://news.mazdausa.com/download/2015-Mazda5-Specifications.pdf",
+        "https://www.cars.com/research/mazda-mazda5-2015/trims/",
+        "https://www.kbb.com/mazda/mazda5/2015/grand-touring-minivan-4d/",
+        "https://www.autoblog.com/features/mazda5-officially-discontinued",
+        "https://mazdas247.com/forum/threads/camping-with-mazda5.123840845/",
+        "https://riverleafcamper.com/pages/mazda-5-camper-conversion-kit"
+      ],
+      "notes": "2015 confirmed final US model year. Dims + EPA 21/28 from Mazda USA official 2015 spec sheet. Commons has no 3rd-gen dashboard/cargo photos (verified via API search). Cargo figure measured on 2nd gen; 3rd gen shares platform."
+    },
+    {
+      "id": "toyota-sienna-xl40",
+      "make": "Toyota",
+      "model": "Sienna",
+      "trim": "XLE AWD",
+      "class": "Minivan",
+      "powertrain": "hybrid",
+      "generation_span": "2021–present (4th gen; all hybrid)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 37520,
+        "high": 42070,
+        "assumption": "2024 XLE, good condition, typical miles; low = trade-in, high = Fair Purchase Price",
+        "source": "https://www.kbb.com/toyota/sienna/2024/xle-van-4d/"
+      },
+      "exterior_in": {
+        "length": 203.7,
+        "width": 78.5,
+        "height": 68.5
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 78,
+        "method": "Vendor-measured: Roadloft 78-in bed behind front seats w/ 3rd row stowed; ~72 in if non-removable 2nd row only slid forward. Builders unbolt the officially non-removable Super-Long-Slide seats (kits include bracket covers).",
+        "source": "https://roadloft.com/en-us/products/camper-conversion-kit-toyota-sienna"
+      },
+      "mpg": {
+        "city": 36,
+        "hwy": 36
+      },
+      "safety": {
+        "suite": "Toyota Safety Sense 2.0 (standard)",
+        "features": [
+          "Pre-Collision System w/ Pedestrian Detection",
+          "Full-Speed Dynamic Radar Cruise",
+          "Lane Departure Alert w/ Steering Assist",
+          "Lane Tracing Assist",
+          "Auto High Beams",
+          "Road Sign Assist",
+          "Blind Spot Monitor + Rear Cross-Traffic (std)"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "High",
+        "evidence": "Consensus top-two minivan camper platform (with Pacifica): only hybrid+AWD minivan (~36 mpg), unmatched kit ecosystem (Roadloft, Freeway, Vanpackers, InstaCamper) plus pro converters (Oasis Campervans, Contravans)."
+      },
+      "conversion_products": [
+        {
+          "name": "Roadloft Sienna kit (2021+), $4,995",
+          "url": "https://roadloft.com/en-us/products/camper-conversion-kit-toyota-sienna"
+        },
+        {
+          "name": "Freeway Camper Kit (75×54-in bed), ~$5,600",
+          "url": "https://www.freewaycamperkit.com/en/sienna/"
+        },
+        {
+          "name": "Vanpackers Sienna S4 kit",
+          "url": "https://vanpackers.com/en-us/products/conversion-kit-toyota-sienna-s4"
+        },
+        {
+          "name": "Oasis Campervans (pro conversions)",
+          "url": "https://oasiscampervans.com/conversion-packages"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/2/22/2021_Toyota_Sienna_XLE_Hybrid%2C_front_12.21.21.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/TOYOTA_GRANVIA_%28XL40%29_%28TOYOTA_SIENNA_%28XL40%29%29_INTERIOR.jpg",
+          "note": "XL40 dash (Granvia badge)"
+        },
+        "cargo": null
+      },
+      "trim_rationale": "XLE+ gets the camper-critical 1500W AC inverter option (not on LE); e-AWD costs ~1 mpg and is the common camper choice. MPG shown FWD (AWD 35/36).",
+      "model_url": "https://www.toyota.com/sienna/",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 101.0,
+        "config": "Behind row 1: 3rd row stowed, 2nd row slid fully forward (2nd row not removable)",
+        "source": "https://www.edmunds.com/toyota/sienna/2024/features-specs/"
+      },
+      "reliability": {
+        "score": 3.5,
+        "scale": "RepairPal /5",
+        "jd_power": "~71–78/100 (2024–25 pages)",
+        "known_issues": "6th of 8 minivans by rank but low $554/yr cost; hybrid drivetrain strong — gripes are sliding-door mechanisms, infotainment, early-build squeaks.",
+        "source": "https://repairpal.com/reliability/toyota/sienna"
+      },
+      "camper_pros": [
+        "36 mpg hybrid — cheapest minivan road-trip fuel",
+        "AWD available (rare in class)",
+        "Hybrid auto engine-cycling = overnight climate control",
+        "Optional 1,500W 120V AC inverter for camp power",
+        "Toyota hybrid reliability + strong resale"
+      ],
+      "camper_cons": [
+        "Smallest max cargo of the minivans (~101 cu ft)",
+        "2nd row not removable — no flat floor without a platform",
+        "High used prices",
+        "Mediocre RepairPal class rank despite low costs"
+      ],
+      "sources": [
+        "https://www.edmunds.com/toyota/sienna/2024/st-402010872/features-specs/",
+        "https://www.kbb.com/toyota/sienna/2024/xle-van-4d/",
+        "https://www.autoroamer.com/posts/toyota-sienna-camping-guide.html",
+        "https://tworoamingsouls.com/best-vans-for-minivan-camper-conversions/"
+      ],
+      "notes": "4th-gen trade-off: 101 cu ft behind row 1 vs 3rd gen's 150 (2nd row no longer officially removes). No Commons cargo photo of XL40."
+    },
+    {
+      "id": "chrysler-pacifica-ru",
+      "make": "Chrysler",
+      "model": "Pacifica",
+      "trim": "Touring L",
+      "class": "Minivan",
+      "powertrain": "gas",
+      "generation_span": "2017–present (2nd gen RU; refresh 2021)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 21700,
+        "high": 27600,
+        "assumption": "2024 Touring L, good condition; low = trade-in, high = Fair Purchase Price; private-party ~$25,900",
+        "source": "https://www.kbb.com/chrysler/pacifica/2024/touring-l/"
+      },
+      "exterior_in": {
+        "length": 204.3,
+        "width": 79.6,
+        "height": 69.9
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 99.5,
+        "method": "Dealer-published spec: ~99.5 in to front row with BOTH rear rows stowed into the floor (Stow 'n Go) — no seat removal needed; owner reports ~8-ft flat floor.",
+        "source": "https://www.cabledahmercdjr.com/blogs/8129/2026-chrysler-pacifica-dimensions"
+      },
+      "mpg": {
+        "city": 19,
+        "hwy": 28
+      },
+      "safety": {
+        "suite": "Unbranded ADAS bundle (standard all trims)",
+        "features": [
+          "Forward collision warning w/ AEB + pedestrian detection",
+          "Blind-spot monitoring w/ rear cross-path",
+          "LaneSense lane keeping",
+          "Adaptive cruise w/ stop & go",
+          "ParkSense rear park assist",
+          "Rearview camera (360 available)"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "High",
+        "evidence": "Top-two minivan camper platform: Stow 'n Go folds both rear rows flat into the floor in seconds — the killer camper feature; 4+ dedicated kit vendors and long-running PacificaForums build threads."
+      },
+      "conversion_products": [
+        {
+          "name": "Vanpackers Pacifica/Voyager kit",
+          "url": "https://vanpackers.com/en-us/products/conversion-kit-chrysler"
+        },
+        {
+          "name": "Roadloft Pacifica kit (+ Solo version)",
+          "url": "https://roadloft.com/en-us/products/camper-conversion-kit-chrysler-pacifica"
+        },
+        {
+          "name": "Freeway Camper Kit (54×75-in bed), ~$5,600",
+          "url": "https://www.freewaycamperkit.com/en/pacifica/"
+        },
+        {
+          "name": "RiverLeaf Pacifica kit",
+          "url": "https://riverleafcamper.com/pages/chrysler-pacifica-camper-conversion-kit"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/1/16/2021_Chrysler_Pacifica_Touring_L_in_Bright_White_Clearcoat%2C_Front_Right%2C_10-06-2022.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/2021_Chrysler_Pacifica_interior.jpg",
+          "note": "2021 Limited dash"
+        },
+        "cargo": null
+      },
+      "trim_rationale": "Touring L keeps 2nd-row Stow 'n Go buckets (Pinnacle's quilted 2nd row does NOT stow; Hybrid loses 2nd-row Stow 'n Go to battery). MPG FWD (AWD 17/25).",
+      "model_url": "https://www.chrysler.com/pacifica.html",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 140.5,
+        "config": "Both rear rows folded into Stow 'n Go bins — no seat removal",
+        "source": "https://www.edmunds.com/chrysler/pacifica/2024/features-specs/"
+      },
+      "reliability": {
+        "score": 3.5,
+        "scale": "RepairPal /5 (Chrysler brand avg — model page has insufficient data)",
+        "jd_power": "77/100 (2025 page)",
+        "known_issues": "9-speed shudder/rough-shift TSBs, Uconnect/electrical gremlins, early-year stall recalls; 2021+ better sorted.",
+        "source": "https://repairpal.com/reliability/chrysler/pacifica"
+      },
+      "camper_pros": [
+        "Stow 'n Go: both rows into the floor in seconds — instant flat floor",
+        "Empty underfloor tubs double as gear storage",
+        "AWD available (keeps 2nd-row Stow 'n Go)",
+        "140.5 cu ft + the largest minivan kit ecosystem",
+        "Steep depreciation = cheap used buy"
+      ],
+      "camper_cons": [
+        "Weakest reliability record of the minivans (transmission/electrical TSBs)",
+        "~19–22 mpg combined",
+        "No engine-off overnight climate",
+        "No model-specific RepairPal score to lean on"
+      ],
+      "sources": [
+        "https://www.edmunds.com/chrysler/pacifica/2024/trims/",
+        "https://www.kbb.com/chrysler/pacifica/2024/touring-l/",
+        "https://fueleconomy.gov/feg/bymodel/2024_Chrysler_Pacifica.shtml",
+        "https://www.pacificaforums.com/threads/camper-van-conversion.53999/"
+      ],
+      "notes": "99.5-in figure is dealer-published, not an official Stellantis spec sheet. No Commons cargo photo."
+    },
+    {
+      "id": "chrysler-pacifica-hybrid-ru",
+      "make": "Chrysler",
+      "model": "Pacifica Hybrid",
+      "trim": "Select",
+      "class": "Minivan",
+      "powertrain": "phev",
+      "generation_span": "2017–present (2nd gen RU; PHEV since 2017)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 28900,
+        "high": 34700,
+        "assumption": "2024 Fair Purchase Price range: base Select ($28.9k) to Pinnacle ($34.7k), good condition proxy",
+        "source": "https://www.kbb.com/chrysler/pacifica-hybrid/2024/"
+      },
+      "exterior_in": {
+        "length": 204.3,
+        "width": 79.6,
+        "height": 69.9
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 87,
+        "method": "Community/guide measurement (~87 in, gas model floor) — hybrid matches it only with the two 68-lb 2nd-row seats REMOVED (battery occupies their Stow 'n Go tubs; 3rd row still stows). Kits use 70–76-in beds.",
+        "source": "https://www.autoroamer.com/posts/chrysler-pacifica-camper-conversion.html"
+      },
+      "mpg": {
+        "city": 30,
+        "hwy": 30,
+        "mpge": 82,
+        "ev_range_mi": 32,
+        "note": "EPA publishes 30 mpg combined gas-only (not split city/hwy); 82 MPGe combined; 32-mi EV range"
+      },
+      "safety": {
+        "suite": "Unbranded ADAS bundle (standard all trims)",
+        "features": [
+          "Full-speed forward collision warning w/ active braking",
+          "Pedestrian AEB",
+          "Adaptive cruise w/ stop & go",
+          "LaneSense lane keeping",
+          "Blind-spot monitoring w/ rear cross-path",
+          "ParkSense rear park assist"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "Niche but real: PHEV camper build threads on PacificaForums, 3+ kits explicitly support the Hybrid, and the 16-kWh battery runs silent electric heat/AC overnight (owners built a documented workaround for the 30-min auto-shutoff)."
+      },
+      "conversion_products": [
+        {
+          "name": "Freeway Camper Kit (hybrid-specific variant), $5,600",
+          "url": "https://www.freewaycamperkit.com/en/pacifica/"
+        },
+        {
+          "name": "Vanpackers kit (explicitly Hybrid-compatible), $5,195",
+          "url": "https://vanpackers.com/en-us/products/conversion-kit-chrysler"
+        },
+        {
+          "name": "RiverLeaf Pacifica kit",
+          "url": "https://riverleafcamper.com/pages/chrysler-pacifica-camper-conversion-kit"
+        },
+        {
+          "name": "All-night electric HVAC DIY guide (Relentless Optimizer)",
+          "url": "https://relentlessoptimizer.com/pacifica/circuit/"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/e/e2/2024_Chrysler_Pacifica_Plug-In_Hybrid_Select_in_Silver_Mist%2C_front_right%2C_2025-08-24.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/2021_Chrysler_Pacifica_interior.jpg",
+          "note": "gas-model dash, identical"
+        },
+        "cargo": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/5/53/Chrysler_Pacifica_Hybrid_WAS_2017_1678.jpg",
+          "note": "2017 pre-facelift, layout unchanged"
+        }
+      },
+      "trim_rationale": "Base Select has identical battery/32-mi EV range/safety as upper trims for $3–6k less; campers strip the interior anyway. FWD-only, no tow rating. Camper draw: silent electric climate overnight + 82 MPGe.",
+      "model_url": "https://www.chrysler.com/pacifica.html",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 140.5,
+        "config": "3rd row stowed + 2nd-row seats removed (battery deletes 2nd-row Stow 'n Go)",
+        "source": "https://www.cars.com/research/chrysler-pacifica_hybrid-2024/specs/"
+      },
+      "reliability": {
+        "score": 3.5,
+        "scale": "RepairPal /5 (Chrysler brand avg — no model rating)",
+        "jd_power": "77/100 (2025 Pacifica page; hybrid not scored separately)",
+        "known_issues": "Shares gas TSBs plus PHEV history: 2017–18 battery-fire recall, engine-shutdown recalls, occasional charging/inverter faults — prefer 2021+, verify recalls done.",
+        "source": "https://repairpal.com/reliability/chrysler/pacifica"
+      },
+      "camper_pros": [
+        "~32-mi EV range — silent engine-off electric climate at camp",
+        "82 MPGe / ~30 mpg after battery depletes",
+        "Same 140.5 cu ft max as gas van",
+        "Heavy PHEV depreciation = bargain used prices"
+      ],
+      "camper_cons": [
+        "No 2nd-row Stow 'n Go — heavy seats to remove for a build",
+        "FWD only",
+        "PHEV complexity on a below-average platform; notable recall history",
+        "Needs charging access to exploit EV mode"
+      ],
+      "sources": [
+        "https://www.kbb.com/chrysler/pacifica-hybrid/2024/",
+        "https://fueleconomy.gov/feg/noframes/47276.shtml",
+        "https://www.cars.com/articles/what-you-give-up-to-get-a-chrysler-pacifica-hybrid-1420692786721/",
+        "https://relentlessoptimizer.com/pacifica/camping-build"
+      ],
+      "notes": "Verified: battery occupies 2nd-row Stow 'n Go tubs → 2nd-row seats removable (68 lb each) but don't stow; 3rd row keeps manual Stow 'n Go. 140.5 cu ft behind row 1."
+    },
+    {
+      "id": "kia-carnival-ka4",
+      "make": "Kia",
+      "model": "Carnival",
+      "trim": "LX w/ Seat Package",
+      "class": "Minivan",
+      "powertrain": "gas",
+      "generation_span": "2022–present (KA4; facelift 2025)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 25150,
+        "high": 29000,
+        "assumption": "2024 LX w/Seat Pkg, good condition; low = trade-in, high = Fair Purchase Price",
+        "source": "https://www.kbb.com/kia/carnival/2024/lx-w-seat-pkg-van-4d/"
+      },
+      "exterior_in": {
+        "length": 203.0,
+        "width": 78.5,
+        "height": 68.5
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 87,
+        "method": "Community/aggregator: ~87 in with 2nd row removed (LX Seat Pkg) + 3rd row stowed; ~49 in between wheel wells. Kia publishes volumes only (max 145.1 cu ft — largest in class).",
+        "source": "https://itemfits.com/fit/vehicle/kia-carnival"
+      },
+      "mpg": {
+        "city": 19,
+        "hwy": 26
+      },
+      "safety": {
+        "suite": "Kia Drive Wise (standard)",
+        "features": [
+          "Forward Collision-Avoidance Assist w/ pedestrian detection",
+          "Blind-Spot Collision-Avoidance Assist",
+          "Lane Keeping + Lane Following Assist",
+          "Rear Cross-Traffic Collision-Avoidance",
+          "Driver Attention Warning",
+          "Safe Exit Assist"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "Fast-growing, younger scene than Sienna: 3 kit vendors + Unicamp pop-top roof (~$16–18k via Caleche Customs); minivans absorbing demand after Transit Connect/Metris discontinuations."
+      },
+      "conversion_products": [
+        {
+          "name": "Roadloft Carnival kit",
+          "url": "https://roadloft.com/en-us/products/camper-conversion-kit-kia-carnival"
+        },
+        {
+          "name": "Vanpackers Carnival kit (2021–2025), $5,195",
+          "url": "https://vanpackers.com/en-us/products/conversion-kit-kia"
+        },
+        {
+          "name": "RiverLeaf Carnival kit (2022–2025)",
+          "url": "https://riverleafcamper.com/pages/kia-carnival-camper-conversion-kit"
+        },
+        {
+          "name": "Unicamp Univan RT CL pop-top (sleeps 2 up top)",
+          "url": "https://newatlas.com/automotive/unicamp-usa-kia-carnival-minivan-camper/"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Kia_Carnival_%28KA4%29_Washington_DC_Metro_Area%2C_USA.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Kia_Carnival_2.2_SX_2023_%28interior%29.jpg",
+          "note": "KDM diesel, same dash"
+        },
+        "cargo": null
+      },
+      "trim_rationale": "Critical config note: ONLY the LX Seat Package's three 2nd-row seats remove individually. Standard Slide-Flex captain's chairs aren't designed to remove; SX Prestige VIP lounge seats can't be removed at all — worst for camping.",
+      "model_url": "https://www.kia.com/us/en/carnival",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 145.1,
+        "config": "3rd row stowed + 2nd row removed (8-seat config; VIP lounge seats don't remove) — class-leading",
+        "source": "https://www.edmunds.com/kia/carnival/2024/features-specs/"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5 (Sedona entry — no Carnival page)",
+        "jd_power": "80/100 (2023)",
+        "known_issues": "Sedona proxy ranks 1st of 8 minivans, $495/yr. Watch: 2022–23 power sliding-door recall + class action, scattered electrical complaints; 10-yr/100k powertrain warranty.",
+        "source": "https://repairpal.com/reliability/kia/sedona"
+      },
+      "camper_pros": [
+        "Biggest cargo hold in class — 145.1 cu ft",
+        "Lowest minivan purchase price + 10-yr/100k warranty",
+        "Wide, boxy cargo area suits platform builds",
+        "Strong proxy reliability (1st of 8 minivans)"
+      ],
+      "camper_cons": [
+        "No AWD at any trim",
+        "~19–22 mpg combined",
+        "2nd-row removal heavy; VIP lounge chairs can't come out",
+        "2022–23 sliding-door recall history",
+        "Thinner kit ecosystem than Sienna/Pacifica"
+      ],
+      "sources": [
+        "https://www.kiamedia.com/us/en/models/carnival/2024/specifications",
+        "https://www.kbb.com/kia/carnival/2024/lx-w-seat-pkg-van-4d/",
+        "https://www.kbb.com/car-news/2022-kia-carnival-seating/",
+        "https://www.carnivalforums.com/threads/all-kia-vehicles-that-can-remove-2nd-row-seating-2023-2024.1324/"
+      ],
+      "notes": "3.5L V6 290 hp, 8-sp auto, FWD. Height 68.5 LX/EX (69.9 SX w/ rails). No Commons cargo photo."
+    },
+    {
+      "id": "kia-carnival-hybrid-ka4pe",
+      "make": "Kia",
+      "model": "Carnival Hybrid",
+      "trim": "EX",
+      "class": "Minivan",
+      "powertrain": "hybrid",
+      "generation_span": "2025–present (KA4 facelift; hybrid new for MY2025)",
+      "listed_year": 2025,
+      "kbb_value_usd": {
+        "low": 33090,
+        "high": 35850,
+        "assumption": "2025 EX, good condition; low = trade-in, high = private-party; Fair Purchase $37,350",
+        "source": "https://www.kbb.com/kia/carnival-hybrid/2025/ex-van-4d/"
+      },
+      "exterior_in": {
+        "length": 203.0,
+        "width": 78.5,
+        "height": 68.5
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 78,
+        "method": "Kit-derived: Roadloft 78-in bed behind front seats; floor identical to gas Carnival (1.5-kWh battery under 2nd-row floor; only loss is the spare tire).",
+        "source": "https://roadloft.com/en-us/products/camper-conversion-kit-kia-carnival"
+      },
+      "mpg": {
+        "city": 34,
+        "hwy": 31
+      },
+      "safety": {
+        "suite": "Kia Drive Wise (standard)",
+        "features": [
+          "Forward Collision-Avoidance w/ pedestrian/cyclist/junction detection",
+          "Blind-Spot + Rear Cross-Traffic Collision-Avoidance",
+          "Lane Keeping + Following Assist",
+          "Safe Exit Assist",
+          "Smart Cruise w/ Stop & Go",
+          "Highway Driving Assist (EX+)"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "Too new (MY2025) for its own scene but mechanically identical inside to gas Carnival — same kits fit; 33 mpg combined drawing vanlife interest."
+      },
+      "conversion_products": [
+        {
+          "name": "Roadloft Carnival kit (2022+ incl. facelift), $4,645",
+          "url": "https://roadloft.com/en-us/products/camper-conversion-kit-kia-carnival"
+        },
+        {
+          "name": "RiverLeaf Carnival kit (2022–2025)",
+          "url": "https://riverleafcamper.com/pages/kia-carnival-camper-conversion-kit"
+        },
+        {
+          "name": "Vanpackers Carnival kit",
+          "url": "https://vanpackers.com/en-us/products/conversion-kit-kia"
+        },
+        {
+          "name": "Unicamp pop-top (Caleche Customs)",
+          "url": "https://newatlas.com/automotive/unicamp-usa-kia-carnival-minivan-camper/"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Kia_Carnival_KA4_PE_1.6T_EX_HEV_Snowflake_White_Pearl.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/34/Kia_Carnival_KA4_PE_Taupe_%286%29.jpg"
+        },
+        "cargo": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Kia_Carnival_KA4_PE_Taupe_%2826%29.jpg",
+          "note": "rear-cabin view, closest available"
+        }
+      },
+      "trim_rationale": "YEAR-CAP EXCEPTION: hybrid debuted MY2025 in the US — listed at its earliest available year (2025), not the 2024 cap. EX = power doors/liftgate + full ADAS at ~$10k under SX Prestige. 1.6T + motor, 242 hp, FWD.",
+      "model_url": "https://www.kia.com/us/en/carnival",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 145.1,
+        "config": "Same as gas — hybrid battery preserves full volume",
+        "source": "https://www.edmunds.com/kia/carnival-hybrid/2025/features-specs/"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5 (Sedona entry proxy)",
+        "jd_power": "76/100 (2025)",
+        "known_issues": "First-year (2025) hybrid powertrain in Carnival — no track record, though the 1.6T hybrid is proven in Sorento/Sportage; verify KA4 door-recall fixes.",
+        "source": "https://repairpal.com/reliability/kia/sedona"
+      },
+      "camper_pros": [
+        "Class-max 145.1 cu ft AND ~33 mpg combined",
+        "Hybrid engine-cycling supports overnight climate",
+        "10-yr/100k warranty covers hybrid components",
+        "Hybrid system proven in other Kias"
+      ],
+      "camper_cons": [
+        "No AWD",
+        "First model year in the Carnival — no reliability history",
+        "Minimal used-market discount yet",
+        "Same heavy 2nd-row seat removal as gas",
+        "Small HEV battery — no PHEV-style engine-off camp power"
+      ],
+      "sources": [
+        "https://www.kiamedia.com/us/en/models/carnival-hev/2025/specifications",
+        "https://blog.consumerguide.com/2025-kia-carnival-hybrid-review-prices-and-specs/",
+        "https://www.kbb.com/kia/carnival-hybrid/2025/ex-van-4d/"
+      ],
+      "notes": "Cargo volumes identical to gas (40.2/86.9/145.1 cu ft). EPA 34/31/33."
+    },
+    {
+      "id": "mercedes-metris-w447",
+      "make": "Mercedes-Benz",
+      "model": "Metris",
+      "trim": "Passenger Van (126-in WB)",
+      "class": "Compact van",
+      "powertrain": "gas",
+      "generation_span": "2016–2023 (W447 Vito-based; US-discontinued)",
+      "listed_year": 2023,
+      "kbb_value_usd": {
+        "low": 27400,
+        "high": 29600,
+        "assumption": "2023 Passenger Van, good condition; low = trade-in, high = Fair Purchase Price",
+        "source": "https://www.kbb.com/mercedes-benz/metris-passenger/2023/van-4d/"
+      },
+      "exterior_in": {
+        "length": 202.4,
+        "width": 75.9,
+        "height": 75.2
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 111.5,
+        "method": "Dealer-published cargo-van floor spec (front seatbacks to rear doors); passenger van matches within ~1 in with all rear seats removed per Metris forum owner measurements.",
+        "source": "https://www.raycatenaedison.com/metris-van-dimensions/"
+      },
+      "mpg": {
+        "city": 18,
+        "hwy": 22
+      },
+      "safety": {
+        "suite": "Individual MB driver assists (no branded suite)",
+        "features": [
+          "Active Brake Assist (AEB) — standard",
+          "ATTENTION ASSIST drowsiness monitoring — standard",
+          "Crosswind Assist — standard",
+          "Rearview camera — standard",
+          "Available: Blind Spot Assist, Lane-Keeping Assist, DISTRONIC adaptive cruise, PARKTRONIC"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "Dominant platform of the US compact pop-top scene: MB itself launched the factory-backed Metris Getaway/Weekender pop-top with Peace Vans/Driverge; 7+ dedicated converters; sought-after used donor since discontinuation."
+      },
+      "conversion_products": [
+        {
+          "name": "Peace Vans Metris conversions (pop-top ~$11k to Full Camper $52k+)",
+          "url": "https://www.peacevans.com/mercedes-metris-camper-vans"
+        },
+        {
+          "name": "Metris Getaway (OEM-authorized pop-top)",
+          "url": "https://www.mbvans.com/en/metris-getaway"
+        },
+        {
+          "name": "Driverge camper conversions",
+          "url": "https://www.driverge.com/vehicles/mercedes-benz/mercedes-camper-van/"
+        },
+        {
+          "name": "GTRV pop-tops (SF Bay Area)",
+          "url": "https://www.gtrv.com/"
+        },
+        {
+          "name": "Keystone Coachworks (Eugene, OR), ~$10–38k",
+          "url": "https://www.keystonecoachworks.net/"
+        },
+        {
+          "name": "Contravans removable interiors (from ~$11k)",
+          "url": "https://www.contravans.com/"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/b/bb/2022_Mercedes-Benz_Metris_Passenger_Van_in_Arctic_White%2C_Front_Right%2C_08-02-2023.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Mercedes-Benz_Vito_-_wn%C4%99trze_%28MSP16%29.jpg",
+          "note": "Vito twin, identical dash"
+        },
+        "cargo": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/1/14/Mercedes-Benz_Vito_Kastenwagen_Innen_%28447%29.JPG",
+          "note": "Vito cargo bay"
+        }
+      },
+      "trim_rationale": "One trim per body style; Passenger Van (windows, 7–8 seats, rear HVAC) is the pop-top converters' base. 2.0T I4 208 hp, RWD, 9-sp auto (2021+). Pop-tops add ~4–8 in height.",
+      "model_url": "https://www.kbb.com/mercedes-benz/metris-passenger/",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 183.0,
+        "config": "Cargo compartment, 126-in WB (passenger van approximates with all rear seats removed)",
+        "source": "https://www.edmunds.com/mercedes-benz/metris/2023/st-401979774/features-specs/"
+      },
+      "reliability": {
+        "score": 3.0,
+        "scale": "RepairPal /5",
+        "jd_power": "Not scored (commercial van)",
+        "known_issues": "$908/yr avg; top complaint: crankcase vent valve assembly (~$2,756); MB dealer labor + Euro parts keep costs high.",
+        "source": "https://repairpal.com/mercedes-benz/metris"
+      },
+      "camper_pros": [
+        "Garage-able ~75-in roof — fits parking garages",
+        "Huge ~183 cu ft compartment for a mid-size van",
+        "Mature pop-top scene (Peace Vans, factory Getaway)",
+        "RWD with 5,000-lb tow rating",
+        "Drives/parks like a large car"
+      ],
+      "camper_cons": [
+        "No standing room without a pop-top",
+        "Expensive Mercedes service + Euro parts",
+        "Discontinued after 2023 — support question",
+        "Premium fuel, ~21 mpg combined",
+        "High used prices vs domestic vans"
+      ],
+      "sources": [
+        "https://www.kbb.com/mercedes-benz/metris-passenger/2023/van-4d/",
+        "https://www.edmunds.com/mercedes-benz/metris/2023/",
+        "https://media.mbusa.com/releases/release-b04e095eb7930ced5925d964ff0c4a3f-mercedes-benz-vans-unveils-its-first-pop-up-camper-for-the-us-market",
+        "https://www.metrisforum.com/threads/length-of-cargo-area.2834/"
+      ],
+      "notes": "2023 confirmed final US year. Passenger EPA 18/22 (cargo 19/23)."
+    },
+    {
+      "id": "ram-promaster-city",
+      "make": "Ram",
+      "model": "ProMaster City",
+      "trim": "Wagon SLT",
+      "class": "Compact van",
+      "powertrain": "gas",
+      "generation_span": "2015–2022 (Fiat Doblo-based; US-discontinued)",
+      "listed_year": 2022,
+      "kbb_value_usd": {
+        "low": 17500,
+        "high": 19250,
+        "assumption": "2022 Wagon, good condition; low = private-party, high = Fair Purchase Price; trade-in $16,200",
+        "source": "https://www.kbb.com/ram/promaster-city/2022/"
+      },
+      "exterior_in": {
+        "length": 187.1,
+        "width": 72.1,
+        "height": 74.2
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 69.2,
+        "method": "OFFICIAL Ram spec: 69.2 in with 60/40 2nd row folded flat; approaches cargo van's official 87.2 in with seats unbolted/removed (identical shell). RiverLeaf uses a 72-in bed platform.",
+        "source": "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/specs/2022_RAM_ProMaster_City_SPcsvdm3ro6s5sm60gkvop4cd86m.pdf"
+      },
+      "mpg": {
+        "city": 21,
+        "hwy": 28
+      },
+      "safety": {
+        "suite": "None — pre-modern-ADAS platform",
+        "features": [
+          "ESC w/ trailer-sway control",
+          "4-wheel ABS + Hill Start Assist",
+          "Front/side/curtain airbags",
+          "ParkView backup camera (std later years)",
+          "Available ParkSense rear park assist",
+          "No AEB, blind-spot, lane keeping, or adaptive cruise in any US year"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "The budget micro-campervan: Cascade Campers built a business on ~$8k ProMaster City conversions (up to 14/month); 8+ converters/kits in roundups. Caveat: most kits target the Cargo version."
+      },
+      "conversion_products": [
+        {
+          "name": "Cascade Campers (~$8k turnkey; Cargo version only)",
+          "url": "https://www.cascadecampers.com/converted-campervans"
+        },
+        {
+          "name": "RiverLeaf kit (2015–2022, 72×46-in bed)",
+          "url": "https://riverleafcamper.com/pages/ram-promaster-city-camper-conversion-kit"
+        },
+        {
+          "name": "Contravans (from ~$7,498)",
+          "url": "https://www.contravans.com/"
+        },
+        {
+          "name": "Voyager Campervans 'Minny' (~$12,495)",
+          "url": "https://voyagercampervans.com/"
+        },
+        {
+          "name": "California Custom Vans kit (from ~$2,999)",
+          "url": "https://www.californiacustomvans.com/"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/20_Ram_ProMaster_City_SLT.jpg"
+        },
+        "dashboard": null,
+        "cargo": null
+      },
+      "trim_rationale": "SLT was the top passenger trim. 2.4L I4 178 hp, 9-sp auto, FWD. Interior height 48.7 in — no standing; 48.4 in between wheel wells.",
+      "model_url": "https://www.kbb.com/ram/promaster-city/",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 101.7,
+        "config": "Wagon, rear seats folded/tumbled (official Ram spec; cargo van 131.7)",
+        "source": "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/specs/2022_RAM_ProMaster_City_SPcsvdm3ro6s5sm60gkvop4cd86m.pdf"
+      },
+      "reliability": {
+        "score": 3.5,
+        "scale": "RepairPal /5",
+        "jd_power": "Listed, no score (2022)",
+        "known_issues": "2nd of 21 commercial vans, $795/yr, 12% severe-issue probability. Watch: 9-speed shifting complaints; Fiat-platform parts sourcing post-discontinuation.",
+        "source": "https://repairpal.com/reliability/ram/promaster-city"
+      },
+      "camper_pros": [
+        "Cheapest small-van entry price",
+        "Boxy 101.7 cu ft with low ~21.5-in load floor",
+        "Best-in-class ~24 mpg combined for a van",
+        "Compact city-friendly footprint",
+        "Above-average RepairPal class rank"
+      ],
+      "camper_cons": [
+        "No AWD, low clearance",
+        "Discontinued 2022 — Fiat parts outlook uncertain",
+        "No standing room",
+        "Smaller kit ecosystem than Transit Connect",
+        "9-speed transmission complaints"
+      ],
+      "sources": [
+        "https://www.edmunds.com/ram/promaster-city/2022/st-401910950/features-specs/",
+        "https://www.kbb.com/ram/promaster-city/2022/",
+        "https://www.thedrive.com/news/the-ram-promaster-city-was-the-last-small-van-left-now-its-gone",
+        "https://newatlas.com/cascade-mini-campervan-kit/57214/"
+      ],
+      "notes": "2022 confirmed final US year. No Commons dashboard/cargo photos exist."
+    },
+    {
+      "id": "subaru-outback-bt",
+      "make": "Subaru",
+      "model": "Outback",
+      "trim": "Premium",
+      "class": "Wagon",
+      "powertrain": "gas",
+      "generation_span": "2020–2025 (6th gen BT; 7th gen is 2026)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 21900,
+        "high": 24700,
+        "assumption": "2024 Premium, good condition; low = private-party floor, high = Fair Purchase Price",
+        "source": "https://www.kbb.com/subaru/outback/2024/premium-wagon-4d/"
+      },
+      "exterior_in": {
+        "length": 191.1,
+        "width": 73.0,
+        "height": 66.1
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 78,
+        "method": "Vendor-measured: Compass Camper 78×40.5-in platform (front seats forward); community reports ~72–75 in at normal seat position. No official Subaru figure.",
+        "source": "https://compasscamper.com/products/subaru-outback-camper-conversion-platform"
+      },
+      "mpg": {
+        "city": 26,
+        "hwy": 32
+      },
+      "safety": {
+        "suite": "Subaru EyeSight (standard)",
+        "features": [
+          "Pre-collision braking",
+          "Adaptive cruise w/ lane centering",
+          "Lane departure/sway warning w/ keep assist",
+          "Automatic emergency steering",
+          "Blind-spot + rear cross-traffic (avail. Premium, std higher)",
+          "Standard symmetrical AWD, 8.7-in clearance"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "High",
+        "evidence": "The definitive car-camping wagon: constant sleeping-setup threads on r/Subaru_Outback and r/SubaruCarCamping; Luno keeps a dedicated Outback gear line; 3+ vendors sell Outback-specific sleep systems."
+      },
+      "conversion_products": [
+        {
+          "name": "Luno Outback gear collection",
+          "url": "https://lunolife.com/collections/subaru-outback-gear"
+        },
+        {
+          "name": "Compass Camper platform (2020–2026), 78×40.5 in",
+          "url": "https://compasscamper.com/products/subaru-outback-camper-conversion-platform"
+        },
+        {
+          "name": "CarToCamp Outback sleeping platform",
+          "url": "https://cartocamp.com/products/subaru-outback-sleeping-platform"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/42/2023_Subaru_Outback_Premium%2C_front_right%2C_09-09-2023.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Subaru_Outback_%28BT%29_2.5i-T_%27Eyesight%27_interior.jpg"
+        },
+        "cargo": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/a/ad/The_trunkroom_of_Subaru_LEGACY_OUTBACK_Limited_EX_%284BA-BT5%29.jpg",
+          "note": "JDM BT, same cargo area"
+        }
+      },
+      "trim_rationale": "Premium = volume camper trim: 11.6-in screen + roof rails, keeps the 26/32-mpg NA 2.5L (Wilderness turbo: 21/26, +$6–8k, 9.5-in clearance for off-grid buyers). All 2020–2025 share identical cargo dims.",
+      "model_url": "https://www.subaru.com/vehicles/outback",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 75.6,
+        "config": "Rear seatbacks folded, behind front row (32.6 behind rear seats)",
+        "source": "https://www.edmunds.com/subaru/outback/2024/features-specs/"
+      },
+      "reliability": {
+        "score": 3.5,
+        "scale": "RepairPal /5",
+        "jd_power": "80/100 (2024)",
+        "known_issues": "10th of 26 midsize SUVs, $607/yr. Watch: CVT behavior/longevity, 12V battery drain, windshield cracking; old head-gasket/oil issues largely resolved by 2020+.",
+        "source": "https://repairpal.com/reliability/subaru/outback"
+      },
+      "camper_pros": [
+        "Standard AWD + 8.7-in clearance",
+        "Car-like 26/32 mpg and daily drivability",
+        "Huge sleep-platform and rooftop-tent scene",
+        "Cheap parts network + strong record",
+        "Raised rails handle RTTs and boxes"
+      ],
+      "camper_cons": [
+        "No sitting-upright headroom inside",
+        "75.6 cu ft caps interior builds",
+        "Sloped tailgate + wheel-well intrusion narrow the bed",
+        "CVT limits towing (2,700–3,500 lb)",
+        "No pop-top options"
+      ],
+      "sources": [
+        "https://www.edmunds.com/subaru/outback/2024/features-specs/",
+        "https://www.kbb.com/subaru/outback/2024/premium-wagon-4d/",
+        "https://compasscamper.com/blogs/news/is-the-subaru-outback-the-best-car-camping-vehicle",
+        "https://media.subaru.com/pressrelease/2309/subaru-debuts-all-new-2026-outback-bold-new"
+      ],
+      "notes": "75.7 cu ft max cargo. Height incl. roof rails."
+    },
+    {
+      "id": "subaru-forester-sk",
+      "make": "Subaru",
+      "model": "Forester",
+      "trim": "Wilderness",
+      "class": "SUV",
+      "powertrain": "gas",
+      "generation_span": "2019–2024 (5th gen SK; 6th gen is 2025)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 27100,
+        "high": 29600,
+        "assumption": "2024 Wilderness, good condition; low = trade-in, high = Fair Purchase Price; other trims from ~$19,550 trade-in",
+        "source": "https://www.kbb.com/subaru/forester/2024/wilderness/"
+      },
+      "exterior_in": {
+        "length": 182.7,
+        "width": 72.2,
+        "height": 68.9
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 69,
+        "method": "Community-measured: ~69 in tailgate to front seatbacks, rear seats folded; ~16-in footwell gap behind front seats means a platform yields ~72–74 in flat.",
+        "source": "https://compasscamper.com/blogs/news/can-you-sleep-in-a-subaru-forester"
+      },
+      "mpg": {
+        "city": 25,
+        "hwy": 28
+      },
+      "safety": {
+        "suite": "Subaru EyeSight (standard)",
+        "features": [
+          "Pre-collision braking",
+          "Adaptive cruise w/ lane centering",
+          "Lane departure/sway warning",
+          "Automatic emergency steering",
+          "Blind-spot + rear cross-traffic",
+          "Dual-function X-Mode + hill descent (Wilderness)",
+          "2024 IIHS Top Safety Pick"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "High",
+        "evidence": "One of the most common SUV camper platforms: Luno Forester-specific line, Compass Camper kit, Wheels'n'Feels drawer system, many dedicated build guides + subaruforester.org platform threads."
+      },
+      "conversion_products": [
+        {
+          "name": "Luno Forester collection",
+          "url": "https://lunolife.com/collections/subaru-forester"
+        },
+        {
+          "name": "Compass Camper Forester kit",
+          "url": "https://compasscamper.com/products/subaru-forester-camper-conversion-kit"
+        },
+        {
+          "name": "Wheels'n'Feels drawer/kitchen system (SK)",
+          "url": "https://wheelsfeels.com/shop/car-kitchens/single-drawer-storage-camping-system-subaru-forester-5th-gen-sk"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Subaru_Forester_Wilderness_%28SK%29_Washington_DC_Metro_Area%2C_USA.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Subaru_Forester_2018_%28SK%29_CUV_Interior.jpg",
+          "note": "pre-facelift SK"
+        },
+        "cargo": null
+      },
+      "trim_rationale": "Wilderness = enthusiast camping pick: 9.2-in clearance, A/T tires, roof rack rated for rooftop tents, 3,000-lb tow. Budget builds use Premium (26/33 mpg, 68.1-in height).",
+      "model_url": "https://www.subaru.com/vehicles/forester",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 74.2,
+        "config": "Rear seats folded, non-moonroof trims (69.1 with moonroof)",
+        "source": "https://www.conleysubaru.com/subaru-research/subaru-forester-cargo-space/"
+      },
+      "reliability": {
+        "score": 3.5,
+        "scale": "RepairPal /5",
+        "jd_power": "84/100 (2024, 'Great')",
+        "known_issues": "21st of 26 compact SUVs, $632/yr, 13% severe. Watch: parasitic 12V battery drain (2019–20 class action), CVT longevity, windshield cracking.",
+        "source": "https://repairpal.com/reliability/subaru/forester"
+      },
+      "camper_pros": [
+        "Standard AWD + 8.7-in clearance",
+        "Boxy upright cargo bay, tall wide hatch",
+        "~29 mpg combined — cheapest SUV here to run",
+        "Affordable used prices, cheap service",
+        "Excellent visibility on trails"
+      ],
+      "camper_cons": [
+        "Small max cargo (69.1 on moonroof trims)",
+        "Flat sleeping needs front seats slid full forward",
+        "1,500-lb tow rating rules out most teardrops",
+        "No standing room, no pop-top scene",
+        "NA 2.5L strained when loaded"
+      ],
+      "sources": [
+        "https://www.edmunds.com/subaru/forester/2024/st-402003262/features-specs/",
+        "https://www.kbb.com/subaru/forester/2024/wilderness/",
+        "https://gnomadhome.com/subaru-forester-camper-conversion/",
+        "https://www.thewaywardhome.com/subaru-forester-camper/"
+      ],
+      "notes": "2.5L boxer 182 hp, CVT, std AWD. No Commons cargo photo of SK."
+    },
+    {
+      "id": "honda-crv-hybrid-gen6",
+      "make": "Honda",
+      "model": "CR-V Hybrid",
+      "trim": "Sport Hybrid",
+      "class": "SUV",
+      "powertrain": "hybrid",
+      "generation_span": "2023–present (6th gen)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 26640,
+        "high": 30320,
+        "assumption": "2024 Sport Hybrid, good condition; low = trade-in, high = Fair Purchase Price",
+        "source": "https://www.kbb.com/honda/cr-v-hybrid/2024/sport-utility-4d/"
+      },
+      "exterior_in": {
+        "length": 184.8,
+        "width": 73.5,
+        "height": 66.2
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 73,
+        "method": "Community tape measurement: flat floor, tailgate to folded rear seatbacks; front seats forward adds length for ~6-ft sleepers.",
+        "source": "https://crvguide.com/honda-crv-cargo-length-and-width/"
+      },
+      "mpg": {
+        "city": 43,
+        "hwy": 36
+      },
+      "safety": {
+        "suite": "Honda Sensing (standard)",
+        "features": [
+          "Collision Mitigation Braking",
+          "Road Departure Mitigation",
+          "Adaptive Cruise w/ Low-Speed Follow",
+          "Lane Keeping / Traffic Jam Assist",
+          "Blind Spot Info System w/ Rear Cross Traffic",
+          "Traffic Sign Recognition"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "Active mid-sized scene: CarToCamp CR-V platform, Luno fitment, dedicated build blogs and CR-V Owners Club threads — trails Outback/4Runner/minivans in volume."
+      },
+      "conversion_products": [
+        {
+          "name": "CarToCamp CR-V sleeping platform",
+          "url": "https://cartocamp.com/products/honda-cr-v-sleeping-platform"
+        },
+        {
+          "name": "Luno AIR Pro mattress (confirm fit for 2023+)",
+          "url": "https://lunolife.com/products/air-pro-vehicle-mattress"
+        },
+        {
+          "name": "Hele Box Solo modular platform",
+          "url": "https://heleoutdoors.com/products/hele-box-carcamping"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/25_Honda_CR-V_Hybrid_Sport.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/47/2023_Honda_CR-V_interior.jpg",
+          "note": "2023 EX-L, same dash"
+        },
+        "cargo": null
+      },
+      "trim_rationale": "Sport is the entry hybrid trim — cheapest way into the 40-mpg-combined hybrid campers want; Sport-L adds only leather/power tailgate. MPG FWD (AWD 40/34).",
+      "model_url": "https://automobiles.honda.com/cr-v-hybrid",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 76.5,
+        "config": "Rear seats folded, behind front row (39.3 behind rear seats); hybrid same as gas",
+        "source": "https://crvguide.com/honda-crv-cargo-space/"
+      },
+      "reliability": {
+        "score": 4.5,
+        "scale": "RepairPal /5",
+        "jd_power": "84/100 (2024, 'Great')",
+        "known_issues": "2nd of 26 compact SUVs, $407/yr. 6th gen early in lifecycle (fuel-pump/software recalls); two-motor hybrid has a strong record; some 12V drain reports.",
+        "source": "https://repairpal.com/reliability/honda/cr-v"
+      },
+      "camper_pros": [
+        "76.5 cu ft, ~6.5-ft load length seats-folded",
+        "Low, wide liftgate + low floor ease platform builds",
+        "Hybrid engine-cycling overnight climate",
+        "~40 mpg city",
+        "Huge sales volume = cheap parts, accessories"
+      ],
+      "camper_cons": [
+        "Folded seats leave slope/gap — leveling platform needed",
+        "8.2-in clearance + light AWD limit rough roads",
+        "Smaller kit ecosystem than 4Runner",
+        "No 115V household outlet on most trims"
+      ],
+      "sources": [
+        "https://www.kbb.com/honda/cr-v-hybrid/2024/sport-utility-4d/",
+        "https://hondanews.com/en-US/honda-automobiles/releases/release-13f25e90cfe47cd58453f1f710054868-2024-honda-cr-v-specifications-features",
+        "https://www.autoroamer.com/posts/can-you-sleep-in-a-honda-crv-car-camping-guide.html",
+        "https://www.iheartpacificnorthwest.com/blog_post/my-honda-crv-camper-setup/"
+      ],
+      "notes": "39.3 cu ft behind 2nd row / 76.5 folded. No Commons 6th-gen cargo photo."
+    },
+    {
+      "id": "toyota-prius-xw60",
+      "make": "Toyota",
+      "model": "Prius",
+      "trim": "LE",
+      "class": "Hatchback",
+      "powertrain": "hybrid",
+      "generation_span": "2023–present (5th gen XW60)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 22100,
+        "high": 24800,
+        "assumption": "2024 LE, good condition; low = trade-in, high = Fair Purchase Price",
+        "source": "https://www.kbb.com/toyota/prius/2024/le/"
+      },
+      "exterior_in": {
+        "length": 181.1,
+        "width": 70.2,
+        "height": 55.9
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 68,
+        "method": "Vendor-derived: CarToCamp platform adjusts 54–68 in behind front seats (seats folded, fronts forward); ~48 in wide tapering to 37 at hatch. Tall sleepers go diagonal. Cargo-area height under 23 in — use a pad, not a tall platform.",
+        "source": "https://cartocamp.com/products/toyota-prius-sleeping-platform"
+      },
+      "mpg": {
+        "city": 57,
+        "hwy": 56
+      },
+      "safety": {
+        "suite": "Toyota Safety Sense 3.0 (standard)",
+        "features": [
+          "Pre-Collision System w/ Pedestrian Detection",
+          "Full-Speed Dynamic Radar Cruise",
+          "Lane Departure Alert w/ Steering Assist",
+          "Lane Tracing Assist",
+          "Proactive Driving Assist",
+          "Road Sign Assist",
+          "Blind Spot Monitor (avail.; std XLE+)"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "High",
+        "evidence": "A real car-dwelling subculture (r/priusdwellers, ~30k members): the hybrid is a silent generator — climate control runs all night in READY mode on ~1 gal of gas. Dedicated products from CarToCamp and Luno."
+      },
+      "conversion_products": [
+        {
+          "name": "CarToCamp Prius platform (2004–present), $895",
+          "url": "https://cartocamp.com/products/toyota-prius-sleeping-platform"
+        },
+        {
+          "name": "Luno AIR Pro mattress (Prius on fit list)",
+          "url": "https://lunolife.com/products/air-pro-vehicle-mattress"
+        },
+        {
+          "name": "Expedition Prius DIY guide (community standard)",
+          "url": "https://www.expeditionprius.com/prius-camping-guide-camping-toyota-prius/"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/2024_Toyota_Prius_XLE_AWD%2C_front_right%2C_06-01-2024.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/2023_Toyota_Prius_Z_2.0L_HEV_%282%29.jpg",
+          "note": "JDM RHD, same design"
+        },
+        "cargo": null
+      },
+      "trim_rationale": "LE = cheapest, best mpg (57/56 vs 52/52 XLE+), and most cargo of the gen (23.8 vs 20.3 cu ft). NOTE: most Prius dwellers actually prefer the roomier, cheaper 4th gen (2016–2022, up to 34.3 cu ft folded) — the 5th gen's fastback roof cut ~7 cu ft. Candidate prior-gen row.",
+      "model_url": "https://www.toyota.com/prius/",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 23.8,
+        "config": "Behind rear seats, LE (XLE/Limited 20.3); Toyota publishes no seats-folded figure for 5th gen",
+        "source": "https://www.autoblog.com/features/toyota-prius-luggage-test"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5",
+        "jd_power": "75/100 (2024)",
+        "known_issues": "10th of 24 midsize cars, $408/yr. Hybrid battery typically 150–200k+ mi ($2–4k replacement); outstanding long-term durability; 2024 rear-door-handle recall.",
+        "source": "https://repairpal.com/reliability/toyota/prius"
+      },
+      "camper_pros": [
+        "Best fuel economy in the report (~52–57 mpg)",
+        "Overnight climate on minimal fuel in READY mode",
+        "Maximum stealth — reads as a commuter car",
+        "Very low running costs"
+      ],
+      "camper_cons": [
+        "Short, shallow cargo bay (<23 in tall) — diagonal sleeping near 6 ft",
+        "Rear seats fold onto a stepped, sloped floor",
+        "~6-in clearance rules out rough roads",
+        "Minimal kit ecosystem",
+        "XLE/Limited lose 3.5 cu ft to raised floor"
+      ],
+      "sources": [
+        "https://www.kbb.com/toyota/prius/2024/le/",
+        "https://www.cars.com/research/toyota-prius-2024/specs/",
+        "https://www.autoblog.com/features/toyota-prius-luggage-test",
+        "https://blueplanit.co/blog/prius-camping",
+        "https://www.thewaywardhome.com/prius-camper/"
+      ],
+      "notes": "194 hp, FWD (e-AWD optional). r/priusdwellers count is an estimate (Reddit blocked verification). No Commons XW60 cargo photo."
+    },
+    {
+      "id": "toyota-4runner-n280",
+      "make": "Toyota",
+      "model": "4Runner",
+      "trim": "TRD Off-Road",
+      "class": "SUV",
+      "powertrain": "gas",
+      "generation_span": "2010–2024 (5th gen N280; 6th gen is 2025)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 35150,
+        "high": 37630,
+        "assumption": "2024 TRD Off-Road 4x4, good condition; low = trade-in, high = Fair Purchase Price; SR5 ~$32,310–36,650",
+        "source": "https://www.kbb.com/toyota/4runner/2024/trd-off-road-sport-utility-4d/"
+      },
+      "exterior_in": {
+        "length": 190.2,
+        "width": 75.8,
+        "height": 71.5
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 66,
+        "method": "Community-measured: ~66 in hatch to front seatbacks, 2nd row folded (sloped — platforms over the folded seats yield ~72–75 in); ~44 in between wheel wells.",
+        "source": "https://forum.expeditionportal.com/threads/2013-2014-4runner-cargo-dimensions.120783/"
+      },
+      "mpg": {
+        "city": 16,
+        "hwy": 19
+      },
+      "safety": {
+        "suite": "Toyota Safety Sense P (standard)",
+        "features": [
+          "Pre-Collision System w/ Pedestrian Detection",
+          "Lane Departure Alert",
+          "Auto High Beams",
+          "High-Speed Dynamic Radar Cruise",
+          "8 airbags + Star Safety System"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "High",
+        "evidence": "One of the most popular sleep-in-back/overland platforms: Luno 4Runner-specific mattress line, Goose Gear model-specific Stealth Sleep + drawer systems, huge communities (Trail4R, toyota-4runner.org, Expedition Portal); 15 years of unchanged cargo footprint = deep product ecosystem."
+      },
+      "conversion_products": [
+        {
+          "name": "Goose Gear Stealth Sleep + Storage Package (5th gen)",
+          "url": "https://www.goose-gear.com/products/stealth-sleep-and-storage-package-toyota-4runner-2010-present-5th-gen"
+        },
+        {
+          "name": "Luno AIR Pro 4Runner mattress",
+          "url": "https://lunolife.com/products/air-pro-4runner-mattress"
+        },
+        {
+          "name": "BirchGear double bed platform (5th gen)",
+          "url": "https://www.birchgear.com/products/double-bed-platform-stand-alone-for-toyota-4runner-5th-gen"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Toyota_4Runner_TRD_Off-Road_%282024%29_%2853646352685%29.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/a/a8/2023_Toyota_4Runner01.jpg"
+        },
+        "cargo": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/7/75/Toyota_4Runner_Back_Gate_%2853998820307%29.jpg",
+          "note": "open tailgate view"
+        }
+      },
+      "trim_rationale": "TRD Off-Road over SR5 (+$2–3k) for locking rear diff, Crawl Control, Multi-Terrain Select — the community-default overlanding trim. 4.0L V6 270 hp, 5-sp auto, part-time 4WD. Thirstiest vehicle in this report (17 combined).",
+      "model_url": "https://www.toyota.com/4runner/",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 89.7,
+        "config": "2nd row folded, 2-row models (47.2 behind 2nd row)",
+        "source": "https://itemfits.com/fit/vehicle/toyota-4runner/cargo"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5",
+        "jd_power": "86/100 (2024, 'Great')",
+        "known_issues": "9th of 26 midsize SUVs, $514/yr. Legendary 300k+ mi longevity; check frame rust in salt states; dated 5-speed auto and tech.",
+        "source": "https://repairpal.com/reliability/toyota/4runner"
+      },
+      "camper_pros": [
+        "89.7 cu ft, long near-flat floor (~6-ft sleeping)",
+        "Biggest overland aftermarket here (drawers, RTT-rated racks)",
+        "True 4WD + 9.6-in clearance for remote dispersed sites",
+        "Proven durability, top resale",
+        "Roll-down rear hatch glass for ventilation"
+      ],
+      "camper_cons": [
+        "Worst fuel economy in the report (~16–17 combined)",
+        "No engine-off climate — overnight = idling",
+        "High load floor and step-up",
+        "Strong resale keeps used prices high",
+        "Dated infotainment/ADAS"
+      ],
+      "sources": [
+        "https://www.kbb.com/toyota/4runner/2024/trd-off-road-sport-utility-4d/",
+        "https://www.edmunds.com/toyota/4runner/2024/st-402014870/features-specs/",
+        "https://trail4runner.com/2024/05/22/sr5-vs-trd-which-4runner-trim-is-best/",
+        "https://forum.expeditionportal.com/threads/2013-2014-4runner-cargo-dimensions.120783/"
+      ],
+      "notes": "47.2 cu ft behind 2nd row / 89.7 max. TSS-P is an older ADAS suite: no blind-spot std, no lane centering."
+    },
+    {
+      "id": "toyota-highlander-hybrid-xu70",
+      "make": "Toyota",
+      "model": "Highlander Hybrid",
+      "trim": "XLE AWD",
+      "class": "SUV",
+      "powertrain": "hybrid",
+      "generation_span": "2020–present (4th gen XU70)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 36400,
+        "high": 46800,
+        "assumption": "2024 Fair Purchase Price range LE ($36.4k) to Platinum ($46.8k); XLE ~$41k; trade-in $29.8–41.1k",
+        "source": "https://www.kbb.com/toyota/highlander-hybrid/2024/"
+      },
+      "exterior_in": {
+        "length": 194.9,
+        "width": 76.0,
+        "height": 68.1
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 78,
+        "method": "Community-measured: ~78–84 in liftgate to front seatbacks with 2nd+3rd rows folded (fronts forward for 6-footers). Not truly flat: step at 3rd-row junction + channel between captain's chairs.",
+        "source": "https://www.autoroamer.com/posts/2025-toyota-highlander-camping-guide.html"
+      },
+      "mpg": {
+        "city": 35,
+        "hwy": 35
+      },
+      "safety": {
+        "suite": "Toyota Safety Sense 2.5+ (standard)",
+        "features": [
+          "Pre-Collision System w/ Pedestrian Detection",
+          "Full-Speed Dynamic Radar Cruise",
+          "Lane Departure Alert w/ Steering Assist",
+          "Lane Tracing Assist",
+          "Road Sign Assist",
+          "Blind Spot Monitor + Rear Cross-Traffic (std)"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "Real but smaller scene than RAV4/4Runner/Sienna: Luno lists Highlander fitment and the 2-sleeper flat-ish floor is genuine, but no dedicated off-the-shelf platform kits exist for the 2020+ gen — builds are DIY/custom-shop."
+      },
+      "conversion_products": [
+        {
+          "name": "Luno AIR Pro mattress (Highlander-compatible)",
+          "url": "https://lunolife.com/products/air-pro-vehicle-mattress"
+        },
+        {
+          "name": "CarToCamp built-to-order platform",
+          "url": "https://cartocamp.com/products/sleeping-platform"
+        },
+        {
+          "name": "Camp N Car custom Highlander build (example)",
+          "url": "https://campncar.com/blogs/portfolio/toyota-highlander-camper"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/24_Toyota_Highlander_Hybrid_%28XU70%29_1.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/6/6e/2023_Toyota_Highlander_interior.jpg"
+        },
+        "cargo": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/f/f1/TOYOTA_HIGHLANDER_%28XU70%29_CHINA_VERSION_CARGO_SPACE.jpg",
+          "note": "China-market XU70 twin, same bay"
+        }
+      },
+      "trim_rationale": "XLE = volume used trim (power liftgate, roof rails) ~$4–5k under Limited; 120V/1500W cargo outlet requires Limited/Platinum. 243 hp hybrid; AWD costs ~1 mpg. MPG shown AWD (FWD 36/35).",
+      "model_url": "https://www.toyota.com/highlanderhybrid/",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 84.3,
+        "config": "2nd+3rd rows folded, behind front row (48.4 behind 2nd row)",
+        "source": "https://www.kbb.com/toyota/highlander-hybrid/2024/"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5",
+        "jd_power": "81/100 (2024)",
+        "known_issues": "7th of 26 midsize SUVs, $489/yr. Hybrid system very reliable; watch A/C condenser rock damage, infotainment glitches, 2020–21 bumper recall.",
+        "source": "https://repairpal.com/reliability/toyota/highlander"
+      },
+      "camper_pros": [
+        "84.3 cu ft, 6.5+ ft load length both rows folded",
+        "Hybrid engine-cycling overnight climate",
+        "~35–36 mpg — exceptional for a 3-row SUV",
+        "Quiet comfortable highway cruiser",
+        "Blends in as a family SUV for stealth"
+      ],
+      "camper_cons": [
+        "Folded 2nd row leaves seams/slope — platform needed",
+        "~8-in clearance, no low range",
+        "Small kit ecosystem vs 4Runner",
+        "Higher purchase price; hybrid resale premium",
+        "16 cu ft daily cargo if 3rd row stays up"
+      ],
+      "sources": [
+        "https://www.kbb.com/toyota/highlander-hybrid/2024/",
+        "https://www.cars.com/research/toyota-highlander_hybrid-2024/specs/",
+        "https://www.autoroamer.com/posts/2025-toyota-highlander-camping-guide.html",
+        "https://www.toyotanation.com/threads/camping-sleeping-in-the-back-of-highlander.1705695/"
+      ],
+      "notes": "84.3 cu ft behind row 1. 3rd row doesn't fold fully flat."
+    },
+    {
+      "id": "toyota-rav4-prime-xa50",
+      "make": "Toyota",
+      "model": "RAV4 Prime",
+      "trim": "XSE",
+      "class": "SUV",
+      "powertrain": "phev",
+      "generation_span": "2021–2025 (5th gen XA50; renamed RAV4 Plug-in Hybrid 2025; 6th gen 2026)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 38000,
+        "high": 41000,
+        "assumption": "2024 XSE AWD, good condition, typical miles — Edmunds appraisal (KBB page didn't render values): private-party $38.1–40.9k; SE runs ~$4–5k less",
+        "source": "https://www.edmunds.com/toyota/rav4-prime/2024/appraisal-value/"
+      },
+      "exterior_in": {
+        "length": 180.9,
+        "width": 73.0,
+        "height": 67.2
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 71,
+        "method": "Community-measured (~71 in to front seatbacks, rear seats folded; ~68–73 depending on seat position). Battery sits under cabin floor so folded platform stays flat; rear cargo floor slightly raised vs gas.",
+        "source": "https://www.rav4world.com/threads/rav4-prime-trunk-dimensions.311406/"
+      },
+      "mpg": {
+        "city": 40,
+        "hwy": 36,
+        "mpge": 94,
+        "ev_range_mi": 42,
+        "note": "EPA 38 mpg combined (hybrid mode), 94 MPGe, 42-mi EV range. 302 hp. No DC fast charging; 3.3 kW AC (SE) / 6.6 kW (XSE Premium)."
+      },
+      "safety": {
+        "suite": "Toyota Safety Sense 2.5+ (standard)",
+        "features": [
+          "Pre-Collision System w/ Pedestrian Detection",
+          "Full-Speed Dynamic Radar Cruise",
+          "Lane Departure Alert w/ Steering Assist",
+          "Lane Tracing Assist",
+          "Auto High Beams",
+          "Road Sign Assist",
+          "Blind Spot Monitor + Rear Cross-Traffic (std)"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "High",
+        "evidence": "Full RAV4 ecosystem applies (shared XA50 body): Luno guaranteed fit, WheelsFeels Prime-specific kit; rav4world/r/RAV4Prime document all-night AC dry-camping off the traction battery — arguably the best micro-camper variant of America's best-selling SUV, limited by scarcity/price."
+      },
+      "conversion_products": [
+        {
+          "name": "Luno AIR mattress (RAV4 2019+, fits Prime)",
+          "url": "https://lunolife.com/products/luno-air-mattress-for-rav4"
+        },
+        {
+          "name": "WheelsFeels RAV4 Prime camping system, $995",
+          "url": "https://wheelsfeels.com/shop/car-kitchens/the_camper_kit_for_toyota_rav4_prime"
+        },
+        {
+          "name": "Luno RAV4 gear collection",
+          "url": "https://lunolife.com/collections/toyota-rav4"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/2/2d/2024_Toyota_RAV4_Prime_XSE_Premium_in_Silver_Sky_with_Midnight_Black_roof%2C_front_left.jpg"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Toyota_RAV4_PHV_BLACK_TONE_%286LA-AXAP54-ANXGB%29_interior.jpg",
+          "note": "JDM RHD RAV4 PHV, same dash mirrored"
+        },
+        "cargo": null
+      },
+      "trim_rationale": "XSE over SE for the 1500W/120V cargo-area outlet (XSE Premium pkg — not offered on SE), 6.6 kW charger, 10.5-in screen. Same 302-hp powertrain and cargo as SE.",
+      "model_url": "https://www.kbb.com/toyota/rav4-prime/",
+      "last_verified": "2026-07-18",
+      "max_cargo_cf": {
+        "value": 69.8,
+        "config": "Rear seats folded (33.5 behind rear seats vs 37.6 gas — battery-raised floor)",
+        "source": "https://www.edmunds.com/toyota/rav4-prime/2024/features-specs/"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5 (RAV4 line)",
+        "jd_power": "80/100 (2024 RAV4)",
+        "known_issues": "RAV4 line: 3rd of 26 compact SUVs, $429/yr. Prime-specific: 12V battery drain reports, occasional onboard-charger glitches; HV battery 10-yr/150k warranty.",
+        "source": "https://repairpal.com/reliability/toyota/rav4"
+      },
+      "camper_pros": [
+        "42-mi EV range runs silent electric climate ALL NIGHT (documented dry-camping threads)",
+        "1500W/120V cargo outlet (XSE Premium) powers fridge/cooktop off the battery",
+        "Flat ~71-in platform + full RAV4 camping ecosystem incl. Prime-specific kit",
+        "38 mpg / 94 MPGe with AWD + 8-in clearance",
+        "Toyota reliability, 10-yr/150k HV battery warranty"
+      ],
+      "camper_cons": [
+        "Rear cargo floor raised by battery (33.5 vs 37.6 cu ft behind seats)",
+        "~71–73-in sleeping without sliding fronts forward — tight for tall campers",
+        "Used prices stay very high (~$38–41k) and supply scarce",
+        "No DC fast charging; overnight AC use eats next-day EV range",
+        "2,500-lb tow rating"
+      ],
+      "sources": [
+        "https://www.edmunds.com/toyota/rav4-prime/2024/features-specs/",
+        "https://pressroom.toyota.com/plug-and-play-with-the-2024-rav4-prime/",
+        "https://repairpal.com/reliability/toyota/rav4",
+        "https://www.rav4world.com/threads/dry-camping-in-the-national-forest-sleeping-inside-r4p-with-ac-on-all-night-which-method-is-better.329261/"
+      ],
+      "notes": "2024 = last year badged 'Prime'. No US-LHD dashboard or cargo photo on Commons."
+    },
+    {
+      "id": "mitsubishi-outlander-phev-gn",
+      "make": "Mitsubishi",
+      "model": "Outlander PHEV",
+      "trim": "SEL",
+      "trim_rationale": "SEL is the camper trim: it adds the two 120V/1500W household outlets (cargo area + console) and CHAdeMO DC fast charging that ES/SE lack, plus leather and triple-zone climate. All trims share the 248-hp 2.4L PHEV system, 20-kWh battery, and standard S-AWC AWD. US 'Outlander Hybrid' = the PHEV; no conventional-hybrid Outlander is sold in the US.",
+      "class": "SUV",
+      "powertrain": "phev",
+      "generation_span": "2023–present (4th gen GN, US; shares platform with Nissan Rogue)",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 24000,
+        "high": 30000,
+        "assumption": "2024 SEL, good condition, typical miles; low ≈ private-party floor across trims (~$24.0k), high = SEL Fair Purchase Price ($30,000). Trim FPPs span $26.2k (ES) to $31.2k (Platinum Edition). Retrieved 2026-07.",
+        "source": "https://www.kbb.com/mitsubishi/outlander-phev/2024/"
+      },
+      "exterior_in": {
+        "length": 185.4,
+        "width": 73.3,
+        "height": 68.7
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": 72,
+        "method": "Vendor-derived (no official figure): Nishiowari Mitsubishi's E:Pop camper conversion fits a 72×43-in bed in the cargo area with 2nd/3rd rows folded; 2nd row folds nearly flat with a mild slope at the seatbacks, so ~6-ft sleeping needs front seats slid forward or a leveling platform.",
+        "source": "https://newatlas.com/automotive/mitsubishi-outlander-phev-e-pop-camper/"
+      },
+      "mpg": {
+        "city": 26,
+        "hwy": 26,
+        "mpge": 64,
+        "ev_range_mi": 38,
+        "note": "EPA publishes 26 mpg combined gas-only (not split city/hwy); 64 MPGe combined; 38-mi EV range. 248 hp combined, 20-kWh battery, 1,500-lb tow rating."
+      },
+      "safety": {
+        "suite": "Mitsubishi driver-assist bundle (unbranded; MI-PILOT Assist on upper trims)",
+        "features": [
+          "Forward Collision Mitigation w/ pedestrian detection (std)",
+          "Blind-Spot Warning w/ Rear Cross-Traffic Alert (std)",
+          "Lane Departure Warning (std)",
+          "Rear automatic braking (std)",
+          "Driver Attention Monitor (std)",
+          "Adaptive cruise + lane keeping (SE and up)",
+          "MI-PILOT Assist highway lane-centering (upper trims)"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Low",
+        "evidence": "Small but documented scene: owner camping threads on myoutlanderphev.com, a factory-dealer E:Pop pop-top camper sold in Japan, and press demo builds pairing it with Roofnest rooftop tents — but no US kit vendor supports it yet; builds are DIY or universal-platform.",
+        "note": "Camping draw is the powertrain: 20-kWh battery runs heat/AC engine-off overnight and feeds 1500W outlets."
+      },
+      "conversion_products": [
+        {
+          "name": "E:Pop pop-top camper (Nishiowari Mitsubishi — Japan-market factory-dealer conversion)",
+          "url": "https://newatlas.com/automotive/mitsubishi-outlander-phev-e-pop-camper/",
+          "type": "pop-top camper conversion, ~$44–47k incl. vehicle (JDM)"
+        },
+        {
+          "name": "Roofnest rooftop-tent pairing (press demo build)",
+          "url": "https://www.greencarreports.com/news/1133537_tested-2021-mitsubishi-outlander-phev-and-roofnest-are-go-light-getaway-gear",
+          "type": "rooftop tent on crossbars — no interior build needed"
+        },
+        {
+          "name": "Camp N Car Pioneer universal platform (built-to-order)",
+          "url": "https://campncar.com/products/pioneer-platform",
+          "type": "made-to-measure sleeping platform"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/2022_Mitsubishi_Outlander_PHEV_P_4WD_2.4_5LA-GN0W_%2820220904%29.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:2022_Mitsubishi_Outlander_PHEV_P_4WD_2.4_5LA-GN0W_(20220904).jpg",
+          "license": "see Commons file page",
+          "note": "JDM 4th-gen PHEV (RHD), same body as US"
+        },
+        "dashboard": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/2023_Mitsubishi_Outlander_interior.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:2023_Mitsubishi_Outlander_interior.jpg",
+          "license": "see Commons file page",
+          "note": "Gas Outlander, same dash"
+        },
+        "cargo": null
+      },
+      "sources": [
+        "https://www.edmunds.com/mitsubishi/outlander-phev/2024/features-specs/",
+        "https://www.kbb.com/mitsubishi/outlander-phev/2024/",
+        "https://www.prnewswire.com/news-releases/mitsubishi-motors-announces-trim-by-trim-pricing-for-all-new-2023-outlander-phev-301648201.html",
+        "https://www.mitsubishi-motors-pr.ca/wp-content/uploads/2023/01/2023-Outlander-PHEV-Specs-EN-_combined.pdf",
+        "https://repairpal.com/reliability/mitsubishi/outlander",
+        "https://newatlas.com/automotive/mitsubishi-outlander-phev-e-pop-camper/",
+        "https://enginepatrol.com/best-hybrid-suvs-for-camping/"
+      ],
+      "notes": "Width 73.3 in is the official body spec (1,862 mm per Mitsubishi Canada spec sheet); Edmunds/aggregators list 84.4 in including mirrors. Cargo: 12.8 cu ft behind the standard 3rd row, ~31 behind 2nd. CHAdeMO DC fast-charge port (SEL+) is a fading standard in the US. myoutlanderphev.com camping threads exist but block automated access — cargo figure is E:Pop-derived. No Commons cargo photo of the GN generation.",
+      "last_verified": "2026-07-18",
+      "model_url": "https://www.mitsubishicars.com/cars-and-suvs/outlander-phev",
+      "max_cargo_cf": {
+        "value": 64.3,
+        "config": "Behind front row, 2nd+3rd rows folded (12.8 cu ft behind std 3rd row)",
+        "source": "https://www.edmunds.com/mitsubishi/outlander-phev/2024/features-specs/"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5 (Outlander line — PHEV not scored separately)",
+        "jd_power": "Not published for PHEV (2024)",
+        "known_issues": "Outlander line ranks 8th of 26 compact SUVs, $519/yr avg, 11% severe-repair probability. 4th-gen PHEV is early in lifecycle — thin long-term data; 10-yr/100k powertrain AND main-battery warranty is the backstop.",
+        "source": "https://repairpal.com/reliability/mitsubishi/outlander"
+      },
+      "camper_pros": [
+        "38-mi EV range + 20-kWh battery: silent engine-off heat/AC overnight",
+        "Two 120V/1500W household outlets (SEL) run camp gear off the pack",
+        "Standard S-AWC AWD + 8.0-in clearance",
+        "10-yr/100k powertrain and battery warranty",
+        "PHEV depreciation: loaded SELs land in the mid-$20s used"
+      ],
+      "camper_cons": [
+        "64.3 cu ft max — smallest cargo hold of the 3-row vehicles here",
+        "26 mpg gas-only once the battery depletes — mediocre for long trips",
+        "No US conversion-kit ecosystem — DIY or universal gear only",
+        "CHAdeMO fast-charge standard is disappearing in the US",
+        "Thin dealer network; 4th gen too new for a reliability track record"
+      ]
+    }
+  ]
+}

@@ -2009,6 +2009,110 @@ const DATA = /*DATA-START*/{
     "No DC fast charging; overnight AC use eats next-day EV range",
     "2,500-lb tow rating"
    ]
+  },
+  {
+   "id": "mitsubishi-outlander-phev-gn",
+   "make": "Mitsubishi",
+   "model": "Outlander PHEV",
+   "trim": "SEL",
+   "class": "SUV",
+   "powertrain": "phev",
+   "generation_span": "2023–present (4th gen GN, US; shares platform with Nissan Rogue)",
+   "listed_year": 2024,
+   "kbb_value_usd": {
+    "low": 24000,
+    "high": 30000,
+    "assumption": "2024 SEL, good condition, typical miles; low ≈ private-party floor across trims (~$24.0k), high = SEL Fair Purchase Price ($30,000). Trim FPPs span $26.2k (ES) to $31.2k (Platinum Edition). Retrieved 2026-07.",
+    "source": "https://www.kbb.com/mitsubishi/outlander-phev/2024/"
+   },
+   "exterior_in": {
+    "length": 185.4,
+    "width": 73.3,
+    "height": 68.7
+   },
+   "cargo_length_behind_front_seats_in": {
+    "value": 72,
+    "method": "Vendor-derived (no official figure): Nishiowari Mitsubishi's E:Pop camper conversion fits a 72×43-in bed in the cargo area with 2nd/3rd rows folded; 2nd row folds nearly flat with a mild slope at the seatbacks, so ~6-ft sleeping needs front seats slid forward or a leveling platform.",
+    "source": "https://newatlas.com/automotive/mitsubishi-outlander-phev-e-pop-camper/"
+   },
+   "mpg": {
+    "city": 26,
+    "hwy": 26,
+    "mpge": 64,
+    "ev_range_mi": 38,
+    "note": "EPA publishes 26 mpg combined gas-only (not split city/hwy); 64 MPGe combined; 38-mi EV range. 248 hp combined, 20-kWh battery, 1,500-lb tow rating."
+   },
+   "safety": {
+    "suite": "Mitsubishi driver-assist bundle (unbranded; MI-PILOT Assist on upper trims)",
+    "features": [
+     "Forward Collision Mitigation w/ pedestrian detection (std)",
+     "Blind-Spot Warning w/ Rear Cross-Traffic Alert (std)",
+     "Lane Departure Warning (std)",
+     "Rear automatic braking (std)",
+     "Driver Attention Monitor (std)",
+     "Adaptive cruise + lane keeping (SE and up)",
+     "MI-PILOT Assist highway lane-centering (upper trims)"
+    ]
+   },
+   "camper_popularity": {
+    "rating": "Low",
+    "evidence": "Small but documented scene: owner camping threads on myoutlanderphev.com, a factory-dealer E:Pop pop-top camper sold in Japan, and press demo builds pairing it with Roofnest rooftop tents — but no US kit vendor supports it yet; builds are DIY or universal-platform.",
+    "note": "Camping draw is the powertrain: 20-kWh battery runs heat/AC engine-off overnight and feeds 1500W outlets."
+   },
+   "conversion_products": [
+    {
+     "name": "E:Pop pop-top camper (Nishiowari Mitsubishi — Japan-market factory-dealer conversion)",
+     "url": "https://newatlas.com/automotive/mitsubishi-outlander-phev-e-pop-camper/"
+    },
+    {
+     "name": "Roofnest rooftop-tent pairing (press demo build)",
+     "url": "https://www.greencarreports.com/news/1133537_tested-2021-mitsubishi-outlander-phev-and-roofnest-are-go-light-getaway-gear"
+    },
+    {
+     "name": "Camp N Car Pioneer universal platform (built-to-order)",
+     "url": "https://campncar.com/products/pioneer-platform"
+    }
+   ],
+   "photos": {
+    "exterior": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/2022_Mitsubishi_Outlander_PHEV_P_4WD_2.4_5LA-GN0W_%2820220904%29.jpg",
+     "note": "JDM 4th-gen PHEV (RHD), same body as US"
+    },
+    "dashboard": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/2023_Mitsubishi_Outlander_interior.jpg",
+     "note": "Gas Outlander, same dash"
+    },
+    "cargo": null
+   },
+   "trim_rationale": "SEL is the camper trim: it adds the two 120V/1500W household outlets (cargo area + console) and CHAdeMO DC fast charging that ES/SE lack, plus leather and triple-zone climate. All trims share the 248-hp 2.4L PHEV system, 20-kWh battery, and standard S-AWC AWD. US 'Outlander Hybrid' = the PHEV; no conventional-hybrid Outlander is sold in the US.",
+   "model_url": "https://www.mitsubishicars.com/cars-and-suvs/outlander-phev",
+   "last_verified": "2026-07-18",
+   "max_cargo_cf": {
+    "value": 64.3,
+    "config": "Behind front row, 2nd+3rd rows folded (12.8 cu ft behind std 3rd row)",
+    "source": "https://www.edmunds.com/mitsubishi/outlander-phev/2024/features-specs/"
+   },
+   "reliability": {
+    "score": 4.0,
+    "scale": "RepairPal /5 (Outlander line — PHEV not scored separately)",
+    "jd_power": "Not published for PHEV (2024)",
+    "known_issues": "Outlander line ranks 8th of 26 compact SUVs, $519/yr avg, 11% severe-repair probability. 4th-gen PHEV is early in lifecycle — thin long-term data; 10-yr/100k powertrain AND main-battery warranty is the backstop.",
+    "source": "https://repairpal.com/reliability/mitsubishi/outlander"
+   },
+   "camper_pros": [
+    "38-mi EV range + 20-kWh battery: silent engine-off heat/AC overnight",
+    "Two 120V/1500W household outlets (SEL) run camp gear off the pack",
+    "Standard S-AWC AWD + 8.0-in clearance",
+    "10-yr/100k powertrain and battery warranty",
+    "PHEV depreciation: loaded SELs land in the mid-$20s used"
+   ],
+   "camper_cons": [
+    "64.3 cu ft max — smallest cargo hold of the 3-row vehicles here",
+    "26 mpg gas-only once the battery depletes — mediocre for long trips",
+    "No US conversion-kit ecosystem — DIY or universal gear only",
+    "CHAdeMO fast-charge standard is disappearing in the US",
+    "Thin dealer network; 4th gen too new for a reliability track record"
+   ]
   }
  ]
 }/*DATA-END*/;
