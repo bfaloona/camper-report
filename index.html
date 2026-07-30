@@ -139,7 +139,7 @@
 <div class="wrap">
   <header>
     <h1>Camper Conversion Vehicle Comparison</h1>
-    <div class="sub">Passenger cars &amp; vans as camper-conversion platforms · One camping-favored trim per model · Listed year = latest available, capped at 2024 · Updated <span id="updated"></span></div>
+    <div class="sub">Passenger cars &amp; vans as camper-conversion platforms · One camping-favored trim per model · Listed year = latest available, generally capped at 2024 · Updated <span id="updated"></span></div>
   </header>
 
   <div class="controls">
@@ -174,7 +174,7 @@
 
 <script>
 const DATA = /*DATA-START*/{
- "updated": "2026-07-18",
+ "updated": "2026-07-29",
  "vehicles": [
   {
    "id": "toyota-rav4-hybrid-xa50",
@@ -2112,6 +2112,202 @@ const DATA = /*DATA-START*/{
     "No US conversion-kit ecosystem — DIY or universal gear only",
     "CHAdeMO fast-charge standard is disappearing in the US",
     "Thin dealer network; 4th gen too new for a reliability track record"
+   ]
+  },
+  {
+   "id": "subaru-forester-hybrid-sl",
+   "make": "Subaru",
+   "model": "Forester Hybrid",
+   "trim": "Sport",
+   "class": "SUV",
+   "powertrain": "hybrid",
+   "generation_span": "2025–present (6th gen, chassis code SL, US)",
+   "listed_year": 2025,
+   "kbb_value_usd": {
+    "low": 28410,
+    "high": 32200,
+    "assumption": "Used 2025 Sport trim: low = trade-in value (fair condition), high = Fair Purchase Price. Figures come from KBB search-result snippets — direct kbb.com fetch returned HTTP 403 (blocked), so this could not be independently re-verified page-by-page. One snippet was explicitly timestamped 'valid through 4/6/2026' for ZIP 93906, roughly 3.5 months stale relative to this record's last_verified date — treat as directional/regional, not exact. For context, other trims: Premium Fair Purchase Price ~$31,430; Limited trade-in $27,830–$30,130 / private party $31,170–$33,770; Touring trade-in $31,960–$34,660 / private party $33,730–$36,530.",
+    "source": "https://www.kbb.com/subaru/forester-hybrid/2025/sport-suv-4d/"
+   },
+   "exterior_in": {
+    "length": 183.3,
+    "width": 72.0,
+    "height": 68.1
+   },
+   "cargo_length_behind_front_seats_in": {
+    "value": 70.7,
+    "method": "Official Subaru spec: 'Max. load length at floor, rear seatbacks down' = 70.7 in (tailgate to front seatbacks, flat folded load floor). No independent camper-community measurement exists yet for this brand-new body. For context/proxy: Compass Camper's conversion-kit page lists a 74-in sleeping platform specifically for the '2025 Model' Forester (vs. 72.5 in for 2019–2024 SK-generation), implying its platform bridges the footwell gap behind the front seats the same way SK builds do. Assumes the Hybrid shares an identical cargo floor with the gas Forester on the same SL body — Motor1's first-drive review states 'the hybrid system doesn't impact interior space, though you do have to give up the spare tire,' but this has not been independently confirmed floor-length-specific for the Hybrid.",
+    "source": "https://s3.amazonaws.com/subarumedia.iconicweb.com/mediasite/attachments/25MY_Forester_Hybrid_Specs_-_FINAL.pdf"
+   },
+   "mpg": {
+    "city": 35,
+    "hwy": 34,
+    "note": "35 mpg combined (EPA-estimated); ~581-mi range on a 16.6-gal tank; Subaru claims up to 40% better city fuel economy than the non-hybrid Forester."
+   },
+   "safety": {
+    "suite": "Subaru EyeSight Driver Assist Technology, standard on all Forester Hybrid trims",
+    "features": [
+     "EyeSight pre-collision braking (standard, all trims)",
+     "Advanced Adaptive Cruise Control with Lane Centering (standard, all trims)",
+     "Steering-Responsive LED headlights (standard, all trims)",
+     "Dual-mode X-MODE with Hill Descent Control (standard, all Hybrid trims)",
+     "Reverse Automatic Braking (standard from Sport up; optional/available on lower trims)",
+     "Blind-Spot Detection with Lane Change Assist, Rear Cross-Traffic Alert, Emergency Stop Assist (available)",
+     "2025 IIHS TOP SAFETY PICK+ (Base/Premium/Sport/Limited/Touring — excludes Wilderness, which isn't offered as a Hybrid anyway)"
+    ]
+   },
+   "camper_popularity": {
+    "rating": "Low",
+    "evidence": "Too new for its own build community: first US model year was 2025, so there are no dedicated Forester Hybrid (SL) build threads, YouTube conversions, or vendor kits calling out the hybrid specifically as of mid-2026. The Wayward Home's 2026-updated Forester camper roundup still centers on 2008–2022 (SJ/SK) builds and generic kits, not the new generation. The Forester nameplate overall has one of the strongest SUV camping cultures around (subaruforester.org, Luno, Compass Camper), and that culture is likely to migrate to the SL/hybrid over time, but it hasn't yet.",
+    "note": "One vendor (Compass Camper) already lists a 2025+ option for its sleeping-platform kit, which is unusually fast vendor support for a just-launched generation."
+   },
+   "conversion_products": [
+    {
+     "name": "Compass Camper Subaru Forester Sleeping Platform & Camper Conversion Kit (2025+ option)",
+     "url": "https://compasscamper.com/products/subaru-forester-camper-conversion-kit"
+    },
+    {
+     "name": "ModernSpare Complete Spare Tire Kit for 2025–2026 Subaru Forester Hybrid",
+     "url": "https://modernspare.com/product/2026-subaru-forester-hybrid-spare-tire-kit-options/"
+    }
+   ],
+   "photos": {
+    "exterior": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/2025_Subaru_Forester_Hybrid_Touring_in_Brilliant_Bronze_Metallic%2C_front_right.jpg",
+     "note": "Touring trim shown; body identical across Hybrid trims"
+    },
+    "dashboard": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/8/82/2025_Subaru_Forester_Sport_%28United_States%29_interior.jpg",
+     "note": "Gas Sport interior shown (pre-Hybrid); dash believed shared"
+    },
+    "cargo": null
+   },
+   "trim_rationale": "Sport is the closest thing to a rugged pick in the Hybrid lineup: standard water-resistant StarTex ‘animal-free’ upholstery (vs. Limited/Touring leather) shrugs off wet gear and mud, plus standard Reverse Automatic Braking for backing into tight campsites. Ground clearance (8.7 in), standard Symmetrical AWD, dual-mode X-MODE w/ hill descent, and 69.1 cu ft max cargo are identical across all four Hybrid trims (Premium/Sport/Limited/Touring) — Sport’s 19-in wheels actually carry a shorter-sidewall tire (235/50R19) than Premium/Limited’s 18s (225/55R18), so the bigger wheel is cosmetic, not an off-road upgrade. No Wilderness-Hybrid trim exists yet for this generation; Subaru’s first Forester Wilderness Hybrid is a separate MY2027 model (announced July 2026, on sale late 2026), not part of this lineup.",
+   "model_url": "https://www.subaru.com/vehicles/forester/hybrid/2025.html",
+   "last_verified": "2026-07-29",
+   "max_cargo_cf": {
+    "value": 69.1,
+    "config": "Behind front row, rear seats folded; official figure for all four Forester Hybrid trims (Premium/Sport/Limited/Touring)",
+    "source": "https://s3.amazonaws.com/subarumedia.iconicweb.com/mediasite/attachments/25MY_Forester_Hybrid_Specs_-_FINAL.pdf"
+   },
+   "reliability": {
+    "score": 3.5,
+    "scale": "RepairPal /5 (whole Forester nameplate — Hybrid not scored separately, and too new for its own repair-cost history)",
+    "jd_power": "Reported as 81/100 predicted reliability ('Great') for MY2025 Forester Hybrid via search-aggregated USNews/JD Power citation. Could not independently verify by direct fetch — jdpower.com returned HTTP 403 and cars.usnews.com timed out on repeated attempts — so treat this figure as lower-confidence than the RepairPal number above.",
+    "known_issues": "Too new for an established repair-cost or failure-pattern record. RepairPal's 3.5/5 (21st of 26 compact SUVs, ~$632/yr average) covers the Forester line broadly, not the Hybrid specifically. One anecdotal early-production QC report on subaruforester.org: a 2025 Touring Hybrid owner received the car without its tire-sealant bottle (part of the no-spare tire-repair kit) — an isolated dealer/factory miss, not a pattern.",
+    "source": "https://repairpal.com/reliability/subaru/forester"
+   },
+   "camper_pros": [
+    "Standard AWD + 8.7-in clearance and dual-mode X-MODE w/ hill descent on every trim, including the cheapest Premium",
+    "~35 mpg combined, up to 581-mi range on 16.6 gal — big fuel savings and fewer fuel stops on long overland trips",
+    "69.1 cu ft max cargo behind a tall, wide hatch (49.2-in opening, 32.2-in gate height) for easy gear loading",
+    "2025 IIHS TOP SAFETY PICK+ with standard EyeSight suite across the board",
+    "A vendor (Compass Camper) already sells a 2025+-specific sleeping platform kit — unusually fast support for a first-year model"
+   ],
+   "camper_cons": [
+    "No spare tire — sealant-and-compressor kit only, since the battery occupies the spare well; remote-travel buyers likely need an aftermarket spare (~$400–510)",
+    "Low 1,500-lb (Class 1) tow rating rules out most small camping trailers and teardrops",
+    "Too new for real reliability history; RepairPal/J.D. Power figures are line-wide or unverified, not hybrid-specific",
+    "No Wilderness-Hybrid trim yet — today's lineup (Premium/Sport/Limited/Touring) lacks all-terrain tires or the extra clearance the true off-road trim gets (that arrives as a separate MY2027 model)",
+    "Essentially no build community yet — no hybrid-specific sleeping-platform guides, forum threads, or YouTube conversions as of mid-2026, so early adopters are mostly DIY-ing it"
+   ]
+  },
+  {
+   "id": "hyundai-santa-fe-hybrid-mx5",
+   "make": "Hyundai",
+   "model": "Santa Fe Hybrid",
+   "trim": "Limited (HTRAC AWD)",
+   "class": "SUV",
+   "powertrain": "hybrid",
+   "generation_span": "2024–present (5th gen, chassis code MX5)",
+   "listed_year": 2025,
+   "kbb_value_usd": {
+    "low": 30800,
+    "high": 35500,
+    "assumption": "2025 Hybrid Limited, good condition, typical miles; drivetrain (FWD vs AWD) not distinguished in the retrieved data. Low ≈ KBB trade-in-range floor (~$30,820), high ≈ private-party ceiling (~$35,530), per KBB Fair Purchase Price figures surfaced via search (ZIP 20146, retrieved 2026-07) — KBB's Hybrid Limited page itself returned HTTP 403 on direct fetch, consistent with prior research on this project. Used-market data for a 1-2-year-old redesign generation is inherently thin; treat as directional, not precise. Listed at MY2025 per project request even though MY2024 Hybrid Limited already existed on this same MX5 generation (Wikimedia Commons has an April 2024-dated Hybrid Limited photo) with materially identical specs.",
+    "source": "https://www.kbb.com/hyundai/santa-fe-hybrid/2025/limited/"
+   },
+   "exterior_in": {
+    "length": 190.2,
+    "width": 74.8,
+    "height": 67.7
+   },
+   "cargo_length_behind_front_seats_in": {
+    "value": 72,
+    "method": "Reviewer-tested, not officially spec'd, and NOT Hybrid- or Limited-specific: GearJunkie's 2024 XRT test found a 6-ft-tall person could lay dead flat with the tailgate closed without their head hanging over the folded 2nd-row seats; the 6'3\" reviewer also fit lengthwise, with plenty of width for two people side-by-side. The load floor is flat but angled ~6 degrees toward the tailgate. Exterior dimensions and max cargo volume are confirmed identical across all Santa Fe MX5 trims/powertrains, including Hybrid, so this figure should carry over to Limited Hybrid, though XRT's unique tire/suspension package is an unaccounted-for variable. No Hybrid-specific or Limited-specific test was found.",
+    "source": "https://gearjunkie.com/motors/2024-hyundai-santa-fe-xrt-review"
+   },
+   "mpg": {
+    "city": 35,
+    "hwy": 34,
+    "note": "Limited HTRAC AWD Hybrid (1.6T + electric motor): EPA 35 city / 34 hwy / 34 combined. FWD Hybrid rates higher: 36/35/36. AWD is optional (not standard) on Limited; camping/trail use favors AWD despite the mpg penalty. XRT is gas-only, not available as a Hybrid for MY2025."
+   },
+   "safety": {
+    "suite": "Hyundai SmartSense (standard on all Santa Fe Hybrid trims: SEL, Limited, Calligraphy)",
+    "features": [
+     "Forward Collision-Avoidance Assist w/ pedestrian & cyclist detection",
+     "Blind-Spot Collision Warning (Blind-Spot Collision-Avoidance Assist standard on Calligraphy)",
+     "Lane Keeping Assist + Lane Following Assist (standard, all trims)",
+     "Rear Cross-Traffic Collision-Avoidance Assist",
+     "Highway Driving Assist standard on Limited (Highway Driving Assist II exclusive to Calligraphy)",
+     "Blind-Spot View Monitor and Surround View Monitor standard on Limited",
+     "Safe Exit Assist",
+     "2025 IIHS Top Safety Pick (Top Safety Pick+ for units built after Nov 2024); NHTSA 4-star overall"
+    ]
+   },
+   "camper_popularity": {
+    "rating": "Low",
+    "evidence": "A santafeforums.com thread ('Camping with 2024+ Santa Fe Hybrid') shows genuine hybrid-specific owner discussion — rooftop-tent use, 12V/battery power management overnight, towing a small trailer within the 2,000-lb limit. Alu-Cab Global published an expedition story pairing a Santa Fe Hybrid with their LT-50 Weekender rooftop tent, but that vehicle is a different-market/RHD spec, so it's suggestive rather than confirming US-market compatibility. No dedicated MX5-generation or Hybrid-specific build community or kit vendor was found; general 2024+ Santa Fe camping content is generation-wide, not hybrid-specific, and older kits like RiverLeaf (2018–2023 fitment only) don't apply to this generation."
+   },
+   "conversion_products": [
+    {
+     "name": "AirBedz Rear Seat Air Mattress w/ Portable 12V Pump (2025 Santa Fe fitment listed)",
+     "url": "https://www.etrailer.com/tbairmatt-2025_Hyundai_Santa+Fe.htm"
+    },
+    {
+     "name": "Vanpackers Sleep'IN Kit SUV",
+     "url": "https://vanpackers.com/en-us/products/sleepin-kit-suv"
+    }
+   ],
+   "photos": {
+    "exterior": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/24_Hyundai_Santa_Fe_Hybrid_Limited.jpg",
+     "note": "MY2024 Hybrid Limited, exact trim match"
+    },
+    "dashboard": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/MIAS_2024_-_2024_Hyundai_Santa_Fe_2.5_Calligraphy_AWD_%28interior%29.jpg",
+     "note": "Gas Calligraphy shown; dash shared across trims"
+    },
+    "cargo": null
+   },
+   "trim_rationale": "XRT — the gas lineup's off-road trim this dataset normally favors — is confirmed NOT offered as a Hybrid; only SEL, Limited, and Calligraphy get the hybrid powertrain (verified across Edmunds, AutoNation trim-comparison pages, and KBB's own trim listings). Of those three, Limited is the best camping trim: it keeps the 60/40 fold-flat bench 2nd row (shared with SEL), giving a continuous flat load floor, whereas Calligraphy replaces that bench with two captain's chairs that leave a center gap when folded — a real drawback for a sleeping platform. Limited also adds Blind-Spot View Monitor, Surround View Monitor, Highway Driving Assist, and (per KBB spec listings) an interior 120V AC outlet that SEL may lack. All hybrid trims share the 1.6L turbo + electric motor (231 hp / 271 lb-ft combined), 6-speed automatic, FWD-standard/HTRAC-AWD-optional layout, 79.6 cu ft max cargo, 7.0-in ground clearance, and 2,000-lb tow rating — none of these vary by trim, unlike the gas lineup where XRT gets unique AWD-standard/tow/clearance upgrades. AWD must be specifically optioned on Limited (it is not standard the way HTRAC is on gas XRT).",
+   "model_url": "https://www.hyundaiusa.com/us/en/vehicles/2025-santa-fe-hybrid",
+   "last_verified": "2026-07-29",
+   "max_cargo_cf": {
+    "value": 79.6,
+    "config": "Behind front row, 2nd+3rd rows folded",
+    "source": "https://www.autoweb.com/2025-hyundai-santa-fe-hybrid-road-test-and-review"
+   },
+   "reliability": {
+    "score": 4.0,
+    "scale": "RepairPal /5 — scores the Santa Fe nameplate/line broadly (2nd of 26 midsize SUVs, ~$515/yr), not Hybrid-specific or MX5-generation-specific",
+    "jd_power": "82/100 Quality & Reliability appears in search results attached to the non-hybrid 2025 Santa Fe JD Power page; the Hybrid-specific page returned HTTP 403 on direct fetch, so this score should be treated as a Santa Fe-line figure, not confirmed Hybrid-specific",
+    "known_issues": "NHTSA recall of 143,472 MY2024-25 units explicitly covering both 'Santa Fe and Santa Fe Hybrid' for improperly installed rearview-camera wiring harnesses (excess tension cracking solder joints over time); VINs searchable on NHTSA.gov since Nov 22, 2025, owner notices mailed starting Jan 15, 2026; free dealer harness replacement. No widely-reported Hybrid-specific mechanical issues (battery, motor, etc.) found — the hybrid powertrain and MX5 generation are too new for long-term reliability data.",
+    "source": "https://repairpal.com/reliability/hyundai/santa-fe"
+   },
+   "camper_pros": [
+    "Best fuel economy in the Santa Fe lineup: EPA 35/34/34 mpg AWD (36/35/36 FWD) — long range for remote/off-grid trips",
+    "79.6 cu ft max cargo, identical to the gas Santa Fe — no hybrid-battery cargo penalty found",
+    "Limited's 60/40 fold-flat bench 2nd row (vs. Calligraphy's captain's chairs) gives a continuous flat load floor for sleeping",
+    "Limited adds Blind-Spot View Monitor + Surround View Monitor, Highway Driving Assist, and a KBB-listed interior 120V AC outlet",
+    "Strong safety scores: 2025 IIHS Top Safety Pick(+), NHTSA 4-star, SmartSense standard"
+   ],
+   "camper_cons": [
+    "No hybrid XRT: 7.0-in ground clearance only (vs. 8.3 in on gas XRT), no standard AWD, all-terrain tires, or Terrain Mode on any hybrid trim",
+    "Tow rating capped at 2,000 lbs across every hybrid trim (vs. up to 4,500 lbs on gas XRT) — rules out most small trailers",
+    "HTRAC AWD is optional, not standard, on Limited — FWD is the default configuration",
+    "No MX5-generation or Hybrid-specific conversion kit vendor found; RiverLeaf covers only 2018–2023 Santa Fe, and Santa Fe isn't on Vanpackers' compatibility table",
+    "MY2024-25 rearview-camera recall (143,472 units, confirmed to include Hybrid) — check for open recall on any used unit"
    ]
   }
  ]
