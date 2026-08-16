@@ -68,20 +68,37 @@ export async function verifiedEmail(request, env, deps = {}) {
     header = b64urlToJson(parts[0]);
     payload = b64urlToJson(parts[1]);
   } catch (e) {
+    console.error('auth: malformed_token');
     return null;
   }
 
-  if (header.alg !== 'RS256') return null;
-  if (!env.CF_ACCESS_AUD) return null;
+  if (header.alg !== 'RS256') {
+    console.error('auth: alg_not_rs256');
+    return null;
+  }
+  if (!env.CF_ACCESS_AUD) {
+    console.error('auth: aud_mismatch');
+    return null;
+  }
   const aud = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
-  if (!aud.includes(env.CF_ACCESS_AUD)) return null;
-  if (typeof payload.exp !== 'number' || payload.exp <= nowSeconds) return null;
-  if (typeof payload.email !== 'string') return null;
+  if (!aud.includes(env.CF_ACCESS_AUD)) {
+    console.error('auth: aud_mismatch');
+    return null;
+  }
+  if (typeof payload.exp !== 'number' || payload.exp <= nowSeconds) {
+    console.error('auth: expired');
+    return null;
+  }
+  if (typeof payload.email !== 'string') {
+    console.error('auth: malformed_token');
+    return null;
+  }
 
   let keys;
   try {
     keys = await jwks(env.CF_ACCESS_TEAM_DOMAIN, fetchImpl);
   } catch (e) {
+    console.error('auth: jwks_fetch_failed');
     return null;
   }
 
@@ -90,16 +107,19 @@ export async function verifiedEmail(request, env, deps = {}) {
   try {
     signature = b64urlToBytes(parts[2]);
   } catch (e) {
+    console.error('auth: malformed_token');
     return null;
   }
 
   const candidates = keys.filter(k => !header.kid || !k.kid || k.kid === header.kid);
+  let attempted = false;
   for (const k of candidates) {
     const { use, key_ops, ...jwkKey } = k;
     try {
       const key = await crypto.subtle.importKey(
         'jwk', { ...jwkKey, alg: 'RS256', ext: true },
         { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']);
+      attempted = true;
       if (await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, signature, data)) {
         return payload.email.trim().toLowerCase();
       }
@@ -107,6 +127,7 @@ export async function verifiedEmail(request, env, deps = {}) {
       // Unusable key — try the next one.
     }
   }
+  console.error(attempted ? 'auth: bad_signature' : 'auth: no_valid_key');
   return null;
 }
 

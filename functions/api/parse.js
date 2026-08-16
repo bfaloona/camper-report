@@ -181,6 +181,7 @@ export async function onRequestPost({ request, env }) {
       messages: [{ role: 'user', content: text }],
     });
   } catch (e) {
+    console.error('parse: upstream failure', e?.name, e?.status);
     return json({ error: 'Could not reach the parsing service. Add criteria by hand and try again later.' }, 502);
   }
 

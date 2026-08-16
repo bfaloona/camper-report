@@ -152,6 +152,20 @@ test('requireUser returns 401 when no token is present', async () => {
   assert.equal(response.status, 401);
 });
 
+test('the 401 body stays generic regardless of which check failed (diagnosis goes to logs, not the caller)', async () => {
+  const cases = [
+    req({}), // no token
+    req({ 'cf-access-jwt-assertion': 'garbage' }), // malformed
+    req({ 'cf-access-jwt-assertion': await signed({ ...valid(), aud: ['other-app'] }) }), // aud mismatch
+    req({ 'cf-access-jwt-assertion': await signed({ ...valid(), exp: Math.floor(Date.now() / 1000) - 1 }) }), // expired
+  ];
+  for (const r of cases) {
+    const { response } = await requireUser(r, ENV, jwksDeps());
+    assert.equal(response.status, 401);
+    assert.deepEqual(await response.json(), { error: 'Not authenticated' });
+  }
+});
+
 test('requireUser returns 500 when Access verification is unconfigured', async () => {
   const { response } = await requireUser(req({}), {}, jwksDeps());
   assert.equal(response.status, 500);
