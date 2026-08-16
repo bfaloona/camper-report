@@ -1,0 +1,141 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { onRequestGet, onRequestPut } from './prefs.js';
+
+const KEY = 'prefs:v1';
+const DEFAULT_PREFS = {
+  version: 1,
+  updated_at: null,
+  updated_by: null,
+  pins: ['mazda5-gen3', 'chevrolet-bolt-ev-gen1'],
+  criteria: [],
+};
+
+// A tiny fake KV backed by a Map. `get`/`put` can be overwritten per-test to
+// throw, so the error-handling paths can be exercised without wrangler or a
+// real KV outage.
+function makeKv(initialText) {
+  const store = new Map();
+  if (initialText !== undefined) store.set(KEY, initialText);
+  return {
+    store,
+    get: async key => (store.has(key) ? store.get(key) : null),
+    put: async (key, value) => { store.set(key, value); },
+  };
+}
+
+// Loopback + DEV_BYPASS_EMAIL, no CF_ACCESS_AUD: this exercises the real
+// requireUser dev-bypass path (see functions/_lib/auth.js) rather than
+// stubbing the guard out — a test that stubs the guard proves nothing about
+// whether this endpoint is actually behind it.
+function makeEnv(kv, overrides = {}) {
+  return { PREFS: kv, DEV_BYPASS_EMAIL: 'bfaloona@gmail.com', ...overrides };
+}
+
+const getReq = () => new Request('http://localhost/api/prefs');
+const putReq = body => new Request('http://localhost/api/prefs', {
+  method: 'PUT',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify(body),
+});
+
+async function currentEtag(env) {
+  const res = await onRequestGet({ request: getReq(), env });
+  return (await res.json()).etag;
+}
+
+test('onRequestGet returns a JSON 5xx, not a throw, when the KV read fails', async () => {
+  const kv = makeKv();
+  kv.get = async () => { throw new Error('kv unavailable'); };
+  const env = makeEnv(kv);
+  const res = await onRequestGet({ request: getReq(), env });
+  assert.ok(res.status >= 500 && res.status < 600, `expected 5xx, got ${res.status}`);
+  const body = await res.json();
+  assert.equal(typeof body.error, 'string');
+});
+
+test('onRequestPut returns a JSON 5xx, not a throw, when the KV write fails', async () => {
+  const kv = makeKv();
+  const env = makeEnv(kv);
+  const etag = await currentEtag(env);
+  kv.put = async () => { throw new Error('kv unavailable'); };
+  const res = await onRequestPut({
+    request: putReq({ etag, prefs: { pins: [], criteria: [] } }),
+    env,
+  });
+  assert.ok(res.status >= 500 && res.status < 600, `expected 5xx, got ${res.status}`);
+  const body = await res.json();
+  assert.equal(typeof body.error, 'string');
+});
+
+test('onRequestGet falls back to defaults and says so when the stored value is corrupted', async () => {
+  const kv = makeKv('not valid json{{{');
+  const env = makeEnv(kv);
+  const res = await onRequestGet({ request: getReq(), env });
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  assert.deepEqual(body.prefs, DEFAULT_PREFS);
+  assert.match(body.warning, /corrupted/i);
+});
+
+test('PUT drops unexpected top-level keys before writing to KV', async () => {
+  const kv = makeKv();
+  const putCalls = [];
+  const rawPut = kv.put.bind(kv);
+  kv.put = async (key, value) => { putCalls.push(value); return rawPut(key, value); };
+  const env = makeEnv(kv);
+  const etag = await currentEtag(env);
+
+  const res = await onRequestPut({
+    request: putReq({
+      etag,
+      junk: 'x',
+      prefs: { pins: ['mazda5-gen3'], criteria: [], alsoJunk: 'y' },
+    }),
+    env,
+  });
+
+  assert.equal(res.status, 200);
+  assert.equal(putCalls.length, 1);
+  const stored = JSON.parse(putCalls[0]);
+  assert.deepEqual(Object.keys(stored).sort(), ['criteria', 'pins', 'updated_at', 'updated_by', 'version']);
+  assert.deepEqual(stored.pins, ['mazda5-gen3']);
+  assert.deepEqual(stored.criteria, []);
+});
+
+test('PUT rejects a prefs blob over the 100 KB limit with 400 and never calls KV.put', async () => {
+  const kv = makeKv();
+  let putCalled = false;
+  kv.put = async () => { putCalled = true; };
+  const env = makeEnv(kv);
+  const etag = await currentEtag(env);
+
+  const oversizedCriteria = Array(600).fill('x'.repeat(200)); // ~120 KB serialized
+  const res = await onRequestPut({
+    request: putReq({ etag, prefs: { pins: [], criteria: oversizedCriteria } }),
+    env,
+  });
+
+  assert.equal(res.status, 400);
+  assert.equal(putCalled, false);
+});
+
+test('PUT ignores a caller-supplied updated_by and stores the authenticated email instead', async () => {
+  const kv = makeKv();
+  const env = makeEnv(kv);
+  const etag = await currentEtag(env);
+
+  const res = await onRequestPut({
+    request: putReq({
+      etag,
+      prefs: { pins: [], criteria: [], updated_by: 'attacker@example.com' },
+    }),
+    env,
+  });
+
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  assert.equal(body.prefs.updated_by, 'bfaloona@gmail.com');
+  const stored = JSON.parse(kv.store.get(KEY));
+  assert.equal(stored.updated_by, 'bfaloona@gmail.com');
+});
