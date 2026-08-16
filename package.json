@@ -1,0 +1,12 @@
+{
+  "name": "camper-report",
+  "private": true,
+  "type": "module",
+  "description": "Dependencies for the Cloudflare Pages Functions only. The static report has none.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.70.1"
+  },
+  "scripts": {
+    "test": "node --test scripts/pins.test.mjs shortlist/scoring.test.mjs functions/_lib/auth.test.mjs functions/api/parse.test.mjs"
+  }
+}
