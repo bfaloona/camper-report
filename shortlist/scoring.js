@@ -103,15 +103,10 @@ export function rankVehicles(vehicles, criteria, pins) {
   const list = Array.isArray(criteria) ? criteria : [];
   const gates = list.filter(isGate);
   const scorers = list.filter(isScoring);
-  const ranges = rangesFor(vehicles, scorers);
 
-  // The reachable range of `raw`, so the 0..100 mapping puts the worst possible
-  // vehicle at 0 and the best at 100 whatever mix of tiers is in play.
-  const posWeight = scorers.reduce((s, c) => s + (c.tier === 'dislike' ? 0 : weightOf(c)), 0);
-  const negWeight = scorers.reduce((s, c) => s + (c.tier === 'dislike' ? weightOf(c) : 0), 0);
-  const span = posWeight + negWeight;
-
-  const rows = vehicles.map((vehicle, index) => {
+  // Pass 1: gates only. This decides who survives, which fuzzy normalization
+  // (pass 2) depends on — so it has to finish first, not interleave with it.
+  const gated = vehicles.map((vehicle, index) => {
     const violations = [];
     const unknowns = [];
     for (const c of gates) {
@@ -119,7 +114,28 @@ export function rankVehicles(vehicles, criteria, pins) {
       if (verdict === 'fail') violations.push({ id: c.id, label: c.label });
       else if (verdict === 'unknown') unknowns.push({ id: c.id, label: c.label });
     }
+    const pinned = pins.has(vehicle.id);
+    const excluded = violations.length > 0 && !pinned;
+    return { vehicle, index, violations, unknowns, pinned, excluded };
+  });
 
+  // Fuzzy fields are normalized against the surviving set — every vehicle
+  // that isn't excluded, which includes a pinned vehicle that failed a gate
+  // (it still shows up in the list, so it's still part of the visible
+  // scale). A vehicle a hard gate has already dropped must not stretch the
+  // range the survivors are judged against, or the best of what's left
+  // reads as mediocre because of vehicles nobody will see.
+  const survivors = gated.filter(g => !g.excluded).map(g => g.vehicle);
+  const ranges = rangesFor(survivors, scorers);
+
+  // The reachable range of `raw`, so the 0..100 mapping puts the worst possible
+  // vehicle at 0 and the best at 100 whatever mix of tiers is in play.
+  const posWeight = scorers.reduce((s, c) => s + (c.tier === 'dislike' ? 0 : weightOf(c)), 0);
+  const negWeight = scorers.reduce((s, c) => s + (c.tier === 'dislike' ? weightOf(c) : 0), 0);
+  const span = posWeight + negWeight;
+
+  const rows = gated.map(({ vehicle, index, violations, unknowns: gateUnknowns, pinned, excluded }) => {
+    const unknowns = [...gateUnknowns];
     const contributions = [];
     let raw = 0;
     for (const c of scorers) {
@@ -154,8 +170,8 @@ export function rankVehicles(vehicles, criteria, pins) {
     return {
       vehicle,
       score,
-      pinned: pins.has(vehicle.id),
-      excluded: violations.length > 0 && !pins.has(vehicle.id),
+      pinned,
+      excluded,
       violations,
       unknowns,
       contributions,

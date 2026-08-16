@@ -248,3 +248,55 @@ test('rankVehicles does not throw on a fuzzy criterion with a missing rule', () 
 test('rankVehicles does not throw on a completely null entry in criteria', () => {
   assert.doesNotThrow(() => rankVehicles([v('a')], [null, undefined, hard('length_in', '<', 195)], new Set()));
 });
+
+// --- Survivor-relative normalization -----------------------------------
+// Fuzzy fields are normalized against vehicles that survive the hard gates,
+// not the whole input list. A vehicle a gate has already dropped must not
+// stretch the range the survivors are judged against, or the best of what's
+// left reads as mediocre because of vehicles nobody will see.
+
+test('a single survivor is normalized to the top of the scale, not stretched by excluded vehicles', () => {
+  const keep = v('keep', { exterior_in: { length: 190, width: 73, height: 67 }, max_cargo_cf: { value: 50 } });
+  const drop = v('drop', { exterior_in: { length: 210, width: 73, height: 67 }, max_cargo_cf: { value: 200 } });
+  const out = rankVehicles([keep, drop],
+    [hard('length_in', '<', 195, 'deal-breaker'), fuzzy('max_cargo_cf', 'higher')], new Set());
+  const keptRow = out.find(r => r.vehicle.id === 'keep');
+  assert.equal(keptRow.excluded, false);
+  assert.equal(keptRow.score, 100);
+});
+
+test('zero survivors does not throw and yields no NaN scores', () => {
+  const a = v('a', { exterior_in: { length: 210, width: 73, height: 67 } });
+  const b = v('b', { exterior_in: { length: 220, width: 73, height: 67 } });
+  const out = rankVehicles([a, b],
+    [hard('length_in', '<', 195, 'deal-breaker'), fuzzy('max_cargo_cf', 'higher')], new Set());
+  assert.equal(out.length, 2);
+  for (const row of out) {
+    assert.equal(row.excluded, true);
+    assert.ok(Number.isFinite(row.score), `score was ${row.score}`);
+  }
+});
+
+test('a pinned gate-violating vehicle still stretches the normalization range', () => {
+  const a = v('a', { max_cargo_cf: { value: 50 } });
+  const b = v('b', { exterior_in: { length: 210, width: 73, height: 67 }, max_cargo_cf: { value: 150 } });
+  const out = rankVehicles([a, b],
+    [hard('length_in', '<', 195, 'deal-breaker'), fuzzy('max_cargo_cf', 'higher')], new Set(['b']));
+  const rowA = out.find(r => r.vehicle.id === 'a');
+  const rowB = out.find(r => r.vehicle.id === 'b');
+  assert.equal(rowB.pinned, true);
+  assert.equal(rowB.excluded, false);
+  // If b were dropped from the range instead of counted (it's visible, just
+  // gate-violating), a would be the sole survivor and score 100.
+  assert.equal(rowA.score, 0);
+  assert.equal(rowB.score, 100);
+});
+
+test('with no hard gates every vehicle survives, so ranges are unchanged from whole-fleet', () => {
+  const out = rankVehicles(
+    [v('small', { max_cargo_cf: { value: 50 } }), v('big', { max_cargo_cf: { value: 100 } })],
+    [fuzzy('max_cargo_cf', 'higher')], new Set());
+  assert.deepEqual(out.map(r => r.vehicle.id), ['big', 'small']);
+  assert.equal(out[0].score, 100);
+  assert.equal(out[1].score, 0);
+});
