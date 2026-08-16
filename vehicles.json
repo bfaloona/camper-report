@@ -1,6 +1,6 @@
 {
   "$schema_note": "Source of truth for the Camper Van comparison report. One record per vehicle-generation. listed_year = min(latest model year available, 2024), except for models not sold in the US in or before 2024, which use their first US model year. All measurements in inches. Update last_verified whenever a record is re-researched.",
-  "updated": "2026-08-05",
+  "updated": "2026-08-16",
   "vehicles": [
     {
       "id": "toyota-rav4-hybrid-xa50",
@@ -9,6 +9,7 @@
       "trim": "XLE Hybrid AWD",
       "class": "SUV",
       "powertrain": "hybrid",
+      "drivetrain": "AWD",
       "generation_span": "2019–2025 (5th gen XA50; 6th gen debuts 2026)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -96,6 +97,12 @@
         "config": "Behind front row, 60/40 rear seatbacks folded (37.5 behind rear seats)",
         "source": "https://www.edmunds.com/toyota/rav4-hybrid/2024/st-402013834/features-specs/"
       },
+      "tow_rating": {
+        "max": 1750,
+        "tongue": null,
+        "note": "Hybrid rated 1,750 lb (gas RAV4 tows up to 3,500 lb with tow pkg); no separate official tongue weight published.",
+        "source": "https://towingspecs.com/toyota/rav4/2024/"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5",
@@ -133,6 +140,7 @@
       "trim": "Titanium Passenger Wagon (LWB, liftgate)",
       "class": "Compact van",
       "powertrain": "gas",
+      "drivetrain": "FWD",
       "generation_span": "2014–2023 (2nd gen; discontinued in US after 2023)",
       "listed_year": 2023,
       "kbb_value_usd": {
@@ -220,6 +228,12 @@
         "config": "LWB wagon, 2nd+3rd rows folded flat into floor",
         "source": "https://www.edmunds.com/ford/transit-connect-passenger-wagon/2023/features-specs/"
       },
+      "tow_rating": {
+        "max": 2000,
+        "tongue": 200,
+        "note": "2,000 lb requires the Trailer Tow Prep Package (1,500 lb without); Ford-published max tongue weight 200 lb.",
+        "source": "https://www.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2023_Ford%20Transit%20Connect_Towing%20Info_Dec16.pdf"
+      },
       "reliability": {
         "score": 3.0,
         "scale": "RepairPal /5",
@@ -258,6 +272,7 @@
       "trim": "EX-L",
       "class": "Minivan",
       "powertrain": "gas",
+      "drivetrain": "FWD",
       "generation_span": "2018–present (5th gen RL6; facelift 2021)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -346,6 +361,12 @@
         "config": "2nd row removed + 3rd row stowed in floor well (144.9 std / 158.0 max)",
         "source": "https://hondanews.com/en-US/honda-automobiles/releases/release-5003aaa39c009393f5d06d620f00fe4b-2024-honda-odyssey-specs"
       },
+      "tow_rating": {
+        "max": 3500,
+        "tongue": 350,
+        "note": "3,500 lb requires the Honda towing package plus trailer brakes; tongue ~350 lb (10% guideline).",
+        "source": "https://www.pattypeckhonda.com/blog/2024-honda-odyssey-towing-capacity/"
+      },
       "reliability": {
         "score": 3.5,
         "scale": "RepairPal /5",
@@ -383,6 +404,7 @@
       "trim": "Grand Touring",
       "class": "Compact minivan",
       "powertrain": "gas",
+      "drivetrain": "FWD",
       "generation_span": "2012–2015 (3rd gen CW, US; discontinued after 2015)",
       "listed_year": 2015,
       "kbb_value_usd": {
@@ -448,6 +470,12 @@
         "config": "Behind 2nd row, 3rd row folded (no official behind-front-row figure; 2nd-row seatbacks fold forward)",
         "source": "https://cars.usnews.com/cars-trucks/mazda/mazda5/interior"
       },
+      "tow_rating": {
+        "max": 0,
+        "tongue": null,
+        "note": "Not rated for towing in the US — Mazda publishes no US tow rating for the Mazda5 (aftermarket sources cite ~2,000 lb unofficially).",
+        "source": "https://thedriveradviser.com/mazda-5-towing-capacity-can-it-tow-a-trailer-boat-or-jet-ski/"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5",
@@ -486,6 +514,7 @@
       "trim": "XLE AWD",
       "class": "Minivan",
       "powertrain": "hybrid",
+      "drivetrain": "AWD",
       "generation_span": "2021–present (4th gen; all hybrid)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -560,6 +589,12 @@
         "config": "Behind row 1: 3rd row stowed, 2nd row slid fully forward (2nd row not removable)",
         "source": "https://www.edmunds.com/toyota/sienna/2024/features-specs/"
       },
+      "tow_rating": {
+        "max": 3500,
+        "tongue": null,
+        "note": "3,500 lb across all trims including AWD Hybrid when properly equipped; no separate official tongue weight found.",
+        "source": "https://www.carmax.com/research/toyota/sienna-hybrid/2024"
+      },
       "reliability": {
         "score": 3.5,
         "scale": "RepairPal /5",
@@ -595,6 +630,7 @@
       "trim": "Touring L",
       "class": "Minivan",
       "powertrain": "gas",
+      "drivetrain": "FWD",
       "generation_span": "2017–present (2nd gen RU; refresh 2021)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -668,6 +704,12 @@
         "config": "Both rear rows folded into Stow 'n Go bins — no seat removal",
         "source": "https://www.edmunds.com/chrysler/pacifica/2024/features-specs/"
       },
+      "tow_rating": {
+        "max": 3600,
+        "tongue": null,
+        "note": "Gas FWD tows 3,600 lb with the optional Trailer Tow Group; tongue ~360 lb (not separately published).",
+        "source": "https://www.jeepofchicago.com/blog/chrysler-pacifica-towing"
+      },
       "reliability": {
         "score": 3.5,
         "scale": "RepairPal /5 (Chrysler brand avg — model page has insufficient data)",
@@ -703,6 +745,7 @@
       "trim": "Select",
       "class": "Minivan",
       "powertrain": "phev",
+      "drivetrain": "FWD",
       "generation_span": "2017–present (2nd gen RU; PHEV since 2017)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -782,6 +825,12 @@
         "config": "3rd row stowed + 2nd-row seats removed (battery deletes 2nd-row Stow 'n Go)",
         "source": "https://www.cars.com/research/chrysler-pacifica_hybrid-2024/specs/"
       },
+      "tow_rating": {
+        "max": 0,
+        "tongue": null,
+        "note": "Not rated for towing in the US — Chrysler does not offer tow hardware for the Pacifica Hybrid PHEV and advises against towing.",
+        "source": "https://www.gilroycdjr.com/2024-pacifica-vs-2024-pacifica-plug-in-hybrid-blog/"
+      },
       "reliability": {
         "score": 3.5,
         "scale": "RepairPal /5 (Chrysler brand avg — no model rating)",
@@ -816,6 +865,7 @@
       "trim": "LX w/ Seat Package",
       "class": "Minivan",
       "powertrain": "gas",
+      "drivetrain": "FWD",
       "generation_span": "2022–present (KA4; facelift 2025)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -889,6 +939,12 @@
         "config": "3rd row stowed + 2nd row removed (8-seat config; VIP lounge seats don't remove) — class-leading",
         "source": "https://www.edmunds.com/kia/carnival/2024/features-specs/"
       },
+      "tow_rating": {
+        "max": 3500,
+        "tongue": 350,
+        "note": "3,500 lb (gas) across trims properly equipped; Kia-published max tongue 350 lb.",
+        "source": "https://carscounsel.com/kia-carnival-towing-capacity/"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5 (Sedona entry — no Carnival page)",
@@ -924,6 +980,7 @@
       "trim": "EX",
       "class": "Minivan",
       "powertrain": "hybrid",
+      "drivetrain": "FWD",
       "generation_span": "2025–present (KA4 facelift; hybrid new for MY2025)",
       "listed_year": 2025,
       "kbb_value_usd": {
@@ -999,6 +1056,12 @@
         "config": "Same as gas — hybrid battery preserves full volume",
         "source": "https://www.edmunds.com/kia/carnival-hybrid/2025/features-specs/"
       },
+      "tow_rating": {
+        "max": 2500,
+        "tongue": null,
+        "note": "Hybrid rated 2,500 lb with trailer brakes (1,000 lb without) — lower than the 3,500 lb gas Carnival.",
+        "source": "https://www.kiamedia.com/us/en/models/carnival-hev/2025"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5 (Sedona entry proxy)",
@@ -1033,6 +1096,7 @@
       "trim": "Passenger Van (126-in WB)",
       "class": "Compact van",
       "powertrain": "gas",
+      "drivetrain": "RWD",
       "generation_span": "2016–2023 (W447 Vito-based; US-discontinued)",
       "listed_year": 2023,
       "kbb_value_usd": {
@@ -1116,6 +1180,12 @@
         "config": "Cargo compartment, 126-in WB (passenger van approximates with all rear seats removed)",
         "source": "https://www.edmunds.com/mercedes-benz/metris/2023/st-401979774/features-specs/"
       },
+      "tow_rating": {
+        "max": 5000,
+        "tongue": null,
+        "note": "5,000 lb across trims when properly equipped; no official published tongue weight surfaced.",
+        "source": "https://www.autopadre.com/towing-capacity/mercedes-benz-metris"
+      },
       "reliability": {
         "score": 3.0,
         "scale": "RepairPal /5",
@@ -1152,6 +1222,7 @@
       "trim": "Wagon SLT",
       "class": "Compact van",
       "powertrain": "gas",
+      "drivetrain": "FWD",
       "generation_span": "2015–2022 (Fiat Doblo-based; US-discontinued)",
       "listed_year": 2022,
       "kbb_value_usd": {
@@ -1226,6 +1297,12 @@
         "config": "Wagon, rear seats folded/tumbled (official Ram spec; cargo van 131.7)",
         "source": "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/specs/2022_RAM_ProMaster_City_SPcsvdm3ro6s5sm60gkvop4cd86m.pdf"
       },
+      "tow_rating": {
+        "max": 2000,
+        "tongue": null,
+        "note": "Ram lists 2,000 lb max with tow package; Edmunds lists the Wagon body specifically at 1,870 lb — figure varies by body style across sources.",
+        "source": "https://www.autopadre.com/towing-capacity/dodge-ram-promaster-city"
+      },
       "reliability": {
         "score": 3.5,
         "scale": "RepairPal /5",
@@ -1262,6 +1339,7 @@
       "trim": "Premium",
       "class": "Wagon",
       "powertrain": "gas",
+      "drivetrain": "AWD",
       "generation_span": "2020–2025 (6th gen BT; 7th gen is 2026)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -1333,6 +1411,12 @@
         "config": "Rear seatbacks folded, behind front row (32.6 behind rear seats)",
         "source": "https://www.edmunds.com/subaru/outback/2024/features-specs/"
       },
+      "tow_rating": {
+        "max": 2700,
+        "tongue": null,
+        "note": "Non-turbo 2.5L (Premium) rated 2,700 lb; the turbo XT is 3,500 lb; no official tongue weight found.",
+        "source": "https://www.johnkennedysubaru.com/blogs/5362/2024-subaru-outback-towing-capacity-guide/"
+      },
       "reliability": {
         "score": 3.5,
         "scale": "RepairPal /5",
@@ -1369,6 +1453,7 @@
       "trim": "Wilderness",
       "class": "SUV",
       "powertrain": "gas",
+      "drivetrain": "AWD",
       "generation_span": "2019–2024 (5th gen SK; 6th gen is 2025)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -1439,6 +1524,12 @@
         "config": "Rear seats folded, non-moonroof trims (69.1 with moonroof)",
         "source": "https://www.conleysubaru.com/subaru-research/subaru-forester-cargo-space/"
       },
+      "tow_rating": {
+        "max": 3000,
+        "tongue": null,
+        "note": "Wilderness rated 3,000 lb (all other 2024 Forester trims are 1,500 lb); no official tongue weight found.",
+        "source": "https://www.villagessubaru.com/subaru-forester-wilderness-info.htm"
+      },
       "reliability": {
         "score": 3.5,
         "scale": "RepairPal /5",
@@ -1475,6 +1566,7 @@
       "trim": "Sport Hybrid",
       "class": "SUV",
       "powertrain": "hybrid",
+      "drivetrain": "FWD",
       "generation_span": "2023–present (6th gen)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -1544,6 +1636,12 @@
         "config": "Rear seats folded, behind front row (39.3 behind rear seats); hybrid same as gas",
         "source": "https://crvguide.com/honda-crv-cargo-space/"
       },
+      "tow_rating": {
+        "max": 1000,
+        "tongue": null,
+        "note": "CR-V Hybrid is rated for towing at 1,000 lb (gas CR-V is 1,500 lb); no separate official tongue weight.",
+        "source": "https://www.performancehondastore.com/blog/2024-honda-cr-v-towing-capacity/"
+      },
       "reliability": {
         "score": 4.5,
         "scale": "RepairPal /5",
@@ -1579,6 +1677,7 @@
       "trim": "LE",
       "class": "Hatchback",
       "powertrain": "hybrid",
+      "drivetrain": "FWD",
       "generation_span": "2023–present (5th gen XW60)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -1649,6 +1748,12 @@
         "config": "Behind rear seats, LE (XLE/Limited 20.3); Toyota publishes no seats-folded figure for 5th gen",
         "source": "https://www.autoblog.com/features/toyota-prius-luggage-test"
       },
+      "tow_rating": {
+        "max": 0,
+        "tongue": null,
+        "note": "Not rated for towing in the US — Toyota publishes no tow rating for the 5th-gen US Prius.",
+        "source": "https://carscounsel.com/toyota-prius-towing-capacity/"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5",
@@ -1685,6 +1790,7 @@
       "trim": "TRD Off-Road",
       "class": "SUV",
       "powertrain": "gas",
+      "drivetrain": "4WD",
       "generation_span": "2010–2024 (5th gen N280; 6th gen is 2025)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -1755,6 +1861,12 @@
         "config": "2nd row folded, 2-row models (47.2 behind 2nd row)",
         "source": "https://itemfits.com/fit/vehicle/toyota-4runner/cargo"
       },
+      "tow_rating": {
+        "max": 5000,
+        "tongue": 500,
+        "note": "5,000 lb all trims (incl. TRD Off-Road) with the standard hitch; Toyota-published max tongue 500 lb.",
+        "source": "https://www.toyotaofcedarpark.com/blog/2024-toyota-4runner-towing-capacity/"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5",
@@ -1791,6 +1903,7 @@
       "trim": "XLE AWD",
       "class": "SUV",
       "powertrain": "hybrid",
+      "drivetrain": "AWD",
       "generation_span": "2020–present (4th gen XU70)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -1862,6 +1975,12 @@
         "config": "2nd+3rd rows folded, behind front row (48.4 behind 2nd row)",
         "source": "https://www.kbb.com/toyota/highlander-hybrid/2024/"
       },
+      "tow_rating": {
+        "max": 3500,
+        "tongue": null,
+        "note": "Hybrid rated 3,500 lb (gas Highlander is 5,000 lb); tongue ~350 lb, not separately published.",
+        "source": "https://www.billpagetoyota.com/blogs/5238/what-is-the-towing-capacity-of-the-2024-toyota-highlander-hybrid"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5",
@@ -1898,6 +2017,7 @@
       "trim": "XSE",
       "class": "SUV",
       "powertrain": "phev",
+      "drivetrain": "AWD",
       "generation_span": "2021–2025 (5th gen XA50; renamed RAV4 Plug-in Hybrid 2025; 6th gen 2026)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -1971,6 +2091,12 @@
         "config": "Rear seats folded (33.5 behind rear seats vs 37.6 gas — battery-raised floor)",
         "source": "https://www.edmunds.com/toyota/rav4-prime/2024/features-specs/"
       },
+      "tow_rating": {
+        "max": 2500,
+        "tongue": null,
+        "note": "PHEV rated 2,500 lb; no separate official tongue weight published.",
+        "source": "https://www.edmunds.com/toyota/rav4-prime/2024/features-specs/"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5 (RAV4 line)",
@@ -2008,6 +2134,7 @@
       "trim_rationale": "SEL is the camper trim: it adds the two 120V/1500W household outlets (cargo area + console) and CHAdeMO DC fast charging that ES/SE lack, plus leather and triple-zone climate. All trims share the 248-hp 2.4L PHEV system, 20-kWh battery, and standard S-AWC AWD. US 'Outlander Hybrid' = the PHEV; no conventional-hybrid Outlander is sold in the US.",
       "class": "SUV",
       "powertrain": "phev",
+      "drivetrain": "AWD",
       "generation_span": "2023–present (4th gen GN, US; shares platform with Nissan Rogue)",
       "listed_year": 2024,
       "kbb_value_usd": {
@@ -2099,6 +2226,12 @@
         "config": "Behind front row, 2nd+3rd rows folded (12.8 cu ft behind std 3rd row)",
         "source": "https://www.edmunds.com/mitsubishi/outlander-phev/2024/features-specs/"
       },
+      "tow_rating": {
+        "max": 1500,
+        "tongue": null,
+        "note": "1,500 lb with the Class 2 tow package (gas Outlander is 2,000 lb).",
+        "source": "https://www.evmitsubishi.com/mitsubishi-research/mitsubishi-outlander-towing-capacity/"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5 (Outlander line — PHEV not scored separately)",
@@ -2129,6 +2262,7 @@
       "trim_rationale": "Sport is the closest thing to a rugged pick in the Hybrid lineup: standard water-resistant StarTex ‘animal-free’ upholstery (vs. Limited/Touring leather) shrugs off wet gear and mud, plus standard Reverse Automatic Braking for backing into tight campsites. Ground clearance (8.7 in), standard Symmetrical AWD, dual-mode X-MODE w/ hill descent, and 69.1 cu ft max cargo are identical across all four Hybrid trims (Premium/Sport/Limited/Touring) — Sport’s 19-in wheels actually carry a shorter-sidewall tire (235/50R19) than Premium/Limited’s 18s (225/55R18), so the bigger wheel is cosmetic, not an off-road upgrade. No Wilderness-Hybrid trim exists yet for this generation; Subaru’s first Forester Wilderness Hybrid is a separate MY2027 model (announced July 2026, on sale late 2026), not part of this lineup.",
       "class": "SUV",
       "powertrain": "hybrid",
+      "drivetrain": "AWD",
       "generation_span": "2025–present (6th gen, chassis code SL, US)",
       "listed_year": 2025,
       "kbb_value_usd": {
@@ -2223,6 +2357,12 @@
         "config": "Behind front row, rear seats folded; official figure for all four Forester Hybrid trims (Premium/Sport/Limited/Touring)",
         "source": "https://s3.amazonaws.com/subarumedia.iconicweb.com/mediasite/attachments/25MY_Forester_Hybrid_Specs_-_FINAL.pdf"
       },
+      "tow_rating": {
+        "max": 1500,
+        "tongue": null,
+        "note": "Most sources cite 1,500 lb for the 2025 Forester Hybrid; a few dealer pages claim 3,000 lb — 1,500 lb treated as the reliable figure.",
+        "source": "https://towratings.net/model/forester-hybrid/"
+      },
       "reliability": {
         "score": 3.5,
         "scale": "RepairPal /5 (whole Forester nameplate — Hybrid not scored separately, and too new for its own repair-cost history)",
@@ -2253,6 +2393,7 @@
       "trim_rationale": "XRT — the gas lineup's off-road trim this dataset normally favors — is confirmed NOT offered as a Hybrid; only SEL, Limited, and Calligraphy get the hybrid powertrain (verified across Edmunds, AutoNation trim-comparison pages, and KBB's own trim listings). Of those three, Limited is the best camping trim: it keeps the 60/40 fold-flat bench 2nd row (shared with SEL), giving a continuous flat load floor, whereas Calligraphy replaces that bench with two captain's chairs that leave a center gap when folded — a real drawback for a sleeping platform. Limited also adds Blind-Spot View Monitor, Surround View Monitor, Highway Driving Assist, and (per KBB spec listings) an interior 120V AC outlet that SEL may lack. All hybrid trims share the 1.6L turbo + electric motor (231 hp / 271 lb-ft combined), 6-speed automatic, FWD-standard/HTRAC-AWD-optional layout, 79.6 cu ft max cargo, 7.0-in ground clearance, and 2,000-lb tow rating — none of these vary by trim, unlike the gas lineup where XRT gets unique AWD-standard/tow/clearance upgrades. AWD must be specifically optioned on Limited (it is not standard the way HTRAC is on gas XRT).",
       "class": "SUV",
       "powertrain": "hybrid",
+      "drivetrain": "AWD",
       "generation_span": "2024–present (5th gen, chassis code MX5)",
       "listed_year": 2025,
       "kbb_value_usd": {
@@ -2354,6 +2495,12 @@
         "config": "Behind front row, 2nd+3rd rows folded",
         "source": "https://www.autoweb.com/2025-hyundai-santa-fe-hybrid-road-test-and-review"
       },
+      "tow_rating": {
+        "max": 2000,
+        "tongue": null,
+        "note": "2,000 lb with trailer brakes (1,650 lb without).",
+        "source": "https://towratings.net/detail/2025/hyundai/santa-fe-hybrid"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5 — scores the Santa Fe nameplate/line broadly (2nd of 26 midsize SUVs, ~$515/yr), not Hybrid-specific or MX5-generation-specific",
@@ -2384,6 +2531,7 @@
       "trim_rationale": "The 2023 Santa Fe Hybrid (HEV) came in three trims — Blue, SEL Premium, Limited — and HTRAC AWD plus the 60/40 fold-flat second row are standard on all of them (there is no FWD hybrid and no Calligraphy hybrid this year; 'SEL Convenience' is a Plug-in Hybrid trim, not an HEV trim). SEL Premium is the value camping pick: it adds the panoramic roof and Surround View Monitor over Blue while staying lighter and cheaper than Limited. Blue is the MPG/value champion (34 mpg combined vs 32) but the most stripped; Limited adds leather and ventilated seats but is priciest and thirstiest. A ~115V/150W cargo outlet was offered on upper TM Santa Fe trims, but which specific 2023 hybrid trims include it could not be verified at the trim level — confirm on the VIN if the AC outlet is a must.",
       "class": "SUV",
       "powertrain": "hybrid",
+      "drivetrain": "AWD",
       "generation_span": "2019–2023 (4th gen, chassis code TM; facelifted 2021). Replaced by the all-new MX5 generation for 2024.",
       "listed_year": 2023,
       "kbb_value_usd": {
@@ -2483,6 +2631,12 @@
         "config": "Behind first row, 2nd row folded (36.4 cu ft behind the 2nd row). Hybrid battery sits under the rear seat, so cargo matches the gas Santa Fe.",
         "source": "https://www.iseecars.com/car/2023-hyundai-santa_fe-dimensions"
       },
+      "tow_rating": {
+        "max": 2000,
+        "tongue": null,
+        "note": "2,000 lb when properly equipped (vs up to 3,500 lb on the gas 2.5T Santa Fe).",
+        "source": "https://www.checkeredflaghyundaiworld.com/hyundai-research/hyundai-santa-fe-towing-capacity/"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5 — scores the Santa Fe nameplate broadly (2nd of 26 midsize SUVs, ~$515/yr avg repair cost), not Hybrid- or TM-generation-specific",
@@ -2512,6 +2666,7 @@
       "trim_rationale": "The 2023 Santa Fe PHEV came in two US trims — SEL Convenience and Limited — and HTRAC AWD, the 60/40 fold-flat second row, and the 120V AC outlet are on both. SEL Convenience is the camping pick: it already includes the fold-flat row, the 120V outlet, a 10.25 in screen, Highway Driving Assist, and full AWD. Limited adds a panoramic sunroof (which reduces roof-rack utility and adds a heat/leak point for campers), a 360 camera, leather, and ventilated seats — comfort, not camping-critical function — for ~$5k more. 2023 was the final year of the TM PHEV; the MX5 generation (2024+) dropped the plug-in entirely.",
       "class": "SUV",
       "powertrain": "phev",
+      "drivetrain": "AWD",
       "generation_span": "2022–2023 (4th gen, chassis code TM; US PHEV offered only for 2022–2023). No plug-in hybrid in the MX5 generation (2024+).",
       "listed_year": 2023,
       "kbb_value_usd": {
@@ -2612,6 +2767,12 @@
         "config": "Behind first row, 2nd row folded (36.4 cu ft behind the 2nd row). Same as the gas/hybrid Santa Fe — PHEV battery is under the floor with no cargo intrusion.",
         "source": "https://www.topspeed.com/why-santa-fe-plug-in-hybrid-worth-every-penny/"
       },
+      "tow_rating": {
+        "max": 2000,
+        "tongue": null,
+        "note": "2,000 lb for the PHEV — the weakest-towing Santa Fe variant (gas tows up to 3,500 lb).",
+        "source": "https://towingspecs.com/hyundai/santa-fe/2023/"
+      },
       "reliability": {
         "score": 4.0,
         "scale": "RepairPal /5 — scores the Santa Fe nameplate broadly (2nd of 26 midsize SUVs, ~$515/yr), not PHEV-specific",
@@ -2642,6 +2803,7 @@
       "trim_rationale": "The 2023 Tucson Hybrid came in Blue, SEL Convenience, and Limited, all with standard HTRAC AWD (the hybrid is AWD-only in the US) and a 60/40 second row that folds nearly flat. SEL Convenience is the camping pick: it adds heated seats, a larger touchscreen, and proximity key over Blue without Limited's price jump, and all trims share the same fold-flat row and AWD. Trade-off: Blue gets the best MPG (38/38/38 vs 37/36/37) because it is lighter and lower-content — choose Blue if fuel economy is the priority. Note the standard Hybrid has no factory 115V/household outlet on any trim (12V + USB only); owners add aftermarket inverters.",
       "class": "SUV",
       "powertrain": "hybrid",
+      "drivetrain": "AWD",
       "generation_span": "2022–present (4th gen, chassis code NX4; US long-wheelbase body). 2023 falls within the NX4 run.",
       "listed_year": 2023,
       "kbb_value_usd": {
@@ -2744,6 +2906,12 @@
         "value": 74.5,
         "config": "Behind first row, 2nd row folded (SAE, Hybrid; 38.7 cu ft behind the 2nd row). Some sources cite 74.8; the gas Tucson is larger at 80.3.",
         "source": "https://cars.usnews.com/cars-trucks/hyundai/tucson-hybrid/2023/interior"
+      },
+      "tow_rating": {
+        "max": 2000,
+        "tongue": null,
+        "note": "2,000 lb with trailer brakes (1,650 lb without).",
+        "source": "https://www.stcharleshyundai.com/2023-hyundai-tucson-hybrid-review/"
       },
       "reliability": {
         "score": 4.0,

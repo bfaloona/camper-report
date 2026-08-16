@@ -37,6 +37,11 @@ return 403 to direct fetch — cite search-surfaced figures and note the limitat
 
 - **Identity**: make, model, trim, class (`SUV`/`Minivan`/`Compact minivan`/`Compact
   van`/`Wagon`/`Hatchback`), powertrain, generation_span (e.g. "2019–2023 (4th gen, TM)").
+- **Drivetrain**: `AWD`, `4WD`, `FWD`, or `RWD` for the listed trim (the page filters
+  `AWD`/`4WD` vs `FWD`/`RWD`).
+- **Tow rating**: max towing capacity in lbs (`0` if not rated for US towing) plus the
+  manufacturer-published max tongue weight in lbs (`null` if none is published), with a
+  note and source.
 - **KBB used value**: `low` (trade-in/private-party floor) and `high` (private-party/
   retail ceiling) for the listed year in good condition, plus an `assumption` string and
   `source` URL.
@@ -75,7 +80,7 @@ records are complete — match the full set). Field order to mirror existing rec
 {
   "id": "...", "make": "...", "model": "...", "trim": "...",
   "trim_rationale": "...",
-  "class": "SUV", "powertrain": "hybrid",
+  "class": "SUV", "powertrain": "hybrid", "drivetrain": "AWD",
   "generation_span": "...", "listed_year": 2023,
   "kbb_value_usd": { "low": 0, "high": 0, "assumption": "...", "source": "..." },
   "exterior_in": { "length": 0, "width": 0, "height": 0 },
@@ -94,6 +99,7 @@ records are complete — match the full set). Field order to mirror existing rec
   "last_verified": "YYYY-MM-DD",
   "model_url": "...",
   "max_cargo_cf": { "value": 0, "config": "...", "source": "..." },
+  "tow_rating": { "max": 2000, "tongue": null, "note": "...", "source": "..." },
   "reliability": { "score": 4.0, "scale": "RepairPal /5 ...", "known_issues": "...", "source": "..." },
   "camper_pros": ["..."],
   "camper_cons": ["..."]

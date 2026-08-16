@@ -48,12 +48,17 @@ field on an *existing* vehicle and need that change to reach the page.
 
 ## The vehicle record schema
 
-Every record in `vehicles.json` carries the same fields (all 21 current records are
+Every record in `vehicles.json` carries the same fields (all 24 current records are
 complete — match that). Measurements are in inches; money in USD. Key conventions:
 
 - `id`: kebab-case `make-model-generation`, e.g. `hyundai-tucson-hybrid-nx4`. Unique.
 - `class`: one of `SUV`, `Minivan`, `Compact minivan`, `Compact van`, `Wagon`, `Hatchback`.
 - `powertrain`: one of `gas`, `hybrid`, `phev`. (PHEV records add `mpge` + `ev_range_mi` to `mpg`.)
+- `drivetrain`: the *listed trim's* configuration — `AWD`, `4WD`, `FWD`, or `RWD`. The
+  page's drivetrain filter buckets these two ways: `AWD`/`4WD` vs `FWD`/`RWD`.
+- `tow_rating`: `{ max, tongue, note, source }`. `max` = max towing capacity in lbs
+  (`0` = not rated for US towing); `tongue` = published max tongue weight in lbs or `null`
+  when the manufacturer doesn't publish one. Shown as a sortable column.
 - `listed_year`: `min(latest model year available, 2024)`, except models not sold in the
   US in/before 2024, which use their first US model year. One generation per record.
 - `kbb_value_usd`: `{ low, high, assumption, source }`. KBB pages often 403 on direct
