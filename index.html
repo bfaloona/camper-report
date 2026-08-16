@@ -70,7 +70,9 @@
     border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
   .compare-btn.active { background: var(--accent); color: #fff; }
   .compare-btn:disabled { opacity: 0.5; cursor: default; }
+  .sel-cell { white-space: nowrap; }
   .sel-cell input { cursor: pointer; width: 15px; height: 15px; }
+  .sel-wrap { display: inline-flex; align-items: center; gap: 6px; }
   .count-note { font-size: 12px; color: var(--ink-3); }
 
   /* Cards */
@@ -101,7 +103,7 @@
   .pin-btn:hover { border-color: var(--ink-3); color: var(--ink-1); }
   .pin-btn.pinned { border-color: var(--pop-med); background: var(--wash); color: var(--pop-med);
     font-weight: 600; }
-  .pin-btn.sm { padding: 2px 5px; margin-left: 4px; }
+  .pin-btn.sm { padding: 2px 5px; }
   .pin-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 12.5px; }
   .spec .k { color: var(--ink-3); font-size: 11px; }
@@ -3144,7 +3146,7 @@ function renderTable(rows) {
   });
   document.getElementById('tbody').innerHTML = rows.map(v => `
     <tr data-id="${v.id}" class="${state.pins.has(v.id) ? 'pinned' : ''}">
-      <td class="sel-cell"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"><button class="pin-btn sm${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}" title="${state.pins.has(v.id) ? 'Unpin' : 'Pin'}" aria-pressed="${state.pins.has(v.id)}">📌</button></td>
+      <td class="sel-cell"><span class="sel-wrap"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"><button class="pin-btn sm${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}" title="${state.pins.has(v.id) ? 'Unpin' : 'Pin'}" aria-pressed="${state.pins.has(v.id)}">📌</button></span></td>
       <td class="veh-cell">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${DT_LABEL[v.drivetrain] || v.drivetrain} · ${v.generation_span}</span></td>
       <td>${v.class}</td>
       <td>${PT_LABEL[v.powertrain]}</td>
