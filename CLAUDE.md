@@ -46,6 +46,18 @@ The default mode is append-only, so adding a vehicle produces a minimal diff and
 leaves existing embedded entries untouched. Use `--rebuild` when you have changed a
 field on an *existing* vehicle and need that change to reach the page.
 
+`index.html` also owns the `/*STYLE-*/` and `/*RENDER-*/` marked blocks (its CSS and
+its card/table render functions). The Shortlist page (`shortlist/index.html`) has no
+way to import them as ES modules without breaking `file://` use, so it receives
+copies instead:
+
+```bash
+python3 scripts/sync_vehicles.py --shared        # copy style + render blocks into shortlist/index.html
+python3 scripts/sync_vehicles.py --check-shared  # verify those blocks are in sync
+```
+
+`--check` runs `--check-shared` too, so one command still verifies everything.
+
 ## The vehicle record schema
 
 Every record in `vehicles.json` carries the same fields (all 25 current records are

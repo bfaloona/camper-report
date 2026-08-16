@@ -23,10 +23,24 @@ Pass --rebuild to regenerate every embedded entry from vehicles.json instead
 reorder a few keys on first run, since the embedded blocks were hand-authored
 with slightly different key order than vehicles.json.
 
+index.html also owns two other marked blocks that a separate page (the
+Shortlist tool, under shortlist/) reuses: /*STYLE-*/ wraps the report's CSS
+and /*RENDER-*/ wraps its card/table render functions. index.html can't
+export these as ES modules without breaking file:// use, so --shared copies
+the marked text verbatim into shortlist/index.html instead.
+
 Usage:
     python3 scripts/sync_vehicles.py [--rebuild] [--check]
+    python3 scripts/sync_vehicles.py --shared
+    python3 scripts/sync_vehicles.py --check-shared
 
-  --check   exit non-zero if any file would change (no writes); for CI/pre-commit.
+  --check         exit non-zero if any file would change (no writes); for CI/pre-commit.
+                   Also checks the shared blocks against shortlist/index.html when that
+                   file exists (skipped, not failed, when it doesn't).
+  --shared        copy the /*STYLE-*/ and /*RENDER-*/ blocks from index.html into
+                   shortlist/index.html.
+  --check-shared  exit non-zero if shortlist/index.html's shared blocks are out of sync
+                   (no writes). Exits 0 if shortlist/index.html doesn't exist yet.
 
 Run from the repository root.
 """
@@ -35,6 +49,7 @@ import json
 import re
 import sys
 import os
+from pathlib import Path
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 JSON_PATH = os.path.join(REPO, "vehicles.json")
@@ -43,6 +58,10 @@ HTML_FILES = [
     os.path.join(REPO, "camper-vehicle-comparison.html"),
 ]
 MARKER = re.compile(r"(/\*DATA-START\*/)(.*?)(/\*DATA-END\*/)", re.S)
+
+ROOT = Path(REPO)
+SHARED_BLOCKS = ("STYLE", "RENDER")
+SHORTLIST = ROOT / "shortlist" / "index.html"
 
 
 def trim_vehicle(v):
@@ -86,9 +105,55 @@ def build_block(source, current_block, rebuild):
     return json.dumps(data, indent=1, ensure_ascii=False)
 
 
+def _extract(text, name):
+    """Return the body between /*NAME-START*/ and /*NAME-END*/."""
+    start = text.index(f"/*{name}-START*/") + len(f"/*{name}-START*/")
+    end = text.index(f"/*{name}-END*/")
+    return text[start:end]
+
+
+def _replace(text, name, body):
+    start_tag, end_tag = f"/*{name}-START*/", f"/*{name}-END*/"
+    start = text.index(start_tag) + len(start_tag)
+    end = text.index(end_tag)
+    return text[:start] + body + text[end:]
+
+
+def sync_shared(check=False):
+    """Copy the marked style and render blocks from index.html into the
+    Shortlist page. index.html is the single source of truth for presentation;
+    it can't export ES modules without breaking file:// use, so we copy."""
+    if not SHORTLIST.exists():
+        # Task 10 creates shortlist/index.html; before that, there's nothing
+        # to sync or check yet.
+        return 0
+    source = (ROOT / "index.html").read_text()
+    target = SHORTLIST.read_text()
+    updated = target
+    for name in SHARED_BLOCKS:
+        updated = _replace(updated, name, _extract(source, name))
+    if check:
+        if updated != target:
+            print("shortlist/index.html is out of sync with index.html "
+                  "(run: python3 scripts/sync_vehicles.py --shared)")
+            return 1
+        return 0
+    if updated != target:
+        SHORTLIST.write_text(updated)
+        print(f"Updated shared blocks in {SHORTLIST.relative_to(ROOT)}")
+    return 0
+
+
 def main():
     rebuild = "--rebuild" in sys.argv
     check = "--check" in sys.argv
+    shared = "--shared" in sys.argv
+    check_shared = "--check-shared" in sys.argv
+
+    if shared:
+        return sync_shared(check=False)
+    if check_shared:
+        return sync_shared(check=True)
 
     with open(JSON_PATH, encoding="utf-8") as f:
         source = json.load(f)
@@ -122,6 +187,11 @@ def main():
         if len(HTML_FILES) == 2 and not filecmp.cmp(HTML_FILES[0], HTML_FILES[1], shallow=False):
             a, b = (os.path.basename(p) for p in HTML_FILES)
             print(f"{a} and {b} are not byte-for-byte identical. Fix: cp {a} {b}")
+            ok = False
+        # Also check the shared STYLE/RENDER blocks against shortlist/index.html,
+        # so one --check command still verifies everything. sync_shared() is a
+        # no-op (exit 0) when that file doesn't exist yet.
+        if sync_shared(check=True) != 0:
             ok = False
         if ok:
             print("HTML data is in sync with vehicles.json.")

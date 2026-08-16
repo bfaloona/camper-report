@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Camper Conversion Vehicle Comparison</title>
 <style>
+/*STYLE-START*/
   :root {
     color-scheme: light;
     --page: #f9f9f7; --surface: #fcfcfb;
@@ -165,6 +166,7 @@
   .lightbox img { max-width: 94vw; max-height: 86vh; object-fit: contain; }
   .lightbox .cap { color: #e8e8e4; font-size: 13px; margin-top: 10px; text-align: center; padding: 0 16px; }
   .photo-cell { cursor: zoom-in; }
+/*STYLE-END*/
 </style>
 </head>
 <body>
@@ -3005,6 +3007,7 @@ function powertrainMatches(filterValue, powertrain) {
 }
 /*PURE-END*/
 
+/*RENDER-START*/
 const fmt = n => n.toLocaleString('en-US');
 const POP_ORDER = { High: 3, Medium: 2, Low: 1 };
 const PT_LABEL = { gas: 'Gas', hybrid: 'Hybrid', phev: 'PHEV', ev: 'EV' };
@@ -3087,9 +3090,11 @@ function photoCell(p, label) {
   return '<div class="photo-cell"><img src="' + p.url + '" alt="' + label + '" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.innerHTML=\'<div class=photo-missing>Photo unavailable</div>\'"><div class="ph-label">' + label + note + '</div></div>';
 }
 
+function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+
 function renderCards(rows) {
   document.getElementById('cards').innerHTML = rows.map(v => `
-  <div class="card${state.pins.has(v.id) ? ' pinned' : ''}">
+  <div class="card${state.pins.has(v.id) ? ' pinned' : ''}" data-id="${v.id}">
     <div class="photo-strip">
       ${photoCell(v.photos.exterior, 'Exterior')}
       ${photoCell(v.photos.dashboard, 'Dashboard')}
@@ -3166,6 +3171,7 @@ function renderTable(rows) {
       <td>${v.model_url ? '<a href="' + v.model_url + '" target="_blank" rel="noopener" title="Model page">&#8599;</a>' : ''}</td>
     </tr>`).join('');
 }
+/*RENDER-END*/
 
 function render() {
   const rows = sorted(filtered());
@@ -3223,7 +3229,6 @@ document.getElementById('btn-panel').onclick = e => {
 document.getElementById('btn-cards').onclick = () => { state.view = 'cards'; render(); };
 document.getElementById('btn-table').onclick = () => { state.view = 'table'; render(); };
 // ---- Detail view + lightbox ----
-function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
 
 function showLightbox(url, cap) {
   document.getElementById('lb-img').src = url;
