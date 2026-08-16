@@ -7,6 +7,6 @@
     "@anthropic-ai/sdk": "0.70.1"
   },
   "scripts": {
-    "test": "node --test scripts/pins.test.mjs shortlist/scoring.test.mjs functions/_lib/auth.test.mjs functions/api/parse.test.mjs"
+    "test": "node --test \"**/*.test.mjs\""
   }
 }

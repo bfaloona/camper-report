@@ -8,6 +8,8 @@ const b64url = bytes => Buffer.from(bytes).toString('base64url');
 
 const ENV = { CF_ACCESS_TEAM_DOMAIN: 'test.cloudflareaccess.com', CF_ACCESS_AUD: 'aud-tag' };
 const req = headers => new Request('https://example.com/api/prefs', { headers });
+const loopbackReq = headers => new Request('http://localhost/api/prefs', { headers });
+const previewReq = headers => new Request('https://preview-branch.pages.dev/api/prefs', { headers });
 
 let privateKey, jwk;
 
@@ -19,11 +21,15 @@ async function keys() {
   jwk = { ...(await crypto.subtle.exportKey('jwk', pair.publicKey)), kid: 'test-kid' };
 }
 
-async function signed(payload, kid = 'test-kid') {
-  const head = b64urlJson({ alg: 'RS256', kid, typ: 'JWT' });
+async function signedWithHeader(header, payload) {
+  const head = b64urlJson(header);
   const body = b64urlJson(payload);
   const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', privateKey, enc.encode(`${head}.${body}`));
   return `${head}.${body}.${b64url(new Uint8Array(sig))}`;
+}
+
+async function signed(payload, kid = 'test-kid') {
+  return signedWithHeader({ alg: 'RS256', kid, typ: 'JWT' }, payload);
 }
 
 const jwksDeps = () => ({ fetch: async () => ({ ok: true, json: async () => ({ keys: [jwk] }) }) });
@@ -80,6 +86,31 @@ test('rejects an alg:none token', async () => {
   assert.equal(await verifiedEmail(r, ENV, jwksDeps()), null);
 });
 
+test('rejects a token whose header claims a non-RS256 alg even though the signature is genuinely valid RS256', async () => {
+  // Signed for real, over this exact header+body, with the real RSA private
+  // key — crypto.subtle.verify will succeed under RSASSA-PKCS1-v1_5 regardless
+  // of what the header's `alg` field says, because the code hardcodes RS256
+  // for the verify call and never branches on header.alg to pick an algorithm.
+  // That's exactly why the explicit `header.alg !== 'RS256'` pin has to exist:
+  // without it, a token whose header claims HS256 (or anything else) still
+  // verifies successfully. Swapping the header onto an already-signed token
+  // (as opposed to signing over the swapped header) would invalidate the
+  // signature for an unrelated reason and not exercise this pin at all.
+  const token = await signedWithHeader({ alg: 'HS256', kid: 'test-kid', typ: 'JWT' }, valid());
+  assert.equal(await verifiedEmail(req({ 'cf-access-jwt-assertion': token }), ENV, jwksDeps()), null);
+});
+
+test('verifiedEmail rejects when CF_ACCESS_AUD is not configured, regardless of the token', async () => {
+  // payload.aud is JS `undefined` here (no aud claim at all — not JSON null),
+  // and env.CF_ACCESS_AUD would also be `undefined` if this guard were missing.
+  // [undefined].includes(undefined) is true, so without an explicit check this
+  // would silently pass the audience check for any caller that forgets to
+  // configure CF_ACCESS_AUD.
+  const token = await signed({ email: 'bfaloona@gmail.com', exp: Math.floor(Date.now() / 1000) + 600 });
+  const envWithoutAud = { CF_ACCESS_TEAM_DOMAIN: 'test.cloudflareaccess.com' };
+  assert.equal(await verifiedEmail(req({ 'cf-access-jwt-assertion': token }), envWithoutAud, jwksDeps()), null);
+});
+
 test('returns null on a malformed token rather than throwing', async () => {
   assert.equal(await verifiedEmail(req({ 'cf-access-jwt-assertion': 'not.a.jwt' }), ENV, jwksDeps()), null);
   assert.equal(await verifiedEmail(req({ 'cf-access-jwt-assertion': 'garbage' }), ENV, jwksDeps()), null);
@@ -128,16 +159,29 @@ test('requireUser returns 500 when Access verification is unconfigured', async (
 
 test('the dev bypass works only when CF_ACCESS_AUD is unset', async () => {
   const devEnv = { DEV_BYPASS_EMAIL: 'bfaloona@gmail.com' };
-  assert.equal((await requireUser(req({}), devEnv, jwksDeps())).email, 'bfaloona@gmail.com');
+  assert.equal((await requireUser(loopbackReq({}), devEnv, jwksDeps())).email, 'bfaloona@gmail.com');
 
   const prodEnv = { ...ENV, DEV_BYPASS_EMAIL: 'bfaloona@gmail.com' };
-  const { email, response } = await requireUser(req({}), prodEnv, jwksDeps());
+  const { email, response } = await requireUser(loopbackReq({}), prodEnv, jwksDeps());
   assert.equal(email, null);
   assert.equal(response.status, 401);
 });
 
 test('the dev bypass honors an x-dev-email override so 403s can be exercised', async () => {
   const devEnv = { DEV_BYPASS_EMAIL: 'bfaloona@gmail.com' };
-  const { response } = await requireUser(req({ 'x-dev-email': 'nobody@example.com' }), devEnv, jwksDeps());
+  const { response } = await requireUser(loopbackReq({ 'x-dev-email': 'nobody@example.com' }), devEnv, jwksDeps());
   assert.equal(response.status, 403);
+});
+
+test('the dev bypass is rejected on a non-loopback host even with both env vars set for bypass', async () => {
+  // This is the scenario the loopback check exists for: DEV_BYPASS_EMAIL leaked
+  // onto a deployed environment (a preview deploy) where CF_ACCESS_AUD was
+  // never configured, and the request reaches the Function anyway (Access
+  // policy doesn't cover the preview hostname). Without the loopback condition
+  // this would silently grant 'bfaloona@gmail.com' full access with no
+  // authentication at all.
+  const devEnv = { DEV_BYPASS_EMAIL: 'bfaloona@gmail.com' };
+  const { email, response } = await requireUser(previewReq({}), devEnv, jwksDeps());
+  assert.equal(email, null);
+  assert.notEqual(response, null);
 });
