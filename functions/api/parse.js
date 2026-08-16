@@ -164,10 +164,13 @@ export async function onRequestPost({ request, env }) {
   if (!text) return json({ error: 'Body must be { text }' }, 400);
   if (text.length > 4000) return json({ error: 'Text is too long (4000 character limit)' }, 400);
 
-  const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
+  if (!env.ANTHROPIC_API_KEY) {
+    return json({ error: 'The parsing service is not configured.' }, 500);
+  }
 
   let message;
   try {
+    const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
     message = await client.messages.create({
       model: 'claude-opus-5',
       // Thinking is on by default on Opus 5 and shares this budget with the

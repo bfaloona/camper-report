@@ -1,6 +1,16 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validateCriteria, FIELD_IDS } from './parse.js';
+import { validateCriteria, FIELD_IDS, onRequestPost } from './parse.js';
+
+// Loopback + DEV_BYPASS_EMAIL, no CF_ACCESS_AUD: exercises the real requireUser
+// dev-bypass path (see functions/_lib/auth.js) rather than stubbing the guard —
+// a stubbed guard would prove nothing about whether this endpoint is behind it.
+const AUTHED_ENV = { DEV_BYPASS_EMAIL: 'bfaloona@gmail.com' };
+const parseReq = text => new Request('http://localhost/api/parse', {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify({ text }),
+});
 
 test('the field vocabulary includes the documented fields', () => {
   for (const f of ['length_in', 'safety_feature_count', 'powertrain', 'drivetrain_bucket']) {
@@ -82,4 +92,16 @@ test('assigns sequential ranks and derived weights', () => {
 test('returns an empty array for a non-array input', () => {
   assert.deepEqual(validateCriteria(null), []);
   assert.deepEqual(validateCriteria({ criteria: [] }), []);
+});
+
+test('a missing ANTHROPIC_API_KEY returns a clear 500 and never names the variable', async () => {
+  const res = await onRequestPost({
+    request: parseReq('under 195 inches long'),
+    env: AUTHED_ENV, // no ANTHROPIC_API_KEY
+  });
+  assert.equal(res.status, 500);
+  const body = await res.json();
+  assert.equal(typeof body.error, 'string');
+  assert.doesNotMatch(body.error, /ANTHROPIC_API_KEY/i);
+  assert.doesNotMatch(body.error, /api[_ -]?key/i);
 });
