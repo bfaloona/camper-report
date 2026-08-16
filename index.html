@@ -2815,6 +2815,123 @@ const DATA = /*DATA-START*/{
     "Hybrid is AWD-only and heavier than the gas Tucson, so no cheaper FWD hybrid option",
     "Cargo/length figures are community-measured (US LWB body) — verify fitment before buying a platform"
    ]
+  },
+  {
+   "id": "chevrolet-bolt-ev-gen2",
+   "make": "Chevrolet",
+   "model": "Bolt EV",
+   "trim": "1LT",
+   "trim_rationale": "The 2022 Bolt EV lineup is just two trims, 1LT (cloth) and 2LT (leather), and everything that matters for camping is shared: the same 60/40 fold-flat rear seat, the same two-position modular load floor (raised, it largely squares off the step where the folded seatbacks meet the cargo floor), the same 200 hp / 65 kWh FWD powertrain and 259-mile EPA range, and — new for 2022 — standard DC fast charging and standard Chevy Safety Assist on both. 2LT adds leather, a power driver's seat and HD Surround Vision: comfort and parking convenience, not camper capability, and cloth copes with damp gear better. Neither trim has a 120V household outlet (a single 12V/20A accessory outlet that only works with the vehicle powered on), so an inverter is an aftermarket add either way. So 1LT is the value pick. Note on the year: listed_year is 2022 because the 2022 model year was requested specifically. That deviates from this report's usual min(latest model year, 2024) rule, which would pick 2023 — the Bolt EV's final year. 2022 and 2023 are mechanically the same car; 2023 mainly changed pricing and packaging.",
+   "class": "Hatchback",
+   "powertrain": "ev",
+   "drivetrain": "FWD",
+   "generation_span": "2022–2023 (facelift of the 2017–2023 Bolt EV run; the 2022 refresh is widely called 'second-generation', hence the id).",
+   "listed_year": 2022,
+   "kbb_value_usd": {
+    "low": 12400,
+    "high": 17400,
+    "assumption": "2022 Bolt EV, good condition, typical mileage, national averages retrieved 2026-08. Low ≈ 1LT trade-in floor (~$12,420); high ≈ 1LT private-party ceiling (~$17,430). 2LT sits inside that band (trade-in ~$13,160–$14,960, private party ~$14,670–$16,620). KBB.com returns HTTP 403 to direct fetch, so these are search-surfaced KBB figures and they move weekly — treat as directional. Bolt values are unusually soft for the model year because of the battery-fire recall history; conversely a car with a documented replacement pack carries a fresh 8-year/100,000-mile battery warranty from the date of that replacement, which is worth paying up for.",
+    "source": "https://www.kbb.com/chevrolet/bolt-ev/2022/"
+   },
+   "exterior_in": {
+    "length": 163.2,
+    "width": 69.5,
+    "height": 63.4
+   },
+   "cargo_length_behind_front_seats_in": {
+    "value": 58,
+    "method": "Community/reviewer-compiled, not an official GM spec: ~58 in from the liftgate to the front seatbacks with the rear seat folded and the front seats in a normal driving position, stretching to ~65.7 in with the front seats slid fully forward and their backs tipped forward. Width is the real constraint at ~38 in between the wheel arches, with ~28.7 in of load height. The folded floor is not flat as delivered — the seatbacks sit slightly above the cargo floor — but the two-position modular load floor in its raised position mostly squares that step, and owners commonly add a plywood platform or a vehicle-specific foam mattress. The chevybolt.org owner threads (the primary community source) sit behind a JavaScript/paywall gate that blocks automated fetch, so their numbers could not be read directly; the figures quoted here come from the nimblecamper.com Bolt camping guide, which compiles them from those forums. Owner reports vary with where you measure from (console vs. seatback) — treat 58 in as a working figure, not a precise one. Practical upshot: a solo sleeper up to about 5'10\" fits with the front seats pushed forward; two adults do not.",
+    "source": "https://nimblecamper.com/chevy-bolt-camper-can-you-sleep-in-a-chevy-bolt/"
+   },
+   "mpg": {
+    "city": 131,
+    "hwy": 109,
+    "mpge": 120,
+    "ev_range_mi": 259,
+    "note": "These city/highway numbers are EPA MPGe, not MPG — the Bolt EV is battery-electric and uses no fuel. EPA: 131 city / 109 highway / 120 combined MPGe and 259 miles of combined range on a full charge of the 65 kWh pack. Both 2022 trims (1LT, 2LT) carry the same rating. Real-world range drops materially in cold weather, and running cabin heat or A/C overnight while camping comes straight off the same pack that gets you home."
+   },
+   "safety": {
+    "suite": "Chevy Safety Assist (standard on both 2022 Bolt EV trims)",
+    "features": [
+     "Automatic Emergency Braking",
+     "Front Pedestrian Braking",
+     "Forward Collision Alert",
+     "Lane Keep Assist with Lane Departure Warning",
+     "Following Distance Indicator",
+     "IntelliBeam automatic high beams",
+     "HD Rear Vision Camera standard; HD Surround Vision on 2LT",
+     "NHTSA 5-star overall (5-star frontal, side and rollover; 4-star front-passenger frontal)",
+     "IIHS: no 2022 Top Safety Pick award. Published IIHS ratings carry over from 2017 Bolt EV testing (roof strength Good, head restraints/seats Good, LATCH ease-of-use Marginal)"
+    ]
+   },
+   "camper_popularity": {
+    "rating": "Low",
+    "evidence": "A real but small camping niche. There is one dedicated vendor — Voltstuff's Chevy BoltMattress, a custom-cut 2.5 in foam pad that splits into three pieces, fitting every Bolt EV/EUV year — and AirBedz lists vehicle-specific 2022 Bolt EV fitment through etrailer, plus recurring car-camping threads on chevybolt.org and a handful of how-to guides (autoroamer, nimblecamper). But there is no full conversion kit for it, nothing from the platform vendors (Luno, RiverLeaf, Freeway Camper Kit) that fit the SUVs in this report, and the reasons are structural: 259 miles of range, FWD only, ~5.3–5.6 in of ground clearance, and no 120V outlet or camp mode. Well below the Prius — the other efficient hatchback here — which has a far deeper build community."
+   },
+   "conversion_products": [
+    {
+     "name": "Voltstuff Chevy BoltMattress",
+     "url": "https://voltstuff.com/store/boltmattress-1/"
+    },
+    {
+     "name": "AirBedz rear-seat air mattress w/ 12V pump (2022 Bolt EV fitment)",
+     "url": "https://www.etrailer.com/tbairmatt-2022_Chevrolet_Bolt+EV.htm"
+    },
+    {
+     "name": "Thule / Yakima crossbars for the 2022 Bolt EV",
+     "url": "https://www.etrailer.com/roof-2022_chevrolet_bolt+ev.htm"
+    }
+   ],
+   "photos": {
+    "exterior": {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/2022_Chevrolet_Bolt_EV_LT_in_Grey_Ghost_Metallic%2C_Front_Right%2C_08-14-2022.jpg",
+     "note": "Canadian-market LT, which is the US 1LT; 2022 facelift body."
+    },
+    "dashboard": null,
+    "cargo": null
+   },
+   "last_verified": "2026-08-16",
+   "model_url": "https://media.chevrolet.com/content/dam/Media/images/US/Vehicles/Chevrolet/Cars/BoltEV/2022/2022%20Chevrolet%20Bolt%20EV.pdf",
+   "max_cargo_cf": {
+    "value": 57.0,
+    "config": "Behind the first row, 60/40 rear seat folded (GM published figure). Behind the rear seat it is about 16.6–17 cu ft.",
+    "source": "https://media.chevrolet.com/content/dam/Media/images/US/Vehicles/Chevrolet/Cars/BoltEV/2022/2022%20Chevrolet%20Bolt%20EV.pdf"
+   },
+   "tow_rating": {
+    "max": 0,
+    "tongue": null,
+    "note": "Not rated for towing in the US. The 2022 Bolt EV owner's manual is explicit: 'Never tow a trailer with your vehicle. It was not designed or intended to tow a trailer,' and elsewhere 'This vehicle is neither designed nor intended to tow a trailer.' GM publishes no maximum trailer weight and no tongue weight. Hitches sold for the Bolt are bike/cargo-carrier accessories, not towing hardware.",
+    "source": "https://www.chevrolet.com/ownercenter/content/dam/gmownercenter/gmna/dynamic/manuals/2022/chevrolet/bolt-ev/2022-chevrolet-bolt-ev-owners-manual.pdf"
+   },
+   "reliability": {
+    "score": 4.0,
+    "scale": "RepairPal /5 — RepairPal publishes NO rating for the Bolt EV ('There is no Reliability Rating for the Chevrolet Bolt EV due to insufficient data'). The 4.0 shown is RepairPal's alternative-fuel-vehicle segment average (4.0/5 'Above Average', ~$471/yr, 0.42 shop visits/yr) used as a stand-in, the same proxy approach used elsewhere in this report. It is not Bolt-specific — read the known_issues field, not the number.",
+    "jd_power": "J.D. Power did not rate the 2022 Bolt EV for Quality & Reliability. In J.D. Power's 2022 U.S. Electric Vehicle Experience Ownership Study the Bolt scored 687/1000, last among the six mass-market BEVs studied.",
+    "known_issues": "Seven NHTSA recalls for the 2022 Bolt EV, and the battery one dominates any used-Bolt decision. 21V-650 (GM N212345940, filed 20 Aug 2021, an expansion of 21V-560) covers all 2020–2022 Bolt EV and 2022 Bolt EUV: LG cells with a torn anode tab plus a folded separator can catch fire at or near full charge. Remedy: free replacement of defective battery modules (in practice often the whole pack), with a fresh 8-year/100,000-mile battery warranty from the replacement date, and interim guidance to cap charging at 90%, not deplete below ~70 miles remaining, and park outside after charging. Two follow-up recalls, 24V-481 (Jun 2024) and 24V-812 (Oct 2024), cover cars whose advanced diagnostic software was installed incorrectly under the 21V-650 remedy. 22V-930 and its re-do 23V-845 cover 2017–2023 Bolt EVs where a deployed seat-belt pretensioner can ignite carpet fibers at the B-pillar. Two airbag recalls: 21V-517 (driver airbag fasteners) and 23V-567 (missing instrument-panel perforation for the passenger airbag). Before buying, run the VIN through NHTSA and get written confirmation of which battery remedy the car received and when — that date sets the remaining battery warranty. Outside the recalls the Bolt's mechanical record is unremarkable; the drivetrain is simple and there is no engine, transmission or exhaust to service.",
+    "source": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=chevrolet&model=bolt%20ev&modelYear=2022"
+   },
+   "camper_pros": [
+    "Cheapest entry in the report by a wide margin: ~$12–17k buys a five-year-old EV, and 'fuel' at home is a few dollars a night",
+    "No engine, transmission, exhaust or oil changes — the lowest routine-maintenance burden of anything here",
+    "Silent overnight climate control with no idling, no exhaust and no CO risk, which no gas or hybrid vehicle here can offer",
+    "60/40 rear seat plus a two-position modular load floor: raised, it nearly squares off the step and gives a usable flat sleeping deck",
+    "A dedicated vehicle-specific mattress exists (Voltstuff BoltMattress, 2.5 in foam, splits into three storable pieces)",
+    "DC fast charging standard for 2022 (~100 miles in 30 minutes) plus an 11.5 kW onboard charger, so overnight Level 2 tops it off anywhere",
+    "163 in long and 69.5 in wide — parks and turns anywhere, including tight trailheads and urban stealth spots",
+    "NHTSA 5-star overall with Chevy Safety Assist standard on both trims"
+   ],
+   "camper_cons": [
+    "259 miles of EPA range, less in cold weather, and every hour of overnight heat or A/C comes off that same number — the binding constraint on where you can camp",
+    "Charging determines your route: dispersed camping far from a charger is a planning exercise, not a spontaneous decision",
+    "Not rated to tow anything — GM's manual says never tow a trailer, so no teardrop, no utility trailer, no cargo trailer",
+    "~5.3–5.6 in of ground clearance with the battery under the floor: paved and graded roads only, no rough forest-service tracks",
+    "FWD only, no AWD or 4WD offered in any year",
+    "~58 in of usable length and only ~38 in between the wheel arches — a solo bed for someone up to about 5'10\", not a two-person platform",
+    "No 120V household outlet and no V2L: a single 12V/20A accessory outlet that only works with the car powered on, so an inverter is a required add",
+    "No factory camp or climate-hold mode, unlike several newer EVs",
+    "Battery-fire recall history (21V-650 plus two software re-dos) makes recall-completion documentation mandatory before buying, and depresses resale",
+    "Aftermarket is thin: no full conversion kit, and none of the platform vendors that serve the SUVs here (Luno, RiverLeaf, Freeway Camper Kit) fit it"
+   ]
   }
  ]
 }/*DATA-END*/;

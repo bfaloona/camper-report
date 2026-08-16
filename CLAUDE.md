@@ -53,7 +53,9 @@ complete — match that). Measurements are in inches; money in USD. Key conventi
 
 - `id`: kebab-case `make-model-generation`, e.g. `hyundai-tucson-hybrid-nx4`. Unique.
 - `class`: one of `SUV`, `Minivan`, `Compact minivan`, `Compact van`, `Wagon`, `Hatchback`.
-- `powertrain`: one of `gas`, `hybrid`, `phev`. (PHEV records add `mpge` + `ev_range_mi` to `mpg`.)
+- `powertrain`: one of `gas`, `hybrid`, `phev`, `ev`. PHEV and EV records add `mpge` +
+  `ev_range_mi` to `mpg`. For `ev` records, `mpg.city`/`mpg.hwy` hold the EPA **MPGe**
+  city/highway figures and `mpg.note` must say so.
 - `drivetrain`: the *listed trim's* configuration — `AWD`, `4WD`, `FWD`, or `RWD`. The
   page's drivetrain filter buckets these two ways: `AWD`/`4WD` vs `FWD`/`RWD`.
 - `tow_rating`: `{ max, tongue, note, source }`. `max` = max towing capacity in lbs
