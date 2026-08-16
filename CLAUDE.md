@@ -48,7 +48,7 @@ field on an *existing* vehicle and need that change to reach the page.
 
 ## The vehicle record schema
 
-Every record in `vehicles.json` carries the same fields (all 24 current records are
+Every record in `vehicles.json` carries the same fields (all 25 current records are
 complete — match that). Measurements are in inches; money in USD. Key conventions:
 
 - `id`: kebab-case `make-model-generation`, e.g. `hyundai-tucson-hybrid-nx4`. Unique.

@@ -2936,7 +2936,7 @@
       ]
     },
     {
-      "id": "chevrolet-bolt-ev-gen2",
+      "id": "chevrolet-bolt-ev-gen1",
       "make": "Chevrolet",
       "model": "Bolt EV",
       "trim": "1LT",
@@ -2944,7 +2944,7 @@
       "class": "Hatchback",
       "powertrain": "ev",
       "drivetrain": "FWD",
-      "generation_span": "2022–2023 (facelift of the 2017–2023 Bolt EV run; the 2022 refresh is widely called 'second-generation', hence the id).",
+      "generation_span": "2017–2023 (1st gen; this record is the 2022–2023 facelift). Gen 2 is the all-new 2027 Bolt.",
       "listed_year": 2022,
       "kbb_value_usd": {
         "low": 12400,
@@ -3042,9 +3042,10 @@
         "https://www.etrailer.com/tbairmatt-2022_Chevrolet_Bolt+EV.htm",
         "https://www.etrailer.com/roof-2022_chevrolet_bolt+ev.htm",
         "https://www.autopadre.com/ground-clearance/chevrolet-bolt",
-        "https://commons.wikimedia.org/wiki/Category:Chevrolet_Bolt_EV_(2022_redesign)"
+        "https://commons.wikimedia.org/wiki/Category:Chevrolet_Bolt_EV_(2022_redesign)",
+        "https://en.wikipedia.org/wiki/Chevrolet_Bolt"
       ],
-      "notes": "Generation naming is genuinely contested. GM sold 2017–2023 as one continuous Bolt EV run and Wikimedia Commons files all of it as the first generation, with the all-new 2027 Bolt as the second; a number of outlets instead call the 2022 refresh 'second-generation', which is what this record's id ('gen2') follows. The specs here are strictly the 2022 facelift car (new hood, fascias, LED lamps, wheels, instrument panel, seats and Electronic Precision Shift pushbuttons). This is the only battery-electric record in the report, and the only one where range is a hard trip constraint rather than a fuel-cost line item. Specs are the US-market Bolt EV hatchback, not the Bolt EUV — the EUV is a separate model, about 6 in longer, with its own cargo figure and its own Super Cruise option; do not mix the two. Powertrain: single permanent-magnet motor, 200 hp / 150 kW, 266 lb-ft, FWD, 65+ kWh pack, 11.5 kW onboard AC charger, DC fast charging standard for 2022 (~100 miles in 30 minutes). Ground clearance is roughly 5.3–5.6 in depending on source — low, with the pack under the floor. Max cargo 57 cu ft seats-folded is GM's own figure; behind the rear seat is about 16.6–17 cu ft (cars.com rounds to 17). Electrical: one 12V accessory outlet rated 20 A max that only works with the vehicle powered on — no 120V household outlet, no V2L, and no factory camp/climate-hold mode, so overnight climate control means leaving the car on and spending range. chevrolet.com/electric/bolt-ev now serves the all-new 2027 Bolt, so GM's 2022 media spec sheet is used as model_url instead. Photos: the exterior file's URL was verified to load (HTTP 200) and its license confirmed on the Commons file page. No 2022-facelift dashboard or cargo photo exists in Category:Chevrolet Bolt EV (2022 redesign), and the available '2021 Chevrolet Bolt EV interior' file shows the pre-facelift dash (different instrument panel, screen and shifter), so those two slots are null rather than misleading.",
+      "notes": "Generation: 2017–2023 is a single Bolt EV generation. Wikipedia files the 2022 car as a 'Refresh (2022–2023)' subsection inside the first generation, and Wikimedia Commons categorises 2017–2023 the same way, with the all-new 2027 Bolt (unveiled 9 October 2025) as the second generation. So the 2022 car is a mid-cycle facelift, not a new generation, and the id is 'gen1'. Some outlets loosely call the 2022 refresh 'second-generation'; that reading does not fit this report's make-model-generation id convention and is not used here. The specs in this record are strictly the 2022 facelift car (new hood, fascias, LED lamps, wheels, instrument panel, seats and Electronic Precision Shift pushbuttons). This is the only battery-electric record in the report, and the only one where range is a hard trip constraint rather than a fuel-cost line item. Specs are the US-market Bolt EV hatchback, not the Bolt EUV — the EUV is a separate model, about 6 in longer, with its own cargo figure and its own Super Cruise option; do not mix the two. Powertrain: single permanent-magnet motor, 200 hp / 150 kW, 266 lb-ft, FWD, 65+ kWh pack, 11.5 kW onboard AC charger, DC fast charging standard for 2022 (~100 miles in 30 minutes). Ground clearance is roughly 5.3–5.6 in depending on source — low, with the pack under the floor. Max cargo 57 cu ft seats-folded is GM's own figure; behind the rear seat is about 16.6–17 cu ft (cars.com rounds to 17). Electrical: one 12V accessory outlet rated 20 A max that only works with the vehicle powered on — no 120V household outlet, no V2L, and no factory camp/climate-hold mode, so overnight climate control means leaving the car on and spending range. chevrolet.com/electric/bolt-ev now serves the all-new 2027 Bolt, so GM's 2022 media spec sheet is used as model_url instead. Photos: the exterior file's URL was verified to load (HTTP 200) and its license confirmed on the Commons file page. No 2022-facelift dashboard or cargo photo exists in Category:Chevrolet Bolt EV (2022 redesign), and the available '2021 Chevrolet Bolt EV interior' file shows the pre-facelift dash (different instrument panel, screen and shifter), so those two slots are null rather than misleading.",
       "last_verified": "2026-08-16",
       "model_url": "https://media.chevrolet.com/content/dam/Media/images/US/Vehicles/Chevrolet/Cars/BoltEV/2022/2022%20Chevrolet%20Bolt%20EV.pdf",
       "max_cargo_cf": {
