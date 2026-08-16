@@ -2,6 +2,11 @@ import { requireUser } from '../_lib/auth.js';
 
 const KEY = 'prefs:v1';
 
+// Generous for a criteria/pins list and well under KV's 25 MB value limit; big
+// enough that no real usage should hit it, small enough that the blob can't be
+// abused as general-purpose storage.
+const MAX_BODY_BYTES = 100 * 1024;
+
 const EMPTY = {
   version: 1,
   updated_at: null,
@@ -26,15 +31,39 @@ export async function onRequestGet({ request, env }) {
   const { response } = await requireUser(request, env);
   if (response) return response;
 
-  const stored = await env.PREFS.get(KEY);
+  let stored;
+  try {
+    stored = await env.PREFS.get(KEY);
+  } catch (e) {
+    return json({ error: 'Preferences store is unavailable' }, 503);
+  }
+
   const text = stored ?? JSON.stringify(EMPTY);
-  return json({ prefs: JSON.parse(text), etag: await etagOf(text) });
+  let prefs;
+  try {
+    prefs = JSON.parse(text);
+  } catch (e) {
+    // Corrupted stored value: don't fail the read, fall back to defaults, but
+    // say so — a silent fallback would look to the client like an empty blob
+    // was intentional.
+    const fallbackText = JSON.stringify(EMPTY);
+    return json({
+      prefs: EMPTY,
+      etag: await etagOf(fallbackText),
+      warning: 'Stored preferences were corrupted; showing defaults.',
+    });
+  }
+  return json({ prefs, etag: await etagOf(text) });
 }
 
-// Known limitation: KV is eventually consistent across edge locations, so two
-// simultaneous edits from different regions can in principle both see the same
-// etag and the later write wins. Acceptable residual risk for a two-person tool;
-// Durable Objects would be the fix if it ever bites.
+// Known limitation: Workers KV has no compare-and-swap, so this endpoint's
+// concurrency control is check-then-act, not atomic. If two PUTs both read the
+// current etag before either writes, both see the same etag, both pass this
+// check, and the second write silently wins — no 409. The etag catches
+// *sequential* staleness (a PUT that arrives after someone else's write) but
+// not two writes racing each other from the same starting etag. Acceptable
+// residual risk for a two-person tool; Durable Objects would give real
+// compare-and-swap if this ever bites.
 export async function onRequestPut({ request, env }) {
   const { email, response } = await requireUser(request, env);
   if (response) return response;
@@ -52,19 +81,41 @@ export async function onRequestPut({ request, env }) {
     return json({ error: 'prefs.criteria and prefs.pins must be arrays' }, 400);
   }
 
-  const stored = await env.PREFS.get(KEY);
+  // Only these two fields are ever persisted (see next, below) — measure
+  // against what will actually be stored, not the whole caller-supplied body.
+  const candidateSize = new TextEncoder().encode(
+    JSON.stringify({ pins: body.prefs.pins, criteria: body.prefs.criteria })
+  ).length;
+  if (candidateSize > MAX_BODY_BYTES) {
+    return json({ error: `prefs must be under ${MAX_BODY_BYTES} bytes` }, 400);
+  }
+
+  let stored;
+  try {
+    stored = await env.PREFS.get(KEY);
+  } catch (e) {
+    return json({ error: 'Preferences store is unavailable' }, 503);
+  }
   const currentEtag = await etagOf(stored ?? JSON.stringify(EMPTY));
   if (body.etag !== currentEtag) {
     return json({ error: 'Preferences changed since you loaded them', etag: currentEtag }, 409);
   }
 
+  // Pick only known fields — never spread the caller's body verbatim. Spreading
+  // would store (and echo back) any extra top-level key the caller sent, with
+  // no size bound, turning this blob into arbitrary storage.
   const next = {
-    ...body.prefs,
     version: 1,
     updated_at: new Date().toISOString(),
     updated_by: email,
+    pins: body.prefs.pins,
+    criteria: body.prefs.criteria,
   };
   const text = JSON.stringify(next);
-  await env.PREFS.put(KEY, text);
+  try {
+    await env.PREFS.put(KEY, text);
+  } catch (e) {
+    return json({ error: 'Preferences store is unavailable' }, 503);
+  }
   return json({ prefs: next, etag: await etagOf(text) });
 }
