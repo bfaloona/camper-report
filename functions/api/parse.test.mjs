@@ -105,3 +105,59 @@ test('a missing ANTHROPIC_API_KEY returns a clear 500 and never names the variab
   assert.doesNotMatch(body.error, /ANTHROPIC_API_KEY/i);
   assert.doesNotMatch(body.error, /api[_ -]?key/i);
 });
+
+test('keeps a valid "between" rule, ordering the values low-to-high', () => {
+  const [c] = validateCriteria([{
+    label: 'Mid-size price', tier: 'must-have', kind: 'hard',
+    rule: { field: 'price_low', op: 'between', value: [40000, 25000] }, source_text: '$25k-$40k',
+  }]);
+  assert.equal(c.kind, 'hard');
+  assert.deepEqual(c.rule, { field: 'price_low', op: 'between', value: [25000, 40000] });
+});
+
+test('demotes a "between" rule whose value is not a two-element numeric array', () => {
+  const [c] = validateCriteria([{
+    label: 'Mid-size price', tier: 'must-have', kind: 'hard',
+    rule: { field: 'price_low', op: 'between', value: [25000] }, source_text: 'around $25k',
+  }]);
+  assert.equal(c.kind, 'manual');
+  assert.equal(c.rule, null);
+});
+
+test('accepts a bare enum scalar and normalizes it to an array', () => {
+  const [c] = validateCriteria([{
+    label: 'AWD only', tier: 'must-have', kind: 'hard',
+    rule: { field: 'drivetrain_bucket', op: 'in', value: 'awd' }, source_text: 'awd',
+  }]);
+  assert.equal(c.kind, 'hard');
+  assert.deepEqual(c.rule, { field: 'drivetrain_bucket', op: 'in', value: ['awd'] });
+});
+
+test('demotes an enum value outside the allowed set', () => {
+  const [c] = validateCriteria([{
+    label: 'Hovercraft powertrain', tier: 'nice-to-have', kind: 'hard',
+    rule: { field: 'powertrain', op: 'in', value: ['hovercraft'] }, source_text: 'hovercraft',
+  }]);
+  assert.equal(c.kind, 'manual');
+  assert.equal(c.rule, null);
+});
+
+test('demotes a numeric operator applied to an enum field', () => {
+  const [c] = validateCriteria([{
+    label: 'Powertrain', tier: 'nice-to-have', kind: 'hard',
+    rule: { field: 'powertrain', op: '<', value: 3 }, source_text: 'powertrain < 3',
+  }]);
+  assert.equal(c.kind, 'manual');
+  assert.equal(c.rule, null);
+});
+
+test('an unauthenticated request never reaches the API key check (401/403 before spending money)', async () => {
+  // CF_ACCESS_TEAM_DOMAIN + CF_ACCESS_AUD set (so requireUser doesn't 500 for
+  // being unconfigured) but no DEV_BYPASS_EMAIL and no token on the request, so
+  // requireUser must reject before onRequestPost ever looks at
+  // ANTHROPIC_API_KEY. If auth ran after the key check, a missing key here
+  // would produce 500, not 401/403 — that's the ordering this test pins.
+  const env = { CF_ACCESS_TEAM_DOMAIN: 'test.cloudflareaccess.com', CF_ACCESS_AUD: 'aud-tag' };
+  const res = await onRequestPost({ request: parseReq('under 195 inches long'), env });
+  assert.ok([401, 403].includes(res.status), `expected 401 or 403, got ${res.status}`);
+});
