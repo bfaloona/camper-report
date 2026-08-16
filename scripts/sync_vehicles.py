@@ -30,6 +30,7 @@ Usage:
 
 Run from the repository root.
 """
+import filecmp
 import json
 import re
 import sys
@@ -110,11 +111,22 @@ def main():
                 f.write(new_html)
 
     if check:
+        ok = True
         if changed:
             print("Out of sync: " + ", ".join(changed))
-            return 1
-        print("HTML data is in sync with vehicles.json.")
-        return 0
+            ok = False
+        # The DATA block check above only compares each file's data block to
+        # vehicles.json independently, so it can't catch the two HTML files
+        # drifting from *each other* (e.g. hand-mirrored CSS/JS). Check that
+        # directly — this is the only thing enforcing "keep them identical".
+        if len(HTML_FILES) == 2 and not filecmp.cmp(HTML_FILES[0], HTML_FILES[1], shallow=False):
+            a, b = (os.path.basename(p) for p in HTML_FILES)
+            print(f"{a} and {b} are not byte-for-byte identical. Fix: cp {a} {b}")
+            ok = False
+        if ok:
+            print("HTML data is in sync with vehicles.json.")
+            return 0
+        return 1
 
     if changed:
         print("Updated: " + ", ".join(changed))

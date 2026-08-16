@@ -17,6 +17,7 @@
     --badge-ev: #ede9fb; --badge-ev-ink: #4a3aa7;
     --pop-high: #006300; --pop-med: #a06b00; --pop-low: #898781;
     --wash: #f3f2ef;
+    --pin-wash: #fbf1dc;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -31,6 +32,7 @@
       --badge-ev: #241d4d; --badge-ev-ink: #b0a7f2;
       --pop-high: #0ca30c; --pop-med: #c98500; --pop-low: #898781;
       --wash: #232322;
+      --pin-wash: #2e2210;
     }
   }
   * { box-sizing: border-box; }
@@ -74,6 +76,7 @@
   /* Cards */
   .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .card.pinned { background: var(--pin-wash); box-shadow: inset 3px 0 0 0 var(--pop-med); }
   .photo-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; background: var(--page); }
   .photo-cell { position: relative; aspect-ratio: 4/3; overflow: hidden; background: var(--wash); }
   .photo-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -122,6 +125,9 @@
   td.num { font-variant-numeric: tabular-nums; }
   th .arrow { font-size: 9px; }
   tbody tr:hover { background: var(--wash); }
+  tbody tr.pinned { background: var(--pin-wash); }
+  tbody tr.pinned:hover { background: var(--pin-wash); }
+  tbody tr.pinned td:first-child { box-shadow: inset 3px 0 0 0 var(--pop-med); }
   .veh-cell { font-weight: 600; white-space: nowrap; }
   .veh-cell .trim-sm { display: block; font-weight: 400; font-size: 11px; color: var(--ink-2); white-space: normal; }
   .flag { color: var(--pop-med); cursor: help; }
@@ -183,7 +189,7 @@
         <div class="control-group"><label for="f-class">Class</label>
           <select id="f-class"><option value="">All</option></select></div>
         <div class="control-group"><label for="f-power">Powertrain</label>
-          <select id="f-power"><option value="">All</option></select></div>
+          <select id="f-power"><option value="">All</option><option value="electrified">Electrified (EV, PHEV, hybrid)</option></select></div>
         <div class="control-group"><label for="f-drive">Drivetrain</label>
           <select id="f-drive"><option value="">All</option><option value="awd">AWD / 4WD</option><option value="2wd">FWD / 2WD</option></select></div>
       </div>
@@ -2975,9 +2981,25 @@ function togglePin(id, pins) {
 // Union of (filter matches) and (pinned), in source order. Sorting is the
 // caller's job, so pins land in their natural sorted position rather than
 // floating to the top.
+//
+// Compare mode shows (checked) union (pinned), and deliberately still
+// ignores the class/power/drive filters: once a vehicle is explicitly
+// checked or pinned, a filter silently dropping it from the comparison
+// would be the surprising outcome. "The set I chose plus the ones I
+// pinned" is the whole rule in compare mode — `matches` is not consulted.
 function visibleRows(all, matches, pins, compareMode, selected) {
-  if (compareMode) return all.filter(v => selected.has(v.id));
+  if (compareMode) return all.filter(v => selected.has(v.id) || pins.has(v.id));
   return all.filter(v => pins.has(v.id) || matches(v));
+}
+
+// Powertrain filter matching. '' (the "All" option) matches everything;
+// 'electrified' is a synthetic option (not a real powertrain value) that
+// matches any of ev/phev/hybrid; anything else matches only itself.
+const ELECTRIFIED_POWERTRAINS = new Set(['ev', 'phev', 'hybrid']);
+function powertrainMatches(filterValue, powertrain) {
+  if (!filterValue) return true;
+  if (filterValue === 'electrified') return ELECTRIFIED_POWERTRAINS.has(powertrain);
+  return powertrain === filterValue;
 }
 /*PURE-END*/
 
@@ -3036,7 +3058,7 @@ let state = { fClass: '', fPower: '', fDrive: '', sortKey: 'vehicle', sortDir: 1
 
 function matchesFilters(v) {
   return (!state.fClass || v.class === state.fClass)
-    && (!state.fPower || v.powertrain === state.fPower)
+    && powertrainMatches(state.fPower, v.powertrain)
     && (!state.fDrive || DT_BUCKET(v.drivetrain) === state.fDrive);
 }
 function filtered() {
@@ -3065,7 +3087,7 @@ function photoCell(p, label) {
 
 function renderCards(rows) {
   document.getElementById('cards').innerHTML = rows.map(v => `
-  <div class="card">
+  <div class="card${state.pins.has(v.id) ? ' pinned' : ''}">
     <div class="photo-strip">
       ${photoCell(v.photos.exterior, 'Exterior')}
       ${photoCell(v.photos.dashboard, 'Dashboard')}
@@ -3088,10 +3110,10 @@ function renderCards(rows) {
       </div>
       <div class="specs">
         <div class="spec"><div class="k">KBB (${v.listed_year})</div><div class="v">$${fmt(v.kbb_value_usd.low)}–$${fmt(v.kbb_value_usd.high)}</div></div>
-        <div class="spec"><div class="k">MPG city/hwy</div><div class="v" title="${v.mpg.note || ''}">${v.mpg.city} / ${v.mpg.hwy}${v.mpg.mpge ? ' · ' + v.mpg.mpge + ' MPGe · ' + v.mpg.ev_range_mi + ' mi EV' : ''}</div></div>
+        <div class="spec"><div class="k">MPG city/hwy</div><div class="v" title="${esc(v.mpg.note || '')}">${v.mpg.city} / ${v.mpg.hwy}${v.mpg.mpge ? ' · ' + v.mpg.mpge + ' MPGe · ' + v.mpg.ev_range_mi + ' mi EV' : ''}</div></div>
         <div class="spec"><div class="k">Exterior L×W×H</div><div class="v">${v.exterior_in.length} × ${v.exterior_in.width} × ${v.exterior_in.height} in</div></div>
-        <div class="spec"><div class="k">Cargo length behind front seats</div><div class="v">${v.cargo_length_behind_front_seats_in.value} in <span class="flag" title="${v.cargo_length_behind_front_seats_in.method}">†</span></div></div>
-        <div class="spec"><div class="k">Camper popularity</div><div class="v pop ${v.camper_popularity.rating}" title="${v.camper_popularity.evidence}">${v.camper_popularity.rating}</div></div>
+        <div class="spec"><div class="k">Cargo length behind front seats</div><div class="v">${v.cargo_length_behind_front_seats_in.value} in <span class="flag" title="${esc(v.cargo_length_behind_front_seats_in.method)}">†</span></div></div>
+        <div class="spec"><div class="k">Camper popularity</div><div class="v pop ${v.camper_popularity.rating}" title="${esc(v.camper_popularity.evidence)}">${v.camper_popularity.rating}</div></div>
         <div class="spec"><div class="k">Tow rating</div><div class="v" title="${v.tow_rating ? esc(v.tow_rating.note) : ''}">${towText(v)}</div></div>
         <div class="spec"><div class="k">Safety suite</div><div class="v">${v.safety.suite}</div></div>
         <div class="spec"><div class="k">Max cargo</div><div class="v">${v.max_cargo_cf ? v.max_cargo_cf.value + ' cu ft' : '—'}</div></div>
@@ -3121,23 +3143,23 @@ function renderTable(rows) {
     render();
   });
   document.getElementById('tbody').innerHTML = rows.map(v => `
-    <tr data-id="${v.id}">
+    <tr data-id="${v.id}" class="${state.pins.has(v.id) ? 'pinned' : ''}">
       <td class="sel-cell"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"><button class="pin-btn sm${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}" title="${state.pins.has(v.id) ? 'Unpin' : 'Pin'}" aria-pressed="${state.pins.has(v.id)}">📌</button></td>
       <td class="veh-cell">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${DT_LABEL[v.drivetrain] || v.drivetrain} · ${v.generation_span}</span></td>
       <td>${v.class}</td>
       <td>${PT_LABEL[v.powertrain]}</td>
       <td class="num">${v.listed_year}</td>
-      <td class="num" title="${v.kbb_value_usd.assumption}">${fmt(v.kbb_value_usd.low)}–${fmt(v.kbb_value_usd.high)}</td>
+      <td class="num" title="${esc(v.kbb_value_usd.assumption)}">${fmt(v.kbb_value_usd.low)}–${fmt(v.kbb_value_usd.high)}</td>
       <td class="num">${v.exterior_in.length}</td>
       <td class="num">${v.exterior_in.width}</td>
       <td class="num">${v.exterior_in.height}</td>
-      <td class="num">${v.cargo_length_behind_front_seats_in.value} <span class="flag" title="${v.cargo_length_behind_front_seats_in.method}">†</span></td>
-      <td class="num" title="${v.max_cargo_cf ? v.max_cargo_cf.config : ''}">${v.max_cargo_cf ? v.max_cargo_cf.value : '—'}</td>
+      <td class="num">${v.cargo_length_behind_front_seats_in.value} <span class="flag" title="${esc(v.cargo_length_behind_front_seats_in.method)}">†</span></td>
+      <td class="num" title="${v.max_cargo_cf ? esc(v.max_cargo_cf.config) : ''}">${v.max_cargo_cf ? v.max_cargo_cf.value : '—'}</td>
       <td class="num">${v.mpg.city}</td>
       <td class="num">${v.mpg.hwy}</td>
       <td class="num" title="${v.tow_rating ? esc(v.tow_rating.note) : ''}">${v.tow_rating ? (v.tow_rating.max ? fmt(v.tow_rating.max) : '0') : '—'}</td>
       <td class="num" title="${v.reliability ? esc(v.reliability.known_issues) : ''}">${v.reliability ? v.reliability.score.toFixed(1) : '—'}</td>
-      <td><span class="pop ${v.camper_popularity.rating}" title="${v.camper_popularity.evidence}">${v.camper_popularity.rating}</span></td>
+      <td><span class="pop ${v.camper_popularity.rating}" title="${esc(v.camper_popularity.evidence)}">${v.camper_popularity.rating}</span></td>
       <td class="num">${v.conversion_products.length}</td>
       <td>${v.model_url ? '<a href="' + v.model_url + '" target="_blank" rel="noopener" title="Model page">&#8599;</a>' : ''}</td>
     </tr>`).join('');
@@ -3145,11 +3167,22 @@ function renderTable(rows) {
 
 function render() {
   const rows = sorted(filtered());
-  const pinnedShown = rows.filter(v => state.pins.has(v.id)).length;
-  const pinNote = (!state.compareMode && pinnedShown) ? ' · ' + pinnedShown + ' pinned' : '';
-  document.getElementById('count-note').textContent = state.compareMode
-    ? 'Comparing ' + rows.length + ' vehicles'
-    : rows.length + ' of ' + DATA.vehicles.length + ' vehicles' + pinNote;
+  // Pin buttons live inside .card / tr markup that innerHTML rebuilds below,
+  // so a keyboard user who just activated one loses focus to <body> unless
+  // we put it back on the equivalent button for the same vehicle id.
+  const focusedPin = document.activeElement && document.activeElement.closest && document.activeElement.closest('[data-pin]');
+  const refocusId = focusedPin ? focusedPin.dataset.pin : null;
+  if (state.compareMode) {
+    // A pinned-but-unchecked vehicle can appear here (checked ∪ pinned); call
+    // that out the same way the filtered view calls out pinned overage.
+    const pinnedExtra = rows.filter(v => state.pins.has(v.id) && !state.selected.has(v.id)).length;
+    document.getElementById('count-note').textContent = 'Comparing ' + rows.length + ' vehicles'
+      + (pinnedExtra ? ' · ' + pinnedExtra + ' pinned' : '');
+  } else {
+    const pinnedShown = rows.filter(v => state.pins.has(v.id)).length;
+    document.getElementById('count-note').textContent = rows.length + ' of ' + DATA.vehicles.length + ' vehicles'
+      + (pinnedShown ? ' · ' + pinnedShown + ' pinned' : '');
+  }
   if (typeof updateCompareUI === 'function') updateCompareUI();
   if (state.view === 'cards') { renderCards(rows); }
   else { renderTable(rows); }
@@ -3162,6 +3195,10 @@ function render() {
   if (sortSel && SORT_COLS.some(c => c.key === state.sortKey)) sortSel.value = state.sortKey;
   const dirBtn = document.getElementById('btn-sortdir');
   if (dirBtn) dirBtn.textContent = state.sortDir === 1 ? '▲ Asc' : '▼ Desc';
+  if (refocusId) {
+    const btn = document.querySelector('[data-pin="' + CSS.escape(refocusId) + '"]');
+    if (btn) btn.focus();
+  }
 }
 
 // init filters
@@ -3257,16 +3294,16 @@ document.addEventListener('click', e => {
 document.addEventListener('click', e => {
   const btn = e.target.closest('[data-pin]');
   if (!btn) return;
-  e.stopPropagation();
   state.pins = togglePin(btn.dataset.pin, state.pins);
   render();
 });
 // table row click -> detail (ignore links); checkbox click -> toggle compare selection
 document.getElementById('tbody').addEventListener('click', e => {
-  // Bubble-phase listeners fire target-to-root, so this handler runs before the
-  // document-level pin handler above — without this guard a pin click inside a
-  // row would already have opened the detail overlay by the time stopPropagation
-  // ran. Let the click bubble past this handler untouched.
+  // Bubble-phase listeners fire target-to-root, so this tbody handler runs
+  // before the document-level pin handler above. Without this guard a pin
+  // click inside a row would be treated as a row click and open the detail
+  // overlay before the pin handler ever sees the event. Let it bubble past
+  // this handler untouched instead.
   if (e.target.closest('[data-pin]')) return;
   const cb = e.target.closest('input[data-sel]');
   if (cb) {

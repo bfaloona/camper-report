@@ -63,6 +63,8 @@ complete — match that). Measurements are in inches; money in USD. Key conventi
   when the manufacturer doesn't publish one. Shown as a sortable column.
 - `listed_year`: `min(latest model year available, 2024)`, except models not sold in the
   US in/before 2024, which use their first US model year. One generation per record.
+  Exception: `chevrolet-bolt-ev-gen1` uses `2022`, not the rule's `2023` — that model year
+  was requested specifically, and 2022/2023 are mechanically identical (see `trim_rationale`).
 - `kbb_value_usd`: `{ low, high, assumption, source }`. KBB pages often 403 on direct
   fetch — cite search-surfaced figures and say so in `assumption`.
 - `cargo_length_behind_front_seats_in`: `{ value, method, source }`. This is almost

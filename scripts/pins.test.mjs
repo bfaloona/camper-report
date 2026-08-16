@@ -11,6 +11,12 @@ const html = readFileSync(join(here, '..', 'index.html'), 'utf8');
 const block = html.match(/\/\*PURE-START\*\/([\s\S]*?)\/\*PURE-END\*\//);
 assert.ok(block, 'index.html must contain a /*PURE-START*/ ... /*PURE-END*/ block');
 
+const dataBlock = html.match(/const DATA = \/\*DATA-START\*\/([\s\S]*?)\/\*DATA-END\*\//);
+assert.ok(dataBlock, 'index.html must contain a DATA-START ... DATA-END block');
+const DATA = JSON.parse(dataBlock[1]);
+
+const EXPORTS = 'DEFAULT_PINS, loadPins, savePins, togglePin, visibleRows, powertrainMatches';
+
 function load(stored) {
   const store = new Map(stored ? [['camper-report:pins', JSON.stringify(stored)]] : []);
   const sandbox = {
@@ -24,8 +30,8 @@ function load(stored) {
     Set,
   };
   vm.createContext(sandbox);
-  vm.runInContext(block[1] + '\n;({DEFAULT_PINS, loadPins, savePins, togglePin, visibleRows})', sandbox);
-  return vm.runInContext('({DEFAULT_PINS, loadPins, savePins, togglePin, visibleRows})', sandbox);
+  vm.runInContext(block[1] + `\n;({${EXPORTS}})`, sandbox);
+  return vm.runInContext(`({${EXPORTS}})`, sandbox);
 }
 
 const V = [
@@ -44,6 +50,14 @@ test('default pins include the Mazda5 and the Bolt', () => {
   const m = load(null);
   assert.ok(m.DEFAULT_PINS.includes('mazda5-gen3'));
   assert.ok(m.DEFAULT_PINS.includes('chevrolet-bolt-ev-gen1'));
+});
+
+test('every DEFAULT_PINS id exists in the dataset', () => {
+  const m = load(null);
+  const ids = new Set(DATA.vehicles.map(v => v.id));
+  for (const id of m.DEFAULT_PINS) {
+    assert.ok(ids.has(id), `DEFAULT_PINS id "${id}" not found in DATA.vehicles — a rename or removal broke it`);
+  }
 });
 
 test('stored pins override the defaults, including an empty set', () => {
@@ -75,8 +89,40 @@ test('visibleRows preserves source order so the caller can sort', () => {
   assert.deepEqual(rows.map(v => v.id), ['b']);
 });
 
-test('compare mode ignores pins entirely', () => {
+test('compare mode shows checked vehicles union pinned vehicles', () => {
   const m = load(['a']);
   const rows = m.visibleRows(V, suvOnly, new Set(['a']), true, new Set(['b']));
+  assert.deepEqual(rows.map(v => v.id), ['a', 'b']);
+});
+
+test('compare mode still ignores the class/power/drive filters', () => {
+  const m = load([]);
+  // matches() would exclude everything; compare mode must not consult it.
+  const rows = m.visibleRows(V, () => false, new Set(), true, new Set(['b']));
   assert.deepEqual(rows.map(v => v.id), ['b']);
+});
+
+test('powertrainMatches: electrified matches ev, phev, and hybrid', () => {
+  const m = load(null);
+  assert.equal(m.powertrainMatches('electrified', 'ev'), true);
+  assert.equal(m.powertrainMatches('electrified', 'phev'), true);
+  assert.equal(m.powertrainMatches('electrified', 'hybrid'), true);
+});
+
+test('powertrainMatches: electrified does not match gas', () => {
+  const m = load(null);
+  assert.equal(m.powertrainMatches('electrified', 'gas'), false);
+});
+
+test('powertrainMatches: empty filter matches everything', () => {
+  const m = load(null);
+  assert.equal(m.powertrainMatches('', 'gas'), true);
+  assert.equal(m.powertrainMatches('', 'ev'), true);
+});
+
+test('powertrainMatches: a specific powertrain value matches only itself', () => {
+  const m = load(null);
+  assert.equal(m.powertrainMatches('gas', 'gas'), true);
+  assert.equal(m.powertrainMatches('gas', 'hybrid'), false);
+  assert.equal(m.powertrainMatches('hybrid', 'gas'), false);
 });
