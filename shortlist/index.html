@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shortlist · Camper vehicle comparison</title>
+<style>
+/*STYLE-START*/
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb;
+    --ink-1: #0b0b0b; --ink-2: #52514e; --ink-3: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab;
+    --badge-hybrid: #e7f2e7; --badge-hybrid-ink: #006300;
+    --badge-gas: #f0efec; --badge-gas-ink: #52514e;
+    --badge-phev: #e4eefb; --badge-phev-ink: #1c5cab;
+    --badge-ev: #ede9fb; --badge-ev-ink: #4a3aa7;
+    --pop-high: #006300; --pop-med: #a06b00; --pop-low: #898781;
+    --wash: #f3f2ef;
+    --pin-wash: #fbf1dc;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19;
+      --ink-1: #ffffff; --ink-2: #c3c2b7; --ink-3: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec;
+      --badge-hybrid: #12300f; --badge-hybrid-ink: #7ed67e;
+      --badge-gas: #2c2c2a; --badge-gas-ink: #c3c2b7;
+      --badge-phev: #142a47; --badge-phev-ink: #86b6ef;
+      --badge-ev: #241d4d; --badge-ev-ink: #b0a7f2;
+      --pop-high: #0ca30c; --pop-med: #c98500; --pop-low: #898781;
+      --wash: #232322;
+      --pin-wash: #2e2210;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink-1);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.45; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 20px 60px; }
+  header h1 { font-size: 22px; margin: 0 0 4px; }
+  header .sub { color: var(--ink-2); font-size: 13px; margin-bottom: 18px; }
+
+  .controls { display: flex; flex-direction: column; align-items: stretch; margin-bottom: 18px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; width: 100%; }
+  .control-group { display: flex; align-items: center; gap: 6px; }
+  .control-group label { font-size: 12px; color: var(--ink-3); }
+  select { background: var(--surface); color: var(--ink-1); border: 1px solid var(--hairline);
+    border-radius: 8px; padding: 6px 8px; font-size: 13px; }
+  .panel-toggle { display: inline-flex; align-items: center; gap: 7px; background: var(--surface);
+    color: var(--ink-1); border: 1px solid var(--hairline); border-radius: 8px; padding: 6px 12px;
+    font-size: 13px; font-weight: 600; cursor: pointer; }
+  .panel-toggle .chev { transition: transform 0.15s; font-size: 10px; color: var(--ink-3); }
+  .panel-toggle[aria-expanded="false"] .chev { transform: rotate(-90deg); }
+  .panel { display: flex; flex-wrap: wrap; gap: 14px 26px; width: 100%; margin-top: 12px;
+    padding: 14px 16px; background: var(--wash); border: 1px solid var(--hairline); border-radius: 10px; }
+  .panel.collapsed { display: none; }
+  .panel-sec { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .panel-sec + .panel-sec { border-left: 1px solid var(--hairline); padding-left: 24px; }
+  .panel-sec-label { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--ink-3); }
+  .sortdir-btn { background: var(--surface); color: var(--ink-1); border: 1px solid var(--hairline);
+    border-radius: 8px; padding: 6px 10px; font-size: 13px; cursor: pointer; min-width: 78px; }
+  @media (max-width: 620px) { .panel-sec + .panel-sec { border-left: none; padding-left: 0; } }
+  .view-toggle { margin-left: auto; display: flex; border: 1px solid var(--hairline); border-radius: 8px; overflow: hidden; }
+  .view-toggle button { background: var(--surface); color: var(--ink-2); border: none; padding: 6px 14px; font-size: 13px; cursor: pointer; }
+  .view-toggle button.active { background: var(--accent); color: #fff; }
+  .compare-btn { border: 1px solid var(--accent); color: var(--accent-deep); background: var(--surface);
+    border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .compare-btn.active { background: var(--accent); color: #fff; }
+  .compare-btn:disabled { opacity: 0.5; cursor: default; }
+  .sel-cell { white-space: nowrap; }
+  .sel-cell input { cursor: pointer; width: 15px; height: 15px; }
+  .sel-wrap { display: inline-flex; align-items: center; gap: 6px; }
+  .count-note { font-size: 12px; color: var(--ink-3); }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .card.pinned { background: var(--pin-wash); box-shadow: inset 3px 0 0 0 var(--pop-med); }
+  .photo-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; background: var(--page); }
+  .photo-cell { position: relative; aspect-ratio: 4/3; overflow: hidden; background: var(--wash); }
+  .photo-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-cell .ph-label { position: absolute; left: 0; bottom: 0; right: 0; font-size: 10px; padding: 2px 6px;
+    background: rgba(0,0,0,0.55); color: #fff; }
+  .photo-missing { display: flex; align-items: center; justify-content: center; font-size: 11px;
+    color: var(--ink-3); text-align: center; padding: 6px; height: 100%; }
+  .card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .card-title { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .card-title h2 { font-size: 16px; margin: 0; }
+  .card-title .trim { font-size: 12px; color: var(--ink-2); }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+  .badge.gas { background: var(--badge-gas); color: var(--badge-gas-ink); }
+  .badge.hybrid { background: var(--badge-hybrid); color: var(--badge-hybrid-ink); }
+  .badge.phev { background: var(--badge-phev); color: var(--badge-phev-ink); }
+  .badge.ev { background: var(--badge-ev); color: var(--badge-ev-ink); }
+  .badge.cls { background: var(--wash); color: var(--ink-2); font-weight: 500; }
+  .pin-btn { font: inherit; font-size: 11px; line-height: 1; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--ink-2);
+    font-weight: 500; cursor: pointer; }
+  .pin-btn:hover { border-color: var(--ink-3); color: var(--ink-1); }
+  .pin-btn.pinned { border-color: var(--pop-med); background: var(--wash); color: var(--pop-med);
+    font-weight: 600; }
+  .pin-btn.sm { padding: 2px 5px; }
+  .pin-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 12.5px; }
+  .spec .k { color: var(--ink-3); font-size: 11px; }
+  .spec .v { font-variant-numeric: tabular-nums; }
+  .pop { font-weight: 600; }
+  .pop.High { color: var(--pop-high); } .pop.Medium { color: var(--pop-med); } .pop.Low { color: var(--pop-low); }
+  details { border-top: 1px solid var(--hairline); padding-top: 8px; }
+  details summary { cursor: pointer; font-size: 12px; color: var(--accent-deep); }
+  details ul { margin: 6px 0 0; padding-left: 18px; font-size: 12px; color: var(--ink-2); }
+  details li { margin-bottom: 3px; }
+  a { color: var(--accent-deep); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .foot-note { font-size: 11px; color: var(--ink-3); border-top: 1px solid var(--hairline); padding-top: 8px; margin-top: auto; }
+
+  /* Table */
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; min-width: 1080px; font-size: 12.5px; }
+  th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  th { font-size: 11px; color: var(--ink-3); font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none; position: sticky; top: 0; background: var(--surface); }
+  th.num, td.num { text-align: right; }
+  td.num { font-variant-numeric: tabular-nums; }
+  th .arrow { font-size: 9px; }
+  tbody tr:hover { background: var(--wash); }
+  tbody tr.pinned { background: var(--pin-wash); }
+  tbody tr.pinned:hover { background: var(--pin-wash); }
+  tbody tr.pinned td:first-child { box-shadow: inset 3px 0 0 0 var(--pop-med); }
+  .veh-cell { font-weight: 600; white-space: nowrap; }
+  .veh-cell .trim-sm { display: block; font-weight: 400; font-size: 11px; color: var(--ink-2); white-space: normal; }
+  .flag { color: var(--pop-med); cursor: help; }
+  .legend { font-size: 11.5px; color: var(--ink-3); margin-top: 10px; }
+  footer { margin-top: 26px; font-size: 11.5px; color: var(--ink-3); border-top: 1px solid var(--hairline); padding-top: 12px; }
+
+  /* Detail overlay */
+  tbody tr { cursor: pointer; }
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: none;
+    align-items: flex-start; justify-content: center; z-index: 50; overflow-y: auto; padding: 4vh 16px; }
+  .overlay.open { display: flex; }
+  .detail-panel { background: var(--surface); border-radius: 14px; max-width: 880px; width: 100%;
+    padding: 20px 26px 26px; position: relative; margin-bottom: 6vh; }
+  .detail-close { position: absolute; top: 12px; right: 14px; background: var(--wash); color: var(--ink-2);
+    border: none; border-radius: 999px; width: 30px; height: 30px; font-size: 15px; cursor: pointer; }
+  .detail-panel .photo-strip { border-radius: 10px; overflow: hidden; margin: 12px 0; }
+  .detail-panel .photo-cell { cursor: zoom-in; }
+  .detail-h { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 2px; }
+  .detail-h h2 { margin: 0; font-size: 20px; }
+  .detail-h .trim { color: var(--ink-2); font-size: 13px; }
+  .mfr-link { font-size: 12px; padding: 3px 10px; border: 1px solid var(--hairline); border-radius: 999px; white-space: nowrap; }
+  .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 18px; margin: 12px 0; }
+  .detail-sec { border-top: 1px solid var(--hairline); padding-top: 10px; margin-top: 12px; font-size: 13px; }
+  .detail-sec h3 { font-size: 12px; color: var(--ink-3); margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .detail-sec ul { margin: 0; padding-left: 18px; }
+  .detail-sec li { margin-bottom: 3px; }
+  .method-note { font-size: 12px; color: var(--ink-2); }
+
+  /* Lightbox */
+  .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none;
+    align-items: center; justify-content: center; flex-direction: column; z-index: 60; cursor: zoom-out; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 94vw; max-height: 86vh; object-fit: contain; }
+  .lightbox .cap { color: #e8e8e4; font-size: 13px; margin-top: 10px; text-align: center; padding: 0 16px; }
+  .photo-cell { cursor: zoom-in; }
+/*STYLE-END*/
+
+/* Shortlist-only styles. Everything above comes from index.html — do not add
+   report styles here, add them there and re-sync. */
+.crit-row { display: grid; grid-template-columns: 1fr 130px 1fr 90px 70px 32px; gap: 8px;
+  align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
+.crit-row .rule { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #555; }
+.crit-row.manual .rule { font-style: italic; color: #888; }
+.excluded { opacity: .45; }
+/* The synced renderTable emits compare checkboxes; this page has no compare
+   mode, so hide them rather than ship a control that does nothing. */
+#table-view input[data-sel] { display: none; }
+.score-chip { font-weight: 600; padding: 2px 8px; border-radius: 999px; background: #eef4ec; color: #2c5c34; }
+.violation { background: #fdecea; color: #8a1c12; border-radius: 999px; padding: 2px 8px; font-size: 12px; }
+.unknown-flag { background: #fff6e0; color: #7a5a10; border-radius: 999px; padding: 2px 8px; font-size: 12px; }
+.why { font-size: 12px; color: #555; }
+.saving { font-size: 12px; color: #777; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Shortlist</h1>
+  <p id="who" class="saving"></p>
+</header>
+
+<main>
+  <section id="prose-section">
+    <h2>Describe what you want</h2>
+    <textarea id="prose" rows="4" maxlength="4000"
+      placeholder="Under 195 inches long. Maximum standard safety features. AWD would be nice. Nothing that looks like a contractor van."></textarea>
+    <button id="btn-parse">Add criteria from this</button>
+    <span id="parse-status" class="saving"></span>
+    <p class="why">Everything it produces is editable below — fix anything it gets wrong.</p>
+  </section>
+
+  <section id="criteria-section">
+    <h2>Criteria</h2>
+    <div id="criteria"></div>
+    <button id="btn-add">Add criterion by hand</button>
+    <span id="save-status" class="saving"></span>
+  </section>
+
+  <section id="results-section">
+    <h2>Ranked</h2>
+    <p id="count-note"></p>
+    <button id="btn-cards" class="active">Cards</button>
+    <button id="btn-table">Table</button>
+    <button id="btn-ruled-out" aria-pressed="false" hidden></button>
+    <div id="cards"></div>
+    <div id="table-view" style="display:none">
+      <table><thead><tr id="thead-row"></tr></thead><tbody id="tbody"></tbody></table>
+    </div>
+  </section>
+</main>
+
+<script>
+// Shim for `loadPins`, called once inside the synced RENDER block below (it's
+// how index.html seeds the report's *own* `state.pins` from localStorage,
+// defined outside the RENDER markers so it isn't copied here). This page's
+// pins live in shared prefs (Workers KV), not localStorage, so this only
+// needs to satisfy that one call site without throwing — the module script
+// further down replaces state.pins with the real set once prefs load.
+function loadPins() { return new Set(); }
+</script>
+<script>
+/*RENDER-START*/
+const fmt = n => n.toLocaleString('en-US');
+const POP_ORDER = { High: 3, Medium: 2, Low: 1 };
+const PT_LABEL = { gas: 'Gas', hybrid: 'Hybrid', phev: 'PHEV', ev: 'EV' };
+const DT_LABEL = { AWD: 'AWD', '4WD': '4WD', FWD: 'FWD', RWD: 'RWD' };
+// Two drivetrain buckets: 'awd' = all-wheel / four-wheel drive; '2wd' = front- or rear-wheel drive.
+const DT_BUCKET = dt => (dt === 'AWD' || dt === '4WD') ? 'awd' : '2wd';
+const towText = v => v.tow_rating ? (v.tow_rating.max ? fmt(v.tow_rating.max) + ' lbs'
+  + (v.tow_rating.tongue ? ' · ' + v.tow_rating.tongue + ' lb tongue' : '') : 'Not rated') : '—';
+
+const COLUMNS = [
+  { key: 'sel', label: 'Sel', num: false, get: v => '' },
+  { key: 'vehicle', label: 'Vehicle', num: false, get: v => v.make + ' ' + v.model },
+  { key: 'class', label: 'Class', num: false, get: v => v.class },
+  { key: 'powertrain', label: 'Power', num: false, get: v => PT_LABEL[v.powertrain] || v.powertrain },
+  { key: 'listed_year', label: 'Year', num: true, get: v => v.listed_year },
+  { key: 'kbb', label: 'KBB ($)', num: true, get: v => v.kbb_value_usd.low },
+  { key: 'length', label: 'L (in)', num: true, get: v => v.exterior_in.length },
+  { key: 'width', label: 'W (in)', num: true, get: v => v.exterior_in.width },
+  { key: 'height', label: 'H (in)', num: true, get: v => v.exterior_in.height },
+  { key: 'cargo', label: 'Cargo len (in)', num: true, get: v => v.cargo_length_behind_front_seats_in.value },
+  { key: 'maxcf', label: 'Max cf', num: true, get: v => v.max_cargo_cf ? v.max_cargo_cf.value : 0 },
+  { key: 'mpgc', label: 'MPG city', num: true, get: v => v.mpg.city },
+  { key: 'mpgh', label: 'MPG hwy', num: true, get: v => v.mpg.hwy },
+  { key: 'tow', label: 'Tow (lbs)', num: true, get: v => v.tow_rating ? v.tow_rating.max : 0 },
+  { key: 'rel', label: 'Reliab.', num: true, get: v => v.reliability ? v.reliability.score : 0 },
+  { key: 'pop', label: 'Camper pop.', num: true, get: v => POP_ORDER[v.camper_popularity.rating] || 0 },
+  { key: 'kits', label: 'Kits', num: true, get: v => v.conversion_products.length },
+  { key: 'mfr', label: 'Link', num: false, get: v => v.make }
+];
+
+// Options offered in the Sort dropdown (order = display order); labels are friendlier than the
+// terse table-header labels. Every key here must exist in COLUMNS.
+const SORT_COLS = [
+  { key: 'vehicle', label: 'Vehicle (A–Z)' },
+  { key: 'class', label: 'Class' },
+  { key: 'listed_year', label: 'Year' },
+  { key: 'kbb', label: 'KBB price' },
+  { key: 'length', label: 'Length' },
+  { key: 'width', label: 'Width' },
+  { key: 'height', label: 'Height' },
+  { key: 'cargo', label: 'Cargo length' },
+  { key: 'maxcf', label: 'Max cargo (cu ft)' },
+  { key: 'mpgc', label: 'MPG city' },
+  { key: 'mpgh', label: 'MPG highway' },
+  { key: 'tow', label: 'Tow rating' },
+  { key: 'rel', label: 'Reliability' },
+  { key: 'pop', label: 'Camper popularity' },
+  { key: 'kits', label: 'Conversion kits' }
+];
+
+let state = { fClass: '', fPower: '', fDrive: '', sortKey: 'vehicle', sortDir: 1, view: 'cards',
+  selected: new Set(), compareMode: false, pins: loadPins() };
+
+function matchesFilters(v) {
+  return (!state.fClass || v.class === state.fClass)
+    && powertrainMatches(state.fPower, v.powertrain)
+    && (!state.fDrive || DT_BUCKET(v.drivetrain) === state.fDrive);
+}
+function filtered() {
+  return visibleRows(DATA.vehicles, matchesFilters, state.pins, state.compareMode, state.selected);
+}
+function setSort(key) {
+  const col = COLUMNS.find(c => c.key === key) || COLUMNS[1];
+  state.sortKey = key;
+  state.sortDir = col.num ? -1 : 1;   // numbers default high→low, text A→Z
+  render();
+}
+function sorted(rows) {
+  const col = COLUMNS.find(c => c.key === state.sortKey) || COLUMNS[0];
+  return [...rows].sort((a, b) => {
+    const av = col.get(a), bv = col.get(b);
+    const cmp = col.num ? (av - bv) : String(av).localeCompare(String(bv));
+    return cmp * state.sortDir;
+  });
+}
+
+function photoCell(p, label) {
+  if (!p) return '<div class="photo-cell"><div class="photo-missing">No stable ' + label.toLowerCase() + ' photo yet</div></div>';
+  const note = p.note ? ' · ' + p.note : '';
+  return '<div class="photo-cell"><img src="' + p.url + '" alt="' + label + '" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.innerHTML=\'<div class=photo-missing>Photo unavailable</div>\'"><div class="ph-label">' + label + note + '</div></div>';
+}
+
+function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+
+function renderCards(rows) {
+  document.getElementById('cards').innerHTML = rows.map(v => `
+  <div class="card${state.pins.has(v.id) ? ' pinned' : ''}" data-id="${v.id}">
+    <div class="photo-strip">
+      ${photoCell(v.photos.exterior, 'Exterior')}
+      ${photoCell(v.photos.dashboard, 'Dashboard')}
+      ${photoCell(v.photos.cargo, 'Cargo')}
+    </div>
+    <div class="card-body">
+      <div class="card-title">
+        <h2>${v.make} ${v.model}</h2>
+        <span class="trim">${v.listed_year} ${v.trim}</span>
+      </div>
+      <div class="badges">
+        <button class="pin-btn${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}"
+          title="${state.pins.has(v.id) ? 'Unpin — allow filters to hide this vehicle' : 'Pin — always show this vehicle'}"
+          aria-pressed="${state.pins.has(v.id)}">${state.pins.has(v.id) ? '📌 Pinned' : 'Pin'}</button>
+        <span class="badge ${v.powertrain}">${PT_LABEL[v.powertrain]}</span>
+        <span class="badge cls">${DT_LABEL[v.drivetrain] || v.drivetrain}</span>
+        <span class="badge cls">${v.class}</span>
+        <span class="badge cls">${v.generation_span}</span>
+        ${v.model_url ? '<a class="badge cls mfr-link" href="' + v.model_url + '" target="_blank" rel="noopener">Model page &#8599;</a>' : ''}
+      </div>
+      <div class="specs">
+        <div class="spec"><div class="k">KBB (${v.listed_year})</div><div class="v">$${fmt(v.kbb_value_usd.low)}–$${fmt(v.kbb_value_usd.high)}</div></div>
+        <div class="spec"><div class="k">MPG city/hwy</div><div class="v" title="${esc(v.mpg.note || '')}">${v.mpg.city} / ${v.mpg.hwy}${v.mpg.mpge ? ' · ' + v.mpg.mpge + ' MPGe · ' + v.mpg.ev_range_mi + ' mi EV' : ''}</div></div>
+        <div class="spec"><div class="k">Exterior L×W×H</div><div class="v">${v.exterior_in.length} × ${v.exterior_in.width} × ${v.exterior_in.height} in</div></div>
+        <div class="spec"><div class="k">Cargo length behind front seats</div><div class="v">${v.cargo_length_behind_front_seats_in.value} in <span class="flag" title="${esc(v.cargo_length_behind_front_seats_in.method)}">†</span></div></div>
+        <div class="spec"><div class="k">Camper popularity</div><div class="v pop ${v.camper_popularity.rating}" title="${esc(v.camper_popularity.evidence)}">${v.camper_popularity.rating}</div></div>
+        <div class="spec"><div class="k">Tow rating</div><div class="v" title="${v.tow_rating ? esc(v.tow_rating.note) : ''}">${towText(v)}</div></div>
+        <div class="spec"><div class="k">Safety suite</div><div class="v">${v.safety.suite}</div></div>
+        <div class="spec"><div class="k">Max cargo</div><div class="v">${v.max_cargo_cf ? v.max_cargo_cf.value + ' cu ft' : '—'}</div></div>
+        <div class="spec"><div class="k">Reliability (RepairPal /5)</div><div class="v" title="${v.reliability ? esc(v.reliability.known_issues) : ''}">${v.reliability ? v.reliability.score.toFixed(1) : '—'}</div></div>
+      </div>
+      <details><summary>Safety features (${v.safety.features.length})</summary>
+        <ul>${v.safety.features.map(f => '<li>' + f + '</li>').join('')}</ul></details>
+      <details><summary>Conversion products (${v.conversion_products.length})</summary>
+        <ul>${v.conversion_products.map(p => '<li><a href="' + p.url + '" target="_blank" rel="noopener">' + p.name + '</a></li>').join('')}</ul></details>
+      ${v.camper_pros ? '<details><summary>Camper pros & cons</summary><ul>' + v.camper_pros.map(p => '<li>&#10003; ' + esc(p) + '</li>').join('') + v.camper_cons.map(c => '<li>&#10007; ' + esc(c) + '</li>').join('') + '</ul></details>' : ''}
+      <details><summary>Why this trim</summary><ul><li>${v.trim_rationale}</li></ul></details>
+      <div class="foot-note">Verified ${v.last_verified} · KBB: ${v.kbb_value_usd.assumption} (<a href="${v.kbb_value_usd.source}" target="_blank" rel="noopener">source</a>) · Cargo: <a href="${v.cargo_length_behind_front_seats_in.source}" target="_blank" rel="noopener">measurement source</a></div>
+    </div>
+  </div>`).join('');
+}
+
+function renderTable(rows) {
+  const thead = document.getElementById('thead-row');
+  thead.innerHTML = COLUMNS.map(c => {
+    const arrow = state.sortKey === c.key ? '<span class="arrow">' + (state.sortDir === 1 ? '▲' : '▼') + '</span>' : '';
+    return '<th class="' + (c.num ? 'num' : '') + '" data-key="' + c.key + '">' + c.label + ' ' + arrow + '</th>';
+  }).join('');
+  thead.querySelectorAll('th').forEach(th => th.onclick = () => {
+    const k = th.dataset.key;
+    if (k === 'sel') return;
+    if (state.sortKey === k) state.sortDir *= -1; else { state.sortKey = k; state.sortDir = COLUMNS.find(c => c.key === k).num ? -1 : 1; }
+    render();
+  });
+  document.getElementById('tbody').innerHTML = rows.map(v => `
+    <tr data-id="${v.id}" class="${state.pins.has(v.id) ? 'pinned' : ''}">
+      <td class="sel-cell"><span class="sel-wrap"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"><button class="pin-btn sm${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}" title="${state.pins.has(v.id) ? 'Unpin' : 'Pin'}" aria-pressed="${state.pins.has(v.id)}">📌</button></span></td>
+      <td class="veh-cell">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${DT_LABEL[v.drivetrain] || v.drivetrain} · ${v.generation_span}</span></td>
+      <td>${v.class}</td>
+      <td>${PT_LABEL[v.powertrain]}</td>
+      <td class="num">${v.listed_year}</td>
+      <td class="num" title="${esc(v.kbb_value_usd.assumption)}">${fmt(v.kbb_value_usd.low)}–${fmt(v.kbb_value_usd.high)}</td>
+      <td class="num">${v.exterior_in.length}</td>
+      <td class="num">${v.exterior_in.width}</td>
+      <td class="num">${v.exterior_in.height}</td>
+      <td class="num">${v.cargo_length_behind_front_seats_in.value} <span class="flag" title="${esc(v.cargo_length_behind_front_seats_in.method)}">†</span></td>
+      <td class="num" title="${v.max_cargo_cf ? esc(v.max_cargo_cf.config) : ''}">${v.max_cargo_cf ? v.max_cargo_cf.value : '—'}</td>
+      <td class="num">${v.mpg.city}</td>
+      <td class="num">${v.mpg.hwy}</td>
+      <td class="num" title="${v.tow_rating ? esc(v.tow_rating.note) : ''}">${v.tow_rating ? (v.tow_rating.max ? fmt(v.tow_rating.max) : '0') : '—'}</td>
+      <td class="num" title="${v.reliability ? esc(v.reliability.known_issues) : ''}">${v.reliability ? v.reliability.score.toFixed(1) : '—'}</td>
+      <td><span class="pop ${v.camper_popularity.rating}" title="${esc(v.camper_popularity.evidence)}">${v.camper_popularity.rating}</span></td>
+      <td class="num">${v.conversion_products.length}</td>
+      <td>${v.model_url ? '<a href="' + v.model_url + '" target="_blank" rel="noopener" title="Model page">&#8599;</a>' : ''}</td>
+    </tr>`).join('');
+}
+/*RENDER-END*/
+</script>
+
+<script type="module">
+import { rankVehicles, FIELDS } from './scoring.js';
+import { loadPrefs, savePrefs, parseProse } from './prefs.js';
+
+let prefs = null;
+let vehicles = [];
+let ranked = [];
+let view = 'cards';
+let showRuledOut = false;
+
+// The classic <script> above (the synced RENDER block) declares its own
+// top-level `let state`, seeded with the report's card/table defaults
+// (fClass/fPower/fDrive, sortKey 'vehicle', sortDir 1, an empty `selected`,
+// and `pins` from the loadPins() shim). A classic script's `let` binding
+// lives in the document's shared global scope, which this module can see and
+// mutate by referencing the bare identifier `state` — but `window.state =
+// {...}` would NOT reach it: a `let` binding shadows an identically-named
+// `window` property, so renderCards/renderTable's `state.x` lookups would
+// keep resolving to the classic-scope object no matter what we hung off
+// `window`. So this mutates the existing object in place rather than
+// replacing it. `render` has no such binding (the RENDER block only ever
+// *calls* the bare identifier `render()`, never declares it), so exposing it
+// via `window.render` does work, and is the only way the header-click
+// handler installed by renderTable can reach this page's render().
+state.selected = new Set();
+state.sortKey = 'vehicle';
+state.sortDir = 1;
+window.state = state;   // alias only, for debugging — not load-bearing
+window.render = render;
+
+async function boot() {
+  const [prefsResult, dataResult] = await Promise.all([
+    loadPrefs(),
+    fetch('/vehicles.json').then(r => r.json()),
+  ]);
+  prefs = prefsResult;
+  vehicles = dataResult.vehicles;
+  document.getElementById('who').textContent = prefs.updated_by
+    ? `Last saved by ${prefs.updated_by} on ${new Date(prefs.updated_at).toLocaleString()}`
+    : 'No preferences saved yet.';
+  render();
+}
+
+let saveTimer = null;
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  const status = document.getElementById('save-status');
+  status.textContent = 'Saving…';
+  saveTimer = setTimeout(async () => {
+    try {
+      prefs = await savePrefs(prefs);
+      status.textContent = 'Saved';
+    } catch (err) {
+      status.textContent = err.message;
+    }
+  }, 600);
+}
+
+function reRank(criteria) {
+  // Ranks are always 1..N contiguous; weights follow rank unless the user
+  // pinned a weight by editing it directly.
+  criteria.sort((a, b) => a.rank - b.rank);
+  criteria.forEach((c, i) => {
+    c.rank = i + 1;
+    if (!c.weight_locked) c.weight = Math.max(1, 6 - c.rank);
+  });
+}
+
+// `c` may be untrusted data loaded back from KV (/api/prefs stores criteria
+// verbatim, checking only that the top-level value is an array — see
+// functions/api/prefs.js). A criterion can have kind !== 'manual' yet a null
+// or malformed `rule` (an older shape, hand-edited KV, etc.), so this must
+// not assume `c.rule.field` exists.
+function ruleText(c) {
+  if (c.kind === 'manual' || !c.rule || typeof c.rule !== 'object') return 'judge by hand';
+  const f = FIELDS[c.rule.field]?.label ?? c.rule.field ?? '?';
+  if (c.rule.direction) return `${f}: ${c.rule.direction === 'higher' ? 'more is better' : 'less is better'}`;
+  const value = Array.isArray(c.rule.value) ? c.rule.value.join('–') : c.rule.value;
+  return `${f} ${c.rule.op ?? '?'} ${value ?? '?'}`;
+}
+
+function renderCriteria() {
+  const host = document.getElementById('criteria');
+  host.innerHTML = prefs.criteria.map(c => `
+    <div class="crit-row ${c.kind === 'manual' ? 'manual' : ''}" data-id="${c.id}">
+      <input class="c-label" value="${esc(c.label)}" aria-label="Criterion name">
+      <select class="c-tier" aria-label="Tier">
+        ${['must-have', 'nice-to-have', 'dislike', 'deal-breaker']
+          .map(t => `<option value="${t}"${t === c.tier ? ' selected' : ''}>${t}</option>`).join('')}
+      </select>
+      <span class="rule" title="${esc(c.source_text)}">${esc(ruleText(c))}</span>
+      <input class="c-weight" type="number" min="1" max="5" value="${Number.isFinite(c.weight) ? c.weight : 1}" aria-label="Weight">
+      <span><button class="c-up" aria-label="Move up">▲</button><button class="c-down" aria-label="Move down">▼</button></span>
+      <button class="c-del" aria-label="Delete criterion">✕</button>
+    </div>`).join('');
+}
+
+function renderResults() {
+  state.pins = new Set(prefs.pins);
+  ranked = rankVehicles(vehicles, prefs.criteria, state.pins);
+  const included = ranked.filter(r => !r.excluded);
+  const ruledOut = ranked.length - included.length;
+
+  document.getElementById('count-note').textContent =
+    `${included.length} of ${vehicles.length} vehicles meet your must-haves` +
+    (ruledOut ? ` · ${ruledOut} ruled out` : '');
+
+  // Ruled-out vehicles are hidden by default; the toggle appends them, dimmed,
+  // after the ones that qualify. rankVehicles already sorts excluded last.
+  const toggle = document.getElementById('btn-ruled-out');
+  toggle.hidden = ruledOut === 0;
+  toggle.textContent = showRuledOut ? `Hide ${ruledOut} ruled out` : `Show ${ruledOut} ruled out`;
+  toggle.setAttribute('aria-pressed', String(showRuledOut));
+
+  const visible = showRuledOut ? ranked : included;
+  const cards = document.getElementById('cards');
+  const table = document.getElementById('table-view');
+  const rows = visible.map(r => r.vehicle);
+  if (view === 'cards') {
+    document.getElementById('tbody').innerHTML = '';
+    renderCards(rows);
+  } else {
+    cards.innerHTML = '';
+    renderTable(rows);
+    // Ranked order is the order here — header-click sorting would silently
+    // fight rankVehicles, so switch it off on this page.
+    document.querySelectorAll('#thead-row th').forEach(th => { th.onclick = null; th.style.cursor = 'default'; });
+  }
+
+  // Annotate the synced markup with what the report doesn't know about:
+  // score, exclusions, and the reason for each.
+  const host = view === 'cards' ? cards : table;
+  for (const r of visible) {
+    const el = host.querySelector(`[data-id="${CSS.escape(r.vehicle.id)}"]`);
+    if (!el) continue;
+    if (r.excluded) el.classList.add('excluded');
+    const slot = el.querySelector('.badges') || el.querySelector('td');
+    if (!slot) continue;
+    const why = r.contributions
+      .filter(c => c.weighted !== 0)
+      .sort((a, b) => Math.abs(b.weighted) - Math.abs(a.weighted))
+      .slice(0, 3)
+      .map(c => `${c.label} ${c.weighted > 0 ? '+' : ''}${c.weighted}`)
+      .join(' · ');
+    slot.insertAdjacentHTML('afterbegin',
+      `<span class="score-chip" title="${esc(why || 'No scoring criteria yet')}">${r.score}</span>` +
+      r.violations.map(v => `<span class="violation">fails: ${esc(v.label)}</span>`).join('') +
+      r.unknowns.map(u => `<span class="unknown-flag">no data: ${esc(u.label)}</span>`).join(''));
+  }
+}
+
+function render() {
+  renderCriteria();
+  renderResults();
+  document.getElementById('cards').style.display = view === 'cards' ? '' : 'none';
+  document.getElementById('table-view').style.display = view === 'table' ? '' : 'none';
+}
+
+document.getElementById('btn-parse').onclick = async () => {
+  const status = document.getElementById('parse-status');
+  const text = document.getElementById('prose').value.trim();
+  if (!text) return;
+  status.textContent = 'Reading…';
+  try {
+    const added = await parseProse(text);
+    prefs.criteria = prefs.criteria.concat(added);
+    reRank(prefs.criteria);
+    status.textContent = `Added ${added.length} criteria — edit anything below.`;
+    document.getElementById('prose').value = '';
+    scheduleSave();
+    render();
+  } catch (err) {
+    status.textContent = err.message;
+  }
+};
+
+document.getElementById('btn-add').onclick = () => {
+  prefs.criteria.push({
+    id: `c_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    label: 'New criterion', tier: 'nice-to-have', rank: prefs.criteria.length + 1,
+    weight: 3, weight_locked: false, kind: 'manual', rule: null, source_text: '',
+  });
+  reRank(prefs.criteria);
+  scheduleSave();
+  render();
+};
+
+document.getElementById('criteria').addEventListener('input', e => {
+  const row = e.target.closest('.crit-row');
+  if (!row) return;
+  const c = prefs.criteria.find(x => x.id === row.dataset.id);
+  if (e.target.classList.contains('c-label')) c.label = e.target.value;
+  if (e.target.classList.contains('c-tier')) c.tier = e.target.value;
+  if (e.target.classList.contains('c-weight')) {
+    c.weight = Math.min(5, Math.max(1, Number(e.target.value) || 1));
+    c.weight_locked = true;
+  }
+  scheduleSave();
+  renderResults();
+});
+
+document.getElementById('criteria').addEventListener('click', e => {
+  const row = e.target.closest('.crit-row');
+  if (!row) return;
+  const list = prefs.criteria;
+  const i = list.findIndex(x => x.id === row.dataset.id);
+  if (e.target.classList.contains('c-up') && i > 0) {
+    [list[i - 1].rank, list[i].rank] = [list[i].rank, list[i - 1].rank];
+  } else if (e.target.classList.contains('c-down') && i < list.length - 1) {
+    [list[i + 1].rank, list[i].rank] = [list[i].rank, list[i + 1].rank];
+  } else if (e.target.classList.contains('c-del')) {
+    list.splice(i, 1);
+  } else return;
+  reRank(list);
+  scheduleSave();
+  render();
+});
+
+document.getElementById('btn-cards').onclick = () => { view = 'cards'; render(); };
+document.getElementById('btn-table').onclick = () => { view = 'table'; render(); };
+document.getElementById('btn-ruled-out').onclick = () => { showRuledOut = !showRuledOut; renderResults(); };
+
+// The synced render block emits data-pin buttons; the report's handler lives
+// outside that block, so this page needs its own. Pins here are shared, not
+// localStorage — that is the deliberate difference from the report.
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-pin]');
+  if (!btn) return;
+  e.stopPropagation();
+  const id = btn.dataset.pin;
+  prefs.pins = prefs.pins.includes(id) ? prefs.pins.filter(x => x !== id) : prefs.pins.concat(id);
+  scheduleSave();
+  renderResults();
+});
+
+boot().catch(err => {
+  document.getElementById('who').textContent = err.message;
+});
+</script>
+</body>
+</html>
