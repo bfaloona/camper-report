@@ -26,17 +26,25 @@ Then confirm on GitHub that `bfaloona/camper-report` at `main` shows a `function
 directory. If step 2 connects Pages before this, the first build deploys a `main` with
 no `functions/` and there is nothing to gate.
 
-## 1. KV namespace
+## 1. KV namespace ✅ done 2026-08-16
 
 Dashboard → **Storage & Databases → KV → Create instance**.
 
 - Name: `camper-report-prefs`
+- Namespace ID: `4ca243938a5d4211b27d133aff97981a`
 
-Copy the namespace ID.
+You bind it by name in step 3, so the ID is only needed if the dashboard asks you to
+disambiguate.
 
 ## 2. Pages project
 
-Dashboard → **Workers & Pages → Create → Pages → Connect to Git** → `bfaloona/camper-report`.
+Dashboard → **Workers & Pages → Create application → Pages tab → Import an existing Git
+repository** → select `bfaloona/camper-report` → **Begin setup**.
+
+> This step is dashboard-only and cannot be scripted. Connecting a repo runs a GitHub OAuth
+> handshake that has no API or CLI equivalent, and per Cloudflare's docs you **cannot add Git
+> integration to a Pages project after it exists** — so creating one with `wrangler pages
+> project create` first would be a dead end requiring a delete and redo, not a head start.
 
 | Setting | Value |
 | --- | --- |
