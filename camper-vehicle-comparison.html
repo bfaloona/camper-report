@@ -92,6 +92,12 @@
   .badge.phev { background: var(--badge-phev); color: var(--badge-phev-ink); }
   .badge.ev { background: var(--badge-ev); color: var(--badge-ev-ink); }
   .badge.cls { background: var(--wash); color: var(--ink-2); font-weight: 500; }
+  .pin-btn { font: inherit; font-size: 12px; line-height: 1; padding: 4px 8px; border-radius: 999px;
+    border: 1px solid #d0d0d0; background: #fff; color: #555; cursor: pointer; }
+  .pin-btn:hover { border-color: #999; color: #222; }
+  .pin-btn.pinned { border-color: #c58b2e; background: #fdf4e3; color: #8a5c12; }
+  .pin-btn.sm { padding: 2px 5px; margin-left: 4px; }
+  .pin-btn:focus-visible { outline: 2px solid #4a90d9; outline-offset: 2px; }
   .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 12.5px; }
   .spec .k { color: var(--ink-3); font-size: 11px; }
   .spec .v { font-variant-numeric: tabular-nums; }
@@ -2936,6 +2942,43 @@ const DATA = /*DATA-START*/{
  ]
 }/*DATA-END*/;
 
+/*PURE-START*/
+// Pinned vehicles are always rendered, whatever the filters say. Extracted as
+// pure functions so scripts/pins.test.mjs can exercise them without a browser.
+const PIN_KEY = 'camper-report:pins';
+const DEFAULT_PINS = ['mazda5-gen3', 'chevrolet-bolt-ev-gen1'];
+
+function loadPins() {
+  try {
+    const raw = localStorage.getItem(PIN_KEY);
+    if (raw === null) return new Set(DEFAULT_PINS);
+    const parsed = JSON.parse(raw);
+    return new Set(Array.isArray(parsed) ? parsed : DEFAULT_PINS);
+  } catch (e) {
+    return new Set(DEFAULT_PINS);
+  }
+}
+
+function savePins(pins) {
+  try { localStorage.setItem(PIN_KEY, JSON.stringify([...pins])); } catch (e) { /* private mode */ }
+  return pins;
+}
+
+function togglePin(id, pins) {
+  const next = new Set(pins || loadPins());
+  if (next.has(id)) next.delete(id); else next.add(id);
+  return savePins(next);
+}
+
+// Union of (filter matches) and (pinned), in source order. Sorting is the
+// caller's job, so pins land in their natural sorted position rather than
+// floating to the top.
+function visibleRows(all, matches, pins, compareMode, selected) {
+  if (compareMode) return all.filter(v => selected.has(v.id));
+  return all.filter(v => pins.has(v.id) || matches(v));
+}
+/*PURE-END*/
+
 const fmt = n => n.toLocaleString('en-US');
 const POP_ORDER = { High: 3, Medium: 2, Low: 1 };
 const PT_LABEL = { gas: 'Gas', hybrid: 'Hybrid', phev: 'PHEV', ev: 'EV' };
@@ -2987,14 +3030,15 @@ const SORT_COLS = [
 ];
 
 let state = { fClass: '', fPower: '', fDrive: '', sortKey: 'vehicle', sortDir: 1, view: 'cards',
-  selected: new Set(), compareMode: false };
+  selected: new Set(), compareMode: false, pins: loadPins() };
 
+function matchesFilters(v) {
+  return (!state.fClass || v.class === state.fClass)
+    && (!state.fPower || v.powertrain === state.fPower)
+    && (!state.fDrive || DT_BUCKET(v.drivetrain) === state.fDrive);
+}
 function filtered() {
-  return DATA.vehicles.filter(v =>
-    (!state.compareMode || state.selected.has(v.id)) &&
-    (!state.fClass || v.class === state.fClass) &&
-    (!state.fPower || v.powertrain === state.fPower) &&
-    (!state.fDrive || DT_BUCKET(v.drivetrain) === state.fDrive));
+  return visibleRows(DATA.vehicles, matchesFilters, state.pins, state.compareMode, state.selected);
 }
 function setSort(key) {
   const col = COLUMNS.find(c => c.key === key) || COLUMNS[1];
@@ -3031,6 +3075,9 @@ function renderCards(rows) {
         <span class="trim">${v.listed_year} ${v.trim}</span>
       </div>
       <div class="badges">
+        <button class="pin-btn${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}"
+          title="${state.pins.has(v.id) ? 'Unpin — allow filters to hide this vehicle' : 'Pin — always show this vehicle'}"
+          aria-pressed="${state.pins.has(v.id)}">${state.pins.has(v.id) ? '📌 Pinned' : 'Pin'}</button>
         <span class="badge ${v.powertrain}">${PT_LABEL[v.powertrain]}</span>
         <span class="badge cls">${DT_LABEL[v.drivetrain] || v.drivetrain}</span>
         <span class="badge cls">${v.class}</span>
@@ -3073,7 +3120,7 @@ function renderTable(rows) {
   });
   document.getElementById('tbody').innerHTML = rows.map(v => `
     <tr data-id="${v.id}">
-      <td class="sel-cell"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"></td>
+      <td class="sel-cell"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"><button class="pin-btn sm${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}" title="${state.pins.has(v.id) ? 'Unpin' : 'Pin'}" aria-pressed="${state.pins.has(v.id)}">📌</button></td>
       <td class="veh-cell">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${DT_LABEL[v.drivetrain] || v.drivetrain} · ${v.generation_span}</span></td>
       <td>${v.class}</td>
       <td>${PT_LABEL[v.powertrain]}</td>
@@ -3096,9 +3143,11 @@ function renderTable(rows) {
 
 function render() {
   const rows = sorted(filtered());
+  const pinnedShown = rows.filter(v => state.pins.has(v.id)).length;
+  const pinNote = (!state.compareMode && pinnedShown) ? ' · ' + pinnedShown + ' pinned' : '';
   document.getElementById('count-note').textContent = state.compareMode
     ? 'Comparing ' + rows.length + ' vehicles'
-    : rows.length + ' of ' + DATA.vehicles.length + ' vehicles';
+    : rows.length + ' of ' + DATA.vehicles.length + ' vehicles' + pinNote;
   if (typeof updateCompareUI === 'function') updateCompareUI();
   if (state.view === 'cards') { renderCards(rows); }
   else { renderTable(rows); }
@@ -3202,8 +3251,21 @@ document.addEventListener('click', e => {
   const img = e.target.closest('.photo-cell img');
   if (img) { showLightbox(img.src, img.alt + (img.parentNode.querySelector('.ph-label') ? ' — ' + img.parentNode.querySelector('.ph-label').textContent : '')); return; }
 });
+// pin button click (cards + table) -> toggle pin, anywhere on the page
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-pin]');
+  if (!btn) return;
+  e.stopPropagation();
+  state.pins = togglePin(btn.dataset.pin, state.pins);
+  render();
+});
 // table row click -> detail (ignore links); checkbox click -> toggle compare selection
 document.getElementById('tbody').addEventListener('click', e => {
+  // Bubble-phase listeners fire target-to-root, so this handler runs before the
+  // document-level pin handler above — without this guard a pin click inside a
+  // row would already have opened the detail overlay by the time stopPropagation
+  // ran. Let the click bubble past this handler untouched.
+  if (e.target.closest('[data-pin]')) return;
   const cb = e.target.closest('input[data-sel]');
   if (cb) {
     if (cb.checked) state.selected.add(cb.dataset.sel); else state.selected.delete(cb.dataset.sel);

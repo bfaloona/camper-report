@@ -86,3 +86,7 @@ which carries the full field checklist and the exact edit-and-sync procedure.
 - Every factual field should be defensible from a URL in that record's `sources`.
 - Verify locally by running `python3 scripts/sync_vehicles.py --check` and opening
   `index.html` in a browser (it is fully static — no server needed).
+- Pinned vehicles (`localStorage` key `camper-report:pins`, defaults in the `/*PURE-START*/`
+  block) are always rendered regardless of filters; sorting is unaffected. The pure helpers
+  in that block are unit-tested by `node --test scripts/pins.test.mjs` — keep them free of
+  DOM access.
