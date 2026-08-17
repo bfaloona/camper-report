@@ -137,6 +137,7 @@
   th.num, td.num { text-align: right; }
   td.num { font-variant-numeric: tabular-nums; }
   th .arrow { font-size: 9px; }
+  td .unit { font-size: 10px; font-weight: 600; color: var(--ink-3); }
   tbody tr:hover { background: var(--wash); }
   tbody tr.pinned { background: var(--pin-wash); }
   tbody tr.pinned:hover { background: var(--pin-wash); }
@@ -180,8 +181,55 @@
 
 /* Shortlist-only styles. Everything above comes from index.html — do not add
    report styles here, add them there and re-sync. */
-.crit-row { display: grid; grid-template-columns: 1fr 130px 1fr 90px 70px 32px; gap: 8px;
-  align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
+
+/* Tighter header: the report's `header .sub` bottom margin is sized for one
+   subtitle line; this page has two plus a warning slot. */
+header { margin-bottom: 14px; }
+header .sub { margin-bottom: 2px; }
+
+/* The synced .panel is a flex-wrap row (built for the report's filter
+   controls); these panels hold block content, so switch to block flow.
+   .collapsed must be re-asserted: both selectors are (0,2,0) and this sheet
+   comes later, so `.panel.stack` alone would win over `.panel.collapsed`. */
+.panel.stack { display: block; }
+.panel.stack.collapsed { display: none; }
+.toggle-count { font-weight: 400; color: var(--ink-3); }
+.panel-actions { display: flex; align-items: center; gap: 10px; margin-top: 2px; flex-wrap: wrap; }
+
+.action-btn { background: var(--surface); color: var(--ink-1); border: 1px solid var(--hairline);
+  border-radius: 8px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+.action-btn:hover { border-color: var(--ink-3); }
+/* White-on-accent matches the synced .view-toggle button.active. */
+.action-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.action-btn.primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
+
+.results-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.results-bar h2 { margin: 0; font-size: 16px; }
+
+/* Criteria list: one surface card, header row + hairline-separated rows. */
+#criteria { background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px;
+  margin-bottom: 10px; overflow: hidden; }
+.crit-head, .crit-row { display: grid; gap: 8px; align-items: center;
+  grid-template-columns: minmax(140px, 1fr) 126px minmax(200px, 1.2fr) 60px 62px 30px; }
+.crit-head { padding: 7px 12px 5px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--ink-3); }
+.crit-row { padding: 8px 12px; border-top: 1px solid var(--hairline); }
+.crit-row:hover { background: var(--wash); }
+.crit-empty { margin: 0; padding: 12px; font-size: 13px; color: var(--ink-3); }
+.crit-row .c-label, .crit-row .c-tier, .crit-row .c-weight { font: inherit; font-size: 13px;
+  width: 100%; padding: 5px 8px; background: var(--surface); color: var(--ink-1);
+  border: 1px solid var(--hairline); border-radius: 8px; }
+.crit-row .c-up, .crit-row .c-down, .crit-row .c-del { background: var(--surface); color: var(--ink-2);
+  border: 1px solid var(--hairline); border-radius: 6px; padding: 3px 6px; font-size: 11px;
+  line-height: 1.3; cursor: pointer; }
+.crit-row .c-up:hover, .crit-row .c-down:hover { color: var(--ink-1); border-color: var(--ink-3); }
+.crit-row .c-del:hover { color: var(--fail-ink); border-color: var(--fail-ink); }
+.crit-row input:focus-visible, .crit-row select:focus-visible, .action-btn:focus-visible,
+.panel-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: -1px; }
+@media (max-width: 680px) {
+  .crit-head { display: none; }
+  .crit-row { grid-template-columns: 1fr 1fr; }
+}
 /* Both textareas had no styling, so they rendered at the browser default of
    ~20 columns regardless of the page width — you were typing a paragraph
    through a letterbox. */
@@ -236,8 +284,8 @@
 .flag-unknown { background: var(--unk-bg); color: var(--unk-ink); }
 /* Prose warning in the header — deliberately not a .flag, it is a sentence. */
 .violation { background: var(--fail-bg); color: var(--fail-ink); border-radius: 999px; padding: 2px 8px; font-size: 12px; }
-.why { font-size: 12px; color: #555; }
-.saving { font-size: 12px; color: #777; }
+.why { font-size: 12px; color: var(--ink-2); }
+.saving { font-size: 12px; color: var(--ink-3); }
 </style>
 </head>
 <body>
@@ -250,39 +298,58 @@
   </header>
 
   <main>
-  <section id="prose-section">
-    <h2>Describe what you want</h2>
-    <textarea id="prose" rows="4" maxlength="4000"
-      placeholder="Under 195 inches long. Maximum standard safety features. AWD would be nice. Nothing that looks like a contractor van."></textarea>
-    <button id="btn-parse">Add criteria from this</button>
-    <span id="parse-status" class="saving"></span>
-    <p class="why">Edit anything it gets wrong below — the threshold and the comparison are
-      editable, not just the name. Wants the data can't check land in Notes instead.</p>
-  </section>
+  <!-- The three input sections collapse (report's .panel-toggle/.panel pattern)
+       so the ranked table gets the screen. They ship collapsed; boot() opens
+       "Describe" when there are no saved criteria yet. -->
+  <div class="controls">
+    <div class="toolbar">
+      <button id="toggle-prose" class="panel-toggle" aria-expanded="false" aria-controls="prose-section">
+        <span class="chev">&#9662;</span> Describe what you want</button>
+      <button id="toggle-criteria" class="panel-toggle" aria-expanded="false" aria-controls="criteria-section">
+        <span class="chev">&#9662;</span> Criteria <span class="toggle-count" id="criteria-count"></span></button>
+      <button id="toggle-notes" class="panel-toggle" aria-expanded="false" aria-controls="notes-section">
+        <span class="chev">&#9662;</span> Notes <span class="toggle-count" id="notes-count"></span></button>
+    </div>
 
-  <section id="criteria-section">
-    <h2>Criteria</h2>
-    <div id="criteria"></div>
-    <button id="btn-add">Add criterion by hand</button>
-    <span id="save-status" class="saving"></span>
-  </section>
+    <section id="prose-section" class="panel stack collapsed">
+      <textarea id="prose" rows="4" maxlength="4000"
+        placeholder="Under 195 inches long. Maximum standard safety features. AWD would be nice. Nothing that looks like a contractor van."></textarea>
+      <div class="panel-actions">
+        <button id="btn-parse" class="action-btn primary">Add criteria from this</button>
+        <span id="parse-status" class="saving"></span>
+      </div>
+      <p class="why">Edit anything it gets wrong under Criteria — the threshold and the comparison are
+        editable, not just the name. Wants the data can't check land in Notes instead.</p>
+    </section>
 
-  <section id="notes-section">
-    <h2>Notes</h2>
-    <p class="why">Things the data can't check — comfort features, hunches, anything to weigh
-      yourself. These never affect the ranking, which is the point: a criterion that quietly
-      scores nothing is worse than a note that never claimed to.</p>
-    <textarea id="notes" rows="4" maxlength="4000"
-      placeholder="likes:&#10;- heated seats&#10;- sunroof&#10;&#10;dislikes:&#10;- looks like a work van"></textarea>
-    <span id="notes-status" class="saving"></span>
-  </section>
+    <section id="criteria-section" class="panel stack collapsed">
+      <div id="criteria"></div>
+      <div class="panel-actions">
+        <button id="btn-add" class="action-btn">Add criterion by hand</button>
+        <span id="save-status" class="saving"></span>
+      </div>
+    </section>
+
+    <section id="notes-section" class="panel stack collapsed">
+      <textarea id="notes" rows="4" maxlength="4000"
+        placeholder="likes:&#10;- heated seats&#10;- sunroof&#10;&#10;dislikes:&#10;- looks like a work van"></textarea>
+      <span id="notes-status" class="saving"></span>
+      <p class="why">Things the data can't check — comfort features, hunches, anything to weigh
+        yourself. These never affect the ranking, which is the point: a criterion that quietly
+        scores nothing is worse than a note that never claimed to.</p>
+    </section>
+  </div>
 
   <section id="results-section">
-    <h2>Ranked</h2>
-    <p id="count-note"></p>
-    <button id="btn-cards">Cards</button>
-    <button id="btn-table" class="active">Table</button>
-    <button id="btn-ruled-out" aria-pressed="false" hidden></button>
+    <div class="results-bar">
+      <h2>Ranked</h2>
+      <span id="count-note" class="count-note"></span>
+      <button id="btn-ruled-out" class="action-btn" aria-pressed="false" hidden></button>
+      <div class="view-toggle">
+        <button id="btn-cards">Cards</button>
+        <button id="btn-table" class="active">Table</button>
+      </div>
+    </div>
     <div id="cards" class="cards"></div>
     <div id="table-view" class="table-wrap" style="display:none">
       <table><thead><tr id="thead-row"></tr></thead><tbody id="tbody"></tbody></table>
@@ -299,6 +366,22 @@
 // needs to satisfy that one call site without throwing — the module script
 // further down replaces state.pins with the real set once prefs load.
 function loadPins() { return new Set(); }
+
+// Panel toggles are wired here, in a classic script, so the input sections
+// still open and close even if the module below dies (failed prefs fetch,
+// import error) — the textareas should never be unreachable.
+function setPanelOpen(btnId, panelId, open) {
+  document.getElementById(panelId).classList.toggle('collapsed', !open);
+  document.getElementById(btnId).setAttribute('aria-expanded', String(open));
+}
+[['toggle-prose', 'prose-section'],
+ ['toggle-criteria', 'criteria-section'],
+ ['toggle-notes', 'notes-section']].forEach(([btnId, panelId]) => {
+  document.getElementById(btnId).onclick = () => {
+    const collapsed = document.getElementById(panelId).classList.contains('collapsed');
+    setPanelOpen(btnId, panelId, collapsed);
+  };
+});
 </script>
 <script>
 /*RENDER-START*/
@@ -310,6 +393,13 @@ const DT_LABEL = { AWD: 'AWD', '4WD': '4WD', FWD: 'FWD', RWD: 'RWD' };
 const DT_BUCKET = dt => (dt === 'AWD' || dt === '4WD') ? 'awd' : '2wd';
 const towText = v => v.tow_rating ? (v.tow_rating.max ? fmt(v.tow_rating.max) + ' lbs'
   + (v.tow_rating.tongue ? ' · ' + v.tow_rating.tongue + ' lb tongue' : '') : 'Not rated') : '—';
+// Combined city/hwy cell. For EVs, mpg.city/hwy hold EPA MPGe — a different
+// unit — so the cell says so instead of passing the number off as MPG.
+const mpgCell = v => {
+  const m = v.mpg || {};
+  if (m.city == null || m.hwy == null) return '—';
+  return m.city + '/' + m.hwy + (v.powertrain === 'ev' ? ' <span class="unit">MPGe</span>' : '');
+};
 
 const COLUMNS = [
   { key: 'sel', label: 'Sel', num: false, get: v => '' },
@@ -323,8 +413,8 @@ const COLUMNS = [
   { key: 'height', label: 'H (in)', num: true, get: v => v.exterior_in.height },
   { key: 'cargo', label: 'Cargo len (in)', num: true, get: v => v.cargo_length_behind_front_seats_in.value },
   { key: 'maxcf', label: 'Max cf', num: true, get: v => v.max_cargo_cf ? v.max_cargo_cf.value : 0 },
-  { key: 'mpgc', label: 'MPG city', num: true, get: v => v.mpg.city },
-  { key: 'mpgh', label: 'MPG hwy', num: true, get: v => v.mpg.hwy },
+  // Sorts by the city figure; EVs sort by their MPGe city number (labeled in the cell).
+  { key: 'mpg', label: 'MPG city/hwy', num: true, get: v => (v.mpg && v.mpg.city != null) ? v.mpg.city : 0 },
   { key: 'tow', label: 'Tow (lbs)', num: true, get: v => v.tow_rating ? v.tow_rating.max : 0 },
   { key: 'rel', label: 'Reliab.', num: true, get: v => v.reliability ? v.reliability.score : 0 },
   { key: 'pop', label: 'Camper pop.', num: true, get: v => POP_ORDER[v.camper_popularity.rating] || 0 },
@@ -344,8 +434,7 @@ const SORT_COLS = [
   { key: 'height', label: 'Height' },
   { key: 'cargo', label: 'Cargo length' },
   { key: 'maxcf', label: 'Max cargo (cu ft)' },
-  { key: 'mpgc', label: 'MPG city' },
-  { key: 'mpgh', label: 'MPG highway' },
+  { key: 'mpg', label: 'MPG city/hwy (by city)' },
   { key: 'tow', label: 'Tow rating' },
   { key: 'rel', label: 'Reliability' },
   { key: 'pop', label: 'Camper popularity' },
@@ -456,8 +545,7 @@ function renderTable(rows) {
       <td class="num">${v.exterior_in.height}</td>
       <td class="num">${v.cargo_length_behind_front_seats_in.value} <span class="flag" title="${esc(v.cargo_length_behind_front_seats_in.method)}">†</span></td>
       <td class="num" title="${v.max_cargo_cf ? esc(v.max_cargo_cf.config) : ''}">${v.max_cargo_cf ? v.max_cargo_cf.value : '—'}</td>
-      <td class="num">${v.mpg.city}</td>
-      <td class="num">${v.mpg.hwy}</td>
+      <td class="num" title="${esc(v.mpg && v.mpg.note || '')}">${mpgCell(v)}</td>
       <td class="num" title="${v.tow_rating ? esc(v.tow_rating.note) : ''}">${v.tow_rating ? (v.tow_rating.max ? fmt(v.tow_rating.max) : '0') : '—'}</td>
       <td class="num" title="${v.reliability ? esc(v.reliability.known_issues) : ''}">${v.reliability ? v.reliability.score.toFixed(1) : '—'}</td>
       <td><span class="pop ${v.camper_popularity.rating}" title="${esc(v.camper_popularity.evidence)}">${v.camper_popularity.rating}</span></td>
@@ -562,17 +650,32 @@ async function boot() {
     w.hidden = false;
   }
   document.getElementById('notes').value = prefs.notes;
+  updateNotesCount();
   if (migrationNote) {
     document.getElementById('notes-status').textContent = migrationNote;
     scheduleSave();
   }
+  // Returning users want the ranking, not the editor, so everything stays
+  // collapsed when saved criteria exist. A first run has no results worth the
+  // screen yet — open the prose box so the empty page has an entry point.
+  if (!prefs.criteria.length) setPanelOpen('toggle-prose', 'prose-section', true);
   render();
+}
+
+// Summarize the notes on the collapsed toggle without dumping their text.
+function updateNotesCount() {
+  const lines = document.getElementById('notes').value.split('\n').filter(l => l.trim()).length;
+  document.getElementById('notes-count').textContent =
+    lines ? `(${lines} line${lines === 1 ? '' : 's'})` : '(empty)';
 }
 
 document.getElementById('notes').oninput = e => {
   prefs.notes = e.target.value;
   // Notes never touch the ranking, so this deliberately does not re-render —
   // typing in here should not rebuild the results table on every keystroke.
+  // The toggle-button count is updated here directly for the same reason:
+  // nothing else will refresh it.
+  updateNotesCount();
   scheduleSave();
 };
 
@@ -688,9 +791,24 @@ function ruleControls(c) {
     <input class="c-val" type="number" value="${esc(String(c.rule.value ?? ''))}" aria-label="Value">`;
 }
 
+// Column labels for the criteria grid; aria-hidden because every control in
+// the rows below already carries its own aria-label.
+const CRIT_HEAD = `
+  <div class="crit-head" aria-hidden="true">
+    <span>Name</span><span>Tier</span><span>Rule</span><span>Wt</span><span></span><span></span>
+  </div>`;
+
 function renderCriteria() {
+  const n = prefs.criteria.length;
+  // The count lives on the collapsed toggle button, so it must update here —
+  // it is what tells you the panel has content without opening it.
+  document.getElementById('criteria-count').textContent = `(${n})`;
   const host = document.getElementById('criteria');
-  host.innerHTML = prefs.criteria.map(c => `
+  if (!n) {
+    host.innerHTML = '<p class="crit-empty">No criteria yet — describe what you want in prose, or add one by hand.</p>';
+    return;
+  }
+  host.innerHTML = CRIT_HEAD + prefs.criteria.map(c => `
     <div class="crit-row ${isInert(c) ? 'manual' : ''}" data-id="${c.id}">
       <input class="c-label" value="${esc(c.label)}" aria-label="Criterion name">
       <select class="c-tier" aria-label="Tier">
