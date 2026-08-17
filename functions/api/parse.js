@@ -5,12 +5,29 @@ const NUMERIC_FIELDS = [
   'length_in', 'width_in', 'height_in', 'cargo_length_in', 'max_cargo_cf',
   'mpg_city', 'mpg_hwy', 'ev_range_mi', 'price_low', 'price_high', 'tow_max',
   'reliability_score', 'safety_feature_count', 'conversion_kit_count',
-  'camper_popularity', 'listed_year',
+  'camper_popularity', 'listed_year', 'sitting_height_in',
 ];
+
+// Equipment booleans are modelled as yes/no enums rather than a new boolean
+// type, so they flow through the existing enum ops unchanged. Every one of
+// these must also exist in FIELDS in shortlist/scoring.js — scoring.test.mjs
+// enforces FIELD_IDS ⊆ FIELDS, because a criterion naming a field the scorer
+// cannot read silently never scores.
+const YES_NO = ['yes', 'no'];
 const ENUM_FIELDS = {
   vehicle_class: ['SUV', 'Minivan', 'Compact minivan', 'Compact van', 'Wagon', 'Hatchback'],
   powertrain: ['gas', 'hybrid', 'phev', 'ev'],
   drivetrain_bucket: ['awd', '2wd'],
+  heated_front_seats: YES_NO,
+  heated_steering_wheel: YES_NO,
+  dual_zone_climate: YES_NO,
+  remote_start: YES_NO,
+  sunroof: YES_NO,
+  roof_rails: YES_NO,
+  power_liftgate: YES_NO,
+  cargo_power_outlet: YES_NO,
+  fold_flat_passenger: YES_NO,
+  rear_seat_fold: ['flat', 'near-flat', 'uneven', 'removable'],
 };
 
 export const FIELD_IDS = [...NUMERIC_FIELDS, ...Object.keys(ENUM_FIELDS)];
@@ -188,7 +205,13 @@ For a criterion:
 - "label": a short human-readable restatement, under 60 characters.
 - "source_text": the fragment of the person's input this came from, verbatim.
 
-Put a want in "notes" instead when no field expresses it. The dataset describes dimensions, cargo, economy, price, towing, reliability, driver-assist safety feature counts, conversion-kit availability, camper popularity, class, powertrain and drivetrain. It records NOTHING about comfort or convenience equipment, so wants like heated seats, sunroof, upholstery, infotainment or seat configuration are always notes. A note is a plain sentence, no fields.
+Put a want in "notes" instead when no field expresses it. The dataset describes dimensions, cargo, economy, price, towing, reliability, driver-assist safety feature counts, conversion-kit availability, camper popularity, class, powertrain, drivetrain, a specific list of comfort and convenience equipment, and interior sitting height above the folded seats. Wants outside that list — upholstery material, infotainment, paint colour, brand preference, styling — are notes. A note is a plain sentence, no fields.
+
+The equipment fields are yes/no enums: use op "in" with value ["yes"] for "must have it" and ["no"] for "must not". They record what is STANDARD on each vehicle's listed trim, so a want phrased as "available" or "can be optioned" is still a note, not a criterion. Equipment beyond that list (leather, tow hitch, third row, all-weather mats) is a note.
+
+rear_seat_fold describes the surface with the rear seats down: "flat", "near-flat", "uneven", or "removable". Map "seats fold flat", "flat load floor" or "somewhere to sleep" to in ["flat","removable"] unless the person is clearly stricter.
+
+sitting_height_in is inches of headroom above the folded seats — the "can I sit up in bed" number. Map wants about sitting up, sitting headroom or interior height when camping to it. Do NOT map general "tall interior" or "high roof" wants to height_in, which is the vehicle's EXTERIOR height and mostly measures ground clearance and roof rails.
 
 Do not emit a criterion whose rule you cannot fill in. There is no "manual" kind: a want with no usable rule belongs in "notes", where it is shown to the person as something to weigh themselves. That is better than a criterion that appears to filter and does not.
 

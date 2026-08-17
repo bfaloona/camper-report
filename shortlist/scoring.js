@@ -4,6 +4,14 @@
 const POP_ORDER = { Low: 1, Medium: 2, High: 3 };
 const num = x => (typeof x === 'number' && Number.isFinite(x) ? x : null);
 
+// Equipment facts are booleans in the data but enums here, so they reuse the
+// existing enum path end to end: `in ['yes']` gates in a must-have tier and
+// scores pass/fail in a nice-to-have one, with no new field type and no change
+// to evaluateGate. `null` stays null so an unresearched fact reads as "no data"
+// rather than as a "no" — the difference matters when the answer is unknown
+// rather than absent.
+const yesNo = b => (b === true ? 'yes' : b === false ? 'no' : null);
+
 export const FIELDS = {
   length_in:            { label: 'Length (in)',         type: 'number', get: v => num(v.exterior_in?.length) },
   width_in:             { label: 'Width (in)',          type: 'number', get: v => num(v.exterior_in?.width) },
@@ -29,6 +37,25 @@ export const FIELDS = {
   vehicle_class:        { label: 'Class',               type: 'enum',   get: v => v.class ?? null },
   powertrain:           { label: 'Powertrain',          type: 'enum',   get: v => v.powertrain ?? null },
   drivetrain_bucket:    { label: 'Drivetrain',          type: 'enum',   get: v => (v.drivetrain === 'AWD' || v.drivetrain === '4WD' ? 'awd' : v.drivetrain ? '2wd' : null) },
+
+  // Equipment, as standard on the record's listed trim. Optional or
+  // dealer-installed reads as 'no' — see `equipment.basis` on each record.
+  heated_front_seats:   { label: 'Heated front seats',  type: 'enum',   get: v => yesNo(v.equipment?.heated_front_seats) },
+  heated_steering_wheel:{ label: 'Heated steering wheel', type: 'enum', get: v => yesNo(v.equipment?.heated_steering_wheel) },
+  dual_zone_climate:    { label: 'Dual-zone climate',   type: 'enum',   get: v => yesNo(v.equipment?.dual_zone_climate) },
+  remote_start:         { label: 'Remote start',        type: 'enum',   get: v => yesNo(v.equipment?.remote_start) },
+  sunroof:              { label: 'Sunroof',             type: 'enum',   get: v => yesNo(v.equipment?.sunroof) },
+  roof_rails:           { label: 'Roof rails',          type: 'enum',   get: v => yesNo(v.equipment?.roof_rails) },
+  power_liftgate:       { label: 'Power liftgate',      type: 'enum',   get: v => yesNo(v.equipment?.power_liftgate) },
+  cargo_power_outlet:   { label: 'Cargo power outlet',  type: 'enum',   get: v => yesNo(v.equipment?.cargo_area_power_outlet) },
+  fold_flat_passenger:  { label: 'Fold-flat front passenger seat', type: 'enum', get: v => yesNo(v.equipment?.fold_flat_front_passenger_seat) },
+  rear_seat_fold:       { label: 'Rear seat fold',      type: 'enum',   get: v => v.equipment?.rear_seat_fold ?? null },
+
+  // Height above the sleeping surface — whether you can sit up in bed. A
+  // community measurement, not a manufacturer spec, and deliberately NOT
+  // derived from published rear headroom, which is taken at the upright
+  // seating position and means something else entirely.
+  sitting_height_in:    { label: 'Sitting height (in)', type: 'number', get: v => num(v.sitting_height_over_folded_seats_in?.value) },
 };
 
 export function fieldValue(vehicle, fieldId) {
