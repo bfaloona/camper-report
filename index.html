@@ -342,20 +342,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "3rd of 26 compact SUVs, $429/yr avg. Watch: 2019–20 fuel-pump recall, hybrid coolant bypass valve failures, 12V battery drain.",
     "source": "https://repairpal.com/reliability/toyota/rav4"
    },
-   "camper_pros": [
-    "39–41 mpg and 500+ mile range",
-    "Hybrid cycles climate control overnight quietly",
-    "Standard AWD + 8.1-in clearance for dirt-road sites",
-    "Huge platform/mattress aftermarket",
-    "Top-tier reliability and resale"
-   ],
-   "camper_cons": [
-    "69.8 cu ft — smallest practical volume in the group",
-    "Rear seats neither remove nor fold flat — platform required",
-    "~6-ft sleeping only with front seats slid forward",
-    "Low roof — no sitting up inside",
-    "No van-style stealth; gear visible through glass"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": false,
@@ -383,7 +369,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "No defensible community measurement for this generation. One forum post (vanlivingforum.com 'Toyota Hybrid Dimensions') gives a specific tape-measure figure - 'the hump over the battery box would require you to definitely make a platform... With only 33\" from the top of the box to the inside of the roof, there was no way I was going to sit up' - but the thread was started Sep 10, 2018, meaning that dealer visit was necessarily of the 4th-gen RAV4 (XA40, 2013-2018), not the listed 5th-gen (XA50) 2024 XLE Hybrid AWD. Rejected as inapplicable to this record rather than reported. Other RAV4-specific reddit/forum sources (multiple rav4club camping-platform threads) discuss headroom only qualitatively ('headroom wasn't great', 'you do sacrifice headroom') relative to platform leg height, with no absolute ceiling-clearance figure for the correct generation.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 8.1,
+    "note": "8.1 in on all 2024 RAV4 Hybrid trims incl. XLE; gas RAV4 range is 8.0-8.6",
+    "source": "https://rav4resource.com/toyota-rav4-ground-clearance/"
+   },
+   "spare_tire": {
+    "value": "compact",
+    "note": "temporary/donut spare on 17-in steel wheel in the subtrunk",
+    "source": "https://www.rav4world.com/threads/2024-rav4-hybrid-spare-tire.329496/"
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "120V/100W cargo-area outlet on Adventure, TRD Off-Road, and Hybrid Woodland Edition trims; the 1500W inverter belongs to the RAV4 Prime, a separate PHEV model",
+    "source": "https://www.fredhaastoyota.com/2024-rav4/"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "redesigned 6th-gen 2026 RAV4 (all-hybrid lineup) on sale in the US",
+    "source": "https://www.kbb.com/toyota/rav4/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "39–41 mpg and 500+ mile range",
+    "Hybrid cycles climate control overnight quietly",
+    "Standard AWD + 8.1-in clearance for dirt-road sites",
+    "Huge platform/mattress aftermarket",
+    "Top-tier reliability and resale"
+   ],
+   "camper_cons": [
+    "69.8 cu ft — smallest practical volume in the group",
+    "Rear seats neither remove nor fold flat — platform required",
+    "~6-ft sleeping only with front seats slid forward",
+    "Low roof — no sitting up inside",
+    "No van-style stealth; gear visible through glass"
+   ]
   },
   {
    "id": "ford-transit-connect-gen2",
@@ -485,20 +511,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "5th of 21 commercial vans but $926/yr avg; 6F35/8F35 transmission shudder/failure is the dominant used-buyer complaint.",
     "source": "https://repairpal.com/reliability/ford/transit-connect"
    },
-   "camper_pros": [
-    "106 cu ft with long flat load floor — best sleep/build space of the compacts",
-    "Rows fold flat into floor — no seat-storage problem",
-    "Boxy walls + sliding doors + off-the-shelf kits",
-    "Work-van looks = excellent urban stealth",
-    "Minivan footprint parks anywhere"
-   ],
-   "camper_cons": [
-    "Weakest reliability here (3.0/5) — known transmission failures",
-    "~24 mpg combined, no better than larger vans",
-    "Discontinued 2023 — parts/support outlook",
-    "FWD only, low clearance",
-    "Must idle for overnight heat/AC"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -526,7 +538,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "Could not find a defensible seats-out, bare-load-floor-to-ceiling figure for the 2023 Titanium Passenger Wagon LWB. Ford Transit Connect Forum thread (fordtransitconnectforum.com/topic/8441) had only cargo-length numbers (84-89 in), not height. Two upfitsupply.com measurement-guide pages (SWB and LWB) truncated before reaching their dimensions table on every fetch attempt, including via web.archive.org (archive fetch failed outright). A vandimensions.com page returned H1/H2/H3 figures (42.2/49/49.8 in) that appear to be roof-height-option codes borrowed from the full-size Transit rather than the Connect (which has no roof-height options in NA), so they were discarded as unreliable/likely mismatched. Dealer blog posts (akinsford.com) only gave rear-seat headroom deltas between SWB/LWB (a seated spec, excluded per the hard rule against using headroom specs). No community measurement found.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 5.7,
+    "note": "Edmunds figure for 2023 Titanium passenger wagon",
+    "source": "https://www.edmunds.com/ford/transit-connect-passenger-wagon/2023/st-401955158/features-specs/"
+   },
+   "spare_tire": {
+    "value": "full-size",
+    "note": "owner-reported full-size spare on underbody carrier (corroborated by a 2016 owner on fordtransitconnectforum.com); Ford factory documentation not directly confirmable",
+    "source": "https://www.truecar.com/overview/ford/transit-connect-wagon/"
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "optional 110V/150W outlet offered across gen2 (2014-2023); OEM outlet part exists for 2019-2023, and the option required the 175A alternator per fordtransitusaforum.com",
+    "source": "https://www.ebay.com/itm/395079724252"
+   },
+   "still_in_production": {
+    "value": false,
+    "note": "US sales ended after 2023; planned Maverick-based successor cancelled; nameplate continues in Europe only",
+    "source": "https://www.thedrive.com/news/ford-transit-connect-officially-discontinued-after-2023-model-year"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "106 cu ft with long flat load floor — best sleep/build space of the compacts",
+    "Rows fold flat into floor — no seat-storage problem",
+    "Boxy walls + sliding doors + off-the-shelf kits",
+    "Work-van looks = excellent urban stealth",
+    "Minivan footprint parks anywhere"
+   ],
+   "camper_cons": [
+    "Weakest reliability here (3.0/5) — known transmission failures",
+    "~24 mpg combined, no better than larger vans",
+    "Discontinued 2023 — parts/support outlook",
+    "FWD only, low clearance",
+    "Must idle for overnight heat/AC"
+   ]
   },
   {
    "id": "honda-odyssey-rl6",
@@ -627,20 +679,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "3rd of 8 minivans, $547/yr. Watch: 9/10-speed harsh shifting, power sliding-door actuators, infotainment (mostly 2018–19).",
     "source": "https://repairpal.com/reliability/honda/odyssey"
    },
-   "camper_pros": [
-    "158 cu ft behind front row — full mattress + gear",
-    "3rd row stows flat; 2nd row removes for long flat platform",
-    "Minivan anonymity + sliding doors = stealthy urban overnights",
-    "19/28 mpg respectable for the volume",
-    "Car-like ride, strong safety scores"
-   ],
-   "camper_cons": [
-    "2nd-row seats ~68 lb each, stored at home",
-    "Transmission + sliding-door electronics are the trouble spots",
-    "FWD only, low clearance",
-    "No hybrid — overnight climate means idling",
-    "Removed-seat floor needs a leveling layer"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -668,7 +706,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "Searched car-camping blogs (nimblecamper.com, autoroamer.com, gear-gadget.com, thewaywardhome.com) and tried to reach two Honda Odyssey Forum (odyclub.com) threads specifically about building a sleeping platform, but those threads sit behind a paywall gateway (tollbit.odyclub.com, HTTP 402) and could not be read. No source gave a number for vertical clearance from the folded (uneven, stepped) seatback to the headliner/grab-handle line at the second-row position. nimblecamper.com gave a 'boot height' of 118cm (~46.5in), and autoroamer.com gave cargo length only (88in) with no height figure; the 118cm figure reads as a generic spec-style cargo-height number, not a documented measurement from the actual sleeping surface, and its listed trim/sunroof status is unknown, so it was not used. No defensible community measurement found; 2024 EX-L has a sunroof, so any figure used would have needed a 2-3in deduction if the source vehicle lacked one.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 4.5,
+    "note": "same across all 2024 trims incl. EX-L",
+    "source": "https://www.autopadre.com/ground-clearance/honda-odyssey"
+   },
+   "spare_tire": {
+    "value": "compact",
+    "note": "compact temporary spare standard; OEM 2018-2025 Odyssey EX-L compact donut parts corroborate",
+    "source": "https://sparetire.com/Honda/Odyssey/2024/"
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "115V/150W outlet on upper trims (Touring/Elite; also reported on EX-L); OEM 115V/150W dash outlet part exists for 2018-2023",
+    "source": "https://www.billkayhonda.com/research-odyssey-trims/"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 Odyssey (same RL6 generation, refreshed) on sale in the US",
+    "source": "https://www.kbb.com/honda/odyssey/2026/ex-l"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "158 cu ft behind front row — full mattress + gear",
+    "3rd row stows flat; 2nd row removes for long flat platform",
+    "Minivan anonymity + sliding doors = stealthy urban overnights",
+    "19/28 mpg respectable for the volume",
+    "Car-like ride, strong safety scores"
+   ],
+   "camper_cons": [
+    "2nd-row seats ~68 lb each, stored at home",
+    "Transmission + sliding-door electronics are the trouble spots",
+    "FWD only, low clearance",
+    "No hybrid — overnight climate means idling",
+    "Removed-seat floor needs a leveling layer"
+   ]
   },
   {
    "id": "mazda5-gen3",
@@ -752,20 +830,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "22nd of 36 compact cars, $581/yr. Watch: A/C compressor ~40k mi, sliding-door latches, clutch wear on 2012 manuals.",
     "source": "https://repairpal.com/reliability/mazda/5"
    },
-   "camper_pros": [
-    "Cheapest entry in the report — well under $10k used",
-    "Sliding doors in a compact footprint: top stealth + tight parking",
-    "Solid 4.0/5 RepairPal; simple NA 2.5L cheap to fix",
-    "Rear seats fold to a nearly flat floor",
-    "Light and easy on narrow campground roads"
-   ],
-   "camper_cons": [
-    "Only 44.4 cu ft official — 6-footers sleep diagonally",
-    "~24 mpg combined, no economy payoff",
-    "Discontinued 2015: aging cars, no kit aftermarket",
-    "157 hp underpowered when loaded",
-    "Aging A/C + door hardware are likely trip-spoilers"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -792,7 +856,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "Searched car-camping blogs, mattress-vendor pages, and the Mazdas247 owner forum (2015 Grand Touring, uneven fold -> would measure from the folded seatback top; trim has a sunroof so a 2-3in deduction would apply if a non-sunroof source were found). Web search was capped for this session; Yahoo and forum fetches were the only working channel. Only concrete number found was a forum poster's 'Rear height: 34\"', which is an exterior/overall rear body height, not interior headroom above a sleeping surface, and is explicitly excluded by the spec's hard rules (no estimating from exterior height). No community measurement of interior headroom over the folded second row was found for this generation.",
     "source": "https://mazdas247.com/forum/threads/camping-with-mazda5.123840845/"
-   }
+   },
+   "ground_clearance_in": {
+    "value": 5.5,
+    "note": "official Mazda spec deck: minimum ground clearance, laden; all trims",
+    "source": "https://news.mazdausa.com/download/2015-Mazda5-Specifications.pdf"
+   },
+   "spare_tire": {
+    "value": "compact",
+    "note": "official spec deck lists temporary spare T125/70D16 on 16x4T wheel",
+    "source": "https://news.mazdausa.com/download/2015-Mazda5-Specifications.pdf"
+   },
+   "onboard_ac_power": {
+    "value": "none",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "official equipment list shows only 12V outlets (front and rear cargo); no 110/115V outlet on any trim",
+    "source": "https://news.mazdausa.com/download/2015-Mazda5-Specifications.pdf"
+   },
+   "still_in_production": {
+    "value": false,
+    "note": "dropped from US lineup after 2015 with no replacement; global production ended 2018 with no successor",
+    "source": "https://www.autoevolution.com/news/mazda5-minivan-dropped-from-2016-model-year-lineup-in-america-no-replacement-planned-98644.html"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Cheapest entry in the report — well under $10k used",
+    "Sliding doors in a compact footprint: top stealth + tight parking",
+    "Solid 4.0/5 RepairPal; simple NA 2.5L cheap to fix",
+    "Rear seats fold to a nearly flat floor",
+    "Light and easy on narrow campground roads"
+   ],
+   "camper_cons": [
+    "Only 44.4 cu ft official — 6-footers sleep diagonally",
+    "~24 mpg combined, no economy payoff",
+    "Discontinued 2015: aging cars, no kit aftermarket",
+    "157 hp underpowered when loaded",
+    "Aging A/C + door hardware are likely trip-spoilers"
+   ]
   },
   {
    "id": "toyota-sienna-xl40",
@@ -889,19 +993,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "6th of 8 minivans by rank but low $554/yr cost; hybrid drivetrain strong — gripes are sliding-door mechanisms, infotainment, early-build squeaks.",
     "source": "https://repairpal.com/reliability/toyota/sienna"
    },
-   "camper_pros": [
-    "36 mpg hybrid — cheapest minivan road-trip fuel",
-    "AWD available (rare in class)",
-    "Hybrid auto engine-cycling = overnight climate control",
-    "Optional 1,500W 120V AC inverter for camp power",
-    "Toyota hybrid reliability + strong resale"
-   ],
-   "camper_cons": [
-    "Smallest max cargo of the minivans (~101 cu ft)",
-    "2nd row not removable — no flat floor without a platform",
-    "High used prices",
-    "Mediocre RepairPal class rank despite low costs"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -929,7 +1020,46 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "No defensible community measurement of ceiling clearance above the folded-seat sleeping surface found. Multiple camping/build threads (siennachat.com camper conversion project, Facebook Toyota Sienna Camper Conversions group, TrunkMate BlitzBed product page) discuss sleeping-platform leg height (e.g. '7 inch platform') and its headroom trade-off only qualitatively; none states a from-surface-to-ceiling figure. Listed trim (XLE) has a sunroof, so any figure found would have needed the sunroof rule applied, but no figure was found to apply it to.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 6.3,
+    "note": "reported for 2024 XLE; sources vary slightly (some list ~6.9); Woodland Edition rides higher at 6.9",
+    "source": "https://www.autopadre.com/ground-clearance/toyota-sienna"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "XLE AWD ships with a tire repair kit; spare is standard only on LE/LE AWD, and a dealer-installed spare kit (~$245) is available; AWD-with-ottoman configs delete the spare",
+    "source": "https://www.ahgautoservice.com/does-toyota-sienna-have-a-spare-tire/"
+   },
+   "onboard_ac_power": {
+    "value": "high_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "1500W inverter with 120V outlets (console + 3rd row) standard on Woodland Edition, package option on XLE and above; not offered on LE",
+    "source": "https://www.siennachat.com/threads/gen-4-1500w-inverter.75390/"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 Sienna (same XL40 generation) on sale new in the US",
+    "source": "https://www.edmunds.com/toyota/sienna/2026/for-sale/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "36 mpg hybrid — cheapest minivan road-trip fuel",
+    "AWD available (rare in class)",
+    "Hybrid auto engine-cycling = overnight climate control",
+    "Optional 1,500W 120V AC inverter for camp power",
+    "Toyota hybrid reliability + strong resale"
+   ],
+   "camper_cons": [
+    "Smallest max cargo of the minivans (~101 cu ft)",
+    "2nd row not removable — no flat floor without a platform",
+    "High used prices",
+    "Mediocre RepairPal class rank despite low costs"
+   ]
   },
   {
    "id": "chrysler-pacifica-ru",
@@ -1025,19 +1155,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "9-speed shudder/rough-shift TSBs, Uconnect/electrical gremlins, early-year stall recalls; 2021+ better sorted.",
     "source": "https://repairpal.com/reliability/chrysler/pacifica"
    },
-   "camper_pros": [
-    "Stow 'n Go: both rows into the floor in seconds — instant flat floor",
-    "Empty underfloor tubs double as gear storage",
-    "AWD available (keeps 2nd-row Stow 'n Go)",
-    "140.5 cu ft + the largest minivan kit ecosystem",
-    "Steep depreciation = cheap used buy"
-   ],
-   "camper_cons": [
-    "Weakest reliability record of the minivans (transmission/electrical TSBs)",
-    "~19–22 mpg combined",
-    "No engine-off overnight climate",
-    "No model-specific RepairPal score to lean on"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -1065,7 +1182,46 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "Could not find a defensible folded-seatback-to-ceiling figure for the 2024 Touring L. Chrysler Pacifica Forums (pacificaforums.com) threads that looked promising (camper-conversion, camping-bed-platforms) are proxied through a paywall (tollbit.pacificaforums.com, HTTP 402) and could not be read. A build blog (relentlessoptimizer.com/pacifica/camping-build) documents platform height above the floor (7.5 in) but never states vertical clearance above the platform. The only headroom-adjacent statement found, from a pacificaforums.com search snippet, was an anecdote (\"a 6' tall person can sit cross-legged on the mattress with an inch or two of clearance\") which is evidence, not a measurement, per the spec's hard rule, and the source page itself was unreachable to verify further. No community measurement found.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 5.1,
+    "note": "Official Chrysler spec sheet: 5.1 in (131 mm) FWD, 5.4 in (137 mm) AWD. Touring L is FWD unless optioned AWD.",
+    "source": "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/specs/2024_CH_Pacifica_SP.pdf"
+   },
+   "spare_tire": {
+    "value": null,
+    "note": "Unverifiable for 2024 Touring L specifically: Chrysler's spec sheet and window sticker are silent, and community/aggregator reports conflict (compact spare standard vs inflator kit with optional mini-spare). Trims with self-sealing tires (S Appearance, Limited, Pinnacle) clearly get no spare.",
+    "source": null
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "This generation offers a single 115V/150W inverter outlet (OEM bezel part 5XV08PD2AB, 2017-2024), optional/package-dependent on higher trims; shuts down above 150W.",
+    "source": "https://donutparts.com/products/406651281122"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 Pacifica (same generation, refreshed) on sale new in the US as of Aug 2026.",
+    "source": "https://www.cars.com/articles/how-much-is-the-2026-chrysler-pacifica-517200/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Stow 'n Go: both rows into the floor in seconds — instant flat floor",
+    "Empty underfloor tubs double as gear storage",
+    "AWD available (keeps 2nd-row Stow 'n Go)",
+    "140.5 cu ft + the largest minivan kit ecosystem",
+    "Steep depreciation = cheap used buy"
+   ],
+   "camper_cons": [
+    "Weakest reliability record of the minivans (transmission/electrical TSBs)",
+    "~19–22 mpg combined",
+    "No engine-off overnight climate",
+    "No model-specific RepairPal score to lean on"
+   ]
   },
   {
    "id": "chrysler-pacifica-hybrid-ru",
@@ -1167,18 +1323,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "Shares gas TSBs plus PHEV history: 2017–18 battery-fire recall, engine-shutdown recalls, occasional charging/inverter faults — prefer 2021+, verify recalls done.",
     "source": "https://repairpal.com/reliability/chrysler/pacifica"
    },
-   "camper_pros": [
-    "~32-mi EV range — silent engine-off electric climate at camp",
-    "82 MPGe / ~30 mpg after battery depletes",
-    "Same 140.5 cu ft max as gas van",
-    "Heavy PHEV depreciation = bargain used prices"
-   ],
-   "camper_cons": [
-    "No 2nd-row Stow 'n Go — heavy seats to remove for a build",
-    "FWD only",
-    "PHEV complexity on a below-average platform; notable recall history",
-    "Needs charging access to exploit EV mode"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -1206,7 +1350,45 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "Searched several camper-conversion blogs and build logs (autoroamer.com, nimblecamper.com, relentlessoptimizer.com, moparinsiders.com). The closest candidate was autoroamer.com's Pacifica camper-conversion page, which lists 'Height: ~44 inches interior height allows sitting upright in many areas' under a 'Stow 'n Go Dimensions (Seats Stowed)' heading -- but this reads as a compiled spec-style dimension entry (paired with length/width figures) rather than a documented physical measurement, doesn't state where along the vehicle it was taken, and doesn't say whether it accounts for the load floor above the Stow n Go wells (relevant since this record's rear_seat_fold is 'removable' -- bare load floor with seats out) versus seats-in-place. Given the spec's warning against treating spec-block-style figures as this measurement, it was not used. relentlessoptimizer.com mentioned only bed height above the floor (7.5in), not ceiling clearance; moparinsiders.com's camper review covered a Pinnacle trim with captain's chairs (no Stow n Go) and didn't quantify headroom. No sunroof on the listed 2024 Select trim, so no deduction would apply if a figure had been found.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 5.1,
+    "note": "Official Chrysler Plug-In Hybrid spec sheet: 5.1 in (130 mm); hybrid is FWD-only.",
+    "source": "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/specs/2024_CH_Pacifica_Plug-in_Hybrid_SP.pdf"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "Review spec table: 'Spare Tire: None - inflator kit.' Hybrid battery occupies the spare well; no factory spare on any hybrid trim, not even optional.",
+    "source": "https://www.carpro.com/vehicle-reviews/2024-chrysler-pacifica-pinnacle-plug-in-hybrid-review"
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "Same generation as gas Pacifica: 115V/150W inverter outlet available on higher trims/packages (OEM part 5XV08PD2AB, 2017-2024 Pacifica).",
+    "source": "https://donutparts.com/products/406651281122"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 lineup still includes the plug-in Hybrid (up to Hybrid Pinnacle trim).",
+    "source": "https://www.cars.com/articles/how-much-is-the-2026-chrysler-pacifica-517200/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "'Like most plug-in hybrids, the Pacifica doesn't have fast charging as an option.' Level 1/Level 2 AC only (6.6 kW onboard charger, ~2 h on Level 2).",
+    "source": "https://www.chargepoint.com/blog/charging-chrysler-pacifica-plug-in-hybrid-minivan"
+   },
+   "camper_pros": [
+    "~32-mi EV range — silent engine-off electric climate at camp",
+    "82 MPGe / ~30 mpg after battery depletes",
+    "Same 140.5 cu ft max as gas van",
+    "Heavy PHEV depreciation = bargain used prices"
+   ],
+   "camper_cons": [
+    "No 2nd-row Stow 'n Go — heavy seats to remove for a build",
+    "FWD only",
+    "PHEV complexity on a below-average platform; notable recall history",
+    "Needs charging access to exploit EV mode"
+   ]
   },
   {
    "id": "kia-carnival-ka4",
@@ -1302,19 +1484,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "Sedona proxy ranks 1st of 8 minivans, $495/yr. Watch: 2022–23 power sliding-door recall + class action, scattered electrical complaints; 10-yr/100k powertrain warranty.",
     "source": "https://repairpal.com/reliability/kia/sedona"
    },
-   "camper_pros": [
-    "Biggest cargo hold in class — 145.1 cu ft",
-    "Lowest minivan purchase price + 10-yr/100k warranty",
-    "Wide, boxy cargo area suits platform builds",
-    "Strong proxy reliability (1st of 8 minivans)"
-   ],
-   "camper_cons": [
-    "No AWD at any trim",
-    "~19–22 mpg combined",
-    "2nd-row removal heavy; VIP lounge chairs can't come out",
-    "2022–23 sliding-door recall history",
-    "Thinner kit ecosystem than Sienna/Pacifica"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": false,
@@ -1342,7 +1511,46 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "rear_seat_fold is removable, so the correct datum is the bare load floor with seats out. Checked camper-conversion-kit vendor pages (RiverLeaf, Roadloft), which are the source type most likely to publish floor-to-ceiling fitment numbers, but both list only the kit/mattress-platform's own dimensions, not the vehicle's interior clearance. One blog (autoroamer.com) states 'interior height (approximately 38-40 inches)' but gives no methodology, no measurement location (second-row position vs. rear cargo area), and reads as unsourced/generic marketing copy on a site that produces the same boilerplate genre of post for multiple unrelated vehicles (e.g. its Tucson page) -- exactly the copy-paste-without-provenance pattern this task warned against, so it was not used.",
     "source": "https://www.autoroamer.com/posts/kia-carnival-camper-guide.html"
-   }
+   },
+   "ground_clearance_in": {
+    "value": 6.8,
+    "note": "Official Kia spec sheet: 'Min. Ground Clearance 6.8 in.' — same figure for all 2024 trims incl. LX.",
+    "source": "https://www.kiamedia.com/us/en/models/carnival/2024/specifications"
+   },
+   "spare_tire": {
+    "value": "compact",
+    "note": "Official spec sheet: 'Spare Tire Temporary Steel Wheel', T135/90D17, standard on all 2024 trims incl. LX.",
+    "source": "https://www.kiamedia.com/us/en/models/carnival/2024/specifications"
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "Pre-facelift KA4 (2022-2024): '115V inverter' + 'Luggage 115V inverter' standard on SX and SX Prestige only (not the listed LX). Kia's AC inverters are rated 115V/150W max per Kia owner's manuals.",
+    "source": "https://www.kiamedia.com/us/en/models/carnival/2022/features"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 Carnival on sale new in the US as of Aug 2026, from $38,425.",
+    "source": "https://www.motor1.com/news/760555/2026-kia-carnival-pricing/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Biggest cargo hold in class — 145.1 cu ft",
+    "Lowest minivan purchase price + 10-yr/100k warranty",
+    "Wide, boxy cargo area suits platform builds",
+    "Strong proxy reliability (1st of 8 minivans)"
+   ],
+   "camper_cons": [
+    "No AWD at any trim",
+    "~19–22 mpg combined",
+    "2nd-row removal heavy; VIP lounge chairs can't come out",
+    "2022–23 sliding-door recall history",
+    "Thinner kit ecosystem than Sienna/Pacifica"
+   ]
   },
   {
    "id": "kia-carnival-hybrid-ka4pe",
@@ -1440,19 +1648,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "First-year (2025) hybrid powertrain in Carnival — no track record, though the 1.6T hybrid is proven in Sorento/Sportage; verify KA4 door-recall fixes.",
     "source": "https://repairpal.com/reliability/kia/sedona"
    },
-   "camper_pros": [
-    "Class-max 145.1 cu ft AND ~33 mpg combined",
-    "Hybrid engine-cycling supports overnight climate",
-    "10-yr/100k warranty covers hybrid components",
-    "Hybrid system proven in other Kias"
-   ],
-   "camper_cons": [
-    "No AWD",
-    "First model year in the Carnival — no reliability history",
-    "Minimal used-market discount yet",
-    "Same heavy 2nd-row seat removal as gas",
-    "Small HEV battery — no PHEV-style engine-off camp power"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -1480,7 +1675,46 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "No defensible community measurement found. A Reddit thread (r/kiacarnivals, 'Interior Height of 2025 Carnival With Second And Third Row Seats Removed?') asked exactly this question, but the one answering comment was removed by a moderator and the number is unrecoverable. Other results were manufacturer-published seated headroom specs (explicitly disallowed by the spec) or vague statements ('my head was touching the ceiling' from a 6-foot adult in the third row, seats-in) that are evidence, not a measurement, and not about the seats-removed bare floor this record's 'removable' fold type requires.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 6.8,
+    "note": "Official Kia HEV spec sheet: 'Min. Ground Clearance 6.8 in.' for all hybrid trims incl. EX.",
+    "source": "https://www.kiamedia.com/us/en/models/carnival-hev/2025/specifications"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "Official HEV spec sheet lists 'Tire Mobility Kit' (no spare) for every hybrid trim incl. EX; gas 2025 trims keep the temporary steel spare.",
+    "source": "https://www.kiamedia.com/us/en/models/carnival-hev/2025/specifications"
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "2025 press release: two 115V inverters — on SX/SX Prestige per feature listings, not the listed EX. Kia AC inverters are rated 115V/150W max per Kia owner's manuals; no Carnival-specific wattage published.",
+    "source": "https://www.kiamedia.com/us/en/media/pressreleases/22580/2025-kia-carnival-elevates-multi-purpose-appeal-with-hybrid-power-updated-design-and-next-gen-tech"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 Carnival Hybrid on sale new in the US as of Aug 2026, from $42,425.",
+    "source": "https://www.motor1.com/news/760555/2026-kia-carnival-pricing/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Class-max 145.1 cu ft AND ~33 mpg combined",
+    "Hybrid engine-cycling supports overnight climate",
+    "10-yr/100k warranty covers hybrid components",
+    "Hybrid system proven in other Kias"
+   ],
+   "camper_cons": [
+    "No AWD",
+    "First model year in the Carnival — no reliability history",
+    "Minimal used-market discount yet",
+    "Same heavy 2nd-row seat removal as gas",
+    "Small HEV battery — no PHEV-style engine-off camp power"
+   ]
   },
   {
    "id": "mercedes-metris-w447",
@@ -1586,20 +1820,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "$908/yr avg; top complaint: crankcase vent valve assembly (~$2,756); MB dealer labor + Euro parts keep costs high.",
     "source": "https://repairpal.com/mercedes-benz/metris"
    },
-   "camper_pros": [
-    "Garage-able ~75-in roof — fits parking garages",
-    "Huge ~183 cu ft compartment for a mid-size van",
-    "Mature pop-top scene (Peace Vans, factory Getaway)",
-    "RWD with 5,000-lb tow rating",
-    "Drives/parks like a large car"
-   ],
-   "camper_cons": [
-    "No standing room without a pop-top",
-    "Expensive Mercedes service + Euro parts",
-    "Discontinued after 2023 — support question",
-    "Premium fuel, ~21 mpg combined",
-    "High used prices vs domestic vans"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": false,
@@ -1627,7 +1847,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "No usable measurement. A dealer page gives 53.8 in floor-to-roof, but for the Metris CARGO van; this record is the Passenger Van, whose floor structure and headliner differ, so that figure does not transfer. Measured from the bare load floor (seats removed, per rear_seat_fold: removable) to the roof. This is a manufacturer-published spec, not a community measurement -- stating that plainly since it's the opposite of the usual case: a dealer spec page (rusnakarcadia.com/mercedes-benz-metris-cargo-interior) lists 'Min. Cargo Height: 53.8 in / Max. Cargo Height: 55 in' for the Metris. Using the minimum (more conservative) figure. Two caveats: (1) this figure is published for the cargo van configuration; the listed trim is the Passenger Van (126-in WB), which shares the same body/roof but has a carpeted floor and headliner trim that could cost roughly 1 in not reflected here; (2) the source doesn't break out grab handles, dome lights, or other fixtures as separate obstructions, so this is an unobstructed-ceiling figure, not confirmed as the lowest obstruction. Listed trim has no sunroof, and this is a base cargo-height spec, so no sunroof deduction applies. Multiple community forum sou",
     "source": "https://www.rusnakarcadia.com/mercedes-benz-metris-cargo-interior/"
-   }
+   },
+   "ground_clearance_in": {
+    "value": 3.8,
+    "note": "OEM-data spec page for the 2023 Passenger Van: 3.8 in front and rear (autopadre agrees for the Passenger 126-in WB). Lower-confidence: cargo/unspecified variants are published at 5.2-5.4 in. Either figure lands in the same low (<7 in) clearance class.",
+    "source": "https://www.autoweb.com/mercedes-benz/metris-passenger-van/2023"
+   },
+   "spare_tire": {
+    "value": "full-size",
+    "note": "MB's W447 Metris brochure lists 'Spare wheel with jack &amp; tool kit' as factory equipment — a conventional spare wheel, not a sealant kit. MB does not state the size; owner/aftermarket reports describe it as full-size, so treat as probable rather than certain.",
+    "source": "https://assets.mbvans.com/Mercedes-Benz-Vans/Brochures/2020-Mercedes-Benz-Metris-Vans-Brochure.pdf"
+   },
+   "onboard_ac_power": {
+    "value": "none",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "Evidence of absence: the full W447 equipment brochure lists only 12V outlets (front and rear rows); no 115/120V outlet or inverter on any trim or package, and owner forums discuss retrofitting inverters.",
+    "source": "https://assets.mbvans.com/Mercedes-Benz-Vans/Brochures/2020-Mercedes-Benz-Metris-Vans-Brochure.pdf"
+   },
+   "still_in_production": {
+    "value": false,
+    "note": "US sales ended after Q3 2023; Mercedes exited the US midsize-van segment with no direct successor (only the larger Sprinter remains).",
+    "source": "https://www.motor1.com/news/603862/mercedes-discontinue-metris-us-2023/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Garage-able ~75-in roof — fits parking garages",
+    "Huge ~183 cu ft compartment for a mid-size van",
+    "Mature pop-top scene (Peace Vans, factory Getaway)",
+    "RWD with 5,000-lb tow rating",
+    "Drives/parks like a large car"
+   ],
+   "camper_cons": [
+    "No standing room without a pop-top",
+    "Expensive Mercedes service + Euro parts",
+    "Discontinued after 2023 — support question",
+    "Premium fuel, ~21 mpg combined",
+    "High used prices vs domestic vans"
+   ]
   },
   {
    "id": "ram-promaster-city",
@@ -1724,20 +1984,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "2nd of 21 commercial vans, $795/yr, 12% severe-issue probability. Watch: 9-speed shifting complaints; Fiat-platform parts sourcing post-discontinuation.",
     "source": "https://repairpal.com/reliability/ram/promaster-city"
    },
-   "camper_pros": [
-    "Cheapest small-van entry price",
-    "Boxy 101.7 cu ft with low ~21.5-in load floor",
-    "Best-in-class ~24 mpg combined for a van",
-    "Compact city-friendly footprint",
-    "Above-average RepairPal class rank"
-   ],
-   "camper_cons": [
-    "No AWD, low clearance",
-    "Discontinued 2022 — Fiat parts outlook uncertain",
-    "No standing room",
-    "Smaller kit ecosystem than Transit Connect",
-    "9-speed transmission complaints"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": false,
@@ -1765,7 +2011,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "Searched camper-build sites (thewaywardhome.com, riverleafcamper.com, darien.co; hrcounselblog.com covers the full-size ProMaster, a different vehicle, and was excluded). darien.co cites 'The interior height of the ProMaster City is just 51.8 inches,' but this is presented as a general cabin-height spec (used to argue van-builders can't stand up), not a measurement taken from the bare load floor at the second-row position with the lowest obstruction (grab handles etc.) identified -- it reads as a manufacturer/spec-style figure, which the task explicitly excludes, so it was not used. thewaywardhome.com's roundup only gave pros/cons ('no headroom -- you can't stand up inside') with no number. riverleafcamper.com gave only conversion-kit dimensions, not vehicle interior height. No defensible community measurement found. No sunroof on the listed 2022 Wagon trim.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 5.2,
+    "note": "Manufacturer 2022 spec sheet, 5.2 in (131 mm); applies to both Cargo Van and Wagon. Some spec databases round to 5.1.",
+    "source": "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/specs/2022_RAM_ProMaster_City_SPcsvdm3ro6s5sm60gkvop4cd86m.pdf"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "2022 fleet brochure: Tire Service Kit (sealant + compressor, code XAH) standard on Wagon; full-size spare (TBB) or full-size spare + inflator kit (ACF) were factory options.",
+    "source": "https://dealerimages.dealereprocess.com/image/upload/v1665425519/dvp/1640/DEP%20Commercial%20Content%20Athens/22DOMFLT_FBG_22MY_RM_PromasterCity.pdf"
+   },
+   "onboard_ac_power": {
+    "value": "none",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "Owner's manual lists three 12V outlets only; no 115V outlet on any trim or package (2022 brochure feature list has none either).",
+    "source": "https://www.manualslib.com/manual/1310802/Ram-Promaster-City.html?page=71"
+   },
+   "still_in_production": {
+    "value": false,
+    "note": "Discontinued after the 2022 model year with no US successor; Stellantis leadership has floated a revival but nothing is on sale as of Aug 2026.",
+    "source": "https://www.thedrive.com/news/the-ram-promaster-city-was-the-last-small-van-left-now-its-gone"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Cheapest small-van entry price",
+    "Boxy 101.7 cu ft with low ~21.5-in load floor",
+    "Best-in-class ~24 mpg combined for a van",
+    "Compact city-friendly footprint",
+    "Above-average RepairPal class rank"
+   ],
+   "camper_cons": [
+    "No AWD, low clearance",
+    "Discontinued 2022 — Fiat parts outlook uncertain",
+    "No standing room",
+    "Smaller kit ecosystem than Transit Connect",
+    "9-speed transmission complaints"
+   ]
   },
   {
    "id": "subaru-outback-bt",
@@ -1859,20 +2145,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "10th of 26 midsize SUVs, $607/yr. Watch: CVT behavior/longevity, 12V battery drain, windshield cracking; old head-gasket/oil issues largely resolved by 2020+.",
     "source": "https://repairpal.com/reliability/subaru/outback"
    },
-   "camper_pros": [
-    "Standard AWD + 8.7-in clearance",
-    "Car-like 26/32 mpg and daily drivability",
-    "Huge sleep-platform and rooftop-tent scene",
-    "Cheap parts network + strong record",
-    "Raised rails handle RTTs and boxes"
-   ],
-   "camper_cons": [
-    "No sitting-upright headroom inside",
-    "75.6 cu ft caps interior builds",
-    "Sloped tailgate + wheel-well intrusion narrow the bed",
-    "CVT limits towing (2,700–3,500 lb)",
-    "No pop-top options"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -1900,7 +2172,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "rear_seat_fold is near-flat, so the datum is the folded seatback top (no sunroof deduction needed, listed trim has no sunroof). Checked several car-camping guides and fitment-platform vendors (Hele Outdoors, The Wayward Home, Luno Life, Compass Camper, riverleafcamper) and a comparison blog (topcargobox.com). All give cargo-area length/width figures (e.g. ~75in x 40in) but none state a vertical headroom/ceiling-clearance number. One source only offers a qualitative comparison: 'The Forester offers slightly more headroom when sitting up inside compared to the Outback' -- evidence of a difference, not a measurement, so not usable as a value.",
     "source": "https://topcargobox.com/2025/06/08/guide-to-outback-camping-sleep-storage/"
-   }
+   },
+   "ground_clearance_in": {
+    "value": 8.7,
+    "note": "Subaru 2024 trim-comparison sheet: 8.7 in at base curb weight for Premium (Wilderness is 9.5).",
+    "source": "https://www.subaru.com/services/vehicles/pdf/trimComparison/2024/OBK"
+   },
+   "spare_tire": {
+    "value": "compact",
+    "note": "Temporary-use T155/80 D17 spare standard on Premium; full-size spare only on Onyx Edition XT and Wilderness.",
+    "source": "https://www.subaru.com/services/vehicles/pdf/trimComparison/2024/OBK"
+   },
+   "onboard_ac_power": {
+    "value": "none",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "No factory-installed household outlet on any 2024 Outback trim; a genuine dealer-installed accessory 120V/100W outlet (H7110AL100) exists for Premium/Limited. Dealer accessories do not count toward this field's basis.",
+    "source": "https://parts.subaru.com/p/Subaru_2024_Outback/Power-Outlet-120VAC/60246487/H7110AL100.html"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "Redesigned 2026 Outback on sale in the US.",
+    "source": "https://www.mclaughlinsubaru.com/research/subaru-outback.htm"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Standard AWD + 8.7-in clearance",
+    "Car-like 26/32 mpg and daily drivability",
+    "Huge sleep-platform and rooftop-tent scene",
+    "Cheap parts network + strong record",
+    "Raised rails handle RTTs and boxes"
+   ],
+   "camper_cons": [
+    "No sitting-upright headroom inside",
+    "75.6 cu ft caps interior builds",
+    "Sloped tailgate + wheel-well intrusion narrow the bed",
+    "CVT limits towing (2,700–3,500 lb)",
+    "No pop-top options"
+   ]
   },
   {
    "id": "subaru-forester-sk",
@@ -1993,20 +2305,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "21st of 26 compact SUVs, $632/yr, 13% severe. Watch: parasitic 12V battery drain (2019–20 class action), CVT longevity, windshield cracking.",
     "source": "https://repairpal.com/reliability/subaru/forester"
    },
-   "camper_pros": [
-    "Standard AWD + 8.7-in clearance",
-    "Boxy upright cargo bay, tall wide hatch",
-    "~29 mpg combined — cheapest SUV here to run",
-    "Affordable used prices, cheap service",
-    "Excellent visibility on trails"
-   ],
-   "camper_cons": [
-    "Small max cargo (69.1 on moonroof trims)",
-    "Flat sleeping needs front seats slid full forward",
-    "1,500-lb tow rating rules out most teardrops",
-    "No standing room, no pop-top scene",
-    "NA 2.5L strained when loaded"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -2034,7 +2332,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "No defensible community measurement found. Camping-conversion sources (Bonjour Becky's Forester build, Compass Camper, Subaru Forester Owners Forum sleeping-in-the-back thread) discuss bed length (e.g. '72 to 74 inches of flat sleeping surface') and describe headroom only qualitatively. Listed trim (Wilderness) has a sunroof, so the sunroof deduction rule would apply to any figure found, but no figure was found.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 9.2,
+    "note": "Wilderness-specific figure (longer coil springs/shocks); other 2024 Foresters are 8.7.",
+    "source": "https://media.subaru.com/pressrelease/2086/1/2024-subaru-forester-press-kit&amp;searchresult"
+   },
+   "spare_tire": {
+    "value": "full-size",
+    "note": "Press kit: Wilderness carries a full-size spare under the cargo area; non-Wilderness trims use a compact spare.",
+    "source": "https://media.subaru.com/pressrelease/2086/1/2024-subaru-forester-press-kit&amp;searchresult"
+   },
+   "onboard_ac_power": {
+    "value": "none",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "No factory household outlet on any SK-generation trim; a genuine dealer-installed accessory 120V outlet kit (H7110VA100) exists. Dealer accessories do not count toward this field's basis.",
+    "source": "https://parts.subaru.com/p/Subaru_2023_Forester-25L-MT/120V-Power-Outlet/49926172/H7110VA100.html"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "Successor-generation 2026 Forester (incl. Wilderness) on sale.",
+    "source": "https://www.subaru.com/vehicles/forester/wilderness/2026/features.html"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Standard AWD + 8.7-in clearance",
+    "Boxy upright cargo bay, tall wide hatch",
+    "~29 mpg combined — cheapest SUV here to run",
+    "Affordable used prices, cheap service",
+    "Excellent visibility on trails"
+   ],
+   "camper_cons": [
+    "Small max cargo (69.1 on moonroof trims)",
+    "Flat sleeping needs front seats slid full forward",
+    "1,500-lb tow rating rules out most teardrops",
+    "No standing room, no pop-top scene",
+    "NA 2.5L strained when loaded"
+   ]
   },
   {
    "id": "honda-crv-hybrid-gen6",
@@ -2126,19 +2464,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "2nd of 26 compact SUVs, $407/yr. 6th gen early in lifecycle (fuel-pump/software recalls); two-motor hybrid has a strong record; some 12V drain reports.",
     "source": "https://repairpal.com/reliability/honda/cr-v"
    },
-   "camper_pros": [
-    "76.5 cu ft, ~6.5-ft load length seats-folded",
-    "Low, wide liftgate + low floor ease platform builds",
-    "Hybrid engine-cycling overnight climate",
-    "~40 mpg city",
-    "Huge sales volume = cheap parts, accessories"
-   ],
-   "camper_cons": [
-    "Folded seats leave slope/gap — leveling platform needed",
-    "8.2-in clearance + light AWD limit rough roads",
-    "Smaller kit ecosystem than 4Runner",
-    "No 115V household outlet on most trims"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -2166,7 +2491,46 @@ const DATA = /*DATA-START*/{
     "value": 34.0,
     "method": "Measured from the folded second-row seatback (per rear_seat_fold: near-flat) to the roof/headliner. Source (crvguide.com/honda-crv-cargo-space) states this as an owner-measured, 'seats folded' figure specific to the 6th-generation (2023-2026) CR-V, and separately gives 36.0 in for the gas trim vs 34.0 in for the hybrid, attributing the 2 in difference to hybrid battery placement raising the cargo floor -- this trim-specific breakdown is why it reads as a real measurement rather than a generic copy-pasted spec (it doesn't match the site's own gas-trim figure). A second aggregator (autoroamer.com) independently cites ~36 in (matching the gas figure, undifferentiated by trim), which is consistent but not an independent confirmation of the hybrid number. The listed trim (2024 Sport Hybrid) has a sunroof, but the source never states whether its measured vehicle had one, so no deduction was applied -- this figure could be up to 2-3 in optimistic if the source car lacked a sunroof. Confidence kept at low rather than medium specifically because the spec's sunroof requirement can't be confirmed as met.",
     "source": "https://crvguide.com/honda-crv-cargo-space/"
-   }
+   },
+   "ground_clearance_in": {
+    "value": 7.8,
+    "note": "Sport Hybrid 2WD (matches the record's FWD drivetrain); AWD Sport Hybrid is 8.2 in.",
+    "source": "https://www.hondainfocenter.com/2024/CR-V/Feature-Guide/Specifications/"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "2024 Sport Hybrid ships with a tire repair kit (sealant + compressor), no spare.",
+    "source": "https://www.hondainfocenter.com/2024/CR-V/Feature-Guide/Specifications/"
+   },
+   "onboard_ac_power": {
+    "value": "none",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "Honda's 2024 spec/feature guide lists only 12V outlets and USB ports; no 115V outlet on any gen6 trim.",
+    "source": "https://www.hondainfocenter.com/2024/CR-V/Feature-Guide/Specifications/"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 CR-V Hybrid on sale.",
+    "source": "https://www.kbb.com/honda/cr-v-hybrid/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "76.5 cu ft, ~6.5-ft load length seats-folded",
+    "Low, wide liftgate + low floor ease platform builds",
+    "Hybrid engine-cycling overnight climate",
+    "~40 mpg city",
+    "Huge sales volume = cheap parts, accessories"
+   ],
+   "camper_cons": [
+    "Folded seats leave slope/gap — leveling platform needed",
+    "8.2-in clearance + light AWD limit rough roads",
+    "Smaller kit ecosystem than 4Runner",
+    "No 115V household outlet on most trims"
+   ]
   },
   {
    "id": "toyota-prius-xw60",
@@ -2259,19 +2623,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "10th of 24 midsize cars, $408/yr. Hybrid battery typically 150–200k+ mi ($2–4k replacement); outstanding long-term durability; 2024 rear-door-handle recall.",
     "source": "https://repairpal.com/reliability/toyota/prius"
    },
-   "camper_pros": [
-    "Best fuel economy in the report (~52–57 mpg)",
-    "Overnight climate on minimal fuel in READY mode",
-    "Maximum stealth — reads as a commuter car",
-    "Very low running costs"
-   ],
-   "camper_cons": [
-    "Short, shallow cargo bay (<23 in tall) — diagonal sleeping near 6 ft",
-    "Rear seats fold onto a stepped, sloped floor",
-    "~6-in clearance rules out rough roads",
-    "Minimal kit ecosystem",
-    "XLE/Limited lose 3.5 cu ft to raised floor"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": false,
@@ -2300,7 +2651,46 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "Searched thewaywardhome.com, nimblecamper.com, priuschat.com (one thread reachable, not behind a paywall), and gear-gadget.com. nimblecamper.com gave a 'boot height' of 79cm/31in, which is cargo/trunk height (likely spec-derived), not a from-the-sleeping-surface-to-ceiling figure, and doesn't state sunroof status of the source car, so it was not used. The priuschat.com thread ('tips for camping/sleeping in Prius during Midwest summertime') discussed reclining seats and removing headrests 'for extra foot of head space' but gave no inches/cm figure. One build note said a Prius C conversion was 'built for tall people (author is 6'2\")' -- an anecdote, not a measurement, so recorded here as context only, not as a value. No defensible community measurement found. Listed 2024 LE has no sunroof.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 5.6,
+    "note": "2024 Prius LE figure.",
+    "source": "https://www.iseecars.com/car/2024-toyota-prius-dimensions"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "No factory spare on the XW60 Prius; OEM equipment is a tire repair kit (genuine part 4489042060), corroborated by owner forums and aftermarket spare-kit vendors.",
+    "source": "https://parts.lakelandtoyota.com/p/toyota_2024_PRIUS/Tire-Repair-Kit/17225538/4489042060.html"
+   },
+   "onboard_ac_power": {
+    "value": "none",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "The 1500W 120V outlet belongs to the Prius Prime (plug-in, separate model); the hybrid Prius offers only 12V DC and USB per owner discussion — thread page itself would not load, summary from search results.",
+    "source": "https://priuschat.com/threads/1500w-120v-ac-outlet.247647/"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 Prius on sale (LE/XLE/Nightshade/Limited).",
+    "source": "https://www.cars.com/research/toyota-prius-2026/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Best fuel economy in the report (~52–57 mpg)",
+    "Overnight climate on minimal fuel in READY mode",
+    "Maximum stealth — reads as a commuter car",
+    "Very low running costs"
+   ],
+   "camper_cons": [
+    "Short, shallow cargo bay (<23 in tall) — diagonal sleeping near 6 ft",
+    "Rear seats fold onto a stepped, sloped floor",
+    "~6-in clearance rules out rough roads",
+    "Minimal kit ecosystem",
+    "XLE/Limited lose 3.5 cu ft to raised floor"
+   ]
   },
   {
    "id": "toyota-4runner-n280",
@@ -2393,20 +2783,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "9th of 26 midsize SUVs, $514/yr. Legendary 300k+ mi longevity; check frame rust in salt states; dated 5-speed auto and tech.",
     "source": "https://repairpal.com/reliability/toyota/4runner"
    },
-   "camper_pros": [
-    "89.7 cu ft, long near-flat floor (~6-ft sleeping)",
-    "Biggest overland aftermarket here (drawers, RTT-rated racks)",
-    "True 4WD + 9.6-in clearance for remote dispersed sites",
-    "Proven durability, top resale",
-    "Roll-down rear hatch glass for ventilation"
-   ],
-   "camper_cons": [
-    "Worst fuel economy in the report (~16–17 combined)",
-    "No engine-off climate — overnight = idling",
-    "High load floor and step-up",
-    "Strong resale keeps used prices high",
-    "Dated infotainment/ADAS"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": false,
@@ -2434,7 +2810,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "rear_seat_fold is near-flat, so the datum is the folded seatback top (no sunroof deduction needed, listed trim has no sunroof). Found one detailed forum build (4runners.com, '22 4Runner Trail Special Edition) that gives real numbers -- '8.25in high above the cargo deck leaving us with 27in headroom at the lowest point' and 'the ceiling is about 24in clearance with the memory foam, futon, and sleeping bag' -- but these are measured from a custom plywood storage platform built on top of the OEM cargo deck, not from the folded second-row seatback. Converting that figure to a seatback-referenced number would require guessing how much higher the platform sits than the seatback itself, which is the exterior/floor-height inference the spec explicitly disallows. A second thread ('Looking for simple solutions for sleeping in the back of my 4Runner') discusses leveling a platform with the folded seatbacks but gives only a fore-aft length (68in), not vertical clearance. No defensible seatback-to-ceiling figure was found for this 5th-gen (2010-2024) body.",
     "source": "https://www.4runners.com/threads/finished-sleeping-platform-drawer-build.42241/"
-   }
+   },
+   "ground_clearance_in": {
+    "value": 9.6,
+    "note": "Toyota 2024 4Runner Product Information sheet: 9.6 in for 4x4 (TRD Off-Road is 4x4-only); 4x2 models are 9.0 in.",
+    "source": "https://www.top4runners.com/runhist/5thgen/2024_info.pdf"
+   },
+   "spare_tire": {
+    "value": "full-size",
+    "note": "Same Toyota product info sheet: 'Spare Tire/Wheel: Full-size', standard across trims.",
+    "source": "https://www.top4runners.com/runhist/5thgen/2024_info.pdf"
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "One cargo-area 120V 100W/400W AC outlet, standard from SR5 up (400W in park, 100W while driving).",
+    "source": "https://www.top4runners.com/runhist/5thgen/2024_info.pdf"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "Direct successor: sixth-gen 4Runner launched for 2025; 2026 model on sale.",
+    "source": "https://www.toyota.com/4runner/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "89.7 cu ft, long near-flat floor (~6-ft sleeping)",
+    "Biggest overland aftermarket here (drawers, RTT-rated racks)",
+    "True 4WD + 9.6-in clearance for remote dispersed sites",
+    "Proven durability, top resale",
+    "Roll-down rear hatch glass for ventilation"
+   ],
+   "camper_cons": [
+    "Worst fuel economy in the report (~16–17 combined)",
+    "No engine-off climate — overnight = idling",
+    "High load floor and step-up",
+    "Strong resale keeps used prices high",
+    "Dated infotainment/ADAS"
+   ]
   },
   {
    "id": "toyota-highlander-hybrid-xu70",
@@ -2528,20 +2944,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "7th of 26 midsize SUVs, $489/yr. Hybrid system very reliable; watch A/C condenser rock damage, infotainment glitches, 2020–21 bumper recall.",
     "source": "https://repairpal.com/reliability/toyota/highlander"
    },
-   "camper_pros": [
-    "84.3 cu ft, 6.5+ ft load length both rows folded",
-    "Hybrid engine-cycling overnight climate",
-    "~35–36 mpg — exceptional for a 3-row SUV",
-    "Quiet comfortable highway cruiser",
-    "Blends in as a family SUV for stealth"
-   ],
-   "camper_cons": [
-    "Folded 2nd row leaves seams/slope — platform needed",
-    "~8-in clearance, no low range",
-    "Small kit ecosystem vs 4Runner",
-    "Higher purchase price; hybrid resale premium",
-    "16 cu ft daily cargo if 3rd row stays up"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -2569,7 +2971,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "No defensible community measurement found. The most detailed source (a Van & RV Living Forum dealer-lot comparison of Toyota hybrids) measured RAV4 headroom numerically but for the Highlander only stated 'I would still need to stoop in bed' with no figure. Other results were manufacturer-published third-row seated headroom specs (explicitly disallowed) or generic listicles. Listed trim (XLE) has a sunroof, so any figure found would have needed the deduction applied.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 8.0,
+    "note": "Cars.com lists 8 in minimum ground clearance for the 2024 Highlander Hybrid incl. XLE AWD.",
+    "source": "https://www.cars.com/research/toyota-highlander_hybrid-2024/specs/"
+   },
+   "spare_tire": {
+    "value": "compact",
+    "note": "Compact temporary spare under the cargo floor.",
+    "source": "https://www.cars.com/research/toyota-highlander_hybrid-2024/specs/"
+   },
+   "onboard_ac_power": {
+    "value": "high_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "Hybrid Limited (also reported on hybrid Bronze Edition and Platinum): two 120V outlets, 1500W shared. Not on the XLE trim.",
+    "source": "https://www.hanleesfairfieldtoyota.com/2024-toyota-highlander-trim-levels/"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 Highlander (incl. Hybrid) on sale; Edmunds/Cars.com list 2026 Highlander Hybrid inventory.",
+    "source": "https://www.toyota.com/highlander/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "84.3 cu ft, 6.5+ ft load length both rows folded",
+    "Hybrid engine-cycling overnight climate",
+    "~35–36 mpg — exceptional for a 3-row SUV",
+    "Quiet comfortable highway cruiser",
+    "Blends in as a family SUV for stealth"
+   ],
+   "camper_cons": [
+    "Folded 2nd row leaves seams/slope — platform needed",
+    "~8-in clearance, no low range",
+    "Small kit ecosystem vs 4Runner",
+    "Higher purchase price; hybrid resale premium",
+    "16 cu ft daily cargo if 3rd row stays up"
+   ]
   },
   {
    "id": "toyota-rav4-prime-xa50",
@@ -2665,20 +3107,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "RAV4 line: 3rd of 26 compact SUVs, $429/yr. Prime-specific: 12V battery drain reports, occasional onboard-charger glitches; HV battery 10-yr/150k warranty.",
     "source": "https://repairpal.com/reliability/toyota/rav4"
    },
-   "camper_pros": [
-    "42-mi EV range runs silent electric climate ALL NIGHT (documented dry-camping threads)",
-    "1500W/120V cargo outlet (XSE Premium) powers fridge/cooktop off the battery",
-    "Flat ~71-in platform + full RAV4 camping ecosystem incl. Prime-specific kit",
-    "38 mpg / 94 MPGe with AWD + 8-in clearance",
-    "Toyota reliability, 10-yr/150k HV battery warranty"
-   ],
-   "camper_cons": [
-    "Rear cargo floor raised by battery (33.5 vs 37.6 cu ft behind seats)",
-    "~71–73-in sleeping without sliding fronts forward — tight for tall campers",
-    "Used prices stay very high (~$38–41k) and supply scarce",
-    "No DC fast charging; overnight AC use eats next-day EV range",
-    "2,500-lb tow rating"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -2706,7 +3134,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "The only cargo-height figure found (34.5-36.6 in, via autoroamer.com citing andymohrtoyota.com/toyota-rav4-dimensions-avon-in.html) turned out, on fetching the dealer page directly, to be Toyota's published 'Cargo height (minimum/maximum): 34.5 in / 36.6 in' spec for the area BEHIND the upright rear seat (trunk zone) -- not the folded-seat sleeping area over the second-row position that this task requires, so it was discarded as measuring the wrong location, not just the wrong source type. Other RAV4 camping/build sources checked (rav4resource.com sleeping guide, instructables.com and fisherck.com folding-leg platform builds, compasscamper.com conversion kit) discuss platform height above the floor and sleeping length but never state vertical clearance above the sleeping surface. No defensible community measurement found; no sunroof determination was possible either.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 8.0,
+    "note": "Toyota pressroom states 8 in for the 2024 RAV4 Prime; some spec databases list 8.2-8.3 in.",
+    "source": "https://pressroom.toyota.com/plug-and-play-with-the-2024-rav4-prime/"
+   },
+   "spare_tire": {
+    "value": "compact",
+    "note": "Cars.com XSE spec page lists a compact temporary spare.",
+    "source": "https://www.cars.com/research/toyota-rav4_prime-2024/specs/445726/"
+   },
+   "onboard_ac_power": {
+    "value": "high_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "XSE Weather + Premium package adds a 120V/1500W cargo-area outlet; a lower-watt 120V cabin outlet is standard on XSE.",
+    "source": "https://pressroom.toyota.com/plug-and-play-with-the-2024-rav4-prime/"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "Direct successor on sale: sixth-gen 2026 RAV4 offers the plug-in, renamed from 'Prime' to RAV4 Plug-in Hybrid.",
+    "source": "https://evchargingstations.com/chargingnews/new-2026-toyota-rav4-phev-gets-dc-fast-charging-feature/"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "US 2024 RAV4 Prime has no DC fast charging; Toyota lists only 120V/240V AC charging (Premium package upgrades the AC onboard charger 3.3kW to 6.6kW, not DC). DCFC arrives only on the 2026 RAV4 PHEV successor.",
+    "source": "https://pressroom.toyota.com/plug-and-play-with-the-2024-rav4-prime/"
+   },
+   "camper_pros": [
+    "42-mi EV range runs silent electric climate ALL NIGHT (documented dry-camping threads)",
+    "1500W/120V cargo outlet (XSE Premium) powers fridge/cooktop off the battery",
+    "Flat ~71-in platform + full RAV4 camping ecosystem incl. Prime-specific kit",
+    "38 mpg / 94 MPGe with AWD + 8-in clearance",
+    "Toyota reliability, 10-yr/150k HV battery warranty"
+   ],
+   "camper_cons": [
+    "Rear cargo floor raised by battery (33.5 vs 37.6 cu ft behind seats)",
+    "~71–73-in sleeping without sliding fronts forward — tight for tall campers",
+    "Used prices stay very high (~$38–41k) and supply scarce",
+    "No DC fast charging; overnight AC use eats next-day EV range",
+    "2,500-lb tow rating"
+   ]
   },
   {
    "id": "mitsubishi-outlander-phev-gn",
@@ -2804,20 +3272,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "Outlander line ranks 8th of 26 compact SUVs, $519/yr avg, 11% severe-repair probability. 4th-gen PHEV is early in lifecycle — thin long-term data; 10-yr/100k powertrain AND main-battery warranty is the backstop.",
     "source": "https://repairpal.com/reliability/mitsubishi/outlander"
    },
-   "camper_pros": [
-    "38-mi EV range + 20-kWh battery: silent engine-off heat/AC overnight",
-    "Two 120V/1500W household outlets (SEL) run camp gear off the pack",
-    "Standard S-AWC AWD + 8.0-in clearance",
-    "10-yr/100k powertrain and battery warranty",
-    "PHEV depreciation: loaded SELs land in the mid-$20s used"
-   ],
-   "camper_cons": [
-    "64.3 cu ft max — smallest cargo hold of the 3-row vehicles here",
-    "26 mpg gas-only once the battery depletes — mediocre for long trips",
-    "No US conversion-kit ecosystem — DIY or universal gear only",
-    "CHAdeMO fast-charge standard is disappearing in the US",
-    "Thin dealer network; 4th gen too new for a reliability track record"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -2846,7 +3300,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "Searched myoutlanderphev.com forum (two threads reachable) and newatlas.com/evcentral.com.au (which cover a custom camper-conversion concept vehicle, the E:Pop, not the stock Outlander PHEV, and were excluded as off-topic). One forum thread had a poster estimate 'without trying i recon i could get in the back on a blow up mattress no bother (i am 6 foot 2)' -- this is exactly the kind of fit-anecdote the task says is evidence, not a measurement, so it is recorded here as context only. No thread gave an inches/cm figure for clearance above the folded (flat) load floor at the second-row position. No defensible community measurement found. Listed 2024 SEL has no sunroof.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 7.8,
+    "note": "Dealer 2024 PHEV page states 7.8 in (elsewhere 7.9); Cars.com rounds to 8 in. No verifiable official US spec-page figure; PHEV-specific, not trim-specific.",
+    "source": "https://www.basilmitsubishi.com/2024-mitsubishi-outlander-phev-buffalo-ny/"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "No spare; ships with a sealant + compressor tire repair kit (official Mitsubishi Motors Canada 2024 Outlander PHEV repair-kit video; Cars.com lists spare size N/A).",
+    "source": "https://www.youtube.com/watch?v=KnF229UfPOM"
+   },
+   "onboard_ac_power": {
+    "value": "high_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "Official brochure: SEL and above add rear-seat and cargo-area 1500W AC outlets; AAA's 2024 SEL review confirms two 120V outlets (console + cargo).",
+    "source": "https://www.mitsubishicars.com/content/dam/mitsubishi-motors-us/images/siteimages/brochures/brochure_files/MMNA_MY23OTLPHEV_Ebrochure_R4.pdf"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 Outlander PHEV on sale, from $43,245.",
+    "source": "https://www.mitsubishicars.com/cars-and-suvs/outlander-phev"
+   },
+   "dc_fast_charging": {
+    "value": true,
+    "note": "Yes, via CHAdeMO only ('DC fast charging is only available with CHAdeMO charging systems'); approx. 80% in 38 min. Standard from SEL up, so the listed SEL has it.",
+    "source": "https://www.mitsubishicars.com/content/dam/mitsubishi-motors-us/images/siteimages/brochures/e-brochure/phev/MitsubishiOutlanderPHEV2024Brochure.pdf"
+   },
+   "camper_pros": [
+    "38-mi EV range + 20-kWh battery: silent engine-off heat/AC overnight",
+    "Two 120V/1500W household outlets (SEL) run camp gear off the pack",
+    "Standard S-AWC AWD + 8.0-in clearance",
+    "10-yr/100k powertrain and battery warranty",
+    "PHEV depreciation: loaded SELs land in the mid-$20s used"
+   ],
+   "camper_cons": [
+    "64.3 cu ft max — smallest cargo hold of the 3-row vehicles here",
+    "26 mpg gas-only once the battery depletes — mediocre for long trips",
+    "No US conversion-kit ecosystem — DIY or universal gear only",
+    "CHAdeMO fast-charge standard is disappearing in the US",
+    "Thin dealer network; 4th gen too new for a reliability track record"
+   ]
   },
   {
    "id": "subaru-forester-hybrid-sl",
@@ -2938,20 +3432,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "Too new for an established repair-cost or failure-pattern record. RepairPal's 3.5/5 (21st of 26 compact SUVs, ~$632/yr average) covers the Forester line broadly, not the Hybrid specifically. One anecdotal early-production QC report on subaruforester.org: a 2025 Touring Hybrid owner received the car without its tire-sealant bottle (part of the no-spare tire-repair kit) — an isolated dealer/factory miss, not a pattern.",
     "source": "https://repairpal.com/reliability/subaru/forester"
    },
-   "camper_pros": [
-    "Standard AWD + 8.7-in clearance and dual-mode X-MODE w/ hill descent on every trim, including the cheapest Premium",
-    "~35 mpg combined, up to 581-mi range on 16.6 gal — big fuel savings and fewer fuel stops on long overland trips",
-    "69.1 cu ft max cargo behind a tall, wide hatch (49.2-in opening, 32.2-in gate height) for easy gear loading",
-    "2025 IIHS TOP SAFETY PICK+ with standard EyeSight suite across the board",
-    "A vendor (Compass Camper) already sells a 2025+-specific sleeping platform kit — unusually fast support for a first-year model"
-   ],
-   "camper_cons": [
-    "No spare tire — sealant-and-compressor kit only, since the battery occupies the spare well; remote-travel buyers likely need an aftermarket spare (~$400–510)",
-    "Low 1,500-lb (Class 1) tow rating rules out most small camping trailers and teardrops",
-    "Too new for real reliability history; RepairPal/J.D. Power figures are line-wide or unverified, not hybrid-specific",
-    "No Wilderness-Hybrid trim yet — today's lineup (Premium/Sport/Limited/Touring) lacks all-terrain tires or the extra clearance the true off-road trim gets (that arrives as a separate MY2027 model)",
-    "Essentially no build community yet — no hybrid-specific sleeping-platform guides, forum threads, or YouTube conversions as of mid-2026, so early adopters are mostly DIY-ing it"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": null,
@@ -2979,7 +3459,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "rear_seat_fold is near-flat, so the datum is the folded seatback top; listed trim has a sunroof, so any usable source measured on a non-sunroof car would need a 2-3in deduction. One blog gives a real personal measurement -- 'around 21 inches' from the top of the mattress/blanket setup to the roof -- but it is explicitly for the author's 2018 Forester, which is the previous-generation (5th-gen, SK) body, not the redesigned 2025 (6th-gen, SL) generation this record covers; it is also measured from the top of bedding rather than the bare folded seatback, and the source car's sunroof status is unstated. Given the generation mismatch alone, this figure was not carried forward as this record's value.",
     "source": "https://roamfreerebecca.com/subaru-forester-camper-conversion/"
-   }
+   },
+   "ground_clearance_in": {
+    "value": 8.7,
+    "note": "Subaru advertises 8.7 in for the 2025 Forester line; not published separately for the Hybrid Sport trim.",
+    "source": "https://www.subaru.com/vehicles/forester/2025/features.html"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "Confirmed: hybrid battery occupies the spare well; ships with air compressor + sealant kit. A spare is offered only as a purchase-time accessory. Gas Foresters keep a spare.",
+    "source": "https://www.cascadesubaru.net/blog/2025/april/15/does-the-2025-subaru-forester-hybrid-come-with-a-spare-tire.htm"
+   },
+   "onboard_ac_power": {
+    "value": "none",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "No factory 120V household outlet found on any 2025 Forester trim; Subaru sells a genuine 110V/100W outlet only as a dealer-installed accessory kit. Absence inferred from accessory catalog + feature lists.",
+    "source": "https://parts.subaru.com/p/Subaru_2025_Forester-25L-Limited/AC-110V-Power-Outlet---platinum-interior/49926168/H7110SC300.html"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 Forester (same SL generation, incl. Hybrid) on sale.",
+    "source": "https://www.subaru.com/vehicles/forester/features.html"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Standard AWD + 8.7-in clearance and dual-mode X-MODE w/ hill descent on every trim, including the cheapest Premium",
+    "~35 mpg combined, up to 581-mi range on 16.6 gal — big fuel savings and fewer fuel stops on long overland trips",
+    "69.1 cu ft max cargo behind a tall, wide hatch (49.2-in opening, 32.2-in gate height) for easy gear loading",
+    "2025 IIHS TOP SAFETY PICK+ with standard EyeSight suite across the board",
+    "A vendor (Compass Camper) already sells a 2025+-specific sleeping platform kit — unusually fast support for a first-year model"
+   ],
+   "camper_cons": [
+    "No spare tire — sealant-and-compressor kit only, since the battery occupies the spare well; remote-travel buyers likely need an aftermarket spare (~$400–510)",
+    "Low 1,500-lb (Class 1) tow rating rules out most small camping trailers and teardrops",
+    "Too new for real reliability history; RepairPal/J.D. Power figures are line-wide or unverified, not hybrid-specific",
+    "No Wilderness-Hybrid trim yet — today's lineup (Premium/Sport/Limited/Touring) lacks all-terrain tires or the extra clearance the true off-road trim gets (that arrives as a separate MY2027 model)",
+    "Essentially no build community yet — no hybrid-specific sleeping-platform guides, forum threads, or YouTube conversions as of mid-2026, so early adopters are mostly DIY-ing it"
+   ]
   },
   {
    "id": "hyundai-santa-fe-hybrid-mx5",
@@ -3071,20 +3591,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "NHTSA recall of 143,472 MY2024-25 units explicitly covering both 'Santa Fe and Santa Fe Hybrid' for improperly installed rearview-camera wiring harnesses (excess tension cracking solder joints over time); VINs searchable on NHTSA.gov since Nov 22, 2025, owner notices mailed starting Jan 15, 2026; free dealer harness replacement. No widely-reported Hybrid-specific mechanical issues (battery, motor, etc.) found — the hybrid powertrain and MX5 generation are too new for long-term reliability data.",
     "source": "https://repairpal.com/reliability/hyundai/santa-fe"
    },
-   "camper_pros": [
-    "Best fuel economy in the Santa Fe lineup: EPA 35/34/34 mpg AWD (36/35/36 FWD) — long range for remote/off-grid trips",
-    "79.6 cu ft max cargo, identical to the gas Santa Fe — no hybrid-battery cargo penalty found",
-    "Limited's 60/40 fold-flat bench 2nd row (vs. Calligraphy's captain's chairs) gives a continuous flat load floor for sleeping",
-    "Limited adds Blind-Spot View Monitor + Surround View Monitor, Highway Driving Assist, and a KBB-listed interior 120V AC outlet",
-    "Strong safety scores: 2025 IIHS Top Safety Pick(+), NHTSA 4-star, SmartSense standard"
-   ],
-   "camper_cons": [
-    "No hybrid XRT: 7.0-in ground clearance only (vs. 8.3 in on gas XRT), no standard AWD, all-terrain tires, or Terrain Mode on any hybrid trim",
-    "Tow rating capped at 2,000 lbs across every hybrid trim (vs. up to 4,500 lbs on gas XRT) — rules out most small trailers",
-    "HTRAC AWD is optional, not standard, on Limited — FWD is the default configuration",
-    "No MX5-generation or Hybrid-specific conversion kit vendor found; RiverLeaf covers only 2018–2023 Santa Fe, and Santa Fe isn't on Vanpackers' compatibility table",
-    "MY2024-25 rearview-camera recall (143,472 units, confirmed to include Hybrid) — check for open recall on any used unit"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -3112,7 +3618,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "No defensible community measurement found. A Reddit thread (r/HyundaiSantaFe) about a 2025 Santa Fe SEL Hybrid camping bed platform is a close model/trim match, but the owner only reported qualitatively ('doesn't seem to give you a lot of clearance for sitting up', later 'there just wasn't enough headspace') with no inches figure, and ultimately returned the platform. No other source supplied a number. Listed trim (Limited) has a sunroof, so the deduction rule would apply to any figure found.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 7.0,
+    "note": "Hyundai 2025 Santa Fe spec sheet: minimum ground clearance 7.0 in for all trims incl. HEV; only the gas-only XRT is 8.3 in.",
+    "source": "https://www.hyundainews.com/assets/documents/original/62996-2025SantaFeSpecsandFeatures20240809.pdf"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "Limited Hybrid ships a tire mobility kit ('Tire Mobility Kit S (HEV)'); the temp compact spare is ICE-only on Limited. All 2025 Santa Fe HEV trims get the kit.",
+    "source": "https://www.hyundainews.com/assets/documents/original/62996-2025SantaFeSpecsandFeatures20240809.pdf"
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "115-volt power outlet standard on XRT, Limited/Limited Hybrid and Calligraphy, so the listed Limited Hybrid has it. Wattage not stated in the spec sheet; Hyundai's outlets of this type are ~150-190W.",
+    "source": "https://www.hyundainews.com/assets/documents/original/62996-2025SantaFeSpecsandFeatures20240809.pdf"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "2026 Santa Fe (same MX5 generation, incl. 1.6T HEV trims) on sale in the US; Hyundai published the 2026 spec sheet July 2026.",
+    "source": "https://www.hyundainews.com/assets/documents/original/67180-2026SantaFeSpecsFeatures20260706.pdf"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "Best fuel economy in the Santa Fe lineup: EPA 35/34/34 mpg AWD (36/35/36 FWD) — long range for remote/off-grid trips",
+    "79.6 cu ft max cargo, identical to the gas Santa Fe — no hybrid-battery cargo penalty found",
+    "Limited's 60/40 fold-flat bench 2nd row (vs. Calligraphy's captain's chairs) gives a continuous flat load floor for sleeping",
+    "Limited adds Blind-Spot View Monitor + Surround View Monitor, Highway Driving Assist, and a KBB-listed interior 120V AC outlet",
+    "Strong safety scores: 2025 IIHS Top Safety Pick(+), NHTSA 4-star, SmartSense standard"
+   ],
+   "camper_cons": [
+    "No hybrid XRT: 7.0-in ground clearance only (vs. 8.3 in on gas XRT), no standard AWD, all-terrain tires, or Terrain Mode on any hybrid trim",
+    "Tow rating capped at 2,000 lbs across every hybrid trim (vs. up to 4,500 lbs on gas XRT) — rules out most small trailers",
+    "HTRAC AWD is optional, not standard, on Limited — FWD is the default configuration",
+    "No MX5-generation or Hybrid-specific conversion kit vendor found; RiverLeaf covers only 2018–2023 Santa Fe, and Santa Fe isn't on Vanpackers' compatibility table",
+    "MY2024-25 rearview-camera recall (143,472 units, confirmed to include Hybrid) — check for open recall on any used unit"
+   ]
   },
   {
    "id": "hyundai-santa-fe-hybrid-tm",
@@ -3206,20 +3752,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "NHTSA recall 23V-181-000 (Hyundai recall 244): tow-hitch wiring-harness PCB can short if exposed to water/debris and cause a fire — owners advised to park outside and away from structures until the fuse/wire-extension remedy is applied; covers 2019–2023 Santa Fe including HEV (~567,912 vehicles across covered models). A 2022 turbo oil-supply-pipe fire recall affected some 1.6T/2.5T Santa Fe/Santa Cruz — verify whether a specific 2023 VIN is included. No Hybrid-specific engine-failure recall found; the 1.6T is the Gamma II, not the Theta II of the older engine-fire actions.",
     "source": "https://repairpal.com/reliability/hyundai/santa-fe"
    },
-   "camper_pros": [
-    "34 mpg combined (Blue) / 32 combined (SEL Premium, Limited) with standard AWD — long range plus trailhead traction",
-    "72.1 cu ft max cargo, flat load floor, identical to the gas Santa Fe (battery under the rear seat, no cargo penalty)",
-    "Fold-flat 60/40 second row and ~72 in of usable sleeping length on all trims",
-    "8.2 in ground clearance — higher than the Tucson and many car-based crossovers",
-    "Strong safety: 2023 IIHS Top Safety Pick+, NHTSA 5-star, SmartSense standard"
-   ],
-   "camper_cons": [
-    "Tow rating only 2,000 lb (vs up to 3,500 lb on the gas 2.5T) — limits trailer options",
-    "115V/150W cargo outlet is trim-dependent and its presence on specific 2023 hybrid trims is unverified — Blue likely lacks it",
-    "'Park outside' tow-hitch harness recall (23V-181) applies to this generation — confirm it was remedied, especially if tow wiring was added",
-    "No PHEV-style AC power for camp; hybrid provides no meaningful household outlet on lower trims",
-    "Camping-kit support is real but second-tier (RiverLeaf/Freeway/Vanpackers) vs the RAV4/CR-V/Outback aftermarket"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -3248,7 +3780,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "No numeric folded-seatback-to-ceiling figure found anywhere. autoroamer.com's Santa Fe camping article and its Santa Fe vs Sorento comparison both describe 'genuine headroom to sit up' only qualitatively, with no measurement. johnonwheels.com's 'can you sleep in the back of a Santa Fe' article notes the sloping roofline 'might pose a challenge for taller individuals' but gives no figure. riverleafcamper.com's Santa Fe (2018-2023, TM generation) platform-kit page gives the kit's own platform dimensions (L72 x W46 x H13 in) but not vehicle interior clearance above it. No community measurement found.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 8.2,
+    "note": "Hyundai TM-generation spec guide (2022 MY, carryover to 2023): minimum ground clearance 8.2 in listed under 'All' models incl. HEV.",
+    "source": "https://www.hyundainews.com/assets/documents/original/48345-2022SantaFeProductGuidespesV2092821pptx.pdf"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "Hyundai 2023 Santa Fe features sheet: 'Tire Mobility Kit HEV - S'; the temp compact spare goes to ICE and PHEV, not the hybrid.",
+    "source": "https://www.hyundainews.com/assets/documents/original/50305-2023SantaFeProductFeatures20220630.pdf"
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "TM generation offers a 110-volt outlet standard on Limited and Calligraphy trims only; the listed SEL Premium does not have it. Wattage not stated in the features sheet.",
+    "source": "https://www.hyundainews.com/assets/documents/original/50305-2023SantaFeProductFeatures20220630.pdf"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "Santa Fe nameplate continues: the 5th-gen (MX5) Santa Fe incl. Hybrid is on sale in the US as of the 2026 model year.",
+    "source": "https://www.hyundainews.com/assets/documents/original/67180-2026SantaFeSpecsFeatures20260706.pdf"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "34 mpg combined (Blue) / 32 combined (SEL Premium, Limited) with standard AWD — long range plus trailhead traction",
+    "72.1 cu ft max cargo, flat load floor, identical to the gas Santa Fe (battery under the rear seat, no cargo penalty)",
+    "Fold-flat 60/40 second row and ~72 in of usable sleeping length on all trims",
+    "8.2 in ground clearance — higher than the Tucson and many car-based crossovers",
+    "Strong safety: 2023 IIHS Top Safety Pick+, NHTSA 5-star, SmartSense standard"
+   ],
+   "camper_cons": [
+    "Tow rating only 2,000 lb (vs up to 3,500 lb on the gas 2.5T) — limits trailer options",
+    "115V/150W cargo outlet is trim-dependent and its presence on specific 2023 hybrid trims is unverified — Blue likely lacks it",
+    "'Park outside' tow-hitch harness recall (23V-181) applies to this generation — confirm it was remedied, especially if tow wiring was added",
+    "No PHEV-style AC power for camp; hybrid provides no meaningful household outlet on lower trims",
+    "Camping-kit support is real but second-tier (RiverLeaf/Freeway/Vanpackers) vs the RAV4/CR-V/Outback aftermarket"
+   ]
   },
   {
    "id": "hyundai-santa-fe-phev-tm",
@@ -3345,20 +3917,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "NHTSA recall 23V-181-000 (Hyundai 244): tow-hitch wiring-harness fire — 'park outside' advisory — explicitly covers the 2022–2023 Santa Fe Plug-in HEV; remedy is a fuse + wire-extension kit (notices mailed May 16, 2023). Also a seat-belt pretensioner recall (2022–2023 PHEV) and a 2022 fuel-tank recall (23V-028-000) touch these model years. No high-voltage-battery-pack fire recall applies to the 2023 PHEV.",
     "source": "https://repairpal.com/reliability/hyundai/santa+fe"
    },
-   "camper_pros": [
-    "31-mile EV range and ~440 mi total range — silent, gas-free driving around camp and errands",
-    "120V AC outlet (~150W) for laptops, phones, and small electronics at camp",
-    "Standard HTRAC AWD on both trims — better for trailheads and snow",
-    "No PHEV cargo penalty: full 36.4/72.1 cu ft with a flat floor (battery under the floor)",
-    "Strong safety: 2023 IIHS Top Safety Pick+, NHTSA 5-star, SmartSense standard"
-   ],
-   "camper_cons": [
-    "Tow rating only 2,000 lb (vs up to 3,500 lb on the gas Santa Fe) — the weakest-towing variant",
-    "120V outlet is ~150W max — won't run an induction cooktop or a large compressor fridge at full load",
-    "No DC fast charging and only ~3.3 kW onboard (Level 2 ~3.4–4 hr) — slow to top up on the road",
-    "'Park outside' tow-hitch harness recall (23V-181) explicitly covers this PHEV — confirm it was remedied",
-    "No PHEV-specific conversion kit; relies on generation-wide (2018–2023) Santa Fe camping products"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -3387,7 +3945,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "Searched autoroamer.com (two Santa Fe camping posts) and hyundai-forums.com (one thread, unreachable -- redirected to a paywalled tollbit.hyundai-forums.com gateway, HTTP 402). Both autoroamer.com articles describe headroom only qualitatively ('genuine headroom to sit up, change clothes, and organize gear'; 'the upright, boxy roofline means more sit-up headroom') with no inches/cm figure, and neither states a measurement method. No defensible community measurement found. Listed 2023 SEL Convenience (HTRAC AWD) has no sunroof.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 8.2,
+    "note": "Hyundai TM-generation spec guide: 8.2 in under 'All' models incl. PHEV (2022 MY doc, carryover to 2023). Cars.com's 2023 PHEV SEL Convenience page corroborates (rounded to 8 in).",
+    "source": "https://www.hyundainews.com/assets/documents/original/48345-2022SantaFeProductGuidespesV2092821pptx.pdf"
+   },
+   "spare_tire": {
+    "value": "compact",
+    "note": "Hyundai 2023 Santa Fe features sheet: 'Temp. Compact Spare Tire: PHEV - S' (unlike the HEV, which gets a mobility kit). Cars.com 2023 PHEV specs also list a compact steel spare.",
+    "source": "https://www.hyundainews.com/assets/documents/original/50305-2023SantaFeProductFeatures20220630.pdf"
+   },
+   "onboard_ac_power": {
+    "value": "low_watt",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "TM generation: 110-volt outlet standard on Limited and Calligraphy trims only; not on the listed SEL Convenience. Wattage not stated in the features sheet.",
+    "source": "https://www.hyundainews.com/assets/documents/original/50305-2023SantaFeProductFeatures20220630.pdf"
+   },
+   "still_in_production": {
+    "value": false,
+    "note": "No Santa Fe plug-in hybrid sold new in the US as of Aug 2026: Hyundai's 2026 Santa Fe spec sheet lists only 2.5T gas and 1.6T HEV powertrains; the 5th-gen PHEV was kept out of the US/Canada.",
+    "source": "https://www.hyundainews.com/assets/documents/original/67180-2026SantaFeSpecsFeatures20260706.pdf"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "AC charging only: 3.6 kW onboard charger, Level 1 / Level 2 (~4 h at 240V) per Hyundai's TM spec guide; no DC fast-charge capability listed for the Santa Fe PHEV.",
+    "source": "https://www.hyundainews.com/assets/documents/original/48345-2022SantaFeProductGuidespesV2092821pptx.pdf"
+   },
+   "camper_pros": [
+    "31-mile EV range and ~440 mi total range — silent, gas-free driving around camp and errands",
+    "120V AC outlet (~150W) for laptops, phones, and small electronics at camp",
+    "Standard HTRAC AWD on both trims — better for trailheads and snow",
+    "No PHEV cargo penalty: full 36.4/72.1 cu ft with a flat floor (battery under the floor)",
+    "Strong safety: 2023 IIHS Top Safety Pick+, NHTSA 5-star, SmartSense standard"
+   ],
+   "camper_cons": [
+    "Tow rating only 2,000 lb (vs up to 3,500 lb on the gas Santa Fe) — the weakest-towing variant",
+    "120V outlet is ~150W max — won't run an induction cooktop or a large compressor fridge at full load",
+    "No DC fast charging and only ~3.3 kW onboard (Level 2 ~3.4–4 hr) — slow to top up on the road",
+    "'Park outside' tow-hitch harness recall (23V-181) explicitly covers this PHEV — confirm it was remedied",
+    "No PHEV-specific conversion kit; relies on generation-wide (2018–2023) Santa Fe camping products"
+   ]
   },
   {
    "id": "hyundai-tucson-hybrid-nx4",
@@ -3485,20 +4083,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "No major safety recall specific to the 2023 Tucson Hybrid was found (verify current status at NHTSA by VIN). Line-wide owner reports mention infotainment/software glitches and occasional shift-quality complaints. The broader Hyundai anti-theft ('Kia Boys') concern applies to certain older non-push-button models, not this push-button-start generation.",
     "source": "https://repairpal.com/reliability/hyundai/tucson"
    },
-   "camper_pros": [
-    "37–38 mpg combined with standard HTRAC AWD — excellent range plus trailhead/snow traction in a compact footprint",
-    "~75 in of flat load-floor length with the 60/40 row folded — long for a compact SUV",
-    "8.3 in ground clearance — higher than most car-based crossovers",
-    "Strong safety: 2023 IIHS Top Safety Pick+, NHTSA 5-star, SmartSense standard",
-    "Deep, growing aftermarket: model-specific AirBedz, Luno, and a RiverLeaf full kit fit the 2022+ NX4"
-   ],
-   "camper_cons": [
-    "No factory 115V/household outlet on any Hybrid trim — aftermarket 12V inverter required for camp power",
-    "Tow rating only 2,000 lb — small trailers/teardrops only",
-    "Smaller than the Santa Fe: ~74.5 cu ft max and a narrower ~40–44 in sleeping width",
-    "Hybrid is AWD-only and heavier than the gas Tucson, so no cheaper FWD hybrid option",
-    "Cargo/length figures are community-measured (US LWB body) — verify fitment before buying a platform"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": true,
@@ -3526,7 +4110,47 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "rear_seat_fold is near-flat, so the datum is the folded seatback top; listed trim has a sunroof, so a non-sunroof source would need a 2-3in deduction. Checked a personal car-camping blog (acoupleoftravelingpts.com) and an autoroamer.com guide; neither states an inches figure for vertical headroom above the sleeping area -- the personal blog only notes the author (6'4\") 'sleep[s] at a slight angle,' which per the spec's hard rules is evidence of a fit problem, not a measurement, and doesn't state the vehicle's model year or sunroof status. No defensible headroom figure was found.",
     "source": "https://acoupleoftravelingpts.com/our-guide-to-car-camping-in-a-hyundai-tucson/"
-   }
+   },
+   "ground_clearance_in": {
+    "value": 8.3,
+    "note": "Hyundai 2023 Tucson spec sheet: minimum ground clearance 7.1 (2WD) / 8.3 (AWD); the Hybrid is AWD-only, so 8.3 in applies to the SEL Convenience HTRAC AWD.",
+    "source": "https://www.hyundainews.com/assets/documents/original/53078-2023TucsonProductSpecifications20221114.pdf"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "Hyundai 2023 Tucson features sheet: 'Tire Mobility Kit (TMK) S (HEV/PHEV)'; the compact temporary spare is ICE-only.",
+    "source": "https://www.hyundainews.com/assets/documents/original/53077-2023TucsonProductFeatures20221114.pdf"
+   },
+   "onboard_ac_power": {
+    "value": "none",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "US NX4 Tucson has no household AC outlet on any trim or powertrain: both the 2023 and facelifted 2025 factory features sheets list only 12-volt outlets (front + cargo), with no 110/115V row.",
+    "source": "https://www.hyundainews.com/assets/documents/original/53077-2023TucsonProductFeatures20221114.pdf"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "Hyundai USA is selling the 2026 Tucson Hybrid (same NX4 generation, facelifted) as of Aug 2026.",
+    "source": "https://www.hyundaiusa.com/us/en/vehicles/tucson-hybrid/compare-specs"
+   },
+   "dc_fast_charging": {
+    "value": false,
+    "note": "no charge port; not a plug-in",
+    "source": null
+   },
+   "camper_pros": [
+    "37–38 mpg combined with standard HTRAC AWD — excellent range plus trailhead/snow traction in a compact footprint",
+    "~75 in of flat load-floor length with the 60/40 row folded — long for a compact SUV",
+    "8.3 in ground clearance — higher than most car-based crossovers",
+    "Strong safety: 2023 IIHS Top Safety Pick+, NHTSA 5-star, SmartSense standard",
+    "Deep, growing aftermarket: model-specific AirBedz, Luno, and a RiverLeaf full kit fit the 2022+ NX4"
+   ],
+   "camper_cons": [
+    "No factory 115V/household outlet on any Hybrid trim — aftermarket 12V inverter required for camp power",
+    "Tow rating only 2,000 lb — small trailers/teardrops only",
+    "Smaller than the Santa Fe: ~74.5 cu ft max and a narrower ~40–44 in sleeping width",
+    "Hybrid is AWD-only and heavier than the gas Tucson, so no cheaper FWD hybrid option",
+    "Cargo/length figures are community-measured (US LWB body) — verify fitment before buying a platform"
+   ]
   },
   {
    "id": "chevrolet-bolt-ev-gen1",
@@ -3622,28 +4246,6 @@ const DATA = /*DATA-START*/{
     "known_issues": "Seven NHTSA recalls for the 2022 Bolt EV, and the battery one dominates any used-Bolt decision. 21V-650 (GM N212345940, filed 20 Aug 2021, an expansion of 21V-560) covers all 2020–2022 Bolt EV and 2022 Bolt EUV: LG cells with a torn anode tab plus a folded separator can catch fire at or near full charge. Remedy: free replacement of defective battery modules (in practice often the whole pack), with a fresh 8-year/100,000-mile battery warranty from the replacement date, and interim guidance to cap charging at 90%, not deplete below ~70 miles remaining, and park outside after charging. Two follow-up recalls, 24V-481 (Jun 2024) and 24V-812 (Oct 2024), cover cars whose advanced diagnostic software was installed incorrectly under the 21V-650 remedy. 22V-930 and its re-do 23V-845 cover 2017–2023 Bolt EVs where a deployed seat-belt pretensioner can ignite carpet fibers at the B-pillar. Two airbag recalls: 21V-517 (driver airbag fasteners) and 23V-567 (missing instrument-panel perforation for the passenger airbag). Before buying, run the VIN through NHTSA and get written confirmation of which battery remedy the car received and when — that date sets the remaining battery warranty. Outside the recalls the Bolt's mechanical record is unremarkable; the drivetrain is simple and there is no engine, transmission or exhaust to service.",
     "source": "https://api.nhtsa.gov/recalls/recallsByVehicle?make=chevrolet&model=bolt%20ev&modelYear=2022"
    },
-   "camper_pros": [
-    "Cheapest entry in the report by a wide margin: ~$12–17k buys a five-year-old EV, and 'fuel' at home is a few dollars a night",
-    "No engine, transmission, exhaust or oil changes — the lowest routine-maintenance burden of anything here",
-    "Silent overnight climate control with no idling, no exhaust and no CO risk, which no gas or hybrid vehicle here can offer",
-    "60/40 rear seat plus a two-position modular load floor: raised, it nearly squares off the step and gives a usable flat sleeping deck",
-    "A dedicated vehicle-specific mattress exists (Voltstuff BoltMattress, 2.5 in foam, splits into three storable pieces)",
-    "DC fast charging standard for 2022 (~100 miles in 30 minutes) plus an 11.5 kW onboard charger, so overnight Level 2 tops it off anywhere",
-    "163 in long and 69.5 in wide — parks and turns anywhere, including tight trailheads and urban stealth spots",
-    "NHTSA 5-star overall with Chevy Safety Assist standard on both trims"
-   ],
-   "camper_cons": [
-    "259 miles of EPA range, less in cold weather, and every hour of overnight heat or A/C comes off that same number — the binding constraint on where you can camp",
-    "Charging determines your route: dispersed camping far from a charger is a planning exercise, not a spontaneous decision",
-    "Not rated to tow anything — GM's manual says never tow a trailer, so no teardrop, no utility trailer, no cargo trailer",
-    "~5.3–5.6 in of ground clearance with the battery under the floor: paved and graded roads only, no rough forest-service tracks",
-    "FWD only, no AWD or 4WD offered in any year",
-    "~58 in of usable length and only ~38 in between the wheel arches — a solo bed for someone up to about 5'10\", not a two-person platform",
-    "No 120V household outlet and no V2L: a single 12V/20A accessory outlet that only works with the car powered on, so an inverter is a required add",
-    "No factory camp or climate-hold mode, unlike several newer EVs",
-    "Battery-fire recall history (21V-650 plus two software re-dos) makes recall-completion documentation mandatory before buying, and depresses resale",
-    "Aftermarket is thin: no full conversion kit, and none of the platform vendors that serve the SUVs here (Luno, RiverLeaf, Freeway Camper Kit) fit it"
-   ],
    "equipment": {
     "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
     "heated_front_seats": false,
@@ -3671,7 +4273,55 @@ const DATA = /*DATA-START*/{
     "value": null,
     "method": "No defensible community measurement found. Reddit (r/BoltEV, two camping threads) and the dedicated chevybolt.org 'Car Camping in the Bolt' forum thread describe sleeping length and mattress fit in detail (e.g. a 41x72in pad, 'about 4 inches longer than the space') but discuss headroom only qualitatively ('I bend my knees a little'; taller owners note tight cargo room) with no ceiling-clearance figure from the folded-seat surface.",
     "source": null
-   }
+   },
+   "ground_clearance_in": {
+    "value": 5.3,
+    "note": "5.3 in for the 2022 Bolt EV 1LT and 2LT (spec database; GM's own 2022 spec sheet omits ground clearance).",
+    "source": "https://www.autopadre.com/ground-clearance/chevrolet-bolt"
+   },
+   "spare_tire": {
+    "value": "none",
+    "note": "No spare tire on any 2022 Bolt EV trim; cars.com lists spare wheel/tire as N/A.",
+    "source": "https://www.cars.com/research/chevrolet-bolt_ev-2022/specs/"
+   },
+   "onboard_ac_power": {
+    "value": "none",
+    "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+    "note": "Gen-1 Bolt EV has no factory household AC outlet and no V2L in any trim or package; owners wanting AC power use aftermarket inverter kits wired to the 12V battery.",
+    "source": "https://wind-works.org/backup-power-from-a-bolt-ev-extend-v2l/"
+   },
+   "still_in_production": {
+    "value": true,
+    "note": "Direct-successor 2027 Chevrolet Bolt went on sale in the US in January 2026, though reported to be a limited ~18-month run.",
+    "source": "https://electrek.co/2026/01/24/the-refreshed-2027-chevy-bolt-is-hitting-dealerships-get-it-before-its-gone-again/"
+   },
+   "dc_fast_charging": {
+    "value": true,
+    "note": "GM's 2022 Bolt EV fact sheet: 'DC Fast Charging is now standard' (CCS, up to 100 miles in 30 min), so the 1LT has it.",
+    "source": "https://media.chevrolet.com/content/dam/Media/images/US/Vehicles/Chevrolet/Cars/BoltEV/2022/2022%20Chevrolet%20Bolt%20EV.pdf"
+   },
+   "camper_pros": [
+    "Cheapest entry in the report by a wide margin: ~$12–17k buys a five-year-old EV, and 'fuel' at home is a few dollars a night",
+    "No engine, transmission, exhaust or oil changes — the lowest routine-maintenance burden of anything here",
+    "Silent overnight climate control with no idling, no exhaust and no CO risk, which no gas or hybrid vehicle here can offer",
+    "60/40 rear seat plus a two-position modular load floor: raised, it nearly squares off the step and gives a usable flat sleeping deck",
+    "A dedicated vehicle-specific mattress exists (Voltstuff BoltMattress, 2.5 in foam, splits into three storable pieces)",
+    "DC fast charging standard for 2022 (~100 miles in 30 minutes) plus an 11.5 kW onboard charger, so overnight Level 2 tops it off anywhere",
+    "163 in long and 69.5 in wide — parks and turns anywhere, including tight trailheads and urban stealth spots",
+    "NHTSA 5-star overall with Chevy Safety Assist standard on both trims"
+   ],
+   "camper_cons": [
+    "259 miles of EPA range, less in cold weather, and every hour of overnight heat or A/C comes off that same number — the binding constraint on where you can camp",
+    "Charging determines your route: dispersed camping far from a charger is a planning exercise, not a spontaneous decision",
+    "Not rated to tow anything — GM's manual says never tow a trailer, so no teardrop, no utility trailer, no cargo trailer",
+    "~5.3–5.6 in of ground clearance with the battery under the floor: paved and graded roads only, no rough forest-service tracks",
+    "FWD only, no AWD or 4WD offered in any year",
+    "~58 in of usable length and only ~38 in between the wheel arches — a solo bed for someone up to about 5'10\", not a two-person platform",
+    "No 120V household outlet and no V2L: a single 12V/20A accessory outlet that only works with the car powered on, so an inverter is a required add",
+    "No factory camp or climate-hold mode, unlike several newer EVs",
+    "Battery-fire recall history (21V-650 plus two software re-dos) makes recall-completion documentation mandatory before buying, and depresses resale",
+    "Aftermarket is thin: no full conversion kit, and none of the platform vendors that serve the SUVs here (Luno, RiverLeaf, Freeway Camper Kit) fit it"
+   ]
   }
  ]
 }/*DATA-END*/;
