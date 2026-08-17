@@ -23,6 +23,8 @@ const ASSETS = [
 	'shortlist/index.html',
 	'shortlist/scoring.js',
 	'shortlist/prefs.js',
+	'shortlist/traits.js',
+	'shortlist/trait-evidence.js',
 ];
 
 await rm(OUT, { recursive: true, force: true });
