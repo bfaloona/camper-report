@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "node scripts/build-assets.mjs && npx wrangler pages functions build --outdir=./dist/worker/",
-    "dev": "npm run build && npx wrangler dev",
+    "dev": "npm run build && npx wrangler dev --var CF_ACCESS_AUD:",
     "deploy": "npm run build && npx wrangler deploy",
     "test": "node --test \"**/*.test.mjs\""
   }

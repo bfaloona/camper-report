@@ -161,7 +161,11 @@ Things that will bite you if you don't know them:
   blob back must tolerate malformed entries rather than assume they're well-formed.
 - **Local development:** `npm run dev`, with `DEV_BYPASS_EMAIL` set in `.dev.vars`
   (git-ignored). The bypass only activates when `DEV_BYPASS_EMAIL` is set, `CF_ACCESS_AUD`
-  is absent, and the request host is loopback. Unlike the report, **the Shortlist page
+  is absent, and the request host is loopback. That middle condition is why the `dev`
+  script passes `--var CF_ACCESS_AUD:` — `wrangler.jsonc` sets that variable for the
+  deployed Worker, and `wrangler dev` would otherwise apply it locally too and lock you
+  out of your own dev server with a 401. The override is dev-only; `wrangler deploy`
+  never sees it. Unlike the report, **the Shortlist page
   cannot be opened over `file://`** — it calls `/api/prefs`, `/api/parse`, and
   `/vehicles.json` as same-origin relative paths with no CORS handling, because in
   production it's always same-origin behind Access.
