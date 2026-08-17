@@ -64,6 +64,82 @@ test('a missing optional field reads as null', () => {
   assert.equal(fieldValue(v('a', { max_cargo_cf: null }), 'max_cargo_cf'), null);
 });
 
+// --- Derived camper-trait formulas ------------------------------------------
+// Pure formulas over other fields; thresholds reviewed 2026-08-17 (see
+// docs/trait-picker-classification.md Group B). Null input must yield null,
+// which gates as 'unknown' — never a pass or a fail.
+
+test('overnight_climate maps powertrain to climate cost', () => {
+  assert.equal(fieldValue(v('a', { powertrain: 'phev' }), 'overnight_climate'), 'engine-off');
+  assert.equal(fieldValue(v('a', { powertrain: 'ev' }), 'overnight_climate'), 'engine-off');
+  assert.equal(fieldValue(v('a', { powertrain: 'hybrid' }), 'overnight_climate'), 'engine-cycling');
+  assert.equal(fieldValue(v('a', { powertrain: 'gas' }), 'overnight_climate'), 'idle-only');
+  assert.equal(fieldValue(v('a', { powertrain: undefined }), 'overnight_climate'), null);
+});
+
+test('sliding_doors and stealth_profile derive from class', () => {
+  assert.equal(fieldValue(v('a', { class: 'Minivan' }), 'sliding_doors'), 'yes');
+  assert.equal(fieldValue(v('a', { class: 'Compact van' }), 'sliding_doors'), 'yes');
+  assert.equal(fieldValue(v('a', { class: 'SUV' }), 'sliding_doors'), 'no');
+  assert.equal(fieldValue(v('a', { class: 'Sedan' }), 'sliding_doors'), null);
+  assert.equal(fieldValue(v('a', { class: 'Hatchback' }), 'stealth_profile'), 'high');
+  assert.equal(fieldValue(v('a', { class: 'Compact minivan' }), 'stealth_profile'), 'high');
+  assert.equal(fieldValue(v('a', { class: 'Wagon' }), 'stealth_profile'), 'medium');
+  assert.equal(fieldValue(v('a', { class: undefined }), 'stealth_profile'), null);
+});
+
+test('camper_popularity_tier passes the rating through and rejects junk', () => {
+  assert.equal(fieldValue(v('a', { camper_popularity: { rating: 'High' } }), 'camper_popularity_tier'), 'High');
+  assert.equal(fieldValue(v('a', { camper_popularity: { rating: 'whatever' } }), 'camper_popularity_tier'), null);
+  assert.equal(fieldValue(v('a', { camper_popularity: null }), 'camper_popularity_tier'), null);
+});
+
+test('sleeps_six_feet buckets cargo length at 75 and 70 inches', () => {
+  const at = len => fieldValue(v('a', { cargo_length_behind_front_seats_in: { value: len } }), 'sleeps_six_feet');
+  assert.equal(at(75), 'yes');
+  assert.equal(at(74.9), 'tight');
+  assert.equal(at(70), 'tight');
+  assert.equal(at(69.9), 'no');
+  assert.equal(fieldValue(v('a', { cargo_length_behind_front_seats_in: { value: null } }), 'sleeps_six_feet'), null);
+  assert.equal(fieldValue(v('a', { cargo_length_behind_front_seats_in: null }), 'sleeps_six_feet'), null);
+});
+
+test('tow_class buckets at 0, 2000 and 3500 lbs, and 0 is none, not null', () => {
+  const at = max => fieldValue(v('a', { tow_rating: { max } }), 'tow_class');
+  assert.equal(at(0), 'none');
+  assert.equal(at(1), 'light');
+  assert.equal(at(1999), 'light');
+  assert.equal(at(2000), 'moderate');
+  assert.equal(at(3499), 'moderate');
+  assert.equal(at(3500), 'substantial');
+  assert.equal(fieldValue(v('a', { tow_rating: null }), 'tow_class'), null);
+});
+
+test('clearance_class buckets at 8.5 and 7.0 in, and is null pre-research', () => {
+  const at = value => fieldValue(v('a', { ground_clearance_in: { value } }), 'clearance_class');
+  assert.equal(at(8.5), 'high');
+  assert.equal(at(8.4), 'moderate');
+  assert.equal(at(7), 'moderate');
+  assert.equal(at(6.9), 'low');
+  // The fixture has no ground_clearance_in at all — the pre-Step-6 state of
+  // every record. Must read as unknown, not throw and not fail a gate.
+  assert.equal(fieldValue(v('a'), 'clearance_class'), null);
+  assert.equal(evaluateGate(v('a'), hard('clearance_class', 'in', ['high'])), 'unknown');
+});
+
+test('researched fact getters validate their value and read missing as null', () => {
+  assert.equal(fieldValue(v('a', { spare_tire: { value: 'full-size', source: 'x' } }), 'spare_tire'), 'full-size');
+  assert.equal(fieldValue(v('a', { spare_tire: { value: 'donut' } }), 'spare_tire'), null);
+  assert.equal(fieldValue(v('a'), 'spare_tire'), null);
+  assert.equal(fieldValue(v('a', { onboard_ac_power: { value: 'high_watt' } }), 'onboard_ac_power'), 'high_watt');
+  assert.equal(fieldValue(v('a', { onboard_ac_power: { value: 1500 } }), 'onboard_ac_power'), null);
+  assert.equal(fieldValue(v('a', { still_in_production: { value: true } }), 'still_in_production'), 'yes');
+  assert.equal(fieldValue(v('a', { still_in_production: { value: false } }), 'still_in_production'), 'no');
+  assert.equal(fieldValue(v('a', { still_in_production: { value: null } }), 'still_in_production'), null);
+  assert.equal(fieldValue(v('a', { dc_fast_charging: { value: false } }), 'dc_fast_charging'), 'no');
+  assert.equal(fieldValue(v('a'), 'dc_fast_charging'), null);
+});
+
 // EV fuel economy: EPA MPGe on a BEV is an energy-equivalence figure, not a
 // fuel-burn figure. The Chevrolet Bolt shows 131 city / 109 hwy MPGe — reading
 // those as MPG would rank it first on efficiency against every gas vehicle in

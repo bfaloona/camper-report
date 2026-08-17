@@ -29,6 +29,22 @@ const ENUM_FIELDS = {
   cargo_power_outlet: YES_NO,
   fold_flat_passenger: YES_NO,
   rear_seat_fold: ['flat', 'near-flat', 'uneven', 'removable'],
+  // Derived camper traits — computed in scoring.js from other fields (the
+  // formulas and their reviewed thresholds live there and in
+  // docs/trait-picker-classification.md). Listed here so the prose parser can
+  // emit criteria against them; the value sets must match the getters.
+  overnight_climate: ['engine-off', 'engine-cycling', 'idle-only'],
+  sliding_doors: YES_NO,
+  stealth_profile: ['high', 'medium'],
+  camper_popularity_tier: ['High', 'Medium', 'Low'],
+  sleeps_six_feet: ['yes', 'tight', 'no'],
+  tow_class: ['none', 'light', 'moderate', 'substantial'],
+  clearance_class: ['high', 'moderate', 'low'],
+  // Researched camper facts (per-record fields with sources).
+  spare_tire: ['full-size', 'compact', 'none'],
+  onboard_ac_power: ['none', 'low_watt', 'high_watt'],
+  still_in_production: YES_NO,
+  dc_fast_charging: YES_NO,
 };
 
 export const FIELD_IDS = [...NUMERIC_FIELDS, ...Object.keys(ENUM_FIELDS)];
@@ -257,6 +273,23 @@ There is no field for massaging seats, leather, third-row seating, a tow hitch, 
 rear_seat_fold describes the surface with the rear seats down: "flat", "near-flat", "uneven", or "removable". Map "seats fold flat", "flat load floor" or "somewhere to sleep" to in ["flat","removable"] unless the person is clearly stricter.
 
 sitting_height_in is inches of headroom above the folded seats — the "can I sit up in bed" number. Map wants about sitting up, sitting headroom or interior height when camping to it. Do NOT map general "tall interior" or "high roof" wants to height_in, which is the vehicle's EXTERIOR height and mostly measures ground clearance and roof rails.
+
+Seven derived camper-trait enums are also available (use op "in" / "not_in"):
+
+- overnight_climate — "engine-off", "engine-cycling", "idle-only". Wants about running heat or A/C while sleeping: "climate control without idling all night" → in ["engine-off","engine-cycling"]; "silent electric climate at camp" → in ["engine-off"].
+- sliding_doors — "yes"/"no".
+- stealth_profile — "high"/"medium". "Stealth camping", "doesn't look like a camper", "blends into a city street" → in ["high"].
+- camper_popularity_tier — "High"/"Medium"/"Low". "Popular camper platform", "big conversion aftermarket" → in ["High"].
+- sleeps_six_feet — "yes"/"tight"/"no". "Can sleep a six-footer flat" → in ["yes"], or in ["yes","tight"] when the person sounds flexible. Prefer cargo_length_in when they give a specific number of inches.
+- tow_class — "none"/"light"/"moderate"/"substantial" (not rated / under 2,000 lb / 2,000–3,499 / 3,500+). Prefer tow_max for specific numbers; use tow_class for categorical wants ("needs to tow at all" → not_in ["none"]).
+- clearance_class — "high"/"moderate"/"low" (8.5+ in / 7.0–8.4 / under 7.0). "Handle forest-service roads", "real ground clearance" → in ["high"].
+
+And four researched yes/no-style facts (same op "in" usage as equipment):
+
+- spare_tire — "full-size"/"compact"/"none". "Must have a spare" → in ["full-size","compact"]; "needs a full-size spare" → in ["full-size"].
+- onboard_ac_power — "none"/"low_watt"/"high_watt": factory household 120V outlet availability on the generation, any trim or option. "Power for a fridge or induction cooktop" → in ["high_watt"]; "somewhere to plug in a laptop" → in ["low_watt","high_watt"]. This is availability, not standard equipment — unlike the ten equipment fields.
+- still_in_production — "yes"/"no": still sold new in the US (parts/support outlook). "Nothing discontinued" → in ["yes"].
+- dc_fast_charging — "yes"/"no". Only plug-ins can be "yes".
 
 Do not emit a criterion whose rule you cannot fill in. There is no "manual" kind: a want with no usable rule belongs in "notes", where it is shown to the person as something to weigh themselves. That is better than a criterion that appears to filter and does not.
 

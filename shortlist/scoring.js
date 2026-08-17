@@ -57,6 +57,78 @@ export const FIELDS = {
   // derived from published rear headroom, which is taken at the upright
   // seating position and means something else entirely.
   sitting_height_in:    { label: 'Sitting height (in)', type: 'number', get: v => num(v.sitting_height_over_folded_seats_in?.value) },
+
+  // --- Derived camper traits -------------------------------------------------
+  // Each is a pure formula over other fields, written down here so a reader can
+  // argue with it rather than hand-rated per vehicle (Approach A in
+  // docs/trait-picker-classification.md, which also records the reviewed
+  // thresholds). Formulas return null on missing input — null gates as
+  // 'unknown' and never excludes, in either direction.
+
+  // What running heat/AC overnight costs you: PHEV/EV climate runs off the
+  // battery with the engine off; a hybrid auto-cycles its engine; a gas
+  // vehicle idles all night.
+  overnight_climate: { label: 'Overnight climate', type: 'enum', get: v => (
+    v.powertrain === 'phev' || v.powertrain === 'ev' ? 'engine-off'
+    : v.powertrain === 'hybrid' ? 'engine-cycling'
+    : v.powertrain === 'gas' ? 'idle-only' : null) },
+
+  // Every van/minivan class in this dataset has sliding doors; no SUV, wagon
+  // or hatchback does. Class-derived rather than researched per vehicle.
+  sliding_doors: { label: 'Sliding doors', type: 'enum', get: v => (
+    ['Minivan', 'Compact minivan', 'Compact van'].includes(v.class) ? 'yes'
+    : ['SUV', 'Wagon', 'Hatchback'].includes(v.class) ? 'no' : null) },
+
+  // Judgment trait, class-only by design (glass area is not a field): vans and
+  // commuter hatchbacks read as anonymous with no gear on view ('high');
+  // SUVs/wagons blend in but show gear through the glass ('medium'). The
+  // bullets genuinely conflict here (Highlander claims stealth, RAV4 denies
+  // it) — this formula takes a side; argue with it in the classification doc.
+  stealth_profile: { label: 'Urban stealth', type: 'enum', get: v => (
+    ['Minivan', 'Compact minivan', 'Compact van', 'Hatchback'].includes(v.class) ? 'high'
+    : ['SUV', 'Wagon'].includes(v.class) ? 'medium' : null) },
+
+  // camper_popularity.rating verbatim, as an enum the picker can gate on.
+  // Deliberately NOT conversion_products.length bucketed: that counts how many
+  // products the research pass listed, not market depth (the Forester Hybrid's
+  // two entries include a spare-tire kit; the 4Runner's "biggest aftermarket"
+  // has three rows). The rating's `evidence` field is what answers this.
+  camper_popularity_tier: { label: 'Camper aftermarket', type: 'enum', get: v => (
+    ['High', 'Medium', 'Low'].includes(v.camper_popularity?.rating) ? v.camper_popularity.rating : null) },
+
+  // 72-in body plus bedding margin: >=75 sleeps a six-footer straight,
+  // 70-74.9 is tight, under 70 means diagonal or seats-forward compromises.
+  sleeps_six_feet: { label: 'Sleeps a 6-footer', type: 'enum', get: v => {
+    const len = num(v.cargo_length_behind_front_seats_in?.value);
+    return len === null ? null : len >= 75 ? 'yes' : len >= 70 ? 'tight' : 'no';
+  } },
+
+  // 0 is "not rated for US towing" per the tow_rating convention, a different
+  // fact from a missing rating (null).
+  tow_class: { label: 'Towing class', type: 'enum', get: v => {
+    const t = num(v.tow_rating?.max);
+    return t === null ? null : t === 0 ? 'none' : t < 2000 ? 'light' : t < 3500 ? 'moderate' : 'substantial';
+  } },
+
+  // Reads the researched ground_clearance_in field; null (unknown, never
+  // excludes) until that data lands on a record.
+  clearance_class: { label: 'Ground clearance class', type: 'enum', get: v => {
+    const g = num(v.ground_clearance_in?.value);
+    return g === null ? null : g >= 8.5 ? 'high' : g >= 7 ? 'moderate' : 'low';
+  } },
+
+  // --- Researched camper facts (new record fields, value + source) -----------
+  // Unlike `equipment`, onboard_ac_power's basis is "available on this
+  // generation from the factory, any trim or option" — a deliberate,
+  // documented divergence (decision Q2, 2026-08-17): the listed-trim rule
+  // would erase the Sienna's optional 1500W inverter, exactly the fact a
+  // camper shopper cares about. Each record's `basis` restates this.
+  spare_tire: { label: 'Spare tire', type: 'enum', get: v => (
+    ['full-size', 'compact', 'none'].includes(v.spare_tire?.value) ? v.spare_tire.value : null) },
+  onboard_ac_power: { label: '120V AC power', type: 'enum', get: v => (
+    ['none', 'low_watt', 'high_watt'].includes(v.onboard_ac_power?.value) ? v.onboard_ac_power.value : null) },
+  still_in_production: { label: 'Still sold new', type: 'enum', get: v => yesNo(v.still_in_production?.value) },
+  dc_fast_charging: { label: 'DC fast charging', type: 'enum', get: v => yesNo(v.dc_fast_charging?.value) },
 };
 
 export function fieldValue(vehicle, fieldId) {
