@@ -3,8 +3,10 @@
 Everything here needs your Cloudflare account, so it can't be automated from a coding
 session.
 
-Roughly 15 minutes. Do the steps in order — `CF_ACCESS_AUD` in step 3 doesn't exist until
-step 4 creates the Access application, so step 3 gets revisited at the end.
+Roughly 15 minutes. **Do step 4 before step 3.** `CF_ACCESS_AUD` does not exist until the
+Access application is created, so creating the application first means one pass through
+the variables page instead of two. The steps are numbered in dependency order for a reader
+starting from nothing; the order to *click* them is 1, 2, 4, 3, 6.
 
 **What this achieves:** the public report stays on GitHub Pages, unauthenticated, exactly
 as it is now. A Cloudflare Worker serves a second copy of the same report *plus* the
@@ -97,9 +99,14 @@ Worker → **Settings → Variables and Secrets**:
 
 | Name | Type | Value |
 | --- | --- | --- |
-| `ANTHROPIC_API_KEY` | Secret | Your key from the Anthropic Console |
 | `CF_ACCESS_TEAM_DOMAIN` | Plaintext | Your Zero Trust team domain, e.g. `something.cloudflareaccess.com` |
-| `CF_ACCESS_AUD` | Plaintext | Filled in at step 5 — it doesn't exist yet |
+| `CF_ACCESS_AUD` | Plaintext | The Audience (AUD) tag from the step-4 application |
+| `ANTHROPIC_API_KEY` | Secret | Your key from the Anthropic Console |
+
+The first two are what the auth guard needs; set both or every request 500s with
+"Access verification is not configured". `ANTHROPIC_API_KEY` is only read by `/api/parse`
+(turning typed prose into criteria) and can be deferred — without it the rest of the tool
+works and only prose entry returns a "parsing service is not configured" error.
 
 > **Do not add bindings in the dashboard.** `wrangler.jsonc` is the source of truth for
 > bindings, and a deploy replaces the Worker's entire binding set from that file — a KV
@@ -135,15 +142,31 @@ Policy:
 | Action | `Allow` |
 | Rule | **Emails** → `bfaloona@gmail.com`, `kristenwalshseattle@gmail.com` |
 
-Identity provider: **Google**. Add **One-time PIN** as a second provider — if Google auth
-has an outage and it's your only provider, both of you are locked out of your own tool.
+Identity provider: **One-time PIN**. It is built into Cloudflare and needs no OAuth setup —
+Access emails a sign-in code to the address being authenticated, and it will only send to
+one the policy above allows. That keeps the access rule identical to a Google login while
+skipping the Google Cloud OAuth client entirely.
 
-## 5. Finish the `CF_ACCESS_AUD` variable
+Google can be added later as a second provider without recreating the application. Whatever
+you use, keep **two** providers enabled once you have them: a single provider having an
+outage locks both of you out of your own tool.
 
-Open the Access application you just made → **Overview** → copy the **Audience (AUD) tag**.
+The identity provider does not change what the Worker checks. Access issues the same JWT
+shape either way, `functions/_lib/auth.js` reads the `email` claim from it, and
+`ALLOWED_EMAILS` in that file re-checks the address against the same two-entry list. The
+Access policy and the code allowlist have to agree — changing one without the other locks
+someone out or, worse, only looks like it let them in.
 
-Go back to the Worker → Settings → Variables and Secrets, set `CF_ACCESS_AUD` to that
-value, and **redeploy** (Deployments → latest → Retry, or `npm run deploy` again).
+## 5. Where the AUD tag comes from
+
+Access application → **Overview** → **Audience (AUD) tag**. That value goes into
+`CF_ACCESS_AUD` in step 3. It is a long hex string, specific to that one application, and
+it changes if you delete and recreate the application — a recreated app with the old tag
+still in the Worker gives a 401 after a *successful* sign-in, which is the most confusing
+failure in this whole setup.
+
+Variables take effect on the next deployment, so **redeploy after saving them**
+(Deployments → latest → Retry, or `npm run deploy` again).
 
 ## 6. Verify — don't skip this
 
@@ -151,9 +174,11 @@ From a signed-out browser or a private window:
 
 1. `https://camper-report.brandon-eaa.workers.dev/` → the report loads, **no login prompt**. If you get a login here, the
    Access application's paths are wrong; fix before continuing.
-2. `https://camper-report.brandon-eaa.workers.dev/api/prefs` → redirected to Google sign-in.
-3. Sign in as `bfaloona@gmail.com` → a JSON blob renders.
-4. Sign in as some third Google account → Access denies with its own block page.
+2. `https://camper-report.brandon-eaa.workers.dev/api/prefs` → Access sign-in page.
+3. Sign in as `bfaloona@gmail.com` (One-time PIN mails you a code) → a JSON blob renders.
+4. Try a third address → Access denies with its own block page, before the Worker ever
+   runs. Do this one: it is the only check that proves the allowlist is actually applied
+   rather than just written down.
 5. Your existing GitHub Pages URL still serves the report unchanged.
 
 Command-line equivalents for 1 and 2:
