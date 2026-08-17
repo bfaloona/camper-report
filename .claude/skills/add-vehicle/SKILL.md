@@ -101,6 +101,13 @@ records are complete — match the full set). Field order to mirror existing rec
   "max_cargo_cf": { "value": 0, "config": "...", "source": "..." },
   "tow_rating": { "max": 2000, "tongue": null, "note": "...", "source": "..." },
   "reliability": { "score": 4.0, "scale": "RepairPal /5 ...", "known_issues": "...", "source": "..." },
+  "equipment": { "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.", "...": "ten booleans + rear_seat_fold — copy the key set from any existing record" },
+  "sitting_height_over_folded_seats_in": { "value": null, "method": "...", "source": null },
+  "ground_clearance_in": { "value": 0, "source": "..." },
+  "spare_tire": { "value": "compact", "source": "..." },
+  "onboard_ac_power": { "value": "none", "basis": "Available on this generation from the factory, any trim or option.", "source": "..." },
+  "still_in_production": { "value": true, "source": "..." },
+  "dc_fast_charging": { "value": false, "note": "no charge port; not a plug-in", "source": null },
   "camper_pros": ["..."],
   "camper_cons": ["..."]
 }
@@ -108,6 +115,24 @@ records are complete — match the full set). Field order to mirror existing rec
 
 For a `phev`, add `"mpge"` and `"ev_range_mi"` inside `mpg`. `reliability` may also
 carry an optional `"jd_power"` string. Also bump the top-level `"updated"` to today.
+
+Researched-field conventions (the Shortlist's trait picker gates on these, so a
+missing key silently reads as "no data" for that vehicle — `npm test` guards
+that every record carries them):
+
+- `ground_clearance_in.value`: manufacturer-published clearance for the listed
+  trim, in inches.
+- `spare_tire.value`: `"full-size"` / `"compact"` / `"none"` as shipped.
+- `onboard_ac_power.value`: `"none"` / `"low_watt"` (household 120V outlet
+  ≤ 400 W) / `"high_watt"` (≥ 1000 W). **Its basis differs from `equipment` on
+  purpose**: available on this generation from the factory, any trim or option
+  — restate that in the record's `basis` (decision Q2, 2026-08-17).
+- `still_in_production.value`: this generation or a direct successor on sale
+  new in the US.
+- `dc_fast_charging.value`: only plug-ins can be `true`; gas/hybrid records are
+  an honest `false` with the no-charge-port note instead of a source.
+- Any of the `value`s may be `null` when honestly unanswerable — never guess,
+  never invent a source.
 
 Prefer editing the JSON programmatically to keep it valid — e.g. load it, append the
 dict, and write back with `json.dumps(data, indent=2, ensure_ascii=False)` + a trailing

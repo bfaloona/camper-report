@@ -96,6 +96,14 @@ complete — match that). Measurements are in inches; money in USD. Key conventi
   `{ url, source_page, license, note? }`. Prefer Wikimedia Commons (public-domain / CC),
   using the direct `upload.wikimedia.org` URL. Note when a shown trim/powertrain differs.
 - `reliability`: `{ score (RepairPal /5), scale, jd_power?, known_issues, source }`.
+- Researched camper facts, each `{ value, source, ... }` with `null` when honestly
+  unanswerable: `ground_clearance_in` (inches, manufacturer spec),
+  `spare_tire` (`full-size`/`compact`/`none`), `still_in_production` (bool),
+  `dc_fast_charging` (bool; gas/hybrid are an honest `false`, note in place of a
+  source), and `onboard_ac_power` (`none`/`low_watt`/`high_watt`) — whose `basis`
+  is **available on this generation from the factory, any trim or option**, a
+  deliberate, documented divergence from `equipment`'s standard-on-listed-trim
+  rule (decision Q2, 2026-08-17). The Shortlist trait picker gates on these.
 - `camper_pros` / `camper_cons`: bullet strings written for the camping use case.
 - `sources`: every URL used. `last_verified`: ISO date of the research pass.
 
@@ -114,6 +122,8 @@ per-user state — one person's saved criteria and pins are the other's too.
 | `shortlist/index.html` | The page. Its `/*STYLE-*/` and `/*RENDER-*/` blocks are **copies** — edit `index.html` and re-run `--shared`. |
 | `shortlist/scoring.js` | Pure scoring: field vocabulary (`FIELDS`), hard gates, weighted ranking. Unit-tested. |
 | `shortlist/prefs.js` | Client for `/api/prefs` and `/api/parse`, including the etag conflict guard. |
+| `shortlist/traits.js` | Trait-picker vocabulary (`TRAITS`) + compiler: selections (`prefs.traits`) compile to ordinary gate criteria at rank time, never stored as criteria. Unit-tested. |
+| `shortlist/trait-evidence.js` | **Generated** by `scripts/gen_trait_evidence.py` from `docs/trait-picker-classification.md` — the pros/cons bullets shown as evidence under each trait. Rerun the script after bullet or classification changes; don't hand-edit. |
 | `functions/api/prefs.js` | GET/PUT the shared blob in KV (`pins`, `criteria`, `notes`). |
 | `functions/api/parse.js` | Prose → criteria via `claude-opus-5`, validated against the field vocabulary (`FIELD_IDS`). |
 | `functions/_lib/auth.js` | Verifies the Cloudflare Access JWT signature and checks the email allowlist. |
