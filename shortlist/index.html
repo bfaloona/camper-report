@@ -172,6 +172,16 @@
    report styles here, add them there and re-sync. */
 .crit-row { display: grid; grid-template-columns: 1fr 130px 1fr 90px 70px 32px; gap: 8px;
   align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
+/* Both textareas had no styling, so they rendered at the browser default of
+   ~20 columns regardless of the page width — you were typing a paragraph
+   through a letterbox. */
+#prose, #notes { display: block; width: 100%; min-height: 7.5em; resize: vertical;
+  font: inherit; line-height: 1.5; padding: 10px 12px; margin-bottom: 8px;
+  background: var(--surface); color: var(--ink-1);
+  border: 1px solid var(--hairline); border-radius: 10px; }
+#prose:focus, #notes:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+#prose::placeholder, #notes::placeholder { color: var(--ink-3); }
+
 .crit-row .rule { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--ink-2);
   display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 /* Inputs inside the rule stay small enough that the row keeps its grid columns —

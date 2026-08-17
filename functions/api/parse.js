@@ -207,7 +207,23 @@ For a criterion:
 
 Put a want in "notes" instead when no field expresses it. The dataset describes dimensions, cargo, economy, price, towing, reliability, driver-assist safety feature counts, conversion-kit availability, camper popularity, class, powertrain, drivetrain, a specific list of comfort and convenience equipment, and interior sitting height above the folded seats. Wants outside that list — upholstery material, infotainment, paint colour, brand preference, styling — are notes. A note is a plain sentence, no fields.
 
-The equipment fields are yes/no enums: use op "in" with value ["yes"] for "must have it" and ["no"] for "must not". They record what is STANDARD on each vehicle's listed trim, so a want phrased as "available" or "can be optioned" is still a note, not a criterion. Equipment beyond that list (leather, tow hitch, third row, all-weather mats) is a note.
+The equipment fields are yes/no enums: use op "in" with value ["yes"] for "must have it" and ["no"] for "must not". They record what is STANDARD on each vehicle's listed trim, so a want phrased as "available" or "can be optioned" is still a note, not a criterion.
+
+The equipment fields are EXACTLY these nine, and nothing else:
+
+- heated_front_seats — "heated seats", "warm seats", "seat heaters"
+- heated_steering_wheel — "heated wheel"
+- dual_zone_climate — "dual zone", "separate temperature controls"
+- remote_start — "remote start", "warm it up before I get in"
+- sunroof — "sunroof", "moonroof", "panoramic roof"
+- roof_rails — "roof rails", "roof rack mounts", "something to mount a rack to"
+- power_liftgate — "power tailgate", "powered rear hatch"
+- cargo_power_outlet — "outlet in the back", "12V in the cargo area", "power for a fridge"
+- fold_flat_passenger — "front passenger seat folds flat", "load-through"
+
+Map each of these to its field WHENEVER it appears, INCLUDING when it appears in a list alongside a want you cannot express. Split the list: "heated and ventilated seats" is a criterion for heated_front_seats AND a note for the ventilated part. Never send a mappable want to notes just because it was mentioned in the same breath as an unmappable one — that silently drops a filter the person asked for.
+
+There is no field for ventilated or cooled seats, massaging seats, leather, third-row seating, a tow hitch, wireless charging, a household 110V outlet, or all-weather mats. Those are notes.
 
 rear_seat_fold describes the surface with the rear seats down: "flat", "near-flat", "uneven", or "removable". Map "seats fold flat", "flat load floor" or "somewhere to sleep" to in ["flat","removable"] unless the person is clearly stricter.
 
