@@ -38,20 +38,45 @@ function json(body, status = 200) {
 // the same mismatched etag. Corrupt storage would otherwise be a permanent,
 // self-inflicted deadlock only an operator with KV access could clear.
 //
+// "Readable" means usable, not merely parseable. `null`, `42`, `"hello"` and
+// `[]` are all valid JSON, and accepting them reopens the same trap by a
+// different door: a stored `null` gives a clean 200 with no warning and then
+// throws in the page before anything renders, and a blob missing `pins` boots
+// fine but 400s on every save, because the client only ever re-initializes
+// `criteria` and `notes`. Both leave the user reloading forever.
+//
+// Requiring the shape here means every unusable value takes the same path as an
+// unparseable one — treated as absent, warned about, and overwritten by the next
+// successful save.
+function usable(v) {
+  return !!v && typeof v === 'object' && !Array.isArray(v)
+    && Array.isArray(v.pins) && Array.isArray(v.criteria);
+}
+
+// Exported for tests: the aliasing and shape rules below are invisible through
+// the HTTP response, which is serialized either way.
 // Throws on a KV read failure; callers turn that into a 503.
-async function readStored(env) {
+export async function readStored(env) {
   const stored = await env.PREFS.get(KEY);
-  if (stored !== null) {
+  if (stored !== null && stored !== undefined) {
     try {
-      return { prefs: JSON.parse(stored), text: stored, corrupted: false };
+      const parsed = JSON.parse(stored);
+      if (usable(parsed)) return { prefs: parsed, text: stored, corrupted: false };
     } catch (e) {
-      // Unparseable — fall through and treat it as absent, so the next
-      // successful PUT overwrites the garbage instead of being locked out.
+      // Unparseable — falls through with everything else we cannot use.
     }
   }
+  // A fresh copy, never the shared EMPTY: handing out the module constant means
+  // any future caller that mutates the returned prefs poisons the defaults for
+  // every later request in the same isolate.
+  const fallback = { ...EMPTY, pins: [...EMPTY.pins], criteria: [] };
   // `corrupted` distinguishes "nothing saved yet" from "something saved but
-  // unreadable"; only the latter warrants warning the client.
-  return { prefs: EMPTY, text: JSON.stringify(EMPTY), corrupted: stored !== null };
+  // unusable"; only the latter warrants warning the client.
+  return {
+    prefs: fallback,
+    text: JSON.stringify(fallback),
+    corrupted: stored !== null && stored !== undefined,
+  };
 }
 
 export async function onRequestGet({ request, env }) {

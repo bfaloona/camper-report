@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { onRequestGet, onRequestPut } from './prefs.js';
+import { onRequestGet, onRequestPut, readStored } from './prefs.js';
 
 const KEY = 'prefs:v1';
 const DEFAULT_PREFS = {
@@ -223,4 +223,70 @@ test('oversized notes are rejected by the size limit', async () => {
     env,
   });
   assert.equal(res.status, 400);
+});
+
+test('a stored value that parses but is unusable is treated as absent', async () => {
+  // The original fix only handled UNPARSEABLE values. These all parse cleanly and
+  // reopened the same trap by a different door: `null` and `42` gave a clean 200
+  // with no warning and then threw in the page before anything rendered, and a
+  // blob missing `pins` booted fine but 400'd on every save forever, because the
+  // client only ever re-initializes `criteria` and `notes`.
+  const cases = {
+    'null literal': 'null',
+    'number': '42',
+    'bare string': '"hello"',
+    'array': '[]',
+    'empty object': '{}',
+    'missing pins': '{"version":1,"criteria":[],"notes":""}',
+    'missing criteria': '{"version":1,"pins":[],"notes":""}',
+    'pins not an array': '{"version":1,"pins":"a","criteria":[]}',
+  };
+  for (const [label, stored] of Object.entries(cases)) {
+    const env = makeEnv(makeKv(stored));
+    const res = await onRequestGet({ request: getReq(), env });
+    assert.equal(res.status, 200, label);
+    const body = await res.json();
+    assert.deepEqual(body.prefs, DEFAULT_PREFS, `${label}: should serve usable defaults`);
+    assert.match(body.warning || '', /corrupt/i, `${label}: must warn, not pass silently`);
+  }
+});
+
+test('a save lands against every unusable stored shape, not just unparseable ones', async () => {
+  // The failure this guards is the deadlock, not the parse: whatever is in KV,
+  // a client that GETs and then PUTs must be able to write.
+  for (const stored of ['null', '42', '[]', '{}', '{"version":1,"criteria":[]}', 'not json{{{']) {
+    const kv = makeKv(stored);
+    const env = makeEnv(kv);
+    const etag = await currentEtag(env);
+    const res = await onRequestPut({
+      request: putReq({ etag, prefs: { pins: ['mazda5-gen3'], criteria: [] } }),
+      env,
+    });
+    assert.equal(res.status, 200, `stored=${stored} should accept a save`);
+    assert.deepEqual(JSON.parse(kv.store.get(KEY)).pins, ['mazda5-gen3'],
+      `stored=${stored} should be overwritten`);
+  }
+});
+
+test('the defaults handed out are a copy, so a caller cannot poison them', async () => {
+  // readStored used to return the shared EMPTY constant by reference. Mutating
+  // it would corrupt the defaults for every later request in the same isolate.
+  // Tested against readStored directly: the HTTP response is serialized either
+  // way, so going through onRequestGet could never observe the aliasing.
+  const env = makeEnv(makeKv());
+  const first = await readStored(env);
+  first.prefs.pins.push('injected');
+  first.prefs.criteria.push({ hacked: true });
+  const second = await readStored(env);
+  assert.deepEqual(second.prefs, DEFAULT_PREFS, 'defaults must not carry a previous caller mutation');
+});
+
+test('an unusable value does not change the etag the defaults hash to', async () => {
+  // The fallback is now built rather than being the shared constant. If its key
+  // order or contents drifted from EMPTY, every etag would shift silently.
+  const empty = await currentEtag(makeEnv(makeKv()));
+  for (const stored of ['null', '[]', 'not json{{{']) {
+    assert.equal(await currentEtag(makeEnv(makeKv(stored))), empty,
+      `stored=${stored} must hash to the same defaults etag`);
+  }
 });

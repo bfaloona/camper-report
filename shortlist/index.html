@@ -616,6 +616,15 @@ function renderLastSaved() {
     : 'No preferences saved yet.';
 }
 
+// The banner was only ever shown, never hidden, so it stayed on screen after a
+// save had already repaired the stored blob — telling the user their data was
+// corrupt while looking at the data that replaced it.
+function setKvWarning(text) {
+  const w = document.getElementById('kv-warning');
+  w.textContent = text || '';
+  w.hidden = !text;
+}
+
 async function boot() {
   const [prefsResult, dataResult] = await Promise.all([
     loadPrefs(),
@@ -650,11 +659,7 @@ async function boot() {
     ? `Signed in as ${prefsResult.email}`
     : '';
   renderLastSaved();
-  if (prefsResult.warning) {
-    const w = document.getElementById('kv-warning');
-    w.textContent = prefsResult.warning;
-    w.hidden = false;
-  }
+  setKvWarning(prefsResult.warning);
   document.getElementById('notes').value = prefs.notes;
   updateNotesCount();
   if (migrationNote) {
@@ -706,6 +711,10 @@ function scheduleSave() {
       prefs.updated_at = saved.updated_at;
       prefs.updated_by = saved.updated_by;
       renderLastSaved();
+      // PUT writes a fully-formed blob by construction, so whatever was wrong
+      // with storage is now gone — clear the warning rather than leaving it
+      // contradicting what is on screen.
+      setKvWarning('');
       status.textContent = 'Saved';
     } catch (err) {
       status.textContent = err.message;
