@@ -158,6 +158,11 @@
           "fold_flat_front_passenger_seat": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2024/rav4_ebrochure.pdf"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "No defensible community measurement for this generation. One forum post (vanlivingforum.com 'Toyota Hybrid Dimensions') gives a specific tape-measure figure - 'the hump over the battery box would require you to definitely make a platform... With only 33\" from the top of the box to the inside of the roof, there was no way I was going to sit up' - but the thread was started Sep 10, 2018, meaning that dealer visit was necessarily of the 4th-gen RAV4 (XA40, 2013-2018), not the listed 5th-gen (XA50) 2024 XLE Hybrid AWD. Rejected as inapplicable to this record rather than reported. Other RAV4-specific reddit/forum sources (multiple rav4club camping-platform threads) discuss headroom only qualitatively ('headroom wasn't great', 'you do sacrifice headroom') relative to platform leg height, with no absolute ceiling-clearance figure for the correct generation.",
+        "source": null
       }
     },
     {
@@ -318,6 +323,11 @@
           "fold_flat_front_passenger_seat": "https://www.reddit.com/r/FordTransitConnect/comments/17or1h9/folding_front_passengers_seat_flat/"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "Could not find a defensible seats-out, bare-load-floor-to-ceiling figure for the 2023 Titanium Passenger Wagon LWB. Ford Transit Connect Forum thread (fordtransitconnectforum.com/topic/8441) had only cargo-length numbers (84-89 in), not height. Two upfitsupply.com measurement-guide pages (SWB and LWB) truncated before reaching their dimensions table on every fetch attempt, including via web.archive.org (archive fetch failed outright). A vandimensions.com page returned H1/H2/H3 figures (42.2/49/49.8 in) that appear to be roof-height-option codes borrowed from the full-size Transit rather than the Connect (which has no roof-height options in NA), so they were discarded as unreliable/likely mismatched. Dealer blog posts (akinsford.com) only gave rear-seat headroom deltas between SWB/LWB (a seated spec, excluded per the hard rule against using headroom specs). No community measurement found.",
+        "source": null
       }
     },
     {
@@ -478,6 +488,11 @@
           "fold_flat_front_passenger_seat": "https://cdn.dealereprocess.org/cdn/brochures/honda/2024-odyssey.pdf"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "Searched car-camping blogs (nimblecamper.com, autoroamer.com, gear-gadget.com, thewaywardhome.com) and tried to reach two Honda Odyssey Forum (odyclub.com) threads specifically about building a sleeping platform, but those threads sit behind a paywall gateway (tollbit.odyclub.com, HTTP 402) and could not be read. No source gave a number for vertical clearance from the folded (uneven, stepped) seatback to the headliner/grab-handle line at the second-row position. nimblecamper.com gave a 'boot height' of 118cm (~46.5in), and autoroamer.com gave cargo length only (88in) with no height figure; the 118cm figure reads as a generic spec-style cargo-height number, not a documented measurement from the actual sleeping surface, and its listed trim/sunroof status is unknown, so it was not used. No defensible community measurement found; 2024 EX-L has a sunroof, so any figure used would have needed a 2-3in deduction if the source vehicle lacked one.",
+        "source": null
       }
     },
     {
@@ -613,6 +628,11 @@
           "cargo_area_power_outlet": "none"
         },
         "confidence": "high"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "Searched car-camping blogs, mattress-vendor pages, and the Mazdas247 owner forum (2015 Grand Touring, uneven fold -> would measure from the folded seatback top; trim has a sunroof so a 2-3in deduction would apply if a non-sunroof source were found). Web search was capped for this session; Yahoo and forum fetches were the only working channel. Only concrete number found was a forum poster's 'Rear height: 34\"', which is an exterior/overall rear body height, not interior headroom above a sleeping surface, and is explicitly excluded by the spec's hard rules (no estimating from exterior height). No community measurement of interior headroom over the folded second row was found for this generation.",
+        "source": "https://mazdas247.com/forum/threads/camping-with-mazda5.123840845/"
       }
     },
     {
@@ -757,6 +777,11 @@
           "fold_flat_front_passenger_seat": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2024/sienna_ebrochure.pdf"
         },
         "confidence": "high"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "No defensible community measurement of ceiling clearance above the folded-seat sleeping surface found. Multiple camping/build threads (siennachat.com camper conversion project, Facebook Toyota Sienna Camper Conversions group, TrunkMate BlitzBed product page) discuss sleeping-platform leg height (e.g. '7 inch platform') and its headroom trade-off only qualitatively; none states a from-surface-to-ceiling figure. Listed trim (XLE) has a sunroof, so any figure found would have needed the sunroof rule applied, but no figure was found to apply it to.",
+        "source": null
       }
     },
     {
@@ -900,6 +925,11 @@
           "fold_flat_front_passenger_seat": "https://cdn.dealereprocess.org/cdn/brochures/chrysler/2024-pacifica.pdf"
         },
         "confidence": "high"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "Could not find a defensible folded-seatback-to-ceiling figure for the 2024 Touring L. Chrysler Pacifica Forums (pacificaforums.com) threads that looked promising (camper-conversion, camping-bed-platforms) are proxied through a paywall (tollbit.pacificaforums.com, HTTP 402) and could not be read. A build blog (relentlessoptimizer.com/pacifica/camping-build) documents platform height above the floor (7.5 in) but never states vertical clearance above the platform. The only headroom-adjacent statement found, from a pacificaforums.com search snippet, was an anecdote (\"a 6' tall person can sit cross-legged on the mattress with an inch or two of clearance\") which is evidence, not a measurement, per the spec's hard rule, and the source page itself was unreachable to verify further. No community measurement found.",
+        "source": null
       }
     },
     {
@@ -1048,6 +1078,11 @@
           "fold_flat_front_passenger_seat": "https://cdn.dealereprocess.org/cdn/brochures/chrysler/2024-pacifica.pdf"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "Searched several camper-conversion blogs and build logs (autoroamer.com, nimblecamper.com, relentlessoptimizer.com, moparinsiders.com). The closest candidate was autoroamer.com's Pacifica camper-conversion page, which lists 'Height: ~44 inches interior height allows sitting upright in many areas' under a 'Stow 'n Go Dimensions (Seats Stowed)' heading -- but this reads as a compiled spec-style dimension entry (paired with length/width figures) rather than a documented physical measurement, doesn't state where along the vehicle it was taken, and doesn't say whether it accounts for the load floor above the Stow n Go wells (relevant since this record's rear_seat_fold is 'removable' -- bare load floor with seats out) versus seats-in-place. Given the spec's warning against treating spec-block-style figures as this measurement, it was not used. relentlessoptimizer.com mentioned only bed height above the floor (7.5in), not ceiling clearance; moparinsiders.com's camper review covered a Pinnacle trim with captain's chairs (no Stow n Go) and didn't quantify headroom. No sunroof on the listed 2024 Select trim, so no deduction would apply if a figure had been found.",
+        "source": null
       }
     },
     {
@@ -1188,6 +1223,11 @@
           "fold_flat_front_passenger_seat": "https://www.kbb.com/car-news/2022-kia-carnival-seating/"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "rear_seat_fold is removable, so the correct datum is the bare load floor with seats out. Checked camper-conversion-kit vendor pages (RiverLeaf, Roadloft), which are the source type most likely to publish floor-to-ceiling fitment numbers, but both list only the kit/mattress-platform's own dimensions, not the vehicle's interior clearance. One blog (autoroamer.com) states 'interior height (approximately 38-40 inches)' but gives no methodology, no measurement location (second-row position vs. rear cargo area), and reads as unsourced/generic marketing copy on a site that produces the same boilerplate genre of post for multiple unrelated vehicles (e.g. its Tucson page) -- exactly the copy-paste-without-provenance pattern this task warned against, so it was not used.",
+        "source": "https://www.autoroamer.com/posts/kia-carnival-camper-guide.html"
       }
     },
     {
@@ -1330,6 +1370,11 @@
           "fold_flat_front_passenger_seat": "https://www.kbb.com/car-news/2022-kia-carnival-seating/"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "No defensible community measurement found. A Reddit thread (r/kiacarnivals, 'Interior Height of 2025 Carnival With Second And Third Row Seats Removed?') asked exactly this question, but the one answering comment was removed by a moderator and the number is unrecoverable. Other results were manufacturer-published seated headroom specs (explicitly disallowed by the spec) or vague statements ('my head was touching the ceiling' from a 6-foot adult in the third row, seats-in) that are evidence, not a measurement, and not about the seats-removed bare floor this record's 'removable' fold type requires.",
+        "source": null
       }
     },
     {
@@ -1482,6 +1527,11 @@
           "fold_flat_front_passenger_seat": "https://www.edmunds.com/mercedes-benz/metris/2023/features-specs/"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "No usable measurement. A dealer page gives 53.8 in floor-to-roof, but for the Metris CARGO van; this record is the Passenger Van, whose floor structure and headliner differ, so that figure does not transfer. Measured from the bare load floor (seats removed, per rear_seat_fold: removable) to the roof. This is a manufacturer-published spec, not a community measurement -- stating that plainly since it's the opposite of the usual case: a dealer spec page (rusnakarcadia.com/mercedes-benz-metris-cargo-interior) lists 'Min. Cargo Height: 53.8 in / Max. Cargo Height: 55 in' for the Metris. Using the minimum (more conservative) figure. Two caveats: (1) this figure is published for the cargo van configuration; the listed trim is the Passenger Van (126-in WB), which shares the same body/roof but has a carpeted floor and headliner trim that could cost roughly 1 in not reflected here; (2) the source doesn't break out grab handles, dome lights, or other fixtures as separate obstructions, so this is an unobstructed-ceiling figure, not confirmed as the lowest obstruction. Listed trim has no sunroof, and this is a base cargo-height spec, so no sunroof deduction applies. Multiple community forum sou",
+        "source": "https://www.rusnakarcadia.com/mercedes-benz-metris-cargo-interior/"
       }
     },
     {
@@ -1626,6 +1676,11 @@
           "fold_flat_front_passenger_seat": "https://www.manualslib.com/manual/2134199/Ram-Promaster-City.html"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "Searched camper-build sites (thewaywardhome.com, riverleafcamper.com, darien.co; hrcounselblog.com covers the full-size ProMaster, a different vehicle, and was excluded). darien.co cites 'The interior height of the ProMaster City is just 51.8 inches,' but this is presented as a general cabin-height spec (used to argue van-builders can't stand up), not a measurement taken from the bare load floor at the second-row position with the lowest obstruction (grab handles etc.) identified -- it reads as a manufacturer/spec-style figure, which the task explicitly excludes, so it was not used. thewaywardhome.com's roundup only gave pros/cons ('no headroom -- you can't stand up inside') with no number. riverleafcamper.com gave only conversion-kit dimensions, not vehicle interior height. No defensible community measurement found. No sunroof on the listed 2022 Wagon trim.",
+        "source": null
       }
     },
     {
@@ -1766,6 +1821,11 @@
           "fold_flat_front_passenger_seat": "https://www.edmunds.com/subaru/outback/2024/features-specs/"
         },
         "confidence": "high"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "rear_seat_fold is near-flat, so the datum is the folded seatback top (no sunroof deduction needed, listed trim has no sunroof). Checked several car-camping guides and fitment-platform vendors (Hele Outdoors, The Wayward Home, Luno Life, Compass Camper, riverleafcamper) and a comparison blog (topcargobox.com). All give cargo-area length/width figures (e.g. ~75in x 40in) but none state a vertical headroom/ceiling-clearance number. One source only offers a qualitative comparison: 'The Forester offers slightly more headroom when sitting up inside compared to the Outback' -- evidence of a difference, not a measurement, so not usable as a value.",
+        "source": "https://topcargobox.com/2025/06/08/guide-to-outback-camping-sleep-storage/"
       }
     },
     {
@@ -1906,6 +1966,11 @@
           "fold_flat_front_passenger_seat": "https://www.edmunds.com/subaru/forester/2024/features-specs/"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "No defensible community measurement found. Camping-conversion sources (Bonjour Becky's Forester build, Compass Camper, Subaru Forester Owners Forum sleeping-in-the-back thread) discuss bed length (e.g. '72 to 74 inches of flat sleeping surface') and describe headroom only qualitatively. Listed trim (Wilderness) has a sunroof, so the sunroof deduction rule would apply to any figure found, but no figure was found.",
+        "source": null
       }
     },
     {
@@ -2020,7 +2085,8 @@
         "https://crvguide.com/honda-crv-remote-start/",
         "https://www.edmunds.com/honda/cr-v/2024/trims/",
         "https://www.hondainfocenter.com/2024/CR-V/Feature-Guide/Interior-Features/Cargo-Area/",
-        "https://www.edmunds.com/honda/cr-v/2024/features-specs/"
+        "https://www.edmunds.com/honda/cr-v/2024/features-specs/",
+        "https://crvguide.com/honda-crv-cargo-space/"
       ],
       "notes": "39.3 cu ft behind 2nd row / 76.5 folded. No Commons 6th-gen cargo photo.",
       "equipment": {
@@ -2045,6 +2111,11 @@
           "fold_flat_front_passenger_seat": "https://www.edmunds.com/honda/cr-v/2024/features-specs/"
         },
         "confidence": "high"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": 34.0,
+        "method": "Measured from the folded second-row seatback (per rear_seat_fold: near-flat) to the roof/headliner. Source (crvguide.com/honda-crv-cargo-space) states this as an owner-measured, 'seats folded' figure specific to the 6th-generation (2023-2026) CR-V, and separately gives 36.0 in for the gas trim vs 34.0 in for the hybrid, attributing the 2 in difference to hybrid battery placement raising the cargo floor -- this trim-specific breakdown is why it reads as a real measurement rather than a generic copy-pasted spec (it doesn't match the site's own gas-trim figure). A second aggregator (autoroamer.com) independently cites ~36 in (matching the gas figure, undifferentiated by trim), which is consistent but not an independent confirmation of the hybrid number. The listed trim (2024 Sport Hybrid) has a sunroof, but the source never states whether its measured vehicle had one, so no deduction was applied -- this figure could be up to 2-3 in optimistic if the source car lacked a sunroof. Confidence kept at low rather than medium specifically because the spec's sunroof requirement can't be confirmed as met.",
+        "source": "https://crvguide.com/honda-crv-cargo-space/"
       }
     },
     {
@@ -2186,6 +2257,11 @@
           "rear_seat_fold": "https://priuschat.com/threads/2023-toyota-prius.237147/page-2"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "Searched thewaywardhome.com, nimblecamper.com, priuschat.com (one thread reachable, not behind a paywall), and gear-gadget.com. nimblecamper.com gave a 'boot height' of 79cm/31in, which is cargo/trunk height (likely spec-derived), not a from-the-sleeping-surface-to-ceiling figure, and doesn't state sunroof status of the source car, so it was not used. The priuschat.com thread ('tips for camping/sleeping in Prius during Midwest summertime') discussed reclining seats and removing headrests 'for extra foot of head space' but gave no inches/cm figure. One build note said a Prius C conversion was 'built for tall people (author is 6'2\")' -- an anecdote, not a measurement, so recorded here as context only, not as a value. No defensible community measurement found. Listed 2024 LE has no sunroof.",
+        "source": null
       }
     },
     {
@@ -2327,6 +2403,11 @@
           "fold_flat_front_passenger_seat": "https://www.4runner6g.com/forum/threads/does-front-passenger-seat-fold-forward-flat-ish.2952/"
         },
         "confidence": "high"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "rear_seat_fold is near-flat, so the datum is the folded seatback top (no sunroof deduction needed, listed trim has no sunroof). Found one detailed forum build (4runners.com, '22 4Runner Trail Special Edition) that gives real numbers -- '8.25in high above the cargo deck leaving us with 27in headroom at the lowest point' and 'the ceiling is about 24in clearance with the memory foam, futon, and sleeping bag' -- but these are measured from a custom plywood storage platform built on top of the OEM cargo deck, not from the folded second-row seatback. Converting that figure to a seatback-referenced number would require guessing how much higher the platform sits than the seatback itself, which is the exterior/floor-height inference the spec explicitly disallows. A second thread ('Looking for simple solutions for sleeping in the back of my 4Runner') discusses leveling a platform with the folded seatbacks but gives only a fore-aft length (68in), not vertical clearance. No defensible seatback-to-ceiling figure was found for this 5th-gen (2010-2024) body.",
+        "source": "https://www.4runners.com/threads/finished-sleeping-platform-drawer-build.42241/"
       }
     },
     {
@@ -2469,6 +2550,11 @@
           "fold_flat_front_passenger_seat": "https://www.edmunds.com/toyota/highlander-hybrid/2024/features-specs/"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "No defensible community measurement found. The most detailed source (a Van & RV Living Forum dealer-lot comparison of Toyota hybrids) measured RAV4 headroom numerically but for the Highlander only stated 'I would still need to stoop in bed' with no figure. Other results were manufacturer-published third-row seated headroom specs (explicitly disallowed) or generic listicles. Listed trim (XLE) has a sunroof, so any figure found would have needed the deduction applied.",
+        "source": null
       }
     },
     {
@@ -2612,6 +2698,11 @@
           "fold_flat_front_passenger_seat": "https://cdn.dealereprocess.org/cdn/brochures/toyota/2024-rav4prime.pdf"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "The only cargo-height figure found (34.5-36.6 in, via autoroamer.com citing andymohrtoyota.com/toyota-rav4-dimensions-avon-in.html) turned out, on fetching the dealer page directly, to be Toyota's published 'Cargo height (minimum/maximum): 34.5 in / 36.6 in' spec for the area BEHIND the upright rear seat (trunk zone) -- not the folded-seat sleeping area over the second-row position that this task requires, so it was discarded as measuring the wrong location, not just the wrong source type. Other RAV4 camping/build sources checked (rav4resource.com sleeping guide, instructables.com and fisherck.com folding-leg platform builds, compasscamper.com conversion kit) discuss platform height above the floor and sleeping length but never state vertical clearance above the sleeping surface. No defensible community measurement found; no sunroof determination was possible either.",
+        "source": null
       }
     },
     {
@@ -2769,6 +2860,11 @@
           "rear_seat_fold": "https://cars.usnews.com/cars-trucks/mitsubishi/outlander-plug-in-hybrid/2023/interior"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "Searched myoutlanderphev.com forum (two threads reachable) and newatlas.com/evcentral.com.au (which cover a custom camper-conversion concept vehicle, the E:Pop, not the stock Outlander PHEV, and were excluded as off-topic). One forum thread had a poster estimate 'without trying i recon i could get in the back on a blow up mattress no bother (i am 6 foot 2)' -- this is exactly the kind of fit-anecdote the task says is evidence, not a measurement, so it is recorded here as context only. No thread gave an inches/cm figure for clearance above the folded (flat) load floor at the second-row position. No defensible community measurement found. Listed 2024 SEL has no sunroof.",
+        "source": null
       }
     },
     {
@@ -2928,6 +3024,11 @@
           "fold_flat_front_passenger_seat": "https://ownersmanuals2.com/make/subaru/forester"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "rear_seat_fold is near-flat, so the datum is the folded seatback top; listed trim has a sunroof, so any usable source measured on a non-sunroof car would need a 2-3in deduction. One blog gives a real personal measurement -- 'around 21 inches' from the top of the mattress/blanket setup to the roof -- but it is explicitly for the author's 2018 Forester, which is the previous-generation (5th-gen, SK) body, not the redesigned 2025 (6th-gen, SL) generation this record covers; it is also measured from the top of bedding rather than the bare folded seatback, and the source car's sunroof status is unstated. Given the generation mismatch alone, this figure was not carried forward as this record's value.",
+        "source": "https://roamfreerebecca.com/subaru-forester-camper-conversion/"
       }
     },
     {
@@ -3093,6 +3194,11 @@
           "fold_flat_front_passenger_seat": "https://www.edmunds.com/hyundai/santa-fe/2025/trims/"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "No defensible community measurement found. A Reddit thread (r/HyundaiSantaFe) about a 2025 Santa Fe SEL Hybrid camping bed platform is a close model/trim match, but the owner only reported qualitatively ('doesn't seem to give you a lot of clearance for sitting up', later 'there just wasn't enough headspace') with no inches figure, and ultimately returned the platform. No other source supplied a number. Listed trim (Limited) has a sunroof, so the deduction rule would apply to any figure found.",
+        "source": null
       }
     },
     {
@@ -3257,6 +3363,11 @@
           "rear_seat_fold": "https://gearshifters.org/hyundai/how-to-fold-rear-seats-hyundai-santa-fe/"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "No numeric folded-seatback-to-ceiling figure found anywhere. autoroamer.com's Santa Fe camping article and its Santa Fe vs Sorento comparison both describe 'genuine headroom to sit up' only qualitatively, with no measurement. johnonwheels.com's 'can you sleep in the back of a Santa Fe' article notes the sloping roofline 'might pose a challenge for taller individuals' but gives no figure. riverleafcamper.com's Santa Fe (2018-2023, TM generation) platform-kit page gives the kit's own platform dimensions (L72 x W46 x H13 in) but not vehicle interior clearance above it. No community measurement found.",
+        "source": null
       }
     },
     {
@@ -3425,6 +3536,11 @@
           "rear_seat_fold": "https://gearshifters.org/hyundai/how-to-fold-rear-seats-hyundai-santa-fe/"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "Searched autoroamer.com (two Santa Fe camping posts) and hyundai-forums.com (one thread, unreachable -- redirected to a paywalled tollbit.hyundai-forums.com gateway, HTTP 402). Both autoroamer.com articles describe headroom only qualitatively ('genuine headroom to sit up, change clothes, and organize gear'; 'the upright, boxy roofline means more sit-up headroom') with no inches/cm figure, and neither states a measurement method. No defensible community measurement found. Listed 2023 SEL Convenience (HTRAC AWD) has no sunroof.",
+        "source": null
       }
     },
     {
@@ -3595,6 +3711,11 @@
           "fold_flat_front_passenger_seat": "https://www.hyundaimanuals.org/hyundai-483.html"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "rear_seat_fold is near-flat, so the datum is the folded seatback top; listed trim has a sunroof, so a non-sunroof source would need a 2-3in deduction. Checked a personal car-camping blog (acoupleoftravelingpts.com) and an autoroamer.com guide; neither states an inches figure for vertical headroom above the sleeping area -- the personal blog only notes the author (6'4\") 'sleep[s] at a slight angle,' which per the spec's hard rules is evidence of a fit problem, not a measurement, and doesn't state the vehicle's model year or sunroof status. No defensible headroom figure was found.",
+        "source": "https://acoupleoftravelingpts.com/our-guide-to-car-camping-in-a-hyundai-tucson/"
       }
     },
     {
@@ -3777,6 +3898,11 @@
           "fold_flat_front_passenger_seat": "https://www.reddit.com/r/BoltEV/comments/1249sn4/removing_front_passenger_seat_bolt_ev/"
         },
         "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "No defensible community measurement found. Reddit (r/BoltEV, two camping threads) and the dedicated chevybolt.org 'Car Camping in the Bolt' forum thread describe sleeping length and mattress fit in detail (e.g. a 41x72in pad, 'about 4 inches longer than the space') but discuss headroom only qualitatively ('I bend my knees a little'; taller owners note tight cargo room) with no ceiling-clearance figure from the folded-seat surface.",
+        "source": null
       }
     }
   ]
