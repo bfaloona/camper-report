@@ -178,9 +178,33 @@
 /* The synced renderTable emits compare checkboxes; this page has no compare
    mode, so hide them rather than ship a control that does nothing. */
 #table-view input[data-sel] { display: none; }
-.score-chip { font-weight: 600; padding: 2px 8px; border-radius: 999px; background: #eef4ec; color: #2c5c34; }
-.violation { background: #fdecea; color: #8a1c12; border-radius: 999px; padding: 2px 8px; font-size: 12px; }
-.unknown-flag { background: #fff6e0; color: #7a5a10; border-radius: 999px; padding: 2px 8px; font-size: 12px; }
+/* Row badge colors. Defined here rather than in the synced STYLE block above,
+   which --shared overwrites from index.html. Dark values follow the same
+   pattern the report uses, because these previously hardcoded light hex and
+   rendered as glaring near-white pills on the dark theme. */
+:root {
+  --score-bg: #eef4ec; --score-ink: #2c5c34;
+  --fail-bg: #fdecea;  --fail-ink: #8a1c12;
+  --unk-bg: #fff6e0;   --unk-ink: #7a5a10;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --score-bg: #15301a; --score-ink: #8ed69a;
+    --fail-bg: #3a1512;  --fail-ink: #f0a49b;
+    --unk-bg: #33280d;   --unk-ink: #e0bd6a;
+  }
+}
+.score-chip { font-weight: 600; padding: 2px 8px; border-radius: 999px;
+  background: var(--score-bg); color: var(--score-ink); }
+/* Compact and fixed-width on purpose. These used to print the full criterion
+   name inline, so one long name widened the table's first column and squeezed
+   every data column after it. The names live in the tooltip instead. */
+.flag { font-size: 12px; font-weight: 600; padding: 2px 7px; border-radius: 999px;
+  margin-left: 4px; white-space: nowrap; cursor: help; }
+.flag-fail { background: var(--fail-bg); color: var(--fail-ink); }
+.flag-unknown { background: var(--unk-bg); color: var(--unk-ink); }
+/* Prose warning in the header — deliberately not a .flag, it is a sentence. */
+.violation { background: var(--fail-bg); color: var(--fail-ink); border-radius: 999px; padding: 2px 8px; font-size: 12px; }
 .why { font-size: 12px; color: #555; }
 .saving { font-size: 12px; color: #777; }
 </style>
@@ -589,10 +613,19 @@ function renderResults() {
       .slice(0, 3)
       .map(c => `${c.label} ${c.weighted > 0 ? '+' : ''}${c.weighted}`)
       .join(' · ');
+    // One badge per category carrying a count, not one pill per criterion:
+    // the labels are user-authored and arbitrarily long, so inline text made
+    // the column width a function of how verbosely you named a criterion.
+    // title is also the aria-label so the detail is not mouse-only.
+    const flag = (items, cls, symbol, noun) => {
+      if (!items.length) return '';
+      const detail = esc(`${noun}: ${items.map(i => i.label).join(' · ')}`);
+      return `<span class="flag ${cls}" title="${detail}" aria-label="${detail}">${symbol}${items.length}</span>`;
+    };
     slot.insertAdjacentHTML('afterbegin',
       `<span class="score-chip" title="${esc(why || 'No scoring criteria yet')}">${r.score}</span>` +
-      r.violations.map(v => `<span class="violation">fails: ${esc(v.label)}</span>`).join('') +
-      r.unknowns.map(u => `<span class="unknown-flag">no data: ${esc(u.label)}</span>`).join(''));
+      flag(r.violations, 'flag-fail', '✕', 'Fails') +
+      flag(r.unknowns, 'flag-unknown', '?', 'No data'));
   }
 }
 
