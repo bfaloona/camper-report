@@ -1931,6 +1931,20 @@ export function rankVehicles(vehicles, criteria, pins) {
 
 Note on the score mapping: `raw` ranges from `-negWeight` (every dislike fully triggered, nothing wanted satisfied) to `+posWeight` (the reverse), so the mapping puts the worst reachable vehicle at 0 and the best at 100 whatever mix of tiers is in play. A single positive criterion therefore gives the largest value 100 and the smallest 0, which is what the tests assert.
 
+### Normalize over survivors, not the whole fleet (D13)
+
+`rangesFor` must compute each fuzzy field's min/max across **only the vehicles that survive the hard gates** — plus pinned vehicles, which stay visible even when they violate a gate. Excluded vehicles must not influence the scale.
+
+This was measured, not assumed. With normalization across all 25 vehicles and a `length_in < 195` gate active, the best surviving vehicle scored **51.7**, because the excluded full-size minivans still stretched the cargo range. The ranking was right and the number looked like nothing qualified.
+
+**What survivor normalization does and does not promise.** Each *field's* range is rescaled to the survivors, so on any single fuzzy criterion the best survivor scores full marks. The *composite* score only reaches 100 if one vehicle simultaneously tops every fuzzy criterion. Measured: one fuzzy criterion → top is 100; add a second (cargo plus safety-feature count) → top is 79.3, because no vehicle leads both. That is informative rather than broken — 100 means "best available on everything at once", and 79.3 means "best available, but it doesn't win every category".
+
+Consequence to accept: a vehicle's score is not comparable between two sessions with different criteria — change a gate and the numbers move even though the order may not. That is the correct trade for a shortlist tool, where "best of what's left" is the question being asked.
+
+Implementation shape: determine exclusions first, then build ranges from the surviving set, then score. Two passes, not one.
+
+Edge cases the tests must cover: exactly one survivor (span is zero → it scores 100, not NaN); zero survivors (no throw); and a pinned gate-violating vehicle counting toward the range, since it is displayed.
+
 - [ ] **Step 4: Run the test to verify it passes**
 
 ```bash
