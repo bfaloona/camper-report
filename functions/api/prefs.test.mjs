@@ -78,6 +78,39 @@ test('onRequestGet falls back to defaults and says so when the stored value is c
   assert.match(body.warning, /corrupted/i);
 });
 
+test('a save succeeds against corrupted storage instead of 409ing forever', async () => {
+  // GET and PUT once disagreed about what a corrupt value hashes to: GET
+  // reported the defaults' etag, PUT compared against the raw garbage string's.
+  // The client cannot escape that on its own — its 409 handler tells the user to
+  // reload, and reloading re-runs GET and returns the same losing etag. Assert
+  // the whole round trip, not just that the two hashes match, so the test still
+  // means something if the etag scheme changes.
+  const kv = makeKv('not valid json{{{');
+  const env = makeEnv(kv);
+
+  const etag = await currentEtag(env);
+  const res = await onRequestPut({
+    request: putReq({ etag, prefs: { pins: ['mazda5-gen3'], criteria: [] } }),
+    env,
+  });
+
+  assert.equal(res.status, 200, `expected the save to land, got ${res.status}`);
+  // The garbage must actually be gone, not merely accepted.
+  assert.deepEqual(JSON.parse(kv.store.get(KEY)).pins, ['mazda5-gen3']);
+
+  // And the corruption warning must clear once real data is stored.
+  const after = await (await onRequestGet({ request: getReq(), env })).json();
+  assert.equal(after.warning, undefined);
+});
+
+test('onRequestGet does not warn about corruption when nothing has been saved yet', async () => {
+  // The empty store and the corrupt store both fall back to the defaults; only
+  // the corrupt one is worth alarming the user about.
+  const res = await onRequestGet({ request: getReq(), env: makeEnv(makeKv()) });
+  assert.equal(res.status, 200);
+  assert.equal((await res.json()).warning, undefined);
+});
+
 test('onRequestGet returns the caller\'s own authenticated email, not just who last saved', async () => {
   const kv = makeKv();
   const env = makeEnv(kv);

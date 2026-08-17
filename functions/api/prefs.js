@@ -27,37 +27,51 @@ function json(body, status = 200) {
   });
 }
 
+// Both handlers read through here so they agree on what the stored blob *is*.
+// They have to: the etag GET hands out is the one PUT compares against, so if
+// GET treats an unparseable value as the defaults while PUT hashes the raw
+// corrupt string, the two etags can never match. Every save then 409s, and the
+// client's 409 message tells the user to reload — which re-runs GET and returns
+// the same mismatched etag. Corrupt storage would otherwise be a permanent,
+// self-inflicted deadlock only an operator with KV access could clear.
+//
+// Throws on a KV read failure; callers turn that into a 503.
+async function readStored(env) {
+  const stored = await env.PREFS.get(KEY);
+  if (stored !== null) {
+    try {
+      return { prefs: JSON.parse(stored), text: stored, corrupted: false };
+    } catch (e) {
+      // Unparseable — fall through and treat it as absent, so the next
+      // successful PUT overwrites the garbage instead of being locked out.
+    }
+  }
+  // `corrupted` distinguishes "nothing saved yet" from "something saved but
+  // unreadable"; only the latter warrants warning the client.
+  return { prefs: EMPTY, text: JSON.stringify(EMPTY), corrupted: stored !== null };
+}
+
 export async function onRequestGet({ request, env }) {
   const { email, response } = await requireUser(request, env);
   if (response) return response;
 
-  let stored;
+  let read;
   try {
-    stored = await env.PREFS.get(KEY);
+    read = await readStored(env);
   } catch (e) {
     return json({ error: 'Preferences store is unavailable' }, 503);
   }
 
-  const text = stored ?? JSON.stringify(EMPTY);
-  let prefs;
-  try {
-    prefs = JSON.parse(text);
-  } catch (e) {
-    // Corrupted stored value: don't fail the read, fall back to defaults, but
-    // say so — a silent fallback would look to the client like an empty blob
-    // was intentional.
-    const fallbackText = JSON.stringify(EMPTY);
-    return json({
-      prefs: EMPTY,
-      etag: await etagOf(fallbackText),
-      email,
-      warning: 'Stored preferences were corrupted; showing defaults.',
-    });
-  }
   // `email` is the caller's own signed-in identity (from the verified Access
   // JWT), distinct from `prefs.updated_by` (who last saved) — a shared tool
   // needs both shown, not just one standing in for the other.
-  return json({ prefs, etag: await etagOf(text), email });
+  const body = { prefs: read.prefs, etag: await etagOf(read.text), email };
+  if (read.corrupted) {
+    // Say so rather than falling back silently, which would look to the client
+    // like an empty blob was intentional.
+    body.warning = 'Stored preferences were corrupted; showing defaults.';
+  }
+  return json(body);
 }
 
 // Known limitation: Workers KV has no compare-and-swap, so this endpoint's
@@ -94,13 +108,13 @@ export async function onRequestPut({ request, env }) {
     return json({ error: `prefs must be under ${MAX_BODY_BYTES} bytes` }, 400);
   }
 
-  let stored;
+  let read;
   try {
-    stored = await env.PREFS.get(KEY);
+    read = await readStored(env);
   } catch (e) {
     return json({ error: 'Preferences store is unavailable' }, 503);
   }
-  const currentEtag = await etagOf(stored ?? JSON.stringify(EMPTY));
+  const currentEtag = await etagOf(read.text);
   if (body.etag !== currentEtag) {
     return json({ error: 'Preferences changed since you loaded them', etag: currentEtag }, 409);
   }
