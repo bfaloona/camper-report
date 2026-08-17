@@ -286,6 +286,39 @@ header .sub { margin-bottom: 2px; }
 .violation { background: var(--fail-bg); color: var(--fail-ink); border-radius: 999px; padding: 2px 8px; font-size: 12px; }
 .why { font-size: 12px; color: var(--ink-2); }
 .saving { font-size: 12px; color: var(--ink-3); }
+
+/* Trait picker: one surface card, grouped rows, three-state control per row. */
+#traits { background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px;
+  margin-bottom: 10px; overflow: hidden; }
+.trait-group + .trait-group { border-top: 1px solid var(--hairline); }
+.trait-group > h3, .trait-group > summary { margin: 0; padding: 9px 12px 3px; font-size: 11px;
+  font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-3); }
+.trait-group > summary { cursor: pointer; padding-bottom: 9px; }
+.trait-row { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; align-items: center;
+  padding: 7px 12px; border-top: 1px solid var(--hairline); }
+.trait-group .trait-row:first-of-type { border-top: none; }
+details.trait-group .trait-row:first-of-type { border-top: 1px solid var(--hairline); }
+.trait-row:hover { background: var(--wash); }
+.trait-name { font-size: 13px; color: var(--ink-1); }
+.trait-blurb { font-size: 12px; color: var(--ink-3); grid-column: 1; }
+.trait-seg { display: inline-flex; border: 1px solid var(--hairline); border-radius: 8px;
+  overflow: hidden; grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+.trait-seg button { font: inherit; font-size: 12px; padding: 4px 10px; cursor: pointer;
+  background: var(--surface); color: var(--ink-2); border: none; }
+.trait-seg button + button { border-left: 1px solid var(--hairline); }
+.trait-seg button[aria-pressed="true"][data-set="yes"] { background: var(--score-bg); color: var(--score-ink); font-weight: 700; }
+.trait-seg button[aria-pressed="true"][data-set="no"] { background: var(--fail-bg); color: var(--fail-ink); font-weight: 700; }
+.trait-seg button[aria-pressed="true"][data-set=""] { background: var(--wash); color: var(--ink-1); font-weight: 700; }
+.trait-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+/* Bullet evidence under a trait row / the no-trait editorial notes. */
+.trait-ev { grid-column: 1 / -1; font-size: 12px; }
+.trait-ev summary { color: var(--ink-3); cursor: pointer; }
+.trait-ev ul { margin: 6px 0 2px; padding-left: 18px; }
+.trait-ev li { margin: 2px 0; color: var(--ink-2); }
+.trait-ev li b { font-weight: 600; color: var(--ink-1); }
+.trait-ev .pro::marker { content: "✓ "; color: var(--score-ink); }
+.trait-ev .con::marker { content: "✗ "; color: var(--fail-ink); }
+#traits > .trait-ev { padding: 8px 12px; border-top: 1px solid var(--hairline); display: block; }
 </style>
 </head>
 <body>
@@ -305,6 +338,8 @@ header .sub { margin-bottom: 2px; }
     <div class="toolbar">
       <button id="toggle-prose" class="panel-toggle" aria-expanded="false" aria-controls="prose-section">
         <span class="chev">&#9662;</span> Describe what you want</button>
+      <button id="toggle-traits" class="panel-toggle" aria-expanded="false" aria-controls="traits-section">
+        <span class="chev">&#9662;</span> Traits <span class="toggle-count" id="traits-count"></span></button>
       <button id="toggle-criteria" class="panel-toggle" aria-expanded="false" aria-controls="criteria-section">
         <span class="chev">&#9662;</span> Criteria <span class="toggle-count" id="criteria-count"></span></button>
       <button id="toggle-notes" class="panel-toggle" aria-expanded="false" aria-controls="notes-section">
@@ -320,6 +355,14 @@ header .sub { margin-bottom: 2px; }
       </div>
       <p class="why">Edit anything it gets wrong under Criteria — the threshold and the comparison are
         editable, not just the name. Wants the data can't check land in Notes instead.</p>
+    </section>
+
+    <section id="traits-section" class="panel stack collapsed">
+      <div id="traits"></div>
+      <p class="why">One click per trait: YES filters to vehicles that have it, NO rules them out,
+        the middle state does nothing. Unknown data never rules a vehicle out — it shows as a ?
+        badge instead. Each trait names its formula or source; the evidence lists are the report's
+        own pros-and-cons bullets, kept as supporting text.</p>
     </section>
 
     <section id="criteria-section" class="panel stack collapsed">
@@ -375,6 +418,7 @@ function setPanelOpen(btnId, panelId, open) {
   document.getElementById(btnId).setAttribute('aria-expanded', String(open));
 }
 [['toggle-prose', 'prose-section'],
+ ['toggle-traits', 'traits-section'],
  ['toggle-criteria', 'criteria-section'],
  ['toggle-notes', 'notes-section']].forEach(([btnId, panelId]) => {
   document.getElementById(btnId).onclick = () => {
@@ -565,6 +609,8 @@ function renderTable(rows) {
 <script type="module">
 import { rankVehicles, FIELDS, fieldValue } from './scoring.js';
 import { loadPrefs, savePrefs, parseProse, mergeNotes } from './prefs.js';
+import { TRAITS, compileTraits, sanitizeTraits } from './traits.js';
+import { TRAIT_EVIDENCE, GENERAL_EVIDENCE } from './trait-evidence.js';
 
 let prefs = null;
 let migrationNote = '';
@@ -634,8 +680,12 @@ async function boot() {
   prefs.criteria = sanitizeCriteria(prefs.criteria);
   // Older blobs predate notes entirely, so this is absent rather than empty.
   if (typeof prefs.notes !== 'string') prefs.notes = '';
+  // Same for trait selections; sanitizeTraits also drops entries whose id or
+  // value the vocabulary doesn't recognise (the blob is untrusted on read).
+  prefs.traits = sanitizeTraits(prefs.traits);
   vehicles = dataResult.vehicles;
   computeEnumValues();
+  renderTraits();
 
   // Criteria saved before notes existed can be inert — they filter nothing and
   // score nothing while still occupying a row with a tier and a weight. Move
@@ -757,6 +807,85 @@ function computeEnumValues() {
   }
 }
 
+// --- Trait picker ------------------------------------------------------------
+// The vocabulary and compiler live in traits.js (pure, unit-tested); this is
+// only presentation. Selections are stored as prefs.traits and compiled into
+// ordinary gate criteria at rank time — never persisted as criteria, so the
+// picker and the criteria list cannot drift apart.
+
+const vehicleName = id => {
+  const v = vehicles.find(x => x.id === id);
+  return v ? `${v.make} ${v.model}` : id;
+};
+
+function evidenceBlock(field) {
+  const items = TRAIT_EVIDENCE[field];
+  if (!items || !items.length) return '';
+  return `<details class="trait-ev"><summary>evidence (${items.length})</summary><ul>` +
+    items.map(e => `<li class="${e.polarity}"><b>${esc(vehicleName(e.v))}</b>: ${esc(e.text)}</li>`).join('') +
+    '</ul></details>';
+}
+
+function traitRow(t) {
+  const sel = prefs.traits[t.id];
+  const seg = (value, text, title) =>
+    `<button data-trait="${esc(t.id)}" data-set="${value}" aria-pressed="${String((sel ?? '') === value)}"
+      title="${esc(title)}">${text}</button>`;
+  return `<div class="trait-row">
+    <span class="trait-name">${esc(t.label)}</span>
+    <span class="trait-seg" role="group" aria-label="${esc(t.label)}">
+      ${seg('yes', 'Yes', 'Must have this')}
+      ${seg('', '–', 'Ignore')}
+      ${t.yes_only ? '' : seg('no', 'No', 'Rule it out')}
+    </span>
+    <span class="trait-blurb">${esc(t.blurb)}</span>
+    ${evidenceBlock(t.field)}
+  </div>`;
+}
+
+function renderTraits() {
+  const n = Object.keys(prefs.traits).length;
+  document.getElementById('traits-count').textContent = n ? `(${n} set)` : '';
+  const groups = [];
+  for (const t of TRAITS) {
+    if (!groups.length || groups[groups.length - 1].name !== t.group) {
+      groups.push({ name: t.group, traits: [] });
+    }
+    groups[groups.length - 1].traits.push(t);
+  }
+  const html = groups.map(g => {
+    const rows = g.traits.map(traitRow).join('');
+    // Equipment collapses by default: 10 comfort rows would otherwise drown
+    // the camping traits that are the point of the panel (review addition R2).
+    return g.name === 'Equipment'
+      ? `<details class="trait-group"><summary>${esc(g.name)} (${g.traits.length})</summary>${rows}</details>`
+      : `<div class="trait-group"><h3>${esc(g.name)}</h3>${rows}</div>`;
+  }).join('');
+  const general = GENERAL_EVIDENCE.length
+    ? `<details class="trait-ev"><summary>Editorial notes not tied to a trait (${GENERAL_EVIDENCE.length})</summary><ul>` +
+      GENERAL_EVIDENCE.map(e => `<li class="${e.polarity}"><b>${esc(vehicleName(e.v))}</b>: ${esc(e.text)}</li>`).join('') +
+      '</ul></details>'
+    : '';
+  document.getElementById('traits').innerHTML = html + general;
+}
+
+document.getElementById('traits').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-trait]');
+  if (!btn) return;
+  const { trait, set } = btn.dataset;
+  if (set === 'yes' || set === 'no') prefs.traits[trait] = set;
+  else delete prefs.traits[trait];
+  // Update this row's buttons in place instead of re-rendering the panel,
+  // which would slam every open evidence <details> shut on each click.
+  for (const b of btn.parentElement.querySelectorAll('button[data-trait]')) {
+    b.setAttribute('aria-pressed', String(b.dataset.set === (prefs.traits[trait] ?? '')));
+  }
+  const n = Object.keys(prefs.traits).length;
+  document.getElementById('traits-count').textContent = n ? `(${n} set)` : '';
+  scheduleSave();
+  renderResults();
+});
+
 // The rule used to be read-only text while the *label* was editable — exactly
 // backwards. The label is cosmetic; the rule is what filters. A parser that read
 // "about 195 inches" as `< 193` could not be corrected at all, while the page
@@ -839,7 +968,12 @@ function renderCriteria() {
 
 function renderResults() {
   state.pins = new Set(prefs.pins);
-  ranked = rankVehicles(vehicles, prefs.criteria, state.pins);
+  // Trait selections compile to ordinary gate criteria here, fresh every
+  // render. `effective` must feed BOTH the ranking and the enforcement
+  // messaging below — a trait gate that filtered without being counted would
+  // exclude vehicles while the summary claimed no must-have was in play.
+  const effective = prefs.criteria.concat(compileTraits(prefs.traits));
+  ranked = rankVehicles(vehicles, effective, state.pins);
   const included = ranked.filter(r => !r.excluded);
   const ruledOut = ranked.length - included.length;
 
@@ -847,12 +981,14 @@ function renderResults() {
   // meet your must-haves" was technically true and practically a lie — it read
   // as "everything passed your bar" when the bar had never been applied. Name
   // the unenforced ones instead of quietly counting them as satisfied.
+  // (Only hand-entered criteria can be inert; compiled trait gates always
+  // carry a rule.)
   const inertGates = prefs.criteria.filter(c => c && GATE_TIERS.has(c.tier) && isInert(c));
-  const enforced = prefs.criteria.filter(c => c && GATE_TIERS.has(c.tier) && !isInert(c)).length;
+  const enforced = effective.filter(c => c && GATE_TIERS.has(c.tier) && !isInert(c)).length;
   const note = document.getElementById('count-note');
   // With nothing entered yet there is nothing to warn about — "no must-have is
   // being enforced" would read as a fault on an empty page.
-  const gateCount = prefs.criteria.filter(c => c && GATE_TIERS.has(c.tier)).length;
+  const gateCount = effective.filter(c => c && GATE_TIERS.has(c.tier)).length;
   note.textContent =
     (enforced
       ? `${included.length} of ${vehicles.length} vehicles meet your ${enforced} enforced must-have${enforced === 1 ? '' : 's'}`
