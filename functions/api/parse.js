@@ -20,6 +20,7 @@ const ENUM_FIELDS = {
   drivetrain_bucket: ['awd', '2wd'],
   heated_front_seats: YES_NO,
   heated_steering_wheel: YES_NO,
+  ventilated_front_seats: YES_NO,
   dual_zone_climate: YES_NO,
   remote_start: YES_NO,
   sunroof: YES_NO,
@@ -33,6 +34,7 @@ const ENUM_FIELDS = {
 export const FIELD_IDS = [...NUMERIC_FIELDS, ...Object.keys(ENUM_FIELDS)];
 
 const TIERS = ['must-have', 'nice-to-have', 'dislike', 'deal-breaker'];
+const NEGATIVE_TIERS = new Set(['dislike', 'deal-breaker']);
 const NUMERIC_OPS = ['<', '<=', '>', '>=', '==', '!=', 'between'];
 const ENUM_OPS = ['in', 'not_in'];
 
@@ -96,7 +98,10 @@ export function splitParse(raw, extraNotes) {
       // field cannot take, lands here the same as one it gave up on.
       const rule = entry.kind === 'manual' ? null : validRule(entry.rule);
       if (rule === null) {
-        notes.push(label);
+        // The tier still carries the person's intent even when no field can
+        // express it, so an unmappable "nothing that looks like a work van"
+        // lands under dislikes rather than likes.
+        notes.push({ text: label, polarity: NEGATIVE_TIERS.has(entry.tier) ? 'dislike' : 'like' });
         continue;
       }
       const rank = criteria.length + 1;
@@ -115,13 +120,22 @@ export function splitParse(raw, extraNotes) {
   }
   if (Array.isArray(extraNotes)) {
     for (const n of extraNotes) {
-      const s = typeof n === 'string' ? n.trim() : '';
-      if (s) notes.push(s);
+      // Tolerates the older flat-string shape as well as {text, polarity}.
+      const raw = typeof n === 'string' ? n : typeof n?.text === 'string' ? n.text : '';
+      const text = raw.trim();
+      if (text) notes.push({ text, polarity: n?.polarity === 'dislike' ? 'dislike' : 'like' });
     }
   }
   // Duplicates are easy here: the model can emit a want as both an unusable
-  // criterion and a note.
-  return { criteria, notes: [...new Set(notes)] };
+  // criterion and a note. Dedupe on the text, case-insensitively.
+  const seen = new Set();
+  const deduped = notes.filter(n => {
+    const k = n.text.toLowerCase();
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+  return { criteria, notes: deduped };
 }
 
 // Exported for tests only. The structured-outputs endpoint validates this
@@ -186,7 +200,15 @@ export const SCHEMA = {
     },
     notes: {
       type: 'array',
-      items: { type: 'string' },
+      items: {
+        type: 'object',
+        properties: {
+          text: { type: 'string' },
+          polarity: { type: 'string', enum: ['like', 'dislike'] },
+        },
+        required: ['text', 'polarity'],
+        additionalProperties: false,
+      },
     },
   },
   required: ['criteria', 'notes'],
@@ -199,20 +221,27 @@ Split the prose into one distinct want per entry. Each want becomes EITHER a cri
 
 For a criterion:
 
-- "tier": "deal-breaker" if violating it rules a vehicle out entirely; "must-have" if it is required but a judgment call; "nice-to-have" if it is a preference; "dislike" if it is something to avoid.
+- "tier": the four tiers are two pairs — a hard and a soft form of "want this" and of "avoid this". Write the rule to describe the thing itself, then pick the tier that says what to do about it:
+  - "must-have": the rule MUST match. "at least 74 inches of cargo length" → cargo_length_in >= 74, must-have.
+  - "nice-to-have": the rule matching is good but optional; it scores rather than filters.
+  - "deal-breaker": the rule matching RULES THE VEHICLE OUT. "nothing under 74 inches of cargo length" → cargo_length_in < 74, deal-breaker. Do NOT flip the comparison yourself — the tier does the flipping.
+  - "dislike": the rule matching counts against the vehicle but does not eliminate it.
+
+  A want can usually be written either way. "no gas-only vehicles" is equally powertrain in ["gas"] as a deal-breaker, or powertrain in ["hybrid","phev","ev"] as a must-have. Prefer whichever keeps the rule closest to the person's own wording.
 - "kind": "hard" when the want maps to a threshold or set membership on one of the available fields; "fuzzy" when it maps to a direction on a numeric field but has no threshold ("as much cargo room as possible").
 - "rule": for "hard", {field, op, value}. For "fuzzy", {field, direction}.
 - "label": a short human-readable restatement, under 60 characters.
 - "source_text": the fragment of the person's input this came from, verbatim.
 
-Put a want in "notes" instead when no field expresses it. The dataset describes dimensions, cargo, economy, price, towing, reliability, driver-assist safety feature counts, conversion-kit availability, camper popularity, class, powertrain, drivetrain, a specific list of comfort and convenience equipment, and interior sitting height above the folded seats. Wants outside that list — upholstery material, infotainment, paint colour, brand preference, styling — are notes. A note is a plain sentence, no fields.
+Put a want in "notes" instead when no field expresses it. The dataset describes dimensions, cargo, economy, price, towing, reliability, driver-assist safety feature counts, conversion-kit availability, camper popularity, class, powertrain, drivetrain, a specific list of comfort and convenience equipment, and interior sitting height above the folded seats. Wants outside that list — upholstery material, infotainment, paint colour, brand preference, styling — are notes. A note is { "text": a plain sentence, "polarity": "like" or "dislike" } — "dislike" for anything phrased as avoiding, disliking, or not wanting something.
 
 The equipment fields are yes/no enums: use op "in" with value ["yes"] for "must have it" and ["no"] for "must not". They record what is STANDARD on each vehicle's listed trim, so a want phrased as "available" or "can be optioned" is still a note, not a criterion.
 
-The equipment fields are EXACTLY these nine, and nothing else:
+The equipment fields are EXACTLY these ten, and nothing else:
 
 - heated_front_seats — "heated seats", "warm seats", "seat heaters"
 - heated_steering_wheel — "heated wheel"
+- ventilated_front_seats — "ventilated seats", "cooled seats", "air-conditioned seats"
 - dual_zone_climate — "dual zone", "separate temperature controls"
 - remote_start — "remote start", "warm it up before I get in"
 - sunroof — "sunroof", "moonroof", "panoramic roof"
@@ -221,9 +250,9 @@ The equipment fields are EXACTLY these nine, and nothing else:
 - cargo_power_outlet — "outlet in the back", "12V in the cargo area", "power for a fridge"
 - fold_flat_passenger — "front passenger seat folds flat", "load-through"
 
-Map each of these to its field WHENEVER it appears, INCLUDING when it appears in a list alongside a want you cannot express. Split the list: "heated and ventilated seats" is a criterion for heated_front_seats AND a note for the ventilated part. Never send a mappable want to notes just because it was mentioned in the same breath as an unmappable one — that silently drops a filter the person asked for.
+Map each of these to its field WHENEVER it appears, INCLUDING when it appears in a list alongside a want you cannot express. Split the list: "heated seats and a tow hitch" is a criterion for heated_front_seats AND a note for the hitch. Never send a mappable want to notes just because it was mentioned in the same breath as an unmappable one — that silently drops a filter the person asked for.
 
-There is no field for ventilated or cooled seats, massaging seats, leather, third-row seating, a tow hitch, wireless charging, a household 110V outlet, or all-weather mats. Those are notes.
+There is no field for massaging seats, leather, third-row seating, a tow hitch, wireless charging, a household 110V outlet, or all-weather mats. Those are notes.
 
 rear_seat_fold describes the surface with the rear seats down: "flat", "near-flat", "uneven", or "removable". Map "seats fold flat", "flat load floor" or "somewhere to sleep" to in ["flat","removable"] unless the person is clearly stricter.
 

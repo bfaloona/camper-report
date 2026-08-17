@@ -43,7 +43,7 @@ test('routes an unknown field to notes instead of dropping it', () => {
     rule: { field: 'stereo_quality', op: '>', value: 3 }, source_text: 'good stereo',
   }]);
   assert.deepEqual(r.criteria, []);
-  assert.deepEqual(r.notes, ['Good stereo']);
+  assert.deepEqual(r.notes.map(n => n.text), ['Good stereo']);
 });
 
 test('routes an unknown operator to notes', () => {
@@ -52,7 +52,7 @@ test('routes an unknown operator to notes', () => {
     rule: { field: 'length_in', op: 'approximately', value: 195 }, source_text: 'about 195',
   }]);
   assert.deepEqual(r.criteria, []);
-  assert.deepEqual(r.notes, ['Length']);
+  assert.deepEqual(r.notes.map(n => n.text), ['Length']);
 });
 
 test('routes a non-numeric value on a numeric field to notes', () => {
@@ -61,7 +61,7 @@ test('routes a non-numeric value on a numeric field to notes', () => {
     rule: { field: 'length_in', op: '<', value: 'short' }, source_text: 'short',
   }]);
   assert.deepEqual(r.criteria, []);
-  assert.deepEqual(r.notes, ['Length']);
+  assert.deepEqual(r.notes.map(n => n.text), ['Length']);
 });
 
 test('accepts enum membership rules', () => {
@@ -124,7 +124,7 @@ test('routes a "between" rule whose value is not a two-element numeric array to 
     rule: { field: 'price_low', op: 'between', value: [25000] }, source_text: 'around $25k',
   }]);
   assert.deepEqual(r.criteria, []);
-  assert.deepEqual(r.notes, ['Mid-size price']);
+  assert.deepEqual(r.notes.map(n => n.text), ['Mid-size price']);
 });
 
 test('accepts a bare enum scalar and normalizes it to an array', () => {
@@ -142,7 +142,7 @@ test('routes an enum value outside the allowed set to notes', () => {
     rule: { field: 'powertrain', op: 'in', value: ['hovercraft'] }, source_text: 'hovercraft',
   }]);
   assert.deepEqual(r.criteria, []);
-  assert.deepEqual(r.notes, ['Hovercraft powertrain']);
+  assert.deepEqual(r.notes.map(n => n.text), ['Hovercraft powertrain']);
 });
 
 test('routes a numeric operator applied to an enum field to notes', () => {
@@ -151,7 +151,7 @@ test('routes a numeric operator applied to an enum field to notes', () => {
     rule: { field: 'powertrain', op: '<', value: 3 }, source_text: 'powertrain < 3',
   }]);
   assert.deepEqual(r.criteria, []);
-  assert.deepEqual(r.notes, ['Powertrain']);
+  assert.deepEqual(r.notes.map(n => n.text), ['Powertrain']);
 });
 
 test('an unauthenticated request never reaches the API key check (401/403 before spending money)', async () => {
@@ -205,7 +205,7 @@ test('a want with no usable rule becomes a note, not an inert criterion', async 
   ]);
   assert.equal(r.criteria.length, 1);
   assert.equal(r.criteria[0].label, 'Under 193 inches');
-  assert.deepEqual(r.notes, ['Has heated seats']);
+  assert.deepEqual(r.notes.map(n => n.text), ['Has heated seats']);
   assert.equal(r.criteria.every(c => c.kind !== 'manual'), true, 'no manual criteria may survive');
 });
 
@@ -218,7 +218,7 @@ test('a criterion naming an unknown field becomes a note even when the model cal
       rule: { field: 'has_sunroof', op: '==', value: true }, source_text: 'sunroof' },
   ]);
   assert.deepEqual(r.criteria, []);
-  assert.deepEqual(r.notes, ['Sunroof']);
+  assert.deepEqual(r.notes.map(n => n.text), ['Sunroof']);
 });
 
 test('notes from the model merge with unusable criteria, without duplicates', async () => {
@@ -227,7 +227,7 @@ test('notes from the model merge with unusable criteria, without duplicates', as
     [{ label: 'Sunroof', tier: 'nice-to-have', kind: 'manual', rule: null, source_text: 'sunroof' }],
     ['Sunroof', 'Prefer a quiet cabin', '  ', 42],
   );
-  assert.deepEqual(r.notes, ['Sunroof', 'Prefer a quiet cabin']);
+  assert.deepEqual(r.notes.map(n => n.text), ['Sunroof', 'Prefer a quiet cabin']);
 });
 
 test('ranks stay contiguous when unusable entries are filtered out', async () => {
@@ -240,4 +240,29 @@ test('ranks stay contiguous when unusable entries are filtered out', async () =>
   const r = splitParse([hard('a'), dud('x'), hard('b'), dud('y'), hard('c')]);
   assert.deepEqual(r.criteria.map(c => c.rank), [1, 2, 3]);
   assert.deepEqual(r.criteria.map(c => c.label), ['a', 'b', 'c']);
+});
+
+test('a note inherits polarity from the tier the model assigned', async () => {
+  // The tier still carries intent even when no field can express the want, so
+  // "nothing that looks like a work van" must not file itself under likes.
+  const { splitParse } = await import('./parse.js');
+  const r = splitParse([
+    { label: 'Heated seats', tier: 'nice-to-have', kind: 'manual', rule: null, source_text: 'x' },
+    { label: 'Work van looks', tier: 'dislike', kind: 'manual', rule: null, source_text: 'y' },
+    { label: 'Vinyl seats', tier: 'deal-breaker', kind: 'manual', rule: null, source_text: 'z' },
+  ]);
+  assert.deepEqual(r.notes, [
+    { text: 'Heated seats', polarity: 'like' },
+    { text: 'Work van looks', polarity: 'dislike' },
+    { text: 'Vinyl seats', polarity: 'dislike' },
+  ]);
+});
+
+test('model-supplied notes accept both the object and the older string shape', async () => {
+  const { splitParse } = await import('./parse.js');
+  const r = splitParse([], [{ text: 'a', polarity: 'dislike' }, 'b', '  ', null, 42]);
+  assert.deepEqual(r.notes, [
+    { text: 'a', polarity: 'dislike' },
+    { text: 'b', polarity: 'like' },
+  ]);
 });

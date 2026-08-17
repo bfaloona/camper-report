@@ -42,6 +42,7 @@ export const FIELDS = {
   // dealer-installed reads as 'no' — see `equipment.basis` on each record.
   heated_front_seats:   { label: 'Heated front seats',  type: 'enum',   get: v => yesNo(v.equipment?.heated_front_seats) },
   heated_steering_wheel:{ label: 'Heated steering wheel', type: 'enum', get: v => yesNo(v.equipment?.heated_steering_wheel) },
+  ventilated_front_seats:{ label: 'Ventilated front seats', type: 'enum', get: v => yesNo(v.equipment?.ventilated_front_seats) },
   dual_zone_climate:    { label: 'Dual-zone climate',   type: 'enum',   get: v => yesNo(v.equipment?.dual_zone_climate) },
   remote_start:         { label: 'Remote start',        type: 'enum',   get: v => yesNo(v.equipment?.remote_start) },
   sunroof:              { label: 'Sunroof',             type: 'enum',   get: v => yesNo(v.equipment?.sunroof) },
@@ -98,6 +99,27 @@ export function evaluateGate(vehicle, criterion) {
 
 const GATE_TIERS = new Set(['must-have', 'deal-breaker']);
 const isGate    = c => !!c && c.kind === 'hard' && GATE_TIERS.has(c.tier);
+
+// The four tiers are two pairs: a hard and a soft form of "want this" and of
+// "avoid this". `dislike` already inverts when scoring (sign = -1), and
+// `deal-breaker` is its hard counterpart — matching the rule is what rules the
+// vehicle OUT.
+//
+// It used to behave identically to `must-have`, which made it a redundant tier
+// whose name said the opposite of what it did: "cargo length < 74" as a
+// deal-breaker KEPT the vehicles under 74 instead of eliminating them.
+//
+// Only gating needs this. `dislike` is not a gate tier, and its scoring
+// inversion is already handled by the sign, so inverting here too would cancel
+// itself out.
+//
+// 'pass' means "survives this gate". Unknown stays unknown in both directions:
+// missing data must never exclude a vehicle, whichever way the rule points.
+function gateVerdict(vehicle, criterion) {
+  const verdict = evaluateGate(vehicle, criterion);
+  if (verdict === 'unknown' || criterion?.tier !== 'deal-breaker') return verdict;
+  return verdict === 'pass' ? 'fail' : 'pass';
+}
 const isScoring = c => !!c && ((c.kind === 'fuzzy') || (c.kind === 'hard' && !GATE_TIERS.has(c.tier)));
 
 // A malformed or stale weight (missing, NaN, a string) falls back to 1
@@ -137,7 +159,7 @@ export function rankVehicles(vehicles, criteria, pins) {
     const violations = [];
     const unknowns = [];
     for (const c of gates) {
-      const verdict = evaluateGate(vehicle, c);
+      const verdict = gateVerdict(vehicle, c);
       if (verdict === 'fail') violations.push({ id: c.id, label: c.label });
       else if (verdict === 'unknown') unknowns.push({ id: c.id, label: c.label });
     }

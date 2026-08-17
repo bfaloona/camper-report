@@ -263,7 +263,7 @@
       yourself. These never affect the ranking, which is the point: a criterion that quietly
       scores nothing is worse than a note that never claimed to.</p>
     <textarea id="notes" rows="4" maxlength="4000"
-      placeholder="Heated seats. Sunroof. Prefer something that doesn't look like a work van."></textarea>
+      placeholder="likes:&#10;- heated seats&#10;- sunroof&#10;&#10;dislikes:&#10;- looks like a work van"></textarea>
     <span id="notes-status" class="saving"></span>
   </section>
 
@@ -460,7 +460,7 @@ function renderTable(rows) {
 
 <script type="module">
 import { rankVehicles, FIELDS, fieldValue } from './scoring.js';
-import { loadPrefs, savePrefs, parseProse } from './prefs.js';
+import { loadPrefs, savePrefs, parseProse, mergeNotes } from './prefs.js';
 
 let prefs = null;
 let migrationNote = '';
@@ -529,8 +529,10 @@ async function boot() {
   if (stranded.length) {
     prefs.criteria = prefs.criteria.filter(c => !isInert(c));
     reRank(prefs.criteria);
-    prefs.notes = [prefs.notes.trim(), ...stranded.map(c => c.label)]
-      .filter(Boolean).join('\n');
+    prefs.notes = mergeNotes(prefs.notes, stranded.map(c => ({
+      text: c.label,
+      polarity: (c.tier === 'dislike' || c.tier === 'deal-breaker') ? 'dislike' : 'like',
+    })));
     migrationNote = `Moved ${stranded.length} criteria that scored nothing into Notes: ` +
       stranded.map(c => c.label).join(', ');
   }
@@ -794,7 +796,9 @@ document.getElementById('btn-parse').onclick = async () => {
     prefs.criteria = prefs.criteria.concat(added);
     reRank(prefs.criteria);
     if (newNotes.length) {
-      prefs.notes = [prefs.notes.trim(), ...newNotes].filter(Boolean).join('\n');
+      // Merged into the likes:/dislikes: structure rather than appended flat,
+      // and anything typed by hand outside those sections is preserved.
+      prefs.notes = mergeNotes(prefs.notes, newNotes);
       document.getElementById('notes').value = prefs.notes;
     }
     // Say what went where. Silently filing a want under Notes would look like

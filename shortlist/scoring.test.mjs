@@ -109,16 +109,16 @@ test('a failed must-have excludes the vehicle', () => {
   assert.equal(out.find(r => r.vehicle.id === 'b').excluded, true);
 });
 
-test('a failed deal-breaker excludes the vehicle', () => {
+test('a failed must-have gate excludes the vehicle', () => {
   const out = rankVehicles([v('b', { exterior_in: { length: 210, width: 73, height: 67 } })],
-    [hard('length_in', '<', 195, 'deal-breaker')], new Set());
+    [hard('length_in', '<', 195, 'must-have')], new Set());
   assert.equal(out[0].excluded, true);
   assert.deepEqual(out[0].violations.map(x => x.id), ['h']);
 });
 
 test('a pinned vehicle survives a failed gate but keeps the violation', () => {
   const out = rankVehicles([v('b', { exterior_in: { length: 210, width: 73, height: 67 } })],
-    [hard('length_in', '<', 195, 'deal-breaker')], new Set(['b']));
+    [hard('length_in', '<', 195, 'must-have')], new Set(['b']));
   assert.equal(out[0].excluded, false);
   assert.equal(out[0].pinned, true);
   assert.deepEqual(out[0].violations.map(x => x.id), ['h']);
@@ -259,7 +259,7 @@ test('a single survivor is normalized to the top of the scale, not stretched by 
   const keep = v('keep', { exterior_in: { length: 190, width: 73, height: 67 }, max_cargo_cf: { value: 50 } });
   const drop = v('drop', { exterior_in: { length: 210, width: 73, height: 67 }, max_cargo_cf: { value: 200 } });
   const out = rankVehicles([keep, drop],
-    [hard('length_in', '<', 195, 'deal-breaker'), fuzzy('max_cargo_cf', 'higher')], new Set());
+    [hard('length_in', '<', 195, 'must-have'), fuzzy('max_cargo_cf', 'higher')], new Set());
   const keptRow = out.find(r => r.vehicle.id === 'keep');
   assert.equal(keptRow.excluded, false);
   assert.equal(keptRow.score, 100);
@@ -269,7 +269,7 @@ test('zero survivors does not throw and yields no NaN scores', () => {
   const a = v('a', { exterior_in: { length: 210, width: 73, height: 67 } });
   const b = v('b', { exterior_in: { length: 220, width: 73, height: 67 } });
   const out = rankVehicles([a, b],
-    [hard('length_in', '<', 195, 'deal-breaker'), fuzzy('max_cargo_cf', 'higher')], new Set());
+    [hard('length_in', '<', 195, 'must-have'), fuzzy('max_cargo_cf', 'higher')], new Set());
   assert.equal(out.length, 2);
   for (const row of out) {
     assert.equal(row.excluded, true);
@@ -281,7 +281,7 @@ test('a pinned gate-violating vehicle still stretches the normalization range', 
   const a = v('a', { max_cargo_cf: { value: 50 } });
   const b = v('b', { exterior_in: { length: 210, width: 73, height: 67 }, max_cargo_cf: { value: 150 } });
   const out = rankVehicles([a, b],
-    [hard('length_in', '<', 195, 'deal-breaker'), fuzzy('max_cargo_cf', 'higher')], new Set(['b']));
+    [hard('length_in', '<', 195, 'must-have'), fuzzy('max_cargo_cf', 'higher')], new Set(['b']));
   const rowA = out.find(r => r.vehicle.id === 'a');
   const rowB = out.find(r => r.vehicle.id === 'b');
   assert.equal(rowB.pinned, true);
@@ -299,4 +299,52 @@ test('with no hard gates every vehicle survives, so ranges are unchanged from wh
   assert.deepEqual(out.map(r => r.vehicle.id), ['big', 'small']);
   assert.equal(out[0].score, 100);
   assert.equal(out[1].score, 0);
+});
+
+test('a deal-breaker excludes the vehicles its rule MATCHES', async () => {
+  // The bug this pins: deal-breaker used to behave identically to must-have, so
+  // "cargo length < 74" as a deal-breaker KEPT the short vehicles instead of
+  // eliminating them. Real numbers from the dataset: the Prius measures 68.
+  const short = { id: 'prius', cargo_length_behind_front_seats_in: { value: 68 } };
+  const long  = { id: 'van',   cargo_length_behind_front_seats_in: { value: 90 } };
+  const crit = [{
+    id: 'c1', label: 'Nothing under 74in', tier: 'deal-breaker', kind: 'hard',
+    rank: 1, weight: 5, rule: { field: 'cargo_length_in', op: '<', value: 74 },
+  }];
+  const out = rankVehicles([short, long], crit, new Set());
+  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+  assert.equal(byId.prius.excluded, true, '68in must be ruled out by "< 74 is a deal-breaker"');
+  assert.equal(byId.van.excluded, false, '90in must survive');
+});
+
+test('the same rule as a must-have does the opposite', async () => {
+  // Same rule, different tier: must-have keeps what matches. If these two ever
+  // agree, the tiers have collapsed back into each other.
+  const short = { id: 'prius', cargo_length_behind_front_seats_in: { value: 68 } };
+  const long  = { id: 'van',   cargo_length_behind_front_seats_in: { value: 90 } };
+  const crit = [{
+    id: 'c1', label: 'Under 74in', tier: 'must-have', kind: 'hard',
+    rank: 1, weight: 5, rule: { field: 'cargo_length_in', op: '<', value: 74 },
+  }];
+  const out = rankVehicles([short, long], crit, new Set());
+  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+  assert.equal(byId.prius.excluded, false);
+  assert.equal(byId.van.excluded, true);
+});
+
+test('missing data never excludes, in either tier direction', async () => {
+  // Inverting a gate must not turn "no data" into an exclusion. A vehicle we
+  // lack a measurement for should surface for a human, not vanish -- and that
+  // has to hold for deal-breakers too, where the naive inversion of 'unknown'
+  // would be 'fail'.
+  const unknown = { id: 'mystery' }; // no cargo_length at all
+  for (const tier of ['must-have', 'deal-breaker']) {
+    const crit = [{
+      id: 'c1', label: 'x', tier, kind: 'hard', rank: 1, weight: 5,
+      rule: { field: 'cargo_length_in', op: '<', value: 74 },
+    }];
+    const [r] = rankVehicles([unknown], crit, new Set());
+    assert.equal(r.excluded, false, `${tier}: unknown data must not exclude`);
+    assert.equal(r.unknowns.length, 1, `${tier}: should be flagged as no-data`);
+  }
 });
