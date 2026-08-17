@@ -16,6 +16,12 @@ const EMPTY = {
   // Wants no field can express. Absent from older stored blobs, so every
   // reader must treat a missing value as empty rather than assume the key.
   notes: '',
+  // Trait-picker selections, { trait_id: 'yes' | 'no' }. Also absent from
+  // older blobs; readers default it (the page runs sanitizeTraits on load),
+  // and usable() deliberately does not require it so pre-picker blobs stay
+  // readable. Entries are stored verbatim — shortlist/traits.js owns the
+  // vocabulary, mirroring how parse.js owns the criteria schema.
+  traits: {},
 };
 
 async function etagOf(text) {
@@ -69,7 +75,7 @@ export async function readStored(env) {
   // A fresh copy, never the shared EMPTY: handing out the module constant means
   // any future caller that mutates the returned prefs poisons the defaults for
   // every later request in the same isolate.
-  const fallback = { ...EMPTY, pins: [...EMPTY.pins], criteria: [] };
+  const fallback = { ...EMPTY, pins: [...EMPTY.pins], criteria: [], traits: {} };
   // `corrupted` distinguishes "nothing saved yet" from "something saved but
   // unusable"; only the latter warrants warning the client.
   return {
@@ -132,10 +138,16 @@ export async function onRequestPut({ request, env }) {
   // coerced rather than rejected so a null from an older client is not an error.
   const notes = typeof body.prefs.notes === 'string' ? body.prefs.notes : '';
 
+  // Same coercion rule for trait selections: a client that predates the trait
+  // picker sends nothing, which must not be an error. A plain object is stored
+  // verbatim (traits.js sanitizes on read); anything else becomes empty.
+  const traits = body.prefs.traits && typeof body.prefs.traits === 'object'
+    && !Array.isArray(body.prefs.traits) ? body.prefs.traits : {};
+
   // Only these fields are ever persisted (see next, below) — measure against
   // what will actually be stored, not the whole caller-supplied body.
   const candidateSize = new TextEncoder().encode(
-    JSON.stringify({ pins: body.prefs.pins, criteria: body.prefs.criteria, notes })
+    JSON.stringify({ pins: body.prefs.pins, criteria: body.prefs.criteria, notes, traits })
   ).length;
   if (candidateSize > MAX_BODY_BYTES) {
     return json({ error: `prefs must be under ${MAX_BODY_BYTES} bytes` }, 400);
@@ -162,6 +174,7 @@ export async function onRequestPut({ request, env }) {
     pins: body.prefs.pins,
     criteria: body.prefs.criteria,
     notes,
+    traits,
   };
   const text = JSON.stringify(next);
   try {

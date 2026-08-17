@@ -10,6 +10,7 @@ const DEFAULT_PREFS = {
   pins: ['mazda5-gen3', 'chevrolet-bolt-ev-gen1'],
   criteria: [],
   notes: '',
+  traits: {},
 };
 
 // A tiny fake KV backed by a Map. `get`/`put` can be overwritten per-test to
@@ -141,7 +142,7 @@ test('PUT drops unexpected top-level keys before writing to KV', async () => {
   assert.equal(res.status, 200);
   assert.equal(putCalls.length, 1);
   const stored = JSON.parse(putCalls[0]);
-  assert.deepEqual(Object.keys(stored).sort(), ['criteria', 'notes', 'pins', 'updated_at', 'updated_by', 'version']);
+  assert.deepEqual(Object.keys(stored).sort(), ['criteria', 'notes', 'pins', 'traits', 'updated_at', 'updated_by', 'version']);
   assert.deepEqual(stored.pins, ['mazda5-gen3']);
   assert.deepEqual(stored.criteria, []);
 });
@@ -289,4 +290,53 @@ test('an unusable value does not change the etag the defaults hash to', async ()
     assert.equal(await currentEtag(makeEnv(makeKv(stored))), empty,
       `stored=${stored} must hash to the same defaults etag`);
   }
+});
+
+// --- Trait selections --------------------------------------------------------
+// `traits` rides in the same blob as pins/criteria/notes. PUT stores a plain
+// object verbatim (shortlist/traits.js sanitizes on read) and coerces anything
+// else to {}, so an old client that never sends the key cannot 400.
+
+test('PUT round-trips traits and GET serves them back', async () => {
+  const kv = makeKv();
+  const env = makeEnv(kv);
+  const etag = await currentEtag(env);
+  const res = await onRequestPut({
+    request: putReq({ etag, prefs: { pins: [], criteria: [], traits: { awd: 'yes', sunroof: 'no' } } }),
+    env,
+  });
+  assert.equal(res.status, 200);
+  const got = await onRequestGet({ request: getReq(), env });
+  assert.deepEqual((await got.json()).prefs.traits, { awd: 'yes', sunroof: 'no' });
+});
+
+test('PUT without traits stores an empty object, not undefined', async () => {
+  const kv = makeKv();
+  const env = makeEnv(kv);
+  const etag = await currentEtag(env);
+  await onRequestPut({ request: putReq({ etag, prefs: { pins: [], criteria: [] } }), env });
+  assert.deepEqual(JSON.parse(kv.store.get(KEY)).traits, {});
+});
+
+test('PUT coerces a malformed traits value to empty instead of rejecting', async () => {
+  for (const bad of [[], 'yes', 42, null]) {
+    const kv = makeKv();
+    const env = makeEnv(kv);
+    const etag = await currentEtag(env);
+    const res = await onRequestPut({
+      request: putReq({ etag, prefs: { pins: [], criteria: [], traits: bad } }),
+      env,
+    });
+    assert.equal(res.status, 200, `traits=${JSON.stringify(bad)} should not 400`);
+    assert.deepEqual(JSON.parse(kv.store.get(KEY)).traits, {});
+  }
+});
+
+test('a pre-picker stored blob without traits is still usable, with no warning', async () => {
+  const kv = makeKv(JSON.stringify({ version: 1, pins: [], criteria: [], notes: 'hi' }));
+  const env = makeEnv(kv);
+  const res = await onRequestGet({ request: getReq(), env });
+  const body = await res.json();
+  assert.equal(body.warning, undefined, 'missing traits must not read as corruption');
+  assert.equal(body.prefs.notes, 'hi');
 });
