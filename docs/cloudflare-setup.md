@@ -7,24 +7,27 @@ Roughly 15 minutes. Do the steps in order — `CF_ACCESS_AUD` in step 3 doesn't 
 step 4 creates the Access application, so step 3 gets revisited at the end.
 
 **What this achieves:** the public report stays on GitHub Pages, unauthenticated, exactly
-as it is now. Cloudflare serves a second copy of the same repo *plus* the `/api/*`
-endpoints and (later) the `/shortlist` tool, with those paths — and only those paths —
+as it is now. A Cloudflare Worker serves a second copy of the same report *plus* the
+`/api/*` endpoints and the `/shortlist` tool, with those paths — and only those paths —
 behind Google sign-in restricted to two email addresses.
+
+**This deploys to a Worker, not to Pages.** The `camper-report` Worker already exists in
+your account. The repo carries `wrangler.jsonc`, which names that Worker, so a deploy
+targets it rather than creating anything new.
 
 ---
 
 ## 0. Push first
 
-Everything below assumes `main` on GitHub already has the `functions/` directory. Push
-your local commits now:
+Everything below assumes `main` on GitHub already has `functions/`, `wrangler.jsonc`, and
+`scripts/build-assets.mjs`. Push your local commits now:
 
 ```bash
 git push
 ```
 
-Then confirm on GitHub that `bfaloona/camper-report` at `main` shows a `functions/`
-directory. If step 2 connects Pages before this, the first build deploys a `main` with
-no `functions/` and there is nothing to gate.
+If step 2 connects the repo before this, the first build runs against a `main` with no
+`wrangler.jsonc` and fails.
 
 ## 1. KV namespace ✅ done 2026-08-16
 
@@ -33,43 +36,45 @@ Dashboard → **Storage & Databases → KV → Create instance**.
 - Name: `camper-report-prefs`
 - Namespace ID: `4ca243938a5d4211b27d133aff97981a`
 
-You bind it by name in step 3, so the ID is only needed if the dashboard asks you to
-disambiguate.
+Nothing left to do here. The ID is already written into `wrangler.jsonc`, which is what
+binds it — you do **not** add a KV binding in the dashboard (see the warning in step 3).
 
-## 2. Pages project
+## 2. Deploy the Worker
 
-Dashboard → **Workers & Pages → Create application → Pages tab → Import an existing Git
-repository** → select `bfaloona/camper-report` → **Begin setup**.
+Two ways. Pick one.
 
-> This step is dashboard-only and cannot be scripted. Connecting a repo runs a GitHub OAuth
-> handshake that has no API or CLI equivalent, and per Cloudflare's docs you **cannot add Git
-> integration to a Pages project after it exists** — so creating one with `wrangler pages
-> project create` first would be a dead end requiring a delete and redo, not a head start.
+### 2a. Git integration (recommended — deploys on every push)
+
+Dashboard → **Workers & Pages** → select **camper-report** → **Settings → Builds →
+Connect**, and authorize the Cloudflare GitHub App for `bfaloona/camper-report`.
 
 | Setting | Value |
 | --- | --- |
 | Production branch | `main` |
-| Build command | `npm ci` |
-| Build output directory | `/` |
+| Build command | `npm ci && npm run build` |
+| Deploy command | `npx wrangler deploy` |
 
-`npm ci` installs `@anthropic-ai/sdk` from the committed lockfile so the Functions
-bundler can resolve it; skipping the build command risks a broken deploy if Pages
-doesn't install dependencies on its own. There is no build step for the report itself
-— `npm ci` only exists to make the dependency available to `functions/`.
+The Worker's name in the dashboard must match the `name` field in `wrangler.jsonc` or the
+build fails. Both are `camper-report`, so this is already satisfied — just don't rename one
+without the other.
 
-Note the assigned `*.pages.dev` hostname — you need it in step 4.
+### 2b. Deploy from your laptop
 
-## 3. Bindings and variables
+```bash
+npx wrangler login
+npm run deploy
+```
 
-Project → **Settings → Bindings → Add → KV namespace**:
+`npm run deploy` stages the assets, compiles `functions/` into a Worker script, and
+publishes. Use this for a one-off; it means every future change needs you to run it again.
 
-| Variable name | Namespace |
-| --- | --- |
-| `PREFS` | `camper-report-prefs` |
+Either way, note the assigned `camper-report.<your-subdomain>.workers.dev` hostname — you
+need it in step 4. If the Worker has no workers.dev route yet, enable it under
+**Settings → Domains & Routes**.
 
-Add it for **both** Production and Preview.
+## 3. Variables and secrets
 
-Project → **Settings → Variables and Secrets**, for both environments:
+Worker → **Settings → Variables and Secrets**:
 
 | Name | Type | Value |
 | --- | --- | --- |
@@ -77,12 +82,18 @@ Project → **Settings → Variables and Secrets**, for both environments:
 | `CF_ACCESS_TEAM_DOMAIN` | Plaintext | Your Zero Trust team domain, e.g. `something.cloudflareaccess.com` |
 | `CF_ACCESS_AUD` | Plaintext | Filled in at step 5 — it doesn't exist yet |
 
+> **Do not add bindings in the dashboard.** `wrangler.jsonc` is the source of truth for
+> bindings, and a deploy replaces the Worker's entire binding set from that file — a KV
+> binding added here disappears on the next push. The two plaintext vars above survive only
+> because `wrangler.jsonc` sets `keep_vars: true`; without it a deploy would delete them
+> and every request would 500. Secrets are never touched by a deploy either way.
+
 > **Never set `DEV_BYPASS_EMAIL` here.** It's a local-only development escape hatch. The
 > code only honors it when all three of these hold: `DEV_BYPASS_EMAIL` is set,
 > `CF_ACCESS_AUD` is absent, and the request's hostname is a loopback address
-> (`localhost`/`127.0.0.1`/`::1`). A deployed environment always has `CF_ACCESS_AUD` set
-> and never serves on a loopback hostname, so a leak into the dashboard can't grant
-> access — but there's no reason to test that.
+> (`localhost`/`127.0.0.1`/`::1`). A deployed Worker always has `CF_ACCESS_AUD` set and
+> never serves on a loopback hostname, so a leak into the dashboard can't grant access —
+> but there's no reason to test that.
 
 ## 4. Access application
 
@@ -91,7 +102,7 @@ Zero Trust → **Access controls → Applications → Add an application → Sel
 | Field | Value |
 | --- | --- |
 | Application name | `Camper Shortlist` |
-| Public hostname | your `*.pages.dev` hostname from step 2 |
+| Public hostname | your `camper-report.<subdomain>.workers.dev` hostname from step 2 |
 | Paths | `/shortlist*` **and** `/api/*` |
 
 **Do not gate `/`.** Gating the root puts the public report behind a login and breaks the
@@ -112,9 +123,8 @@ has an outage and it's your only provider, both of you are locked out of your ow
 
 Open the Access application you just made → **Overview** → copy the **Audience (AUD) tag**.
 
-Go back to Pages → Settings → Variables and Secrets, set `CF_ACCESS_AUD` to that value for
-both environments, and **redeploy** (Deployments → latest → Retry deployment). Variables are
-read at request time but the deployment needs to pick up the new binding set.
+Go back to the Worker → Settings → Variables and Secrets, set `CF_ACCESS_AUD` to that
+value, and **redeploy** (Deployments → latest → Retry, or `npm run deploy` again).
 
 ## 6. Verify — don't skip this
 
@@ -138,18 +148,24 @@ Responses you might hit, and what each means:
 
 | Response | Cause |
 | --- | --- |
-| `{"error":"Access verification is not configured"}` (500) | `CF_ACCESS_AUD` or `CF_ACCESS_TEAM_DOMAIN` didn't reach the deployed environment — recheck step 3, redeploy |
+| `{"error":"Access verification is not configured"}` (500) | `CF_ACCESS_AUD` or `CF_ACCESS_TEAM_DOMAIN` didn't reach the deployed Worker — recheck step 3, redeploy. If they were set and then vanished, `keep_vars` is missing from `wrangler.jsonc` |
 | `{"error":"The parsing service is not configured."}` (500) | `ANTHROPIC_API_KEY` isn't set. Only affects `/api/parse`; preferences still work |
-| `{"error":"Not authenticated"}` (401) **after a successful Google sign-in** | Almost always a mistyped `CF_ACCESS_TEAM_DOMAIN` or `CF_ACCESS_AUD` — the sign-in succeeded but the Function can't verify the token it got. The body is deliberately generic; run `npx wrangler pages deployment tail` and look for an `auth:` line (e.g. `auth: aud_mismatch`, `auth: jwks_fetch_failed`) to tell the two apart. |
+| `{"error":"Not authenticated"}` (401) **after a successful Google sign-in** | Almost always a mistyped `CF_ACCESS_TEAM_DOMAIN` or `CF_ACCESS_AUD` — the sign-in succeeded but the Worker can't verify the token it got. The body is deliberately generic; run `npx wrangler tail camper-report` and look for an `auth:` line (e.g. `auth: aud_mismatch`, `auth: jwks_fetch_failed`) to tell the two apart |
+| 404 on a page that used to work | The file isn't in the allowlist in `scripts/build-assets.mjs`. Only files named there are uploaded |
+
+**Between step 2 and step 4 the `/shortlist` page is publicly reachable.** No data leaks —
+`/api/prefs` fails closed with a 500 while `CF_ACCESS_AUD` is unset, so the page loads but
+can't read or write anything. If that window bothers you, create the Access application
+before the first deploy.
 
 ---
 
 ## If you add a custom domain later
 
-The Access application above covers **one hostname**. Attaching a custom domain to the Pages
-project does **not** extend that protection to it — you must create a second Access
+The Access application above covers **one hostname**. Attaching a custom domain to the
+Worker does **not** extend that protection to it — you must create a second Access
 application for the new hostname, or the tool becomes reachable there with no
-authentication at all while `*.pages.dev` still looks correctly gated.
+authentication at all while the workers.dev hostname still looks correctly gated.
 
 ## What's still unproven until you run this
 
@@ -159,3 +175,6 @@ match what `functions/_lib/auth.js` expects — specifically the `aud` and `emai
 the JWKS endpoint at `https://<team-domain>/cdn-cgi/access/certs`. Step 6.3 is the first
 moment that's proven. If it fails, the JWT verification logic is the place to look, and the
 unit tests in `functions/_lib/auth.test.mjs` show the exact claim shape it expects.
+
+The other unproven path is `/api/parse` — no live call has been made against the Anthropic
+API from this Worker, because no key was available during development.

@@ -1,0 +1,33 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "camper-report",
+	"main": "./dist/worker/index.js",
+	"compatibility_date": "2026-08-16",
+
+	// dist/client holds an allowlisted copy of the six files the pages actually
+	// request (see scripts/build-assets.mjs). The worker bundle lives in a
+	// sibling directory, never inside the served tree, so there is nothing to
+	// exclude with .assetsignore and no way a build artifact leaks to a public URL.
+	//
+	// The binding must be named ASSETS: `wrangler pages functions build` emits a
+	// fallthrough that calls env.ASSETS.fetch(request) for any path no function
+	// claims, which is how /, /shortlist, and /vehicles.json get served at all.
+	"assets": {
+		"directory": "./dist/client",
+		"binding": "ASSETS"
+	},
+
+	"kv_namespaces": [
+		{
+			"binding": "PREFS",
+			"id": "4ca243938a5d4211b27d133aff97981a"
+		}
+	],
+
+	// CF_ACCESS_TEAM_DOMAIN and CF_ACCESS_AUD are set in the dashboard, not here
+	// — CF_ACCESS_AUD does not exist until the Access application is created, and
+	// this repo is public. Without keep_vars a deploy deletes every dashboard var
+	// that is absent from this file, which would break auth on the next push.
+	// Secrets (ANTHROPIC_API_KEY) are never touched by a deploy either way.
+	"keep_vars": true
+}

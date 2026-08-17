@@ -2,11 +2,17 @@
   "name": "camper-report",
   "private": true,
   "type": "module",
-  "description": "Dependencies for the Cloudflare Pages Functions only. The static report has none.",
+  "description": "Dependencies for the Cloudflare Worker's API routes only. The static report has none.",
   "dependencies": {
     "@anthropic-ai/sdk": "0.70.1"
   },
+  "devDependencies": {
+    "wrangler": "^4.123.0"
+  },
   "scripts": {
+    "build": "node scripts/build-assets.mjs && wrangler pages functions build --outdir=./dist/worker/",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
     "test": "node --test \"**/*.test.mjs\""
   }
 }

@@ -13,12 +13,19 @@ build step, no framework, no dependencies — just data plus one self-contained 
 | `scripts/sync_vehicles.py` | Propagates `vehicles.json` into the embedded data in both HTML files, and syncs `index.html`'s presentation into `shortlist/index.html`. |
 | `.claude/skills/add-vehicle/` | Skill: how to research and add a new vehicle record. |
 | `shortlist/` | The Shortlist tool: a preference-driven ranking view over the same dataset. See below. |
-| `functions/` | Cloudflare Pages Functions backing the Shortlist tool's `/api/*` endpoints and Access auth guard. See below. |
+| `functions/` | Source for the Shortlist tool's `/api/*` endpoints and Access auth guard, in Pages Functions layout. Compiled to a Worker at build time. See below. |
+| `wrangler.jsonc` | Worker config: name, assets directory, KV binding, `keep_vars`. Source of truth for bindings. |
+| `scripts/build-assets.mjs` | Stages the six served files into `dist/client/`. An **allowlist** — a file not named there is never published. |
 | `docs/cloudflare-setup.md` | One-time Cloudflare dashboard runbook for the Shortlist deployment. |
 
 There is no bundler or generator: `index.html` ships the data inline. The two HTML
 files must stay identical — every change to one must be mirrored in the other (the
 sync script does this for the data block).
+
+`npm run build` is only for the Cloudflare deployment. It stages assets into `dist/client/`
+and compiles `functions/` into `dist/worker/index.js` via `wrangler pages functions build`
+— the directory layout is still Pages Functions, but the artifact is a Worker. `dist/` is
+git-ignored; GitHub Pages serves the repo root and never sees it.
 
 ## How the data is embedded
 
@@ -97,8 +104,8 @@ which carries the full field checklist and the exact edit-and-sync procedure.
 
 ## The Shortlist tool (`shortlist/`)
 
-A preference-driven ranking view over the same dataset, deployed only on Cloudflare
-Pages (never GitHub Pages) and gated by Cloudflare Access to two accounts. Both accounts
+A preference-driven ranking view over the same dataset, deployed only to the Cloudflare
+Worker (never GitHub Pages) and gated by Cloudflare Access to two accounts. Both accounts
 read and write one shared preferences blob in Workers KV (`prefs:v1`), so there is no
 per-user state — one person's saved criteria and pins are the other's too.
 
@@ -144,16 +151,19 @@ Things that will bite you if you don't know them:
   `prefs.criteria` and `prefs.pins` are arrays, not the shape of each criterion, by
   design — `/api/parse`'s `validateCriteria` owns that schema. Anything that reads the
   blob back must tolerate malformed entries rather than assume they're well-formed.
-- **Local development:** `npx wrangler pages dev .`, with `DEV_BYPASS_EMAIL` set in
-  `.dev.vars` (git-ignored). The bypass only activates when `DEV_BYPASS_EMAIL` is set,
-  `CF_ACCESS_AUD` is absent, and the request host is loopback. Unlike the report, **the
-  Shortlist page cannot be opened over `file://`** — it calls `/api/prefs`, `/api/parse`,
-  and `/vehicles.json` as same-origin relative paths with no CORS handling, because in
+- **Local development:** `npm run dev`, with `DEV_BYPASS_EMAIL` set in `.dev.vars`
+  (git-ignored). The bypass only activates when `DEV_BYPASS_EMAIL` is set, `CF_ACCESS_AUD`
+  is absent, and the request host is loopback. Unlike the report, **the Shortlist page
+  cannot be opened over `file://`** — it calls `/api/prefs`, `/api/parse`, and
+  `/vehicles.json` as same-origin relative paths with no CORS handling, because in
   production it's always same-origin behind Access.
+- **`wrangler dev` serves from `dist/client/`, not the repo root.** Editing an HTML file
+  does nothing until you rebuild, which is why `npm run dev` runs the build first. A bare
+  `npx wrangler dev` will happily serve a stale copy.
 - **Deployment** is two targets from one repo: the public report stays on GitHub Pages,
-  unauthenticated; the same repo plus `/api/*` and `/shortlist` is also deployed to
-  Cloudflare Pages behind Cloudflare Access, restricted to two email addresses. See
-  `docs/cloudflare-setup.md` for the one-time dashboard setup — not duplicated here.
+  unauthenticated; the same repo plus `/api/*` and `/shortlist` also deploys to the
+  `camper-report` **Worker** behind Cloudflare Access, restricted to two email addresses.
+  See `docs/cloudflare-setup.md` for the one-time dashboard setup — not duplicated here.
 
 ## House rules
 
