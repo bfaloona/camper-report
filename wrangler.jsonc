@@ -34,10 +34,22 @@
 		}
 	],
 
-	// CF_ACCESS_TEAM_DOMAIN and CF_ACCESS_AUD are set in the dashboard, not here
-	// — CF_ACCESS_AUD does not exist until the Access application is created, and
-	// this repo is public. Without keep_vars a deploy deletes every dashboard var
-	// that is absent from this file, which would break auth on the next push.
-	// Secrets (ANTHROPIC_API_KEY) are never touched by a deploy either way.
+	// Neither of these is a secret. Both are already public: request any gated
+	// path unauthenticated and Cloudflare's 302 to the login page carries the team
+	// domain in the hostname and the AUD tag in the `kid` query parameter, so a
+	// plain curl reveals them. They identify which Access application guards this
+	// Worker; they grant nothing. Keeping them here rather than in the dashboard
+	// makes the config reproducible and removes a manual step that has to be
+	// repeated correctly after any variable change.
+	//
+	// The real secret, ANTHROPIC_API_KEY, is NOT here — it is set with
+	// `wrangler secret put` and is never touched by a deploy.
+	"vars": {
+		"CF_ACCESS_TEAM_DOMAIN": "bfaloona.cloudflareaccess.com",
+		"CF_ACCESS_AUD": "a2de4891796b960888685927a457d87a6e2c81047497196e7d40c5242494ed02"
+	},
+
+	// Still set, so that dashboard-managed variables this file does not declare
+	// survive a deploy rather than being silently deleted.
 	"keep_vars": true
 }

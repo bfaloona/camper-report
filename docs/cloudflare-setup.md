@@ -93,26 +93,30 @@ The workers.dev route is already enabled. If you ever need to re-check the hostn
 under **Settings → Domains & Routes**.
 
 
-## 3. Variables and secrets
+## 3. Variables and secrets ✅ Access vars done 2026-08-16
 
-Worker → **Settings → Variables and Secrets**:
+`CF_ACCESS_TEAM_DOMAIN` and `CF_ACCESS_AUD` live in `wrangler.jsonc` under `vars`, not in
+the dashboard, and are already set. Neither is a secret: request any gated path
+unauthenticated and Cloudflare's 302 to the login page carries the team domain in the
+hostname and the AUD tag in the `kid` query parameter, so a plain `curl` reveals both. They
+say *which* Access application guards this Worker; they grant nothing.
 
-| Name | Type | Value |
-| --- | --- | --- |
-| `CF_ACCESS_TEAM_DOMAIN` | Plaintext | Your Zero Trust team domain, e.g. `something.cloudflareaccess.com` |
-| `CF_ACCESS_AUD` | Plaintext | The Audience (AUD) tag from the step-4 application |
-| `ANTHROPIC_API_KEY` | Secret | Your key from the Anthropic Console |
+Still outstanding, and the only one that is genuinely secret:
 
-The first two are what the auth guard needs; set both or every request 500s with
-"Access verification is not configured". `ANTHROPIC_API_KEY` is only read by `/api/parse`
+```bash
+npx wrangler secret put ANTHROPIC_API_KEY
+```
+
+That prompts for the value and never writes it to disk. It is read only by `/api/parse`
 (turning typed prose into criteria) and can be deferred — without it the rest of the tool
-works and only prose entry returns a "parsing service is not configured" error.
+works and only prose entry returns a "parsing service is not configured" error. Secrets are
+never touched by a deploy.
 
-> **Do not add bindings in the dashboard.** `wrangler.jsonc` is the source of truth for
-> bindings, and a deploy replaces the Worker's entire binding set from that file — a KV
-> binding added here disappears on the next push. The two plaintext vars above survive only
-> because `wrangler.jsonc` sets `keep_vars: true`; without it a deploy would delete them
-> and every request would 500. Secrets are never touched by a deploy either way.
+> **Do not add bindings or Access variables in the dashboard.** `wrangler.jsonc` is the
+> source of truth, and a deploy replaces the Worker's entire binding set from that file — a
+> KV binding added by hand disappears on the next push. `keep_vars: true` is still set so
+> that any *other* dashboard-managed variable survives, but nothing this project needs
+> depends on that.
 
 > **Never set `DEV_BYPASS_EMAIL` here.** It's a local-only development escape hatch. The
 > code only honors it when all three of these hold: `DEV_BYPASS_EMAIL` is set,
@@ -121,15 +125,36 @@ works and only prose entry returns a "parsing service is not configured" error.
 > never serves on a loopback hostname, so a leak into the dashboard can't grant access —
 > but there's no reason to test that.
 
-## 4. Access application
+## 4. Access application ✅ done 2026-08-16
 
-Zero Trust → **Access controls → Applications → Add an application → Self-hosted**.
+Created and verified. Application `Camper Shortlist`, uid `39924a1a-b9f6-49cb-9c3f-ada9a748ef2c`,
+on `camper-report.brandon-eaa.workers.dev`, with one Allow policy for the two owner
+addresses and One-time PIN as the sign-in method.
 
-| Field | Value |
-| --- | --- |
-| Application name | `Camper Shortlist` |
-| Public hostname | `camper-report.brandon-eaa.workers.dev` |
-| Paths | `/shortlist*` **and** `/api/*` |
+**Created through the API, not the dashboard.** The dashboard form refuses to save a public
+destination — see the clientless-isolation error below — so the application was created with
+`POST /accounts/{account}/access/apps`, which simply omits the offending field. That needs a
+token with **Access: Apps and Policies → Edit**. Note that `access/organizations` requires a
+*different* permission, so a token scoped only to Apps and Policies can create the
+application but cannot read the team domain back; take the team domain from the login
+redirect instead (below).
+
+Destinations, all four of them:
+
+```
+camper-report.brandon-eaa.workers.dev/shortlist
+camper-report.brandon-eaa.workers.dev/shortlist/
+camper-report.brandon-eaa.workers.dev/shortlist/*
+camper-report.brandon-eaa.workers.dev/api/*
+```
+
+**`/shortlist/` is listed separately on purpose, and leaving it out is a real hole.** A
+wildcard does not cover its parent, and `/shortlist/*` turns out not to match the bare
+trailing slash either — which is the actual page URL. With only `/shortlist` and
+`/shortlist/*` configured, `/shortlist/` returned 200 to an unauthenticated request. It was
+caught by testing every path individually after the app was created; the app looked
+correctly configured until then. An app is capped at 5 destinations, so there is exactly one
+slot spare.
 
 **Do not gate `/`.** Gating the root puts the public report behind a login and breaks the
 thing you already have working.
@@ -169,7 +194,7 @@ shape either way, `functions/_lib/auth.js` reads the `email` claim from it, and
 Access policy and the code allowlist have to agree — changing one without the other locks
 someone out or, worse, only looks like it let them in.
 
-## 5. Where the AUD tag comes from
+## 5. Where the AUD tag comes from ✅ done 2026-08-16
 
 Access application → **Overview** → **Audience (AUD) tag**. That value goes into
 `CF_ACCESS_AUD` in step 3. It is a long hex string, specific to that one application, and
@@ -180,9 +205,23 @@ failure in this whole setup.
 Variables take effect on the next deployment, so **redeploy after saving them**
 (Deployments → latest → Retry, or `npm run deploy` again).
 
-## 6. Verify — don't skip this
+## 6. Verify
 
-From a signed-out browser or a private window:
+Already checked from the command line, on version `de9307ec`:
+
+| Path | Result |
+| --- | --- |
+| `/shortlist`, `/shortlist/`, `/shortlist/index.html`, `/shortlist/scoring.js`, `/shortlist/prefs.js` | 302 to the Access login |
+| `/api/prefs`, `/api/parse` | 302 to the Access login |
+| `/`, `/vehicles.json`, `/camper-vehicle-comparison` | 200, no login |
+| `https://bfaloona.cloudflareaccess.com/cdn-cgi/access/certs` | 200, two RSA keys, both `alg: RS256` |
+
+That last row matters: `functions/_lib/auth.js` pins the algorithm to RS256 and fetches
+exactly that JWKS endpoint, so the keys it needs are confirmed present and the right type.
+
+**What no command-line check can prove** is the part that needs a real browser session:
+whether a genuine Access token's `aud` and `email` claims match what the guard expects. Do
+these from a signed-out browser or a private window:
 
 1. `https://camper-report.brandon-eaa.workers.dev/` → the report loads, **no login prompt**. If you get a login here, the
    Access application's paths are wrong; fix before continuing.
