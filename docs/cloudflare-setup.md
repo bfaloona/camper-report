@@ -134,6 +134,18 @@ Zero Trust → **Access controls → Applications → Add an application → Sel
 **Do not gate `/`.** Gating the root puts the public report behind a login and breaks the
 thing you already have working.
 
+Add the destination as a **public hostname**. On the **Additional settings** tab, leave
+**Allow clientless access** off — it is only valid for private destinations reached through
+a tunnel, and saving with it on fails with:
+
+```
+access.api.error.invalid_request: use_clientless_isolation_app_launcher_url
+can only be enabled for apps with private destinations
+```
+
+If you see that, the toggle is on, or the destination went in as private rather than
+public. A private destination would not reach the Worker even if the form saved.
+
 Policy:
 
 | Field | Value |
