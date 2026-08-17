@@ -120,10 +120,20 @@
   .foot-note { font-size: 11px; color: var(--ink-3); border-top: 1px solid var(--hairline); padding-top: 8px; margin-top: auto; }
 
   /* Table */
-  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  /* The header was already position:sticky and did nothing. overflow-x:auto makes
+     this box the scroll container for anything sticky inside it, but with no
+     height limit the box never scrolls -- the page does -- so the header had
+     nothing to stick to. Constraining the height makes the table itself the
+     scroller, which is what the sticky header needs. */
+  .table-wrap { overflow: auto; max-height: calc(100vh - 180px); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 12px; }
   table { border-collapse: collapse; width: 100%; min-width: 1080px; font-size: 12.5px; }
   th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--hairline); vertical-align: top; }
-  th { font-size: 11px; color: var(--ink-3); font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none; position: sticky; top: 0; background: var(--surface); }
+  th { font-size: 11px; color: var(--ink-3); font-weight: 600; white-space: nowrap; cursor: pointer;
+    user-select: none; position: sticky; top: 0; z-index: 2; background: var(--surface);
+    /* border-collapse detaches a sticky cell's own border, so the rule scrolls
+       away with the rows; an inset shadow travels with the cell instead. */
+    border-bottom: 0; box-shadow: inset 0 -1px 0 var(--hairline); }
   th.num, td.num { text-align: right; }
   td.num { font-variant-numeric: tabular-nums; }
   th .arrow { font-size: 9px; }
@@ -174,6 +184,14 @@
   <header>
     <h1>Camper Conversion Vehicle Comparison</h1>
     <div class="sub">Passenger cars &amp; vans as camper-conversion platforms · One camping-favored trim per model · Listed year = latest available, generally capped at 2024 · Updated <span id="updated"></span></div>
+    <!-- Hidden by default and revealed only where /shortlist/ is actually
+         served. This file is also published to GitHub Pages, which has no
+         Shortlist, and is opened directly over file:// — a plain link would be
+         a dead end in both. See the host check further down. -->
+    <div class="sub" id="shortlist-link-wrap" hidden>
+      <a href="/shortlist/" id="shortlist-link">Open the Shortlist tool →</a>
+      <span class="foot-note" style="border:0; padding:0; margin:0;">rank these by your own criteria (sign-in required)</span>
+    </div>
   </header>
 
   <div class="controls">
@@ -2955,6 +2973,18 @@ const DATA = /*DATA-START*/{
 }/*DATA-END*/;
 
 /*PURE-START*/
+// This file is served from three places and only one of them has a Shortlist:
+// the Cloudflare Worker. GitHub Pages publishes the same file with no /shortlist
+// path, and it is also opened straight off disk over file://.
+//
+// An allowlist, not a denylist, so an unrecognised host hides the link rather
+// than showing a broken one. A missing link is a small annoyance; a 404 on the
+// public report is a visible defect for every visitor.
+function shortlistAvailable(hostname) {
+  return hostname.endsWith('.workers.dev')
+    || hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+}
+
 // Pinned vehicles are always rendered, whatever the filters say. Extracted as
 // pure functions so scripts/pins.test.mjs can exercise them without a browser.
 const PIN_KEY = 'camper-report:pins';
@@ -3355,6 +3385,9 @@ document.addEventListener('keydown', e => {
 });
 
 document.getElementById('updated').textContent = DATA.updated;
+if (shortlistAvailable(location.hostname)) {
+  document.getElementById('shortlist-link-wrap').hidden = false;
+}
 document.getElementById('footer').innerHTML =
   'Living document — maintained with Claude in the Camper Van project. Source data with full citations lives in the project (<code>vehicles.json</code>). ' +
   'KBB values are regional estimates and drift over time; each record carries a retrieval date. Records unverified for 6+ months should be re-checked before purchase decisions. ' +

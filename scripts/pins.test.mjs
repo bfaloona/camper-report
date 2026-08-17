@@ -15,7 +15,7 @@ const dataBlock = html.match(/const DATA = \/\*DATA-START\*\/([\s\S]*?)\/\*DATA-
 assert.ok(dataBlock, 'index.html must contain a DATA-START ... DATA-END block');
 const DATA = JSON.parse(dataBlock[1]);
 
-const EXPORTS = 'DEFAULT_PINS, loadPins, savePins, togglePin, visibleRows, powertrainMatches';
+const EXPORTS = 'DEFAULT_PINS, loadPins, savePins, togglePin, visibleRows, powertrainMatches, shortlistAvailable';
 
 function load(stored) {
   const store = new Map(stored ? [['camper-report:pins', JSON.stringify(stored)]] : []);
@@ -125,4 +125,17 @@ test('powertrainMatches: a specific powertrain value matches only itself', () =>
   assert.equal(m.powertrainMatches('gas', 'gas'), true);
   assert.equal(m.powertrainMatches('gas', 'hybrid'), false);
   assert.equal(m.powertrainMatches('hybrid', 'gas'), false);
+});
+
+test('the Shortlist link only appears where /shortlist/ is actually served', () => {
+  // index.html is published to GitHub Pages (no Shortlist) and opened over
+  // file:// (hostname ''), as well as served by the Worker. An allowlist means
+  // an unrecognised host hides the link instead of showing a 404 to the public.
+  const { shortlistAvailable } = load();
+  for (const host of ['camper-report.brandon-eaa.workers.dev', 'localhost', '127.0.0.1']) {
+    assert.equal(shortlistAvailable(host), true, `${host} should show the link`);
+  }
+  for (const host of ['bfaloona.github.io', '', 'example.com', 'workers.dev.evil.com']) {
+    assert.equal(shortlistAvailable(host), false, `${host} must NOT show the link`);
+  }
 });
