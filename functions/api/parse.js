@@ -85,7 +85,10 @@ export function validateCriteria(raw) {
   return out;
 }
 
-const SCHEMA = {
+// Exported for tests only. The structured-outputs endpoint validates this
+// schema server-side and rejects the whole request on a violation, so a defect
+// here is invisible until a live call fails -- which is how `value: {}` shipped.
+export const SCHEMA = {
   type: 'object',
   properties: {
     criteria: {
@@ -105,7 +108,23 @@ const SCHEMA = {
                 properties: {
                   field: { type: 'string', enum: FIELD_IDS },
                   op: { type: 'string', enum: [...NUMERIC_OPS, ...ENUM_OPS] },
-                  value: {},
+                  // Every branch needs a concrete type: structured outputs
+                  // reject `{}` outright ("Empty schema that accepts any JSON
+                  // value is not supported"), which fails the whole request
+                  // with a 400 rather than degrading. The union mirrors what
+                  // validRule accepts -- a number for most numeric ops, a
+                  // string for enum equality, an array for `between` (two
+                  // numbers) and for enum `in`/`not_in` (strings). This shape
+                  // is a hint to the model, not a guarantee: validRule is
+                  // still the gate, and anything it rejects becomes a manual
+                  // criterion.
+                  value: {
+                    anyOf: [
+                      { type: 'number' },
+                      { type: 'string' },
+                      { type: 'array', items: { anyOf: [{ type: 'number' }, { type: 'string' }] } },
+                    ],
+                  },
                 },
                 required: ['field', 'op', 'value'],
                 additionalProperties: false,
@@ -181,7 +200,13 @@ export async function onRequestPost({ request, env }) {
       messages: [{ role: 'user', content: text }],
     });
   } catch (e) {
-    console.error('parse: upstream failure', e?.name, e?.status);
+    // The message is logged, unlike in the auth guard, because an upstream
+    // failure here is otherwise undiagnosable: a 400 says the request body was
+    // rejected without saying which field, and the status alone sent a real
+    // debugging session down a wrong path. Anthropic's error body describes the
+    // rejected request, never the credential -- the key travels in a header the
+    // response does not echo. Truncated so a long body can't flood the log.
+    console.error('parse: upstream failure', e?.name, e?.status, String(e?.message ?? '').slice(0, 400));
     return json({ error: 'Could not reach the parsing service. Add criteria by hand and try again later.' }, 502);
   }
 

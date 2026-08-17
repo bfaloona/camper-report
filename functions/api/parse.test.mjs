@@ -161,3 +161,31 @@ test('an unauthenticated request never reaches the API key check (401/403 before
   const res = await onRequestPost({ request: parseReq('under 195 inches long'), env });
   assert.ok([401, 403].includes(res.status), `expected 401 or 403, got ${res.status}`);
 });
+
+test('the output schema declares a concrete type everywhere', async () => {
+  // Structured outputs reject an empty schema `{}` with a 400 naming the field,
+  // and the failure is invisible until a live API call is made -- no local test
+  // exercised it, so `value: {}` shipped and every parse attempt failed.
+  const { SCHEMA } = await import('./parse.js');
+  const offenders = [];
+  const walk = (node, path) => {
+    if (!node || typeof node !== 'object' || Array.isArray(node)) return;
+    const keys = Object.keys(node);
+    if (keys.length === 0) { offenders.push(path); return; }
+    // A schema node is concrete if it says what it is, or defers to a combinator.
+    const isSchemaNode = 'type' in node || 'anyOf' in node || 'oneOf' in node
+      || 'allOf' in node || 'enum' in node || '$ref' in node;
+    const isContainer = path.endsWith('.properties') || path.endsWith('.items');
+    if (!isSchemaNode && !isContainer && ('properties' in node) === false
+        && path !== '' && !path.endsWith(']')) {
+      // A node under `properties` that declares nothing concrete.
+      if (path.includes('.properties.')) offenders.push(path);
+    }
+    for (const [k, v] of Object.entries(node)) {
+      if (Array.isArray(v)) v.forEach((el, i) => walk(el, `${path}.${k}[${i}]`));
+      else walk(v, `${path}.${k}`);
+    }
+  };
+  walk(SCHEMA, '');
+  assert.deepEqual(offenders, [], `schema nodes with no concrete type: ${offenders.join(', ')}`);
+});
