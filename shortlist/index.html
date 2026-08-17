@@ -172,7 +172,15 @@
    report styles here, add them there and re-sync. */
 .crit-row { display: grid; grid-template-columns: 1fr 130px 1fr 90px 70px 32px; gap: 8px;
   align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
-.crit-row .rule { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #555; }
+.crit-row .rule { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--ink-2);
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+/* Inputs inside the rule stay small enough that the row keeps its grid columns —
+   the rule column is 1fr and a default-width number input would blow it out. */
+.crit-row .rule input[type="number"] { width: 5.5em; font: inherit; padding: 2px 4px;
+  border: 1px solid var(--hairline); border-radius: 6px;
+  background: var(--surface); color: var(--ink-1); }
+.crit-row .rule select { font: inherit; padding: 2px 4px; max-width: 11em; }
+.crit-row .rule select[multiple] { height: auto; min-height: 2.2em; }
 .crit-row.manual .rule { font-style: italic; color: var(--unk-ink); }
 /* An unenforced must-have is the one state that can mislead you about your own
    results, so the summary says so in the same colour the row badge uses. */
@@ -228,7 +236,8 @@
       placeholder="Under 195 inches long. Maximum standard safety features. AWD would be nice. Nothing that looks like a contractor van."></textarea>
     <button id="btn-parse">Add criteria from this</button>
     <span id="parse-status" class="saving"></span>
-    <p class="why">Everything it produces is editable below — fix anything it gets wrong.</p>
+    <p class="why">Edit anything it gets wrong below — the threshold and the comparison are
+      editable, not just the name. Wants the data can't check land in Notes instead.</p>
   </section>
 
   <section id="criteria-section">
@@ -440,7 +449,7 @@ function renderTable(rows) {
 </script>
 
 <script type="module">
-import { rankVehicles, FIELDS } from './scoring.js';
+import { rankVehicles, FIELDS, fieldValue } from './scoring.js';
 import { loadPrefs, savePrefs, parseProse } from './prefs.js';
 
 let prefs = null;
@@ -500,6 +509,7 @@ async function boot() {
   // Older blobs predate notes entirely, so this is absent rather than empty.
   if (typeof prefs.notes !== 'string') prefs.notes = '';
   vehicles = dataResult.vehicles;
+  computeEnumValues();
 
   // Criteria saved before notes existed can be inert — they filter nothing and
   // score nothing while still occupying a row with a tier and a weight. Move
@@ -579,27 +589,78 @@ function reRank(criteria) {
   });
 }
 
-// `c` may be untrusted data loaded back from KV (/api/prefs stores criteria
-// verbatim, checking only that the top-level value is an array — see
-// functions/api/prefs.js). A criterion can have kind !== 'manual' yet a null
-// or malformed `rule` (an older shape, hand-edited KV, etc.), so this must
-// not assume `c.rule.field` exists.
 // Tiers that would filter, if the criterion had a rule the scorer could read.
 const GATE_TIERS = new Set(['must-have', 'deal-breaker']);
+// A criterion may arrive from KV malformed: /api/prefs stores criteria verbatim
+// and checks only that the top-level value is an array, so `kind` can disagree
+// with `rule`. Never assume `c.rule.field` exists.
 const isInert = c => c.kind === 'manual' || !c.rule || typeof c.rule !== 'object';
 
-function ruleText(c) {
-  // "judge by hand" undersold this: an inert criterion does not filter AND does
-  // not score, so a must-have with no rule looked like it was ruling vehicles
-  // out while doing nothing at all. Say which, and say it louder when the tier
-  // promises filtering.
-  if (isInert(c)) {
-    return GATE_TIERS.has(c.tier) ? 'not filtering — judge by hand' : 'not scored — judge by hand';
+// Allowed values per enum field, derived from the loaded dataset rather than
+// duplicating the vocabulary that already lives in parse.js. A value no vehicle
+// has is not worth offering as a filter, and a derived list cannot drift from
+// the data the way a second hardcoded constant would.
+let ENUM_VALUES = {};
+function computeEnumValues() {
+  ENUM_VALUES = {};
+  for (const [id, f] of Object.entries(FIELDS)) {
+    if (f.type !== 'enum') continue;
+    const seen = new Set();
+    for (const v of vehicles) {
+      const x = fieldValue(v, id);
+      if (x !== null && x !== undefined) seen.add(x);
+    }
+    ENUM_VALUES[id] = [...seen].sort();
   }
-  const f = FIELDS[c.rule.field]?.label ?? c.rule.field ?? '?';
-  if (c.rule.direction) return `${f}: ${c.rule.direction === 'higher' ? 'more is better' : 'less is better'}`;
-  const value = Array.isArray(c.rule.value) ? c.rule.value.join('–') : c.rule.value;
-  return `${f} ${c.rule.op ?? '?'} ${value ?? '?'}`;
+}
+
+// The rule used to be read-only text while the *label* was editable — exactly
+// backwards. The label is cosmetic; the rule is what filters. A parser that read
+// "about 195 inches" as `< 193` could not be corrected at all, while the page
+// promised "fix anything it gets wrong".
+//
+// Only the parts that can be changed safely are inputs. The field itself stays
+// fixed: swapping `length_in` for `powertrain` would invalidate the operator and
+// the value together, and re-typing the prose is the better path for that.
+function ruleControls(c) {
+  if (isInert(c)) {
+    return esc(GATE_TIERS.has(c.tier) ? 'not filtering — judge by hand' : 'not scored — judge by hand');
+  }
+  const f = esc(FIELDS[c.rule.field]?.label ?? c.rule.field ?? '?');
+
+  if (c.rule.direction) {
+    return `${f}: <select class="c-dir" aria-label="Direction">
+      <option value="higher"${c.rule.direction === 'higher' ? ' selected' : ''}>more is better</option>
+      <option value="lower"${c.rule.direction === 'lower' ? ' selected' : ''}>less is better</option>
+    </select>`;
+  }
+
+  const field = FIELDS[c.rule.field];
+  if (field?.type === 'enum') {
+    // Enum values are a fixed vocabulary, so a multi-select is both editable and
+    // impossible to put into an invalid state by typing.
+    const allowed = ENUM_VALUES[c.rule.field] ?? [];
+    const chosen = new Set(Array.isArray(c.rule.value) ? c.rule.value : [c.rule.value]);
+    if (!allowed.length) return `${f} ${esc(c.rule.op ?? '?')} ${esc(String(c.rule.value))}`;
+    return `${f} ${esc(c.rule.op ?? 'in')}
+      <select class="c-enum" multiple size="1" aria-label="Allowed values">
+        ${allowed.map(v => `<option value="${esc(v)}"${chosen.has(v) ? ' selected' : ''}>${esc(v)}</option>`).join('')}
+      </select>`;
+  }
+
+  if (c.rule.op === 'between' && Array.isArray(c.rule.value)) {
+    return `${f} between
+      <input class="c-val" data-idx="0" type="number" value="${esc(String(c.rule.value[0]))}" aria-label="Lower bound">
+      –
+      <input class="c-val" data-idx="1" type="number" value="${esc(String(c.rule.value[1]))}" aria-label="Upper bound">`;
+  }
+
+  return `${f}
+    <select class="c-op" aria-label="Operator">
+      ${['<', '<=', '>', '>=', '==', '!='].map(o =>
+        `<option value="${esc(o)}"${o === c.rule.op ? ' selected' : ''}>${esc(o)}</option>`).join('')}
+    </select>
+    <input class="c-val" type="number" value="${esc(String(c.rule.value ?? ''))}" aria-label="Value">`;
 }
 
 function renderCriteria() {
@@ -611,7 +672,7 @@ function renderCriteria() {
         ${['must-have', 'nice-to-have', 'dislike', 'deal-breaker']
           .map(t => `<option value="${t}"${t === c.tier ? ' selected' : ''}>${t}</option>`).join('')}
       </select>
-      <span class="rule" title="${esc(c.source_text)}">${esc(ruleText(c))}</span>
+      <span class="rule" title="${esc(c.source_text)}">${ruleControls(c)}</span>
       <input class="c-weight" type="number" min="1" max="5" value="${Number.isFinite(c.weight) ? c.weight : 1}" aria-label="Weight">
       <span><button class="c-up" aria-label="Move up">▲</button><button class="c-down" aria-label="Move down">▼</button></span>
       <button class="c-del" aria-label="Delete criterion">✕</button>
@@ -762,7 +823,36 @@ document.getElementById('criteria').addEventListener('input', e => {
     c.weight = Math.min(5, Math.max(1, Number(e.target.value) || 1));
     c.weight_locked = true;
   }
+
+  // Rule edits. Each guards `c.rule` because a criterion can arrive from KV
+  // malformed — /api/prefs stores criteria verbatim and validates only that the
+  // top level is an array.
+  if (e.target.classList.contains('c-op') && c.rule) c.rule.op = e.target.value;
+  if (e.target.classList.contains('c-dir') && c.rule) c.rule.direction = e.target.value;
+  if (e.target.classList.contains('c-enum') && c.rule) {
+    const picked = [...e.target.selectedOptions].map(o => o.value);
+    // An empty set would match nothing and silently exclude every vehicle, which
+    // reads as a broken page rather than a filter. Keep the last good value.
+    if (picked.length) c.rule.value = picked;
+  }
+  if (e.target.classList.contains('c-val') && c.rule) {
+    const n = Number(e.target.value);
+    // Mid-typing states ("", "-", "1.") are not errors to shout about, they are
+    // just not applicable yet — leave the rule alone until the value parses.
+    if (e.target.value.trim() !== '' && Number.isFinite(n)) {
+      const idx = e.target.dataset.idx;
+      if (idx === undefined) {
+        c.rule.value = n;
+      } else if (Array.isArray(c.rule.value)) {
+        c.rule.value = c.rule.value.slice();
+        c.rule.value[Number(idx)] = n;
+      }
+    }
+  }
+
   scheduleSave();
+  // Deliberately not renderCriteria(): rebuilding the row mid-edit would blow
+  // away focus and the caret, so typing "195" would stop after the first key.
   renderResults();
 });
 
