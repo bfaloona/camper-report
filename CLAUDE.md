@@ -10,8 +10,11 @@ build step, no framework, no dependencies — just data plus one self-contained 
 | `vehicles.json` | **Source of truth.** One record per vehicle-generation, deeply researched with sources. |
 | `index.html` | The report. Embeds a render-trimmed copy of the data and renders it with vanilla JS. |
 | `camper-vehicle-comparison.html` | **Byte-for-byte identical to `index.html`.** Keep them in sync. |
-| `scripts/sync_vehicles.py` | Propagates `vehicles.json` into the embedded data in both HTML files. |
+| `scripts/sync_vehicles.py` | Propagates `vehicles.json` into the embedded data in both HTML files, and syncs `index.html`'s presentation into `shortlist/index.html`. |
 | `.claude/skills/add-vehicle/` | Skill: how to research and add a new vehicle record. |
+| `shortlist/` | The Shortlist tool: a preference-driven ranking view over the same dataset. See below. |
+| `functions/` | Cloudflare Pages Functions backing the Shortlist tool's `/api/*` endpoints and Access auth guard. See below. |
+| `docs/cloudflare-setup.md` | One-time Cloudflare dashboard runbook for the Shortlist deployment. |
 
 There is no bundler or generator: `index.html` ships the data inline. The two HTML
 files must stay identical — every change to one must be mirrored in the other (the
@@ -92,14 +95,78 @@ complete — match that). Measurements are in inches; money in USD. Key conventi
 To add a vehicle, use the **add-vehicle** skill (`.claude/skills/add-vehicle/SKILL.md`),
 which carries the full field checklist and the exact edit-and-sync procedure.
 
+## The Shortlist tool (`shortlist/`)
+
+A preference-driven ranking view over the same dataset, deployed only on Cloudflare
+Pages (never GitHub Pages) and gated by Cloudflare Access to two accounts. Both accounts
+read and write one shared preferences blob in Workers KV (`prefs:v1`), so there is no
+per-user state — one person's saved criteria and pins are the other's too.
+
+| File | Role |
+| --- | --- |
+| `shortlist/index.html` | The page. Its `/*STYLE-*/` and `/*RENDER-*/` blocks are **copies** — edit `index.html` and re-run `--shared`. |
+| `shortlist/scoring.js` | Pure scoring: field vocabulary (`FIELDS`), hard gates, weighted ranking. Unit-tested. |
+| `shortlist/prefs.js` | Client for `/api/prefs` and `/api/parse`, including the etag conflict guard. |
+| `functions/api/prefs.js` | GET/PUT the shared blob in KV. |
+| `functions/api/parse.js` | Prose → criteria via `claude-opus-5`, validated against the field vocabulary (`FIELD_IDS`). |
+| `functions/_lib/auth.js` | Verifies the Cloudflare Access JWT signature and checks the email allowlist. |
+
+Things that will bite you if you don't know them:
+
+- **The two field vocabularies must stay in sync.** `functions/api/parse.js` exports
+  `FIELD_IDS` (fields the parser may emit); `shortlist/scoring.js` exports `FIELDS`
+  (fields the scorer can resolve). If they drift, a criterion can name a field the
+  scorer can't read, and it **silently never scores** — no error, just a preference that
+  quietly does nothing. `shortlist/scoring.test.mjs` ("every field the parser can emit
+  is one the scorer can read") enforces `FIELD_IDS ⊆ FIELDS`. Adding a scoreable
+  attribute means adding it to `NUMERIC_FIELDS`/`ENUM_FIELDS` in `parse.js` (`FIELD_IDS`
+  is derived from those) **and** to `FIELDS` in `scoring.js`.
+- **EV fuel economy is not MPG.** For `powertrain: "ev"` records, `mpg.city`/`mpg.hwy`
+  hold EPA MPGe, not MPG. `FIELDS.mpg_city`/`mpg_hwy` deliberately return `null` for EVs
+  so an MPG criterion treats them as no data instead of ranking an EV first on
+  "efficiency" against gas vehicles. Don't "fix" that null.
+- **Scores are normalized over the surviving (non-excluded) vehicle set**, not a fixed
+  scale — the top of a filtered list reads close to 100 regardless of the filter, and a
+  score is not comparable between sessions with different criteria. Deliberate.
+- **The `/*STYLE-*/`/`/*RENDER-*/` blocks in `shortlist/index.html` are copies of
+  `index.html`'s, not a shared module.** They're copied instead of imported because the
+  report must keep working when opened directly over `file://`, where the browser
+  blocks ES module imports — the Shortlist page doesn't have that constraint (see next
+  point), but sharing the presentation this way meant not rewriting it twice.
+- **The synced render block expects host-page globals it doesn't declare.** It reads
+  `state.pins`/`state.selected`/`state.sortKey`/`state.sortDir` and calls a global
+  `render()`; it also calls `loadPins()` at load time, which lives outside the copied
+  markers in `index.html`. Any new page consuming these blocks needs to supply those
+  shims. `window.state = {...}` does **not** work — a classic `<script>`'s `let state`
+  shadows an identically-named `window` property — so mutate the existing `state`
+  object's fields in place instead of replacing it.
+- **Stored criteria are untrusted on read.** `PUT /api/prefs` validates only that
+  `prefs.criteria` and `prefs.pins` are arrays, not the shape of each criterion, by
+  design — `/api/parse`'s `validateCriteria` owns that schema. Anything that reads the
+  blob back must tolerate malformed entries rather than assume they're well-formed.
+- **Local development:** `npx wrangler pages dev .`, with `DEV_BYPASS_EMAIL` set in
+  `.dev.vars` (git-ignored). The bypass only activates when `DEV_BYPASS_EMAIL` is set,
+  `CF_ACCESS_AUD` is absent, and the request host is loopback. Unlike the report, **the
+  Shortlist page cannot be opened over `file://`** — it calls `/api/prefs`, `/api/parse`,
+  and `/vehicles.json` as same-origin relative paths with no CORS handling, because in
+  production it's always same-origin behind Access.
+- **Deployment** is two targets from one repo: the public report stays on GitHub Pages,
+  unauthenticated; the same repo plus `/api/*` and `/shortlist` is also deployed to
+  Cloudflare Pages behind Cloudflare Access, restricted to two email addresses. See
+  `docs/cloudflare-setup.md` for the one-time dashboard setup — not duplicated here.
+
 ## House rules
 
 - `vehicles.json` is authoritative; the HTML data block is derived. Edit the JSON, sync the HTML.
 - Keep `index.html` and `camper-vehicle-comparison.html` identical.
 - Bump the top-level `updated` and each record's `last_verified` when you change data.
 - Every factual field should be defensible from a URL in that record's `sources`.
-- Verify locally by running `python3 scripts/sync_vehicles.py --check` and opening
-  `index.html` in a browser (it is fully static — no server needed).
+- Verify locally by running `python3 scripts/sync_vehicles.py --check` (also enforces
+  that `index.html` and `camper-vehicle-comparison.html` are byte-for-byte identical,
+  and runs `--check-shared`) and opening `index.html` in a browser (it is fully static
+  — no server needed).
+- Run `npm test` before committing any change under `functions/`, `shortlist/`, or
+  `scripts/` — it runs the whole `node --test` suite (auth, prefs, parse, scoring, pins).
 - Pinned vehicles (`localStorage` key `camper-report:pins`, defaults in the `/*PURE-START*/`
   block) are always rendered regardless of filters; sorting is unaffected. The pure helpers
   in that block are unit-tested by `node --test scripts/pins.test.mjs` — keep them free of
