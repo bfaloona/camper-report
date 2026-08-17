@@ -28,7 +28,7 @@ function json(body, status = 200) {
 }
 
 export async function onRequestGet({ request, env }) {
-  const { response } = await requireUser(request, env);
+  const { email, response } = await requireUser(request, env);
   if (response) return response;
 
   let stored;
@@ -50,10 +50,14 @@ export async function onRequestGet({ request, env }) {
     return json({
       prefs: EMPTY,
       etag: await etagOf(fallbackText),
+      email,
       warning: 'Stored preferences were corrupted; showing defaults.',
     });
   }
-  return json({ prefs, etag: await etagOf(text) });
+  // `email` is the caller's own signed-in identity (from the verified Access
+  // JWT), distinct from `prefs.updated_by` (who last saved) — a shared tool
+  // needs both shown, not just one standing in for the other.
+  return json({ prefs, etag: await etagOf(text), email });
 }
 
 // Known limitation: Workers KV has no compare-and-swap, so this endpoint's

@@ -190,6 +190,8 @@
   <header>
     <h1>Shortlist</h1>
     <div class="sub" id="who"></div>
+    <div class="sub" id="last-saved"></div>
+    <div><span id="kv-warning" class="violation" hidden></span></div>
   </header>
 
   <main>
@@ -430,16 +432,46 @@ state.sortDir = 1;
 window.state = state;   // alias only, for debugging — not load-bearing
 window.render = render;
 
+// Untrusted data loaded back from KV (/api/prefs validates only that
+// `criteria` is an array — see functions/api/prefs.js). Two shapes need to
+// be swept before anything renders: a non-object entry (`[null]` is
+// storable) would crash renderCriteria's `.map` outright, and a missing
+// `id` would render `data-id="undefined"` — every row's click handler would
+// then resolve to `findIndex(...) === -1`, and the delete button's
+// `splice(-1, 1)` deletes the *last* criterion instead of doing nothing.
+function sanitizeCriteria(list) {
+  if (!Array.isArray(list)) return [];
+  return list
+    .filter(c => c && typeof c === 'object')
+    .map(c => c.id ? c : { ...c, id: `c_${Date.now()}_${Math.random().toString(36).slice(2, 6)}` });
+}
+
+function renderLastSaved() {
+  document.getElementById('last-saved').textContent = prefs.updated_by
+    ? `Last saved by ${prefs.updated_by} on ${new Date(prefs.updated_at).toLocaleString()}`
+    : 'No preferences saved yet.';
+}
+
 async function boot() {
   const [prefsResult, dataResult] = await Promise.all([
     loadPrefs(),
     fetch('/vehicles.json').then(r => r.json()),
   ]);
-  prefs = prefsResult;
+  prefs = prefsResult.prefs;
+  prefs.criteria = sanitizeCriteria(prefs.criteria);
   vehicles = dataResult.vehicles;
-  document.getElementById('who').textContent = prefs.updated_by
-    ? `Last saved by ${prefs.updated_by} on ${new Date(prefs.updated_at).toLocaleString()}`
-    : 'No preferences saved yet.';
+  // Signed-in identity and "who last saved" are different facts on a tool
+  // two people share — show both rather than letting one stand in for the
+  // other.
+  document.getElementById('who').textContent = prefsResult.email
+    ? `Signed in as ${prefsResult.email}`
+    : '';
+  renderLastSaved();
+  if (prefsResult.warning) {
+    const w = document.getElementById('kv-warning');
+    w.textContent = prefsResult.warning;
+    w.hidden = false;
+  }
   render();
 }
 
@@ -450,7 +482,20 @@ function scheduleSave() {
   status.textContent = 'Saving…';
   saveTimer = setTimeout(async () => {
     try {
-      prefs = await savePrefs(prefs);
+      // Only take the server-authoritative fields (who/when saved) and let
+      // savePrefs() update its own module-scoped etag — never replace the
+      // live `prefs` object wholesale. `savePrefs` echoes back exactly the
+      // snapshot it was sent, but by the time it resolves the user may have
+      // made further edits directly on this same object (that's the point
+      // of mutating in place rather than copying). `prefs = saved` would
+      // look harmless but silently discards those edits from memory — the
+      // DOM would still show them, memory would not, and this criterion's
+      // own next debounced save would then persist the *reverted* state
+      // under a fresh etag, with no error and no 409 to catch it.
+      const saved = await savePrefs(prefs);
+      prefs.updated_at = saved.updated_at;
+      prefs.updated_by = saved.updated_by;
+      renderLastSaved();
       status.textContent = 'Saved';
     } catch (err) {
       status.textContent = err.message;
@@ -591,6 +636,7 @@ document.getElementById('criteria').addEventListener('input', e => {
   const row = e.target.closest('.crit-row');
   if (!row) return;
   const c = prefs.criteria.find(x => x.id === row.dataset.id);
+  if (!c) return; // row's id has no matching criterion — nothing safe to edit
   if (e.target.classList.contains('c-label')) c.label = e.target.value;
   if (e.target.classList.contains('c-tier')) c.tier = e.target.value;
   if (e.target.classList.contains('c-weight')) {
@@ -606,6 +652,11 @@ document.getElementById('criteria').addEventListener('click', e => {
   if (!row) return;
   const list = prefs.criteria;
   const i = list.findIndex(x => x.id === row.dataset.id);
+  // A row with no matching criterion must never fall through to splice/swap:
+  // `splice(-1, 1)` deletes the *last* item, not "none", so an unmatched row
+  // would silently corrupt whatever criterion happens to be at the end of
+  // the list instead of doing nothing.
+  if (i === -1) return;
   if (e.target.classList.contains('c-up') && i > 0) {
     [list[i - 1].rank, list[i].rank] = [list[i].rank, list[i - 1].rank];
   } else if (e.target.classList.contains('c-down') && i < list.length - 1) {

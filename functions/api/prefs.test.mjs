@@ -78,6 +78,15 @@ test('onRequestGet falls back to defaults and says so when the stored value is c
   assert.match(body.warning, /corrupted/i);
 });
 
+test('onRequestGet returns the caller\'s own authenticated email, not just who last saved', async () => {
+  const kv = makeKv();
+  const env = makeEnv(kv);
+  const res = await onRequestGet({ request: getReq(), env });
+  assert.equal(res.status, 200);
+  const body = await res.json();
+  assert.equal(body.email, 'bfaloona@gmail.com');
+});
+
 test('PUT drops unexpected top-level keys before writing to KV', async () => {
   const kv = makeKv();
   const putCalls = [];

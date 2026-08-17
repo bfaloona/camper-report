@@ -2,12 +2,17 @@
 // editing at once from silently overwriting each other.
 let etag = null;
 
+// Returns { prefs, email, warning }: `email` is the caller's own signed-in
+// identity (distinct from prefs.updated_by, who last saved); `warning` is set
+// when the stored blob was corrupted and defaults were served instead — the
+// server sends it specifically so this doesn't fail silently, so callers must
+// not drop it.
 export async function loadPrefs() {
   const res = await fetch('/api/prefs', { credentials: 'same-origin' });
   if (!res.ok) throw new Error(`Could not load preferences (${res.status})`);
   const body = await res.json();
   etag = body.etag;
-  return body.prefs;
+  return { prefs: body.prefs, email: body.email, warning: body.warning };
 }
 
 export async function savePrefs(prefs) {
