@@ -1,6 +1,6 @@
 {
   "$schema_note": "Source of truth for the Camper Van comparison report. One record per vehicle-generation. listed_year = min(latest model year available, 2024), except for models not sold in the US in or before 2024, which use their first US model year. All measurements in inches. Update last_verified whenever a record is re-researched.",
-  "updated": "2026-08-16",
+  "updated": "2026-08-17",
   "vehicles": [
     {
       "id": "toyota-rav4-hybrid-xa50",
@@ -91,7 +91,7 @@
       },
       "trim_rationale": "Camping communities prefer the Hybrid for overnight HVAC (engine auto-cycles) and 41 mpg; XLE is the value pick in build threads — adds blind-spot monitoring, dual-zone climate over LE for ~$1,500.",
       "model_url": "https://www.toyota.com/rav4hybrid/",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 69.8,
         "config": "Behind front row, 60/40 rear seatbacks folded (37.5 behind rear seats)",
@@ -129,9 +129,36 @@
         "https://www.kbb.com/toyota/rav4-hybrid/2024/xle-sport-utility-4d/",
         "https://rav4resource.com/sleeping-in-a-toyota-rav4/",
         "https://www.toyota.com/content/dam/toyota/brochures/pdf/2024/rav4_ebrochure.pdf",
-        "https://www.rav4world.com/threads/2019-rav4-camper-conversion-sleeping-platform.319440/"
+        "https://www.rav4world.com/threads/2019-rav4-camper-conversion-sleeping-platform.319440/",
+        "https://www.autoroamer.com/posts/can-you-sleep-in-a-toyota-rav4-car-camping-guide.html",
+        "https://support.toyota.com",
+        "https://www.edmunds.com/toyota/rav4-hybrid/2024/features-specs/",
+        "https://www.toyotaofeasley.com/2024-rav4/"
       ],
-      "notes": "MPG 41/38 applies to all 2024 hybrid trims except Woodland. KBB values regional (pulled ZIP 43085)."
+      "notes": "MPG 41/38 applies to all 2024 hybrid trims except Woodland. KBB values regional (pulled ZIP 43085).",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": false,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": false,
+        "roof_rails": null,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "uneven",
+        "rear_seat_fold_note": "Folding the 60/40 rear seatbacks leaves a step-and-footwell profile rather than a continuous flat deck, so campers typically add a mattress topper or platform to level the sleeping surface.",
+        "source": "https://www.autoroamer.com/posts/can-you-sleep-in-a-toyota-rav4-car-camping-guide.html",
+        "field_sources": {
+          "remote_start": "https://support.toyota.com",
+          "ventilated_front_seats": "https://www.edmunds.com/toyota/rav4-hybrid/2024/features-specs/",
+          "cargo_area_power_outlet": "https://www.toyotaofeasley.com/2024-rav4/",
+          "fold_flat_front_passenger_seat": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2024/rav4_ebrochure.pdf"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "ford-transit-connect-gen2",
@@ -222,7 +249,7 @@
       },
       "trim_rationale": "Titanium was the top US trim, offered only as the long-wheelbase (120.6 in) passenger wagon with rear liftgate.",
       "model_url": "https://www.kbb.com/ford/transit-connect-passenger-wagon/",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 106.0,
         "config": "LWB wagon, 2nd+3rd rows folded flat into floor",
@@ -261,9 +288,37 @@
         "https://www.cars.com/research/ford-transit_connect-2023/specs/432080/",
         "https://fordauthority.com/2023/03/ford-transit-connect-officially-dead-after-2023-model-year/",
         "https://fordtransitconnectforum.com/topic/8441-connect-wagon-cargo-dimensions/",
-        "https://vandimensions.com/database/ford/connect-2013"
+        "https://vandimensions.com/database/ford/connect-2013",
+        "https://vehicles.dorianford.com/models/2023/ford-transit-connect-titanium-passenger-wagon",
+        "https://www.wheelsjoint.com",
+        "https://www.kbb.com/ford/transit-connect/",
+        "none",
+        "https://www.reddit.com/r/FordTransitConnect/comments/17or1h9/folding_front_passengers_seat_flat/"
       ],
-      "notes": "2.0L GDI I4, 162 hp, 8-sp auto, FWD only. Dashboard/cargo photos unavailable from stable sources (Commons has none for 2nd gen; Edmunds CDN blocks hotlinking) — find replacements later."
+      "notes": "2.0L GDI I4, 162 hp, 8-sp auto, FWD only. Dashboard/cargo photos unavailable from stable sources (Commons has none for 2nd gen; Edmunds CDN blocks hotlinking) — find replacements later.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": false,
+        "roof_rails": false,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": null,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "removable",
+        "rear_seat_fold_note": "Second- and third-row seats fold flat in place, but full removal requires unbolting each 2nd-row seat (four T50 Torx bolts per seat) rather than a tool-free release, and the bare floor underneath is uneven — owners commonly add plywood and matting to get a level sleeping surface.",
+        "source": "https://vehicles.dorianford.com/models/2023/ford-transit-connect-titanium-passenger-wagon",
+        "field_sources": {
+          "remote_start": "https://www.wheelsjoint.com",
+          "ventilated_front_seats": "https://www.kbb.com/ford/transit-connect/",
+          "cargo_area_power_outlet": "none",
+          "fold_flat_front_passenger_seat": "https://www.reddit.com/r/FordTransitConnect/comments/17or1h9/folding_front_passengers_seat_flat/"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "honda-odyssey-rl6",
@@ -355,7 +410,7 @@
       },
       "trim_rationale": "Entry trim of the 2024 lineup — cheapest, most plentiful used; identical V6, dimensions, and Honda Sensing as upper trims. Conversion kits fit all 2018+ trims. Note: Magic Slide 2nd-row seats are heavy (~68 lb each) to remove and leave bracket humps in the floor.",
       "model_url": "https://automobiles.honda.com/odyssey",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 158.0,
         "config": "2nd row removed + 3rd row stowed in floor well (144.9 std / 158.0 max)",
@@ -393,9 +448,37 @@
         "https://hondanews.com/en-US/honda-automobiles/releases/release-5003aaa39c009393f5d06d620f00fe4b-2024-honda-odyssey-specs",
         "https://www.autoroamer.com/posts/honda-odyssey-cargo-dimensions-for-sleeping.html",
         "https://www.thewaywardhome.com/honda-odyssey-camper-conversion/",
-        "https://odysseycamper.com/honda-odyssey-interior-measurements/"
+        "https://odysseycamper.com/honda-odyssey-interior-measurements/",
+        "https://www.hondainfocenter.com/2024/Odyssey/Feature-Guide/Specifications/",
+        "https://www.hondaofnewrochelle.com",
+        "https://www.edmunds.com/honda/odyssey/2024/features-specs/",
+        "https://www.odyclub.com/threads/2019-ex-l-third-row-and-cargo-area-12v-outlets-not-working.87455/",
+        "https://cdn.dealereprocess.org/cdn/brochures/honda/2024-odyssey.pdf"
       ],
-      "notes": "Height 69.6 per hondanews 2024 spec (some sources 68.3 w/o rails). 2024 lineup starts at EX-L (LX/EX dropped)."
+      "notes": "Height 69.6 per hondanews 2024 spec (some sources 68.3 w/o rails). 2024 lineup starts at EX-L (LX/EX dropped).",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": true,
+        "roof_rails": false,
+        "power_liftgate": true,
+        "remote_start": true,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "uneven",
+        "rear_seat_fold_note": "With the 3rd-row Magic Seat stowed into its floor well and the 2nd-row Magic Slide seats physically removed (not folded in place), the resulting cargo floor isn't perfectly flat; camper-conversion builders commonly add a custom-leveled platform.",
+        "source": "https://www.hondainfocenter.com/2024/Odyssey/Feature-Guide/Specifications/",
+        "field_sources": {
+          "remote_start": "https://www.hondaofnewrochelle.com",
+          "ventilated_front_seats": "https://www.edmunds.com/honda/odyssey/2024/features-specs/",
+          "cargo_area_power_outlet": "https://www.odyclub.com/threads/2019-ex-l-third-row-and-cargo-area-12v-outlets-not-working.87455/",
+          "fold_flat_front_passenger_seat": "https://cdn.dealereprocess.org/cdn/brochures/honda/2024-odyssey.pdf"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "mazda5-gen3",
@@ -464,7 +547,7 @@
       },
       "trim_rationale": "All 2015 US trims share the 157-hp 2.5L I4 / 5-sp auto / FWD, so trim doesn't affect camping capability. Grand Touring adds sunroof (sleeping ventilation), heated leather seats (easy cleanup), fog lights, rear parking sensors for a small used-price premium.",
       "model_url": "https://www.kbb.com/mazda/mazda5/",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 44.4,
         "config": "Behind 2nd row, 3rd row folded (no official behind-front-row figure; 2nd-row seatbacks fold forward)",
@@ -503,9 +586,34 @@
         "https://www.kbb.com/mazda/mazda5/2015/grand-touring-minivan-4d/",
         "https://www.autoblog.com/features/mazda5-officially-discontinued",
         "https://mazdas247.com/forum/threads/camping-with-mazda5.123840845/",
-        "https://riverleafcamper.com/pages/mazda-5-camper-conversion-kit"
+        "https://riverleafcamper.com/pages/mazda-5-camper-conversion-kit",
+        "https://www.bing.com/search?q=2015+Mazda5+Grand+Touring+%22remote+start%22+factory+OR+standard+OR+dealer+accessory",
+        "https://www.edmunds.com/mazda/5/2015/features-specs/",
+        "none"
       ],
-      "notes": "2015 confirmed final US model year. Dims + EPA 21/28 from Mazda USA official 2015 spec sheet. Commons has no 3rd-gen dashboard/cargo photos (verified via API search). Cargo figure measured on 2nd gen; 3rd gen shares platform."
+      "notes": "2015 confirmed final US model year. Dims + EPA 21/28 from Mazda USA official 2015 spec sheet. Commons has no 3rd-gen dashboard/cargo photos (verified via API search). Cargo figure measured on 2nd gen; 3rd gen shares platform.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": false,
+        "sunroof": true,
+        "roof_rails": false,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": null,
+        "fold_flat_front_passenger_seat": null,
+        "rear_seat_fold": "uneven",
+        "rear_seat_fold_note": "The 2nd row is two separate captain's chairs, not a bench; folding them leaves a persistent gap between the two seats that doesn't merge seamlessly with the folded 3rd-row bench, so owners commonly fill it with padding, a folding chair, or cut cardboard to get a usable sleeping surface.",
+        "source": "https://news.mazdausa.com/download/2015-Mazda5-Specifications.pdf",
+        "field_sources": {
+          "remote_start": "https://www.bing.com/search?q=2015+Mazda5+Grand+Touring+%22remote+start%22+factory+OR+standard+OR+dealer+accessory",
+          "ventilated_front_seats": "https://www.edmunds.com/mazda/5/2015/features-specs/",
+          "cargo_area_power_outlet": "none"
+        },
+        "confidence": "high"
+      }
     },
     {
       "id": "toyota-sienna-xl40",
@@ -583,7 +691,7 @@
       },
       "trim_rationale": "XLE+ gets the camper-critical 1500W AC inverter option (not on LE); e-AWD costs ~1 mpg and is the common camper choice. MPG shown FWD (AWD 35/36).",
       "model_url": "https://www.toyota.com/sienna/",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 101.0,
         "config": "Behind row 1: 3rd row stowed, 2nd row slid fully forward (2nd row not removable)",
@@ -619,9 +727,37 @@
         "https://www.edmunds.com/toyota/sienna/2024/st-402010872/features-specs/",
         "https://www.kbb.com/toyota/sienna/2024/xle-van-4d/",
         "https://www.autoroamer.com/posts/toyota-sienna-camping-guide.html",
-        "https://tworoamingsouls.com/best-vans-for-minivan-camper-conversions/"
+        "https://tworoamingsouls.com/best-vans-for-minivan-camper-conversions/",
+        "http://www.auto-brochures.com/makes/Toyota/Sienna/Toyota_US%20Sienna_2024.pdf",
+        "https://support.toyota.com",
+        "https://www.edmunds.com/toyota/sienna/2024/features-specs/",
+        "https://pressroom.toyota.com",
+        "https://www.toyota.com/content/dam/toyota/brochures/pdf/2024/sienna_ebrochure.pdf"
       ],
-      "notes": "4th-gen trade-off: 101 cu ft behind row 1 vs 3rd gen's 150 (2nd row no longer officially removes). No Commons cargo photo of XL40."
+      "notes": "4th-gen trade-off: 101 cu ft behind row 1 vs 3rd gen's 150 (2nd row no longer officially removes). No Commons cargo photo of XL40.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": true,
+        "roof_rails": false,
+        "power_liftgate": true,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": false,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "uneven",
+        "rear_seat_fold_note": "2nd-row captain's chairs recline and slide but don't fold flat or remove (fixed in place, in part due to the AWD hybrid battery pack location); the 3rd row stows into a floor well via Toyota's One-Motion Split & Stow, so the combined cargo floor is stepped rather than continuous.",
+        "source": "http://www.auto-brochures.com/makes/Toyota/Sienna/Toyota_US%20Sienna_2024.pdf",
+        "field_sources": {
+          "remote_start": "https://support.toyota.com",
+          "ventilated_front_seats": "https://www.edmunds.com/toyota/sienna/2024/features-specs/",
+          "cargo_area_power_outlet": "https://pressroom.toyota.com",
+          "fold_flat_front_passenger_seat": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2024/sienna_ebrochure.pdf"
+        },
+        "confidence": "high"
+      }
     },
     {
       "id": "chrysler-pacifica-ru",
@@ -698,7 +834,7 @@
       },
       "trim_rationale": "Touring L keeps 2nd-row Stow 'n Go buckets (Pinnacle's quilted 2nd row does NOT stow; Hybrid loses 2nd-row Stow 'n Go to battery). MPG FWD (AWD 17/25).",
       "model_url": "https://www.chrysler.com/pacifica.html",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 140.5,
         "config": "Both rear rows folded into Stow 'n Go bins — no seat removal",
@@ -734,9 +870,37 @@
         "https://www.edmunds.com/chrysler/pacifica/2024/trims/",
         "https://www.kbb.com/chrysler/pacifica/2024/touring-l/",
         "https://fueleconomy.gov/feg/bymodel/2024_Chrysler_Pacifica.shtml",
-        "https://www.pacificaforums.com/threads/camper-van-conversion.53999/"
+        "https://www.pacificaforums.com/threads/camper-van-conversion.53999/",
+        "https://www.stellantisfleet.com/content/dam/fca-fleet/na/fleet/en_us/shopping-tools/brochures-literature/docs/buyers-guide/2024/MY24_Pacifica.pdf",
+        "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/specs/2024_CH_Pacifica_Pacifica_Plug-in_Hybrid_FA.pdf",
+        "https://www.edmunds.com/chrysler/pacifica/2024/features-specs/",
+        "https://www.specialtiesauto.com/vehicle-details/2024-chrysler-pacifica-touring-l-van-d3f2105613430d48a2caa9d84baced0b",
+        "https://cdn.dealereprocess.org/cdn/brochures/chrysler/2024-pacifica.pdf"
       ],
-      "notes": "99.5-in figure is dealer-published, not an official Stellantis spec sheet. No Commons cargo photo."
+      "notes": "99.5-in figure is dealer-published, not an official Stellantis spec sheet. No Commons cargo photo.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": true,
+        "dual_zone_climate": true,
+        "sunroof": false,
+        "roof_rails": false,
+        "power_liftgate": true,
+        "remote_start": true,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "flat",
+        "rear_seat_fold_note": "Second- and third-row Stow 'n Go seats fold flush into the floor via the standard release levers (includes second-row in-floor storage bins), leaving a continuous flat load floor with no seat removal needed.",
+        "source": "https://www.stellantisfleet.com/content/dam/fca-fleet/na/fleet/en_us/shopping-tools/brochures-literature/docs/buyers-guide/2024/MY24_Pacifica.pdf",
+        "field_sources": {
+          "remote_start": "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/specs/2024_CH_Pacifica_Pacifica_Plug-in_Hybrid_FA.pdf",
+          "ventilated_front_seats": "https://www.edmunds.com/chrysler/pacifica/2024/features-specs/",
+          "cargo_area_power_outlet": "https://www.specialtiesauto.com/vehicle-details/2024-chrysler-pacifica-touring-l-van-d3f2105613430d48a2caa9d84baced0b",
+          "fold_flat_front_passenger_seat": "https://cdn.dealereprocess.org/cdn/brochures/chrysler/2024-pacifica.pdf"
+        },
+        "confidence": "high"
+      }
     },
     {
       "id": "chrysler-pacifica-hybrid-ru",
@@ -819,7 +983,7 @@
       },
       "trim_rationale": "Base Select has identical battery/32-mi EV range/safety as upper trims for $3–6k less; campers strip the interior anyway. FWD-only, no tow rating. Camper draw: silent electric climate overnight + 82 MPGe.",
       "model_url": "https://www.chrysler.com/pacifica.html",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 140.5,
         "config": "3rd row stowed + 2nd-row seats removed (battery deletes 2nd-row Stow 'n Go)",
@@ -854,9 +1018,37 @@
         "https://www.kbb.com/chrysler/pacifica-hybrid/2024/",
         "https://fueleconomy.gov/feg/noframes/47276.shtml",
         "https://www.cars.com/articles/what-you-give-up-to-get-a-chrysler-pacifica-hybrid-1420692786721/",
-        "https://relentlessoptimizer.com/pacifica/camping-build"
+        "https://relentlessoptimizer.com/pacifica/camping-build",
+        "https://www.stellantisfleet.com/content/dam/fca-fleet/na/fleet/en_us/shopping-tools/brochures-literature/docs/buyers-guide/2024/MY24_Pacifica.pdf",
+        "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/specs/2024_CH_Pacifica_Pacifica_Plug-in_Hybrid_FA.pdf",
+        "https://www.edmunds.com/chrysler/pacifica/2024/features-specs/",
+        "https://www.peakautogroup.com",
+        "https://cdn.dealereprocess.org/cdn/brochures/chrysler/2024-pacifica.pdf"
       ],
-      "notes": "Verified: battery occupies 2nd-row Stow 'n Go tubs → 2nd-row seats removable (68 lb each) but don't stow; 3rd row keeps manual Stow 'n Go. 140.5 cu ft behind row 1."
+      "notes": "Verified: battery occupies 2nd-row Stow 'n Go tubs → 2nd-row seats removable (68 lb each) but don't stow; 3rd row keeps manual Stow 'n Go. 140.5 cu ft behind row 1.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": true,
+        "dual_zone_climate": true,
+        "sunroof": false,
+        "roof_rails": false,
+        "power_liftgate": true,
+        "remote_start": true,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "removable",
+        "rear_seat_fold_note": "The 16-kWh battery pack lives under the second-row floor, so the Select PHEV does NOT get Stow 'n Go in the second row -- it gets standard 'Easy Slide' second-row captain's chairs that are heavy but fully removable, not fold-into-floor. The third row keeps the gas model's Stow 'n Go 60/40 bench that folds flat into the floor. A fully flat surface requires physically removing the second-row seats; camper/owner writeups note the resulting floor still needs a plywood platform to bridge the wells evenly.",
+        "source": "https://www.stellantisfleet.com/content/dam/fca-fleet/na/fleet/en_us/shopping-tools/brochures-literature/docs/buyers-guide/2024/MY24_Pacifica.pdf",
+        "field_sources": {
+          "remote_start": "https://s3.amazonaws.com/chryslermedia.iconicweb.com/mediasite/specs/2024_CH_Pacifica_Pacifica_Plug-in_Hybrid_FA.pdf",
+          "ventilated_front_seats": "https://www.edmunds.com/chrysler/pacifica/2024/features-specs/",
+          "cargo_area_power_outlet": "https://www.peakautogroup.com",
+          "fold_flat_front_passenger_seat": "https://cdn.dealereprocess.org/cdn/brochures/chrysler/2024-pacifica.pdf"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "kia-carnival-ka4",
@@ -933,7 +1125,7 @@
       },
       "trim_rationale": "Critical config note: ONLY the LX Seat Package's three 2nd-row seats remove individually. Standard Slide-Flex captain's chairs aren't designed to remove; SX Prestige VIP lounge seats can't be removed at all — worst for camping.",
       "model_url": "https://www.kia.com/us/en/carnival",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 145.1,
         "config": "3rd row stowed + 2nd row removed (8-seat config; VIP lounge seats don't remove) — class-leading",
@@ -969,9 +1161,34 @@
         "https://www.kiamedia.com/us/en/models/carnival/2024/specifications",
         "https://www.kbb.com/kia/carnival/2024/lx-w-seat-pkg-van-4d/",
         "https://www.kbb.com/car-news/2022-kia-carnival-seating/",
-        "https://www.carnivalforums.com/threads/all-kia-vehicles-that-can-remove-2nd-row-seating-2023-2024.1324/"
+        "https://www.carnivalforums.com/threads/all-kia-vehicles-that-can-remove-2nd-row-seating-2023-2024.1324/",
+        "https://www.kiamedia.com/us/en/models/carnival/2024/features",
+        "https://www.edmunds.com/kia/carnival/2024/features-specs/"
       ],
-      "notes": "3.5L V6 290 hp, 8-sp auto, FWD. Height 68.5 LX/EX (69.9 SX w/ rails). No Commons cargo photo."
+      "notes": "3.5L V6 290 hp, 8-sp auto, FWD. Height 68.5 LX/EX (69.9 SX w/ rails). No Commons cargo photo.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": false,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": false,
+        "sunroof": false,
+        "roof_rails": false,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "removable",
+        "rear_seat_fold_note": "The full second-row bench (or its removable middle seat in the Seat Package's 8-passenger layout) unbolts and lifts out entirely rather than folding into the floor; the 60/40 third row folds down with double recline into a floor well, but owner reports say the resulting floor is not level and slopes down toward the front rather than sitting flush.",
+        "source": "https://www.kiamedia.com/us/en/models/carnival/2024/features",
+        "field_sources": {
+          "remote_start": "https://www.kiamedia.com/us/en/models/carnival/2024/features",
+          "ventilated_front_seats": "https://www.edmunds.com/kia/carnival/2024/features-specs/",
+          "cargo_area_power_outlet": "https://www.kiamedia.com/us/en/models/carnival/2024/features",
+          "fold_flat_front_passenger_seat": "https://www.kbb.com/car-news/2022-kia-carnival-seating/"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "kia-carnival-hybrid-ka4pe",
@@ -1050,7 +1267,7 @@
       },
       "trim_rationale": "YEAR-CAP EXCEPTION: hybrid debuted MY2025 in the US — listed at its earliest available year (2025), not the 2024 cap. EX = power doors/liftgate + full ADAS at ~$10k under SX Prestige. 1.6T + motor, 242 hp, FWD.",
       "model_url": "https://www.kia.com/us/en/carnival",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 145.1,
         "config": "Same as gas — hybrid battery preserves full volume",
@@ -1085,9 +1302,35 @@
       "sources": [
         "https://www.kiamedia.com/us/en/models/carnival-hev/2025/specifications",
         "https://blog.consumerguide.com/2025-kia-carnival-hybrid-review-prices-and-specs/",
-        "https://www.kbb.com/kia/carnival-hybrid/2025/ex-van-4d/"
+        "https://www.kbb.com/kia/carnival-hybrid/2025/ex-van-4d/",
+        "https://www.kiamedia.com/us/en/models/carnival-hev/2025/features",
+        "https://www.edmunds.com/kia/carnival-hybrid/2025/features-specs/",
+        "https://www.kbb.com/car-news/2022-kia-carnival-seating/"
       ],
-      "notes": "Cargo volumes identical to gas (40.2/86.9/145.1 cu ft). EPA 34/31/33."
+      "notes": "Cargo volumes identical to gas (40.2/86.9/145.1 cu ft). EPA 34/31/33.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": false,
+        "roof_rails": true,
+        "power_liftgate": true,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "removable",
+        "rear_seat_fold_note": "The 2nd-row Slide-Flex bench (sliding, removable middle seat within an 8-passenger layout) can be taken out entirely for a flat area; the 3rd row folds down with double recline into a floor well but, per the same generation's owner reports, sits with a slight forward slope rather than dead level.",
+        "source": "https://www.kiamedia.com/us/en/models/carnival-hev/2025/features",
+        "field_sources": {
+          "remote_start": "https://www.kiamedia.com/us/en/models/carnival-hev/2025/features",
+          "ventilated_front_seats": "https://www.edmunds.com/kia/carnival-hybrid/2025/features-specs/",
+          "cargo_area_power_outlet": "https://www.kiamedia.com/us/en/models/carnival-hev/2025/features",
+          "fold_flat_front_passenger_seat": "https://www.kbb.com/car-news/2022-kia-carnival-seating/"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "mercedes-metris-w447",
@@ -1174,7 +1417,7 @@
       },
       "trim_rationale": "One trim per body style; Passenger Van (windows, 7–8 seats, rear HVAC) is the pop-top converters' base. 2.0T I4 208 hp, RWD, 9-sp auto (2021+). Pop-tops add ~4–8 in height.",
       "model_url": "https://www.kbb.com/mercedes-benz/metris-passenger/",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 183.0,
         "config": "Cargo compartment, 126-in WB (passenger van approximates with all rear seats removed)",
@@ -1211,15 +1454,41 @@
         "https://www.kbb.com/mercedes-benz/metris-passenger/2023/van-4d/",
         "https://www.edmunds.com/mercedes-benz/metris/2023/",
         "https://media.mbusa.com/releases/release-b04e095eb7930ced5925d964ff0c4a3f-mercedes-benz-vans-unveils-its-first-pop-up-camper-for-the-us-market",
-        "https://www.metrisforum.com/threads/length-of-cargo-area.2834/"
+        "https://www.metrisforum.com/threads/length-of-cargo-area.2834/",
+        "https://carbuzz.com/cars/mercedes-benz/metris-passenger-van/2023/specs-and-trims/",
+        "https://www.autoweb.com/mercedes-benz/metris-passenger-van/2023",
+        "https://www.edmunds.com/mercedes-benz/metris/2023/features-specs/"
       ],
-      "notes": "2023 confirmed final US year. Passenger EPA 18/22 (cargo 19/23)."
+      "notes": "2023 confirmed final US year. Passenger EPA 18/22 (cargo 19/23).",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": false,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": false,
+        "sunroof": false,
+        "roof_rails": false,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": null,
+        "fold_flat_front_passenger_seat": null,
+        "rear_seat_fold": "removable",
+        "rear_seat_fold_note": "Second- and third-row bench seats are bolted to floor-mount brackets and must be unbolted and lifted out entirely for a flat load area; nothing folds into the floor. (A takeout 3rd-row bench listing confirms the bolt-in floor-mount-bracket design.)",
+        "source": "https://carbuzz.com/cars/mercedes-benz/metris-passenger-van/2023/specs-and-trims/",
+        "field_sources": {
+          "remote_start": "https://www.autoweb.com/mercedes-benz/metris-passenger-van/2023",
+          "ventilated_front_seats": "https://www.edmunds.com/mercedes-benz/metris/2023/features-specs/",
+          "cargo_area_power_outlet": "https://www.edmunds.com/mercedes-benz/metris/2023/features-specs/",
+          "fold_flat_front_passenger_seat": "https://www.edmunds.com/mercedes-benz/metris/2023/features-specs/"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "ram-promaster-city",
       "make": "Ram",
       "model": "ProMaster City",
-      "trim": "Wagon SLT",
+      "trim": "Wagon",
       "class": "Compact van",
       "powertrain": "gas",
       "drivetrain": "FWD",
@@ -1289,9 +1558,9 @@
         "dashboard": null,
         "cargo": null
       },
-      "trim_rationale": "SLT was the top passenger trim. 2.4L I4 178 hp, 9-sp auto, FWD. Interior height 48.7 in — no standing; 48.4 in between wheel wells.",
+      "trim_rationale": "Ram discontinued the SLT trim for MY2022, leaving a single unnamed Wagon trim — this record previously said \"Wagon SLT\", a configuration not sold that year. 2.4L I4 178 hp, 9-sp auto, FWD. Interior height 48.7 in — no standing; 48.4 in between wheel wells.",
       "model_url": "https://www.kbb.com/ram/promaster-city/",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 101.7,
         "config": "Wagon, rear seats folded/tumbled (official Ram spec; cargo van 131.7)",
@@ -1328,9 +1597,36 @@
         "https://www.edmunds.com/ram/promaster-city/2022/st-401910950/features-specs/",
         "https://www.kbb.com/ram/promaster-city/2022/",
         "https://www.thedrive.com/news/the-ram-promaster-city-was-the-last-small-van-left-now-its-gone",
-        "https://newatlas.com/cascade-mini-campervan-kit/57214/"
+        "https://newatlas.com/cascade-mini-campervan-kit/57214/",
+        "https://s3.amazonaws.com/cdn.autoipacket.com/data/137/3870/2152899262/msrp/2152899262.20250529.000505-msrp-01.pdf",
+        "https://www.edmunds.com/ram/promaster-city/2022/features-specs/",
+        "https://www.manualslib.com/manual/1310802/Ram-Promaster-City.html?page=71",
+        "https://www.manualslib.com/manual/2134199/Ram-Promaster-City.html"
       ],
-      "notes": "2022 confirmed final US year. No Commons dashboard/cargo photos exist."
+      "notes": "2022 confirmed final US year. No Commons dashboard/cargo photos exist.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": false,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": false,
+        "sunroof": false,
+        "roof_rails": false,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": null,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "removable",
+        "rear_seat_fold_note": "The Wagon's 60/40 rear bench is a 'fold and tumble' seat that lays down close to flat when tumbled forward against the front seatbacks; it can also be fully unbolted and removed (3 bolts per seat) for a bare floor, which owner/camper-conversion writeups treat as the normal setup for sleeping platforms.",
+        "source": "https://s3.amazonaws.com/cdn.autoipacket.com/data/137/3870/2152899262/msrp/2152899262.20250529.000505-msrp-01.pdf",
+        "field_sources": {
+          "remote_start": "https://www.edmunds.com/ram/promaster-city/2022/features-specs/",
+          "ventilated_front_seats": "https://www.edmunds.com/ram/promaster-city/2022/features-specs/",
+          "cargo_area_power_outlet": "https://www.manualslib.com/manual/1310802/Ram-Promaster-City.html?page=71",
+          "fold_flat_front_passenger_seat": "https://www.manualslib.com/manual/2134199/Ram-Promaster-City.html"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "subaru-outback-bt",
@@ -1405,7 +1701,7 @@
       },
       "trim_rationale": "Premium = volume camper trim: 11.6-in screen + roof rails, keeps the 26/32-mpg NA 2.5L (Wilderness turbo: 21/26, +$6–8k, 9.5-in clearance for off-grid buyers). All 2020–2025 share identical cargo dims.",
       "model_url": "https://www.subaru.com/vehicles/outback",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 75.6,
         "config": "Rear seatbacks folded, behind front row (32.6 behind rear seats)",
@@ -1442,9 +1738,35 @@
         "https://www.edmunds.com/subaru/outback/2024/features-specs/",
         "https://www.kbb.com/subaru/outback/2024/premium-wagon-4d/",
         "https://compasscamper.com/blogs/news/is-the-subaru-outback-the-best-car-camping-vehicle",
-        "https://media.subaru.com/pressrelease/2309/subaru-debuts-all-new-2026-outback-bold-new"
+        "https://media.subaru.com/pressrelease/2309/subaru-debuts-all-new-2026-outback-bold-new",
+        "https://www.subaru.com/services/vehicles/pdf/trimComparison/2024/OBK",
+        "https://www.edmunds.com/subaru/outback/2024/trims/",
+        "https://www.subaruoutback.org/threads/2024-outback-base-trim-cigarette-lighter.568339/"
       ],
-      "notes": "75.7 cu ft max cargo. Height incl. roof rails."
+      "notes": "75.7 cu ft max cargo. Height incl. roof rails.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": false,
+        "roof_rails": true,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "Subaru calls the 60/40 seatbacks 'flat-folding,' but owner reviews describe the result as close to flat with roughly a 5-degree upward angle and a hump where the folded seatback meets the cargo floor -- usable with a thin platform/topper, not a true flat floor.",
+        "source": "https://www.subaru.com/services/vehicles/pdf/trimComparison/2024/OBK",
+        "field_sources": {
+          "remote_start": "https://www.edmunds.com/subaru/outback/2024/features-specs/",
+          "ventilated_front_seats": "https://www.edmunds.com/subaru/outback/2024/trims/",
+          "cargo_area_power_outlet": "https://www.subaruoutback.org/threads/2024-outback-base-trim-cigarette-lighter.568339/",
+          "fold_flat_front_passenger_seat": "https://www.edmunds.com/subaru/outback/2024/features-specs/"
+        },
+        "confidence": "high"
+      }
     },
     {
       "id": "subaru-forester-sk",
@@ -1518,7 +1840,7 @@
       },
       "trim_rationale": "Wilderness = enthusiast camping pick: 9.2-in clearance, A/T tires, roof rack rated for rooftop tents, 3,000-lb tow. Budget builds use Premium (26/33 mpg, 68.1-in height).",
       "model_url": "https://www.subaru.com/vehicles/forester",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 74.2,
         "config": "Rear seats folded, non-moonroof trims (69.1 with moonroof)",
@@ -1555,9 +1877,36 @@
         "https://www.edmunds.com/subaru/forester/2024/st-402003262/features-specs/",
         "https://www.kbb.com/subaru/forester/2024/wilderness/",
         "https://gnomadhome.com/subaru-forester-camper-conversion/",
-        "https://www.thewaywardhome.com/subaru-forester-camper/"
+        "https://www.thewaywardhome.com/subaru-forester-camper/",
+        "https://www.subaru.com/services/vehicles/pdf/trimComparison/2024/FOR",
+        "https://www.edmunds.com/subaru/forester/2024/features-specs/",
+        "https://www.edmunds.com/subaru/forester/2024/trims/",
+        "https://www.subaruforester.org/threads/2020-rear-cargo-area-12v-outlet-what-do-people-use-this-for.808815/"
       ],
-      "notes": "2.5L boxer 182 hp, CVT, std AWD. No Commons cargo photo of SK."
+      "notes": "2.5L boxer 182 hp, CVT, std AWD. No Commons cargo photo of SK.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": true,
+        "roof_rails": true,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "Subaru's official trim comparison lists '60/40-split flat-folding rear seatbacks' and 'one-touch folding rear seatbacks' as standard on Wilderness. Per the research rule to distrust a manufacturer's own word 'flat,' this is scored one notch down as near-flat rather than flat; no independent reviewer description of this specific trim's folded-floor evenness was found to confirm or override that discount.",
+        "source": "https://www.subaru.com/services/vehicles/pdf/trimComparison/2024/FOR",
+        "field_sources": {
+          "remote_start": "https://www.edmunds.com/subaru/forester/2024/features-specs/",
+          "ventilated_front_seats": "https://www.edmunds.com/subaru/forester/2024/trims/",
+          "cargo_area_power_outlet": "https://www.subaruforester.org/threads/2020-rear-cargo-area-12v-outlet-what-do-people-use-this-for.808815/",
+          "fold_flat_front_passenger_seat": "https://www.edmunds.com/subaru/forester/2024/features-specs/"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "honda-crv-hybrid-gen6",
@@ -1630,7 +1979,7 @@
       },
       "trim_rationale": "Sport is the entry hybrid trim — cheapest way into the 40-mpg-combined hybrid campers want; Sport-L adds only leather/power tailgate. MPG FWD (AWD 40/34).",
       "model_url": "https://automobiles.honda.com/cr-v-hybrid",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 76.5,
         "config": "Rear seats folded, behind front row (39.3 behind rear seats); hybrid same as gas",
@@ -1666,9 +2015,37 @@
         "https://www.kbb.com/honda/cr-v-hybrid/2024/sport-utility-4d/",
         "https://hondanews.com/en-US/honda-automobiles/releases/release-13f25e90cfe47cd58453f1f710054868-2024-honda-cr-v-specifications-features",
         "https://www.autoroamer.com/posts/can-you-sleep-in-a-honda-crv-car-camping-guide.html",
-        "https://www.iheartpacificnorthwest.com/blog_post/my-honda-crv-camper-setup/"
+        "https://www.iheartpacificnorthwest.com/blog_post/my-honda-crv-camper-setup/",
+        "https://www.hondainfocenter.com/2024/CR-V/Feature-Guide/Features-By-Trim/",
+        "https://crvguide.com/honda-crv-remote-start/",
+        "https://www.edmunds.com/honda/cr-v/2024/trims/",
+        "https://www.hondainfocenter.com/2024/CR-V/Feature-Guide/Interior-Features/Cargo-Area/",
+        "https://www.edmunds.com/honda/cr-v/2024/features-specs/"
       ],
-      "notes": "39.3 cu ft behind 2nd row / 76.5 folded. No Commons 6th-gen cargo photo."
+      "notes": "39.3 cu ft behind 2nd row / 76.5 folded. No Commons 6th-gen cargo photo.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": true,
+        "roof_rails": true,
+        "power_liftgate": false,
+        "remote_start": true,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": null,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "Owner threads on the current (2023-24) generation CR-V describe the folded rear seats as not quite level, commonly recommending a cushion or platform to fill the gap -- a small step/incline rather than a true flat floor or a severe hump.",
+        "source": "https://www.hondainfocenter.com/2024/CR-V/Feature-Guide/Features-By-Trim/",
+        "field_sources": {
+          "remote_start": "https://crvguide.com/honda-crv-remote-start/",
+          "ventilated_front_seats": "https://www.edmunds.com/honda/cr-v/2024/trims/",
+          "cargo_area_power_outlet": "https://www.hondainfocenter.com/2024/CR-V/Feature-Guide/Interior-Features/Cargo-Area/",
+          "fold_flat_front_passenger_seat": "https://www.edmunds.com/honda/cr-v/2024/features-specs/"
+        },
+        "confidence": "high"
+      }
     },
     {
       "id": "toyota-prius-xw60",
@@ -1742,7 +2119,7 @@
       },
       "trim_rationale": "LE = cheapest, best mpg (57/56 vs 52/52 XLE+), and most cargo of the gen (23.8 vs 20.3 cu ft). NOTE: most Prius dwellers actually prefer the roomier, cheaper 4th gen (2016–2022, up to 34.3 cu ft folded) — the 5th gen's fastback roof cut ~7 cu ft. Candidate prior-gen row.",
       "model_url": "https://www.toyota.com/prius/",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 23.8,
         "config": "Behind rear seats, LE (XLE/Limited 20.3); Toyota publishes no seats-folded figure for 5th gen",
@@ -1779,9 +2156,37 @@
         "https://www.cars.com/research/toyota-prius-2024/specs/",
         "https://www.autoblog.com/features/toyota-prius-luggage-test",
         "https://blueplanit.co/blog/prius-camping",
-        "https://www.thewaywardhome.com/prius-camper/"
+        "https://www.thewaywardhome.com/prius-camper/",
+        "https://www.edmunds.com/toyota/prius/2024/trims/",
+        "https://www.edmunds.com/toyota/prius/2024/features-specs/",
+        "none",
+        "https://priuschat.com/threads/2023-toyota-prius.237147/page-2"
       ],
-      "notes": "194 hp, FWD (e-AWD optional). r/priusdwellers count is an estimate (Reddit blocked verification). No Commons XW60 cargo photo."
+      "notes": "194 hp, FWD (e-AWD optional). r/priusdwellers count is an estimate (Reddit blocked verification). No Commons XW60 cargo photo.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": false,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": false,
+        "sunroof": false,
+        "roof_rails": false,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": null,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "PriusChat forum thread on the redesigned 2023 Prius: 'Looks like the back seats do fold down flat (at least in the regular Prius). But it looks like the flat portion is not flat with the opening of the back hatch, but lower' -- a level rear seatback surface that sits at a different height than the cargo floor/hatch opening, i.e. a step rather than one continuous plane. A later poster in the same thread confirms folding the seats down flat is usable for camping ('fold the seats down flat and sleep in the back while camping').",
+        "source": "https://www.edmunds.com/toyota/prius/2024/trims/",
+        "field_sources": {
+          "remote_start": "https://www.edmunds.com/toyota/prius/2024/features-specs/",
+          "ventilated_front_seats": "https://www.edmunds.com/toyota/prius/2024/trims/",
+          "cargo_area_power_outlet": "none",
+          "fold_flat_front_passenger_seat": "https://priuschat.com/threads/2023-toyota-prius.237147/page-2",
+          "rear_seat_fold": "https://priuschat.com/threads/2023-toyota-prius.237147/page-2"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "toyota-4runner-n280",
@@ -1855,7 +2260,7 @@
       },
       "trim_rationale": "TRD Off-Road over SR5 (+$2–3k) for locking rear diff, Crawl Control, Multi-Terrain Select — the community-default overlanding trim. 4.0L V6 270 hp, 5-sp auto, part-time 4WD. Thirstiest vehicle in this report (17 combined).",
       "model_url": "https://www.toyota.com/4runner/",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 89.7,
         "config": "2nd row folded, 2-row models (47.2 behind 2nd row)",
@@ -1892,9 +2297,37 @@
         "https://www.kbb.com/toyota/4runner/2024/trd-off-road-sport-utility-4d/",
         "https://www.edmunds.com/toyota/4runner/2024/st-402014870/features-specs/",
         "https://trail4runner.com/2024/05/22/sr5-vs-trd-which-4runner-trim-is-best/",
-        "https://forum.expeditionportal.com/threads/2013-2014-4runner-cargo-dimensions.120783/"
+        "https://forum.expeditionportal.com/threads/2013-2014-4runner-cargo-dimensions.120783/",
+        "https://www.toyota.com/content/dam/toyota/brochures/pdf/2024/4runner_ebrochure.pdf",
+        "https://cartipsdaily.com/is-toyota-remote-connect-free",
+        "https://www.edmunds.com/toyota/4runner/2024/trims/",
+        "https://www.to4runner.net/power_outlets_120_v_ac_-188.html",
+        "https://www.4runner6g.com/forum/threads/does-front-passenger-seat-fold-forward-flat-ish.2952/"
       ],
-      "notes": "47.2 cu ft behind 2nd row / 89.7 max. TSS-P is an older ADAS suite: no blind-spot std, no lane centering."
+      "notes": "47.2 cu ft behind 2nd row / 89.7 max. TSS-P is an older ADAS suite: no blind-spot std, no lane centering.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": false,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": false,
+        "sunroof": false,
+        "roof_rails": true,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "Toyota markets the 40/20/40 second row as 'fold-flat,' but owner/DIY-build sources document a roughly 2-inch step/indentation at the transition to the cargo area (from the sliding cargo-deck mechanism), so it needs a thin platform to be truly level for sleeping.",
+        "source": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2024/4runner_ebrochure.pdf",
+        "field_sources": {
+          "remote_start": "https://cartipsdaily.com/is-toyota-remote-connect-free",
+          "ventilated_front_seats": "https://www.edmunds.com/toyota/4runner/2024/trims/",
+          "cargo_area_power_outlet": "https://www.to4runner.net/power_outlets_120_v_ac_-188.html",
+          "fold_flat_front_passenger_seat": "https://www.4runner6g.com/forum/threads/does-front-passenger-seat-fold-forward-flat-ish.2952/"
+        },
+        "confidence": "high"
+      }
     },
     {
       "id": "toyota-highlander-hybrid-xu70",
@@ -1969,7 +2402,7 @@
       },
       "trim_rationale": "XLE = volume used trim (power liftgate, roof rails) ~$4–5k under Limited; 120V/1500W cargo outlet requires Limited/Platinum. 243 hp hybrid; AWD costs ~1 mpg. MPG shown AWD (FWD 36/35).",
       "model_url": "https://www.toyota.com/highlanderhybrid/",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 84.3,
         "config": "2nd+3rd rows folded, behind front row (48.4 behind 2nd row)",
@@ -2006,9 +2439,37 @@
         "https://www.kbb.com/toyota/highlander-hybrid/2024/",
         "https://www.cars.com/research/toyota-highlander_hybrid-2024/specs/",
         "https://www.autoroamer.com/posts/2025-toyota-highlander-camping-guide.html",
-        "https://www.toyotanation.com/threads/camping-sleeping-in-the-back-of-highlander.1705695/"
+        "https://www.toyotanation.com/threads/camping-sleeping-in-the-back-of-highlander.1705695/",
+        "https://www.toyotaofcedarpark.com/manufacturer-information/toyota-highlander-xle-vs-xse-vs-limited/",
+        "https://cartipsdaily.com/is-toyota-remote-connect-free",
+        "https://www.edmunds.com/toyota/highlander-hybrid/2024/trims/",
+        "https://www.tohighlander.com/power_outlets-259.html",
+        "https://www.edmunds.com/toyota/highlander-hybrid/2024/features-specs/"
       ],
-      "notes": "84.3 cu ft behind row 1. 3rd row doesn't fold fully flat."
+      "notes": "84.3 cu ft behind row 1. 3rd row doesn't fold fully flat.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": true,
+        "roof_rails": true,
+        "power_liftgate": true,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": false,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "One owner-facing source describes the folded 2nd/3rd row floor as level, but multiple Highlander camper-conversion builds still add a rigid platform over the folded seats, suggesting a step rather than a true flat floor.",
+        "source": "https://www.toyotaofcedarpark.com/manufacturer-information/toyota-highlander-xle-vs-xse-vs-limited/",
+        "field_sources": {
+          "remote_start": "https://cartipsdaily.com/is-toyota-remote-connect-free",
+          "ventilated_front_seats": "https://www.edmunds.com/toyota/highlander-hybrid/2024/trims/",
+          "cargo_area_power_outlet": "https://www.tohighlander.com/power_outlets-259.html",
+          "fold_flat_front_passenger_seat": "https://www.edmunds.com/toyota/highlander-hybrid/2024/features-specs/"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "toyota-rav4-prime-xa50",
@@ -2085,7 +2546,7 @@
       },
       "trim_rationale": "XSE over SE for the 1500W/120V cargo-area outlet (XSE Premium pkg — not offered on SE), 6.6 kW charger, 10.5-in screen. Same 302-hp powertrain and cargo as SE.",
       "model_url": "https://www.kbb.com/toyota/rav4-prime/",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "max_cargo_cf": {
         "value": 69.8,
         "config": "Rear seats folded (33.5 behind rear seats vs 37.6 gas — battery-raised floor)",
@@ -2122,9 +2583,36 @@
         "https://www.edmunds.com/toyota/rav4-prime/2024/features-specs/",
         "https://pressroom.toyota.com/plug-and-play-with-the-2024-rav4-prime/",
         "https://repairpal.com/reliability/toyota/rav4",
-        "https://www.rav4world.com/threads/dry-camping-in-the-national-forest-sleeping-inside-r4p-with-ac-on-all-night-which-method-is-better.329261/"
+        "https://www.rav4world.com/threads/dry-camping-in-the-national-forest-sleeping-inside-r4p-with-ac-on-all-night-which-method-is-better.329261/",
+        "https://support.toyota.com/s/article/Can-I-control-the-A-C-with-Toyota-Remote-Connect",
+        "https://www.edmunds.com/toyota/rav4-prime/2024/trims/",
+        "https://www.toyota.com/owners/warranty-owners-manuals/digital/article/rav4%20prime/2024/om42f73u/ch06se040402/",
+        "https://cdn.dealereprocess.org/cdn/brochures/toyota/2024-rav4prime.pdf"
       ],
-      "notes": "2024 = last year badged 'Prime'. No US-LHD dashboard or cargo photo on Commons."
+      "notes": "2024 = last year badged 'Prime'. No US-LHD dashboard or cargo photo on Commons.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": true,
+        "roof_rails": null,
+        "power_liftgate": true,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": null,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "60/40 split rear seats fold down to a surface described by reviewers/owners as near-flat with a small step/gap versus the cargo floor; the Prime's underfloor battery doesn't change the fold geometry versus the non-plug-in RAV4 of the same generation, just overall cargo volume.",
+        "source": "https://pressroom.toyota.com/plug-and-play-with-the-2024-rav4-prime/",
+        "field_sources": {
+          "remote_start": "https://support.toyota.com/s/article/Can-I-control-the-A-C-with-Toyota-Remote-Connect",
+          "ventilated_front_seats": "https://www.edmunds.com/toyota/rav4-prime/2024/trims/",
+          "cargo_area_power_outlet": "https://www.toyota.com/owners/warranty-owners-manuals/digital/article/rav4%20prime/2024/om42f73u/ch06se040402/",
+          "fold_flat_front_passenger_seat": "https://cdn.dealereprocess.org/cdn/brochures/toyota/2024-rav4prime.pdf"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "mitsubishi-outlander-phev-gn",
@@ -2216,10 +2704,15 @@
         "https://www.mitsubishi-motors-pr.ca/wp-content/uploads/2023/01/2023-Outlander-PHEV-Specs-EN-_combined.pdf",
         "https://repairpal.com/reliability/mitsubishi/outlander",
         "https://newatlas.com/automotive/mitsubishi-outlander-phev-e-pop-camper/",
-        "https://enginepatrol.com/best-hybrid-suvs-for-camping/"
+        "https://enginepatrol.com/best-hybrid-suvs-for-camping/",
+        "https://www.gbrmitsubishi.com/research-outlander-phev-trims.html",
+        "https://www.mitsubishicars.com/mitsubishi-connect",
+        "https://www.edmunds.com/mitsubishi/outlander-phev/2024/trims/",
+        "https://www.myoutlanderphev.com/search/751111/?q=1500W+console&o=relevance",
+        "https://cars.usnews.com/cars-trucks/mitsubishi/outlander-plug-in-hybrid/2023/interior"
       ],
       "notes": "Width 73.3 in is the official body spec (1,862 mm per Mitsubishi Canada spec sheet); Edmunds/aggregators list 84.4 in including mirrors. Cargo: 12.8 cu ft behind the standard 3rd row, ~31 behind 2nd. CHAdeMO DC fast-charge port (SEL+) is a fading standard in the US. myoutlanderphev.com camping threads exist but block automated access — cargo figure is E:Pop-derived. No Commons cargo photo of the GN generation.",
-      "last_verified": "2026-07-18",
+      "last_verified": "2026-08-17",
       "model_url": "https://www.mitsubishicars.com/cars-and-suvs/outlander-phev",
       "max_cargo_cf": {
         "value": 64.3,
@@ -2252,7 +2745,31 @@
         "No US conversion-kit ecosystem — DIY or universal gear only",
         "CHAdeMO fast-charge standard is disappearing in the US",
         "Thin dealer network; 4th gen too new for a reliability track record"
-      ]
+      ],
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": false,
+        "roof_rails": true,
+        "power_liftgate": true,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": false,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "flat",
+        "rear_seat_fold_note": "Consumer Reports (via U.S. News' 2023 Outlander PHEV review): 'The cargo opening is wide and the floor is flat when both the second- and third-row seats are folded down.' Third row headrests must be removed and stowed under the cargo floor to fold it; second row is 40/20/40 split.",
+        "source": "https://www.gbrmitsubishi.com/research-outlander-phev-trims.html",
+        "field_sources": {
+          "remote_start": "https://www.mitsubishicars.com/mitsubishi-connect",
+          "ventilated_front_seats": "https://www.edmunds.com/mitsubishi/outlander-phev/2024/trims/",
+          "cargo_area_power_outlet": "https://www.myoutlanderphev.com/search/751111/?q=1500W+console&o=relevance",
+          "fold_flat_front_passenger_seat": "https://cars.usnews.com/cars-trucks/mitsubishi/outlander-plug-in-hybrid/2023/interior",
+          "rear_seat_fold": "https://cars.usnews.com/cars-trucks/mitsubishi/outlander-plug-in-hybrid/2023/interior"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "subaru-forester-hybrid-sl",
@@ -2347,10 +2864,15 @@
         "https://commons.wikimedia.org/wiki/File:2025_Subaru_Forester_Sport_(United_States)_interior.jpg",
         "https://media.subaru.com/pressrelease/2259/117/2025-subaru-forester-earns-iihs-top-safety-pick",
         "https://www.thewaywardhome.com/subaru-forester-camper/",
-        "https://www.prnewswire.com/news-releases/subaru-debuts-new-2027-subaru-forester-wilderness-hybrid-suv-with-real-off-road-capability-and-up-to-25-better-fuel-economy-302731451.html"
+        "https://www.prnewswire.com/news-releases/subaru-debuts-new-2027-subaru-forester-wilderness-hybrid-suv-with-real-off-road-capability-and-up-to-25-better-fuel-economy-302731451.html",
+        "https://www.subaru.com/vehicles/forester/hybrid/2025/features.html",
+        "https://www.cascadesubaru.com/blog/2025/may/13/which-subaru-models-have-remote-start.htm",
+        "https://www.edmunds.com/subaru/forester/2025/trims/",
+        "https://www.ovrmag.com/vehicle-features/the-long-awaited-2025-subaru-forester-hybrid-is-here-is-it-everything-you-want-in-an-awd-adventure-rig/708.article",
+        "https://ownersmanuals2.com/make/subaru/forester"
       ],
       "notes": "Chassis code SL confirmed (Wikipedia + press coverage) for the 6th-gen Forester (2025+); this is NOT the export-market 'e-BOXER' 12V mild hybrid — the US Forester Hybrid is a new full hybrid system Subaru calls a 'next-generation series-parallel hybrid,' pairing its own 2.5L Atkinson/Miller-cycle boxer engine with an electric motor and battery pack that Motor1 reports are Toyota-sourced; unlike Toyota's own AWD hybrids, Subaru kept a mechanical driveshaft/center-diff Symmetrical AWD instead of an electric rear axle. listed_year = 2025 because that's the first US model year (spring 2025 on-sale); 2026 pricing is slightly lower across the board (e.g., Premium Hybrid MSRP $34,730 vs. $36,595 for 2025) if a more current price point is preferred. A separate 2027 Forester Wilderness Hybrid was just announced (media coverage, July 2026): 9.3-in clearance, all-terrain tires, ~481-mi range, on sale late 2026 — a distinct future variant not reflected anywhere in this record's specs or trim lineup. No Commons cargo-bay photo of the SL Forester (hybrid or gas) was found, so photos.cargo is null. Both Commons photos are off-trim from the Sport pick above (see each photo's note) — no Commons photo of a Sport-trim Hybrid was found.",
-      "last_verified": "2026-07-29",
+      "last_verified": "2026-08-17",
       "model_url": "https://www.subaru.com/vehicles/forester/hybrid/2025.html",
       "max_cargo_cf": {
         "value": 69.1,
@@ -2383,7 +2905,30 @@
         "Too new for real reliability history; RepairPal/J.D. Power figures are line-wide or unverified, not hybrid-specific",
         "No Wilderness-Hybrid trim yet — today's lineup (Premium/Sport/Limited/Touring) lacks all-terrain tires or the extra clearance the true off-road trim gets (that arrives as a separate MY2027 model)",
         "Essentially no build community yet — no hybrid-specific sleeping-platform guides, forum threads, or YouTube conversions as of mid-2026, so early adopters are mostly DIY-ing it"
-      ]
+      ],
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": null,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": null,
+        "sunroof": true,
+        "roof_rails": null,
+        "power_liftgate": true,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "Subaru describes the 60/40 rear seats as flat-folding with a 70.7-in continuous load floor, but no independent owner or reviewer verification of the actual folded surface exists yet for this first-year (spring 2025 on-sale) generation.",
+        "source": "https://www.subaru.com/vehicles/forester/hybrid/2025/features.html",
+        "field_sources": {
+          "remote_start": "https://www.cascadesubaru.com/blog/2025/may/13/which-subaru-models-have-remote-start.htm",
+          "ventilated_front_seats": "https://www.edmunds.com/subaru/forester/2025/trims/",
+          "cargo_area_power_outlet": "https://www.ovrmag.com/vehicle-features/the-long-awaited-2025-subaru-forester-hybrid-is-here-is-it-everything-you-want-in-an-awd-adventure-rig/708.article",
+          "fold_flat_front_passenger_seat": "https://ownersmanuals2.com/make/subaru/forester"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "hyundai-santa-fe-hybrid-mx5",
@@ -2408,9 +2953,9 @@
         "height": 67.7
       },
       "cargo_length_behind_front_seats_in": {
-        "value": 72,
-        "method": "Reviewer-tested, not officially spec'd, and NOT Hybrid- or Limited-specific: GearJunkie's 2024 XRT test found a 6-ft-tall person could lay dead flat with the tailgate closed without their head hanging over the folded 2nd-row seats; the 6'3\" reviewer also fit lengthwise, with plenty of width for two people side-by-side. The load floor is flat but angled ~6 degrees toward the tailgate. Exterior dimensions and max cargo volume are confirmed identical across all Santa Fe MX5 trims/powertrains, including Hybrid, so this figure should carry over to Limited Hybrid, though XRT's unique tire/suspension package is an unaccounted-for variable. No Hybrid-specific or Limited-specific test was found.",
-        "source": "https://gearjunkie.com/motors/2024-hyundai-santa-fe-xrt-review"
+        "value": null,
+        "method": "No tape-measured or otherwise stated-method figure for cargo floor length behind the front seats (seats folded) could be found for the MX5-generation Santa Fe, in any trim or powertrain. The only figure in circulation is the current record's own source: GearJunkie's 2024 XRT review, which is an anecdote ('a 6-ft-tall person could lay dead flat with the tailgate closed') rounded to 72in, not a measurement, and it is XRT-specific (different trim/tire-suspension package) rather than Limited Hybrid. A site-restricted search of gearjunkie.com turned up no other Santa Fe camping/cargo review. A dedicated tape-measurement channel (CarSceneKorea, 'ALL SIZES MEASURED: All-new 2024 Hyundai Santa Fe Hybrid AWD (HTRAC)', Calligraphy 6-seat trim) does measure trunk dimensions with a tape, but its 'seats folded' chapter reports cargo depth from the tailgate to the 2nd-row seatback area (viewers cite ~105cm and, in the channel's sibling 'on a BOAT' video, ~118cm for what one commenter called 'the same' measurement -- the channel's own numbers are inconsistent with each other and it never states a figure for floor length behind the FRONT seats specifically). No source meets the bar of an independent, stated-method measurement of the metric this record needs.",
+        "source": "https://gearjunkie.com/motors/2024-hyundai-santa-fe-xrt-review (existing anecdote, insufficient); no replacement source found"
       },
       "mpg": {
         "city": 35,
@@ -2485,10 +3030,14 @@
         "https://www.hyundaiusa.com/us/en/vehicles/2025-santa-fe-hybrid",
         "https://www.autoweb.com/2025-hyundai-santa-fe-hybrid-road-test-and-review",
         "https://www.kbb.com/hyundai/santa-fe-hybrid/2025/limited/",
-        "https://www.kbb.com/hyundai/santa-fe-hybrid/2025/specs/"
+        "https://www.kbb.com/hyundai/santa-fe-hybrid/2025/specs/",
+        "https://www.manualslib.com/manual/3586154/Hyundai-Santa-Fe-2025.html",
+        "https://www.edmunds.com/hyundai/santa-fe/2025/trims/",
+        "https://www.hyundaiusa.com",
+        "https://gearjunkie.com/motors/2024-hyundai-santa-fe-xrt-review (existing anecdote, insufficient)"
       ],
       "notes": "This replaces an earlier gas-Santa Fe (XRT) record added in error. XRT-not-available-as-hybrid is confirmed across Edmunds, AutoNation, and KBB: only SEL/Limited/Calligraphy get the hybrid powertrain. Chassis code MX5 for the Hybrid is corroborated by Wikimedia Commons' own file-naming convention ('Hyundai Santa Fe (MX5) Hybrid ...'). A facelift-timing claim ('MX5 PE expected H2 2026') could not be corroborated this pass — some coverage suggests MY2027 instead — so generation_span omits a specific facelift date pending confirmation. Exterior dimensions, max cargo volume (79.6/40.5/14.6 cu ft), ground clearance (7.0 in), and tow rating (2,000 lb) are confirmed identical between Hybrid and gas Santa Fe — no battery-packaging cargo penalty found. The 120V AC interior outlet is listed on KBB's Limited/Calligraphy hybrid spec pages but its exact location (cargo vs. console) is unconfirmed; SEL's outlet status is inferred, not directly confirmed. JD Power's 82/100 score is attached to the non-hybrid '2025 Santa Fe' listing in search results — the Hybrid-specific JD Power page returned HTTP 403 on direct fetch, so treat the score as line-wide, not Hybrid-confirmed. The NHTSA rearview-camera recall (143,472 units) explicitly names 'Santa Fe and Santa Fe Hybrid' per autoevolution and cars.com. One KBB search result referenced a 2026 SE hybrid trim, suggesting MY2026 may add a new hybrid trim — outside this record's MY2025 scope. Search results repeatedly surfaced a 'Santa Fe Plug-In Hybrid' dealer comparison page; no evidence of an actual US-market Santa Fe PHEV was found anywhere — likely a template/naming error on that dealer site, not a real trim. No Commons cargo/trunk photo of any Santa Fe Hybrid trim was found, so cargo photo is null. Dashboard photo is the same gas Calligraphy interior as the removed gas record, since no Hybrid-badged interior photo was found on Commons.",
-      "last_verified": "2026-07-29",
+      "last_verified": "2026-08-17",
       "model_url": "https://www.hyundaiusa.com/us/en/vehicles/2025-santa-fe-hybrid",
       "max_cargo_cf": {
         "value": 79.6,
@@ -2521,7 +3070,30 @@
         "HTRAC AWD is optional, not standard, on Limited — FWD is the default configuration",
         "No MX5-generation or Hybrid-specific conversion kit vendor found; RiverLeaf covers only 2018–2023 Santa Fe, and Santa Fe isn't on Vanpackers' compatibility table",
         "MY2024-25 rearview-camera recall (143,472 units, confirmed to include Hybrid) — check for open recall on any used unit"
-      ]
+      ],
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": true,
+        "dual_zone_climate": true,
+        "sunroof": true,
+        "roof_rails": true,
+        "power_liftgate": true,
+        "remote_start": true,
+        "ventilated_front_seats": true,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "flat",
+        "rear_seat_fold_note": "Independent reviews (MotorBiscuit, Southtown Hyundai) describe the second- and third-row seats folding to a level load floor explicitly called out as suited to car camping.",
+        "source": "https://www.kbb.com/hyundai/santa-fe-hybrid/2025/specs/",
+        "field_sources": {
+          "remote_start": "https://www.manualslib.com/manual/3586154/Hyundai-Santa-Fe-2025.html",
+          "ventilated_front_seats": "https://www.edmunds.com/hyundai/santa-fe/2025/trims/",
+          "cargo_area_power_outlet": "https://www.hyundaiusa.com",
+          "fold_flat_front_passenger_seat": "https://www.edmunds.com/hyundai/santa-fe/2025/trims/"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "hyundai-santa-fe-hybrid-tm",
@@ -2547,8 +3119,8 @@
       },
       "cargo_length_behind_front_seats_in": {
         "value": 72,
-        "method": "Community/reviewer-measured, not an official Hyundai spec: ~72 in (6 ft) of flat load-floor length with the 60/40 second row folded, ~45–46 in wide, ~30 in to the ceiling. Corroborated by the RiverLeaf Santa Fe kit, whose sleep platform is built to a 72 in × 46 in footprint for the 2018–2023 Santa Fe. Floor is essentially flat with a slight incline at the seatback hinge; a 6-ft+ sleeper extends onto the folded seatbacks/footwells for full length.",
-        "source": "https://riverleafcamper.com/pages/hyundai-santa-fe-camper-conversion-kit"
+        "method": "Community/reviewer-measured, not an official spec, now corroborated by two independent sources. (1) riverleafcamper.com's conversion kit is built to a 72in x 46in sleep-platform footprint for the 2018-2023 Santa Fe. (2) A YouTube tape-measurement video specifically of the 2023 Santa Fe Hybrid's cargo area (channel FindTheBestCarPrice) -- transcribed in detail by a viewer comment, since the video itself did not play/caption in this session -- reports 'Trunk to top of folded back seat: 67in' (the flat load floor only, before the folded-seatback ramp) and 'Trunk to back of front seat: 79ish in (depending on seat location)' (the maximum reach into the footwell with front seats slid forward). 72in sits inside that 67-79in bracket: it reads as the practical figure for a flat mattress/platform with the front seats in a normal (not fully forward) position -- i.e. exactly what this field is defined to measure -- while 67 and 79 mark the flat-floor-only and seats-forward-maximum extremes of the same seats-folded cargo area, not competing values for the same metric.",
+        "source": "https://riverleafcamper.com/pages/hyundai-santa-fe-camper-conversion-kit; https://www.youtube.com/watch?v=FZu51w80dG0 (via viewer transcription in comments; channel FindTheBestCarPrice)"
       },
       "mpg": {
         "city": 33,
@@ -2621,10 +3193,15 @@
         "https://www.cars.com/research/hyundai-santa_fe/recalls/",
         "https://www.kbb.com/hyundai/santa-fe-hybrid/2023/",
         "https://www.cargurus.com/research/articles/hyundai-santa-fe-hybrid-buying-guide",
-        "https://commons.wikimedia.org/wiki/Category:Hyundai_Santa_Fe_(TM)"
+        "https://commons.wikimedia.org/wiki/Category:Hyundai_Santa_Fe_(TM)",
+        "https://www.kbb.com/hyundai/santa-fe-hybrid/2023/specs/",
+        "https://www.circlehyundai.com/blog/2023/november/3/2023-hyundai-santa-fe-models-and-trims.htm",
+        "https://www.wholesalehyundaiparts.com",
+        "https://gearshifters.org/hyundai/how-to-fold-rear-seats-hyundai-santa-fe/",
+        "https://www.youtube.com/watch?v=FZu51w80dG0 (via viewer transcription in comments"
       ],
       "notes": "TM generation only — do not conflate with the larger MX5 generation launched for 2024 (a separate record, hyundai-santa-fe-hybrid-mx5, covers the 2025 MX5). Powertrain: 1.6L turbo (178 hp) + 44.2 kW electric motor = 226 hp / 195 lb-ft combined, 6-speed automatic, HTRAC AWD standard on every 2023 hybrid trim. Ground clearance 8.2 in; tow rating 2,000 lb (vs up to 3,500 lb on the gas 2.5T). Recalls to check on any used unit: NHTSA 23V-181-000 (tow-hitch wiring-harness fire, 'park outside' advisory — covers 2019–2023 Santa Fe incl. HEV; especially relevant to buyers who added trailer-tow wiring) and a 2022 turbo oil-supply-pipe fire recall that may include some 2023 VINs. The 1.6T is the Gamma II turbo, not the Theta II engine from the older Hyundai engine-fire class actions. Exterior length is cited variously as ~187–188.4 in; 188.4 in is the 2021+ facelift figure. KBB.com and fueleconomy.gov 403 to automated fetch; MPG/value figures are search-surfaced. Photos set to null: Wikimedia Commons/upload.wikimedia.org are blocked by this environment's egress policy, so no image filename or license could be verified this pass — candidate TM-generation Commons files to add later include 'File:2022 Hyundai Santa Fe SEL AWD, front left.jpg' (US facelift exterior) and 'File:2023 Hyundai Santa Fe interior.jpg' (dashboard); confirm license on the file page before use.",
-      "last_verified": "2026-08-05",
+      "last_verified": "2026-08-17",
       "model_url": "https://www.hyundaiusa.com/us/en/vehicles/2023-santa-fe-hybrid/gallery",
       "max_cargo_cf": {
         "value": 72.1,
@@ -2656,7 +3233,31 @@
         "'Park outside' tow-hitch harness recall (23V-181) applies to this generation — confirm it was remedied, especially if tow wiring was added",
         "No PHEV-style AC power for camp; hybrid provides no meaningful household outlet on lower trims",
         "Camping-kit support is real but second-tier (RiverLeaf/Freeway/Vanpackers) vs the RAV4/CR-V/Outback aftermarket"
-      ]
+      ],
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": true,
+        "roof_rails": true,
+        "power_liftgate": true,
+        "remote_start": true,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "60/40 rear seats fold, giving a mostly level cargo floor, but multiple independent descriptions of this TM-generation body (2018-2023) note a step where the folded seatbacks meet the load floor rather than one continuous plane; a camper-conversion kit vendor sells an add-on platform specifically to bridge that unevenness.",
+        "source": "https://www.kbb.com/hyundai/santa-fe-hybrid/2023/specs/",
+        "field_sources": {
+          "remote_start": "https://www.circlehyundai.com/blog/2023/november/3/2023-hyundai-santa-fe-models-and-trims.htm",
+          "ventilated_front_seats": "https://www.edmunds.com/hyundai/santa-fe-hybrid/2023/trims/",
+          "cargo_area_power_outlet": "https://www.wholesalehyundaiparts.com",
+          "fold_flat_front_passenger_seat": "https://gearshifters.org/hyundai/how-to-fold-rear-seats-hyundai-santa-fe/",
+          "rear_seat_fold": "https://gearshifters.org/hyundai/how-to-fold-rear-seats-hyundai-santa-fe/"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "hyundai-santa-fe-phev-tm",
@@ -2682,8 +3283,8 @@
       },
       "cargo_length_behind_front_seats_in": {
         "value": 72,
-        "method": "Community/reviewer-measured, not an official spec: ~72 in (6 ft) of load-floor length with the 60/40 second row folded, ~45 in wide, ~30 in tall. Folded seatbacks are near-flat with a slight incline, so most builders add a leveling platform or foam. Crucially, the PHEV keeps the same cargo box as the gas/hybrid Santa Fe — the larger battery is packaged under the floor with no cargo intrusion.",
-        "source": "https://www.autoroamer.com/posts/hyundai-santa-fe-camping-setup.html"
+        "method": "Same body/cargo box as the TM-generation Santa Fe Hybrid (see hyundai-santa-fe-hybrid-tm entry) -- the current record's own method note already states the PHEV's larger battery is packaged under the floor with no cargo intrusion, so the same measurement and corroboration are used here explicitly rather than independently re-derived.",
+        "source": "https://riverleafcamper.com/pages/hyundai-santa-fe-camper-conversion-kit; https://www.youtube.com/watch?v=FZu51w80dG0 (via viewer transcription in comments; channel FindTheBestCarPrice; measurement taken on the Hybrid, applied to PHEV under shared-cargo-box assumption)"
       },
       "mpg": {
         "city": 33,
@@ -2757,10 +3358,17 @@
         "https://www.nhtsa.gov/press-releases/hyundai-kia-vehicles-recalled-fire-risk",
         "https://www.fontanahyundai.com/4-things-to-know-about-the-2023-hyundai-santa-fe-plug-in-hybrid/",
         "https://www.hyundaiusa.com/us/en/vehicles/santa-fe-plug-in-hybrid",
-        "https://commons.wikimedia.org/wiki/Category:Hyundai_Santa_Fe_(TM)"
+        "https://commons.wikimedia.org/wiki/Category:Hyundai_Santa_Fe_(TM)",
+        "https://www.kbb.com/hyundai/santa-fe-plug-in-hybrid/2023/specs/",
+        "https://www.hyundainews.com/assets/documents/original/50305-2023SantaFeProductFeatures20220630.pdf",
+        "https://www.edmunds.com/hyundai/santa-fe-plug-in-hybrid/2023/trims/",
+        "none",
+        "https://gearshifters.org/hyundai/how-to-fold-rear-seats-hyundai-santa-fe/",
+        "https://riverleafcamper.com/pages/hyundai-santa-fe-camper-conversion-kit",
+        "https://www.youtube.com/watch?v=FZu51w80dG0 (via viewer transcription in comments"
       ],
       "notes": "Real US-market vehicle for 2022–2023 (TM generation) — distinct from the MX5 generation (2024+), which never offered a PHEV; an earlier note on the MX5 record correctly observed no MX5 PHEV exists. Powertrain: 1.6L turbo GDI + electric motor + 13.8 kWh battery = 261 hp / 224 lb-ft combined, 6-speed automatic, HTRAC AWD standard. Distinctive camper traits: 31-mi EV range, a 120V AC outlet (owner-confirmed ~150W max — fine for laptops/phones/small electronics, NOT a portable induction cooktop or a large compressor fridge at full load), and — unusually for a PHEV — NO cargo penalty: still 36.4/72.1 cu ft with a flat floor because the battery sits under the floor. Main functional trade-off is towing, which drops to 2,000 lb (vs up to 3,500 lb gas). Recall correction: the 'park outside' recall on this vehicle is NOT a battery-pack fire recall — it is NHTSA 23V-181-000 / Hyundai 244, a tow-hitch wiring-harness fire recall covering the 2022–2023 Santa Fe Plug-in HEV (plus a seat-belt pretensioner recall and a 2022 fuel-tank recall touching these MYs). The high-voltage-battery bus-bar fire recall people may recall is for 2025–2026 Tucson/Santa Fe hybrids, not this car. KBB and fueleconomy.gov 403 to automated fetch; Level 1 charge time and US onboard-charger kW (3.3 kW) are owner/spec-sheet derived. Photos set to null: Wikimedia is blocked by this environment's egress policy, so no filename/license could be verified this pass — the PHEV is visually identical to the facelifted TM gas/hybrid Santa Fe, so a 2021+ TM exterior/dashboard from Category:Hyundai Santa Fe (TM) is a valid match to add later once a license can be confirmed.",
-      "last_verified": "2026-08-05",
+      "last_verified": "2026-08-17",
       "model_url": "https://www.hyundaiusa.com/us/en/vehicles/santa-fe-plug-in-hybrid",
       "max_cargo_cf": {
         "value": 72.1,
@@ -2793,7 +3401,31 @@
         "No DC fast charging and only ~3.3 kW onboard (Level 2 ~3.4–4 hr) — slow to top up on the road",
         "'Park outside' tow-hitch harness recall (23V-181) explicitly covers this PHEV — confirm it was remedied",
         "No PHEV-specific conversion kit; relies on generation-wide (2018–2023) Santa Fe camping products"
-      ]
+      ],
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": false,
+        "roof_rails": true,
+        "power_liftgate": true,
+        "remote_start": null,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": null,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "Same body, seats, and cargo floor hardware as the TM Santa Fe Hybrid (the PHEV variant differs only in powertrain/battery packaging, not rear seat/cargo architecture) -- see hyundai-santa-fe-hybrid-tm rationale.",
+        "source": "https://www.kbb.com/hyundai/santa-fe-plug-in-hybrid/2023/specs/",
+        "field_sources": {
+          "remote_start": "https://www.hyundainews.com/assets/documents/original/50305-2023SantaFeProductFeatures20220630.pdf",
+          "ventilated_front_seats": "https://www.edmunds.com/hyundai/santa-fe-plug-in-hybrid/2023/trims/",
+          "cargo_area_power_outlet": "none",
+          "fold_flat_front_passenger_seat": "https://gearshifters.org/hyundai/how-to-fold-rear-seats-hyundai-santa-fe/",
+          "rear_seat_fold": "https://gearshifters.org/hyundai/how-to-fold-rear-seats-hyundai-santa-fe/"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "hyundai-tucson-hybrid-nx4",
@@ -2818,9 +3450,9 @@
         "height": 65.6
       },
       "cargo_length_behind_front_seats_in": {
-        "value": 75,
-        "method": "Community/reviewer-measured, not an official Hyundai spec: ~75 in (~6.2 ft) of load-floor length with the 60/40 second row folded and front seats in a normal driving position, ~40–44 in wide at the usable point. Load floor is fairly flat with a low liftover; the hybrid battery is under the cabin so the cargo floor matches the gas Tucson. Fits a twin or trimmed pad; a footwell-filling air mattress extends usable length.",
-        "source": "https://www.autoroamer.com/posts/hyundai-tucson-car-camping-mattress-size.html"
+        "value": null,
+        "method": "No independent, stated-method measurement of cargo floor length behind the front seats could be found for the Tucson NX4. The current source, autoroamer.com (~75in), could not be corroborated by a second independent source with a stated method, and per the task's standing caution about autoroamer.com this alone is not sufficient. A parallel search found a same-worded 'Approximate interior measurements (2022-2026 model): Cargo length (rear seats folded): 72in' block repeated verbatim across multiple unrelated TikTok accounts and at least one dealer SEO blog -- the exact-duplicate wording across otherwise-unconnected posters strongly suggests a copy-pasted or AI-generated boilerplate spec block, not independent measurements, so it does not count as corroboration either, despite superficially agreeing with each other. I also found FindTheBestCarPrice's tape-measurement video for the 2023 Tucson ('True Cargo Capacity Given In Inches') -- the same channel/format that yielded a usable, now-confirmed number for the Santa Fe TM above -- but no viewer comment transcribed its spoken figures, the video itself did not play/caption in the browser, and a direct pull of its caption track via YouTube's timedtext API (which worked to identify the track but returned an empty body on fetch, likely an anti-scraping token requirement) did not yield text either.",
+        "source": "https://www.autoroamer.com/posts/hyundai-tucson-car-camping-mattress-size.html (existing source, uncorroborated); https://www.youtube.com/watch?v=1tZfFgIBkgo (promising same-format source, but numbers not extractable this session)"
       },
       "mpg": {
         "city": 37,
@@ -2897,10 +3529,17 @@
         "https://www.etrailer.com/tbairmatt-2023_Hyundai_Tucson.htm",
         "https://riverleafcamper.com/pages/hyundai-tucson-camper-conversion-kit-badlands",
         "https://www.tucson-forum.com/",
-        "https://commons.wikimedia.org/wiki/Category:Hyundai_Tucson_(NX4)"
+        "https://commons.wikimedia.org/wiki/Category:Hyundai_Tucson_(NX4)",
+        "https://www.kbb.com/hyundai/tucson-hybrid/2023/specs/",
+        "https://www.reddit.com/r/HyundaiTucson/comments/10px8r7/does_the_23_tuscon_have_remote_start/",
+        "https://www.edmunds.com/hyundai/tucson/2023/trims/",
+        "none",
+        "https://www.hyundaimanuals.org/hyundai-483.html",
+        "https://www.autoroamer.com/posts/hyundai-tucson-car-camping-mattress-size.html (existing source, uncorroborated)",
+        "https://www.youtube.com/watch?v=1tZfFgIBkgo (promising same-format source, but numbers not extractable this session)"
       ],
       "notes": "NX4 generation, US long-wheelbase body (182.3 in) — not the shorter European SWB Tucson, whose length/cargo figures differ. Standard Hybrid only (a separate Tucson Plug-in Hybrid exists and is not covered here). Powertrain: 1.6L turbo + electric motor = 226 hp / 258 lb-ft combined (the 180 hp / 195 lb-ft figure seen elsewhere is gas-engine-only), 6-speed automatic, HTRAC AWD standard on every hybrid trim. Ground clearance 8.3 in; tow rating 2,000 lb. Max cargo is cited as 74.5 cu ft (Hybrid SAE) or 74.8 depending on source — minor measurement/rounding difference; the gas Tucson is larger at 80.3 cu ft. No factory 115V outlet on the standard Hybrid (12V + USB only). KBB.com, fueleconomy.gov, and the Hyundai spec PDF 403 to automated fetch; MPG/value figures are search-surfaced. Photos set to null: Wikimedia Commons/upload.wikimedia.org are blocked by this environment's egress policy, so no filename or license could be verified this pass — candidate NX4 Commons files to add later include 'File:2022 Hyundai Tucson Hybrid.jpg' (US-spec, 2022 Chicago Auto Show) for the exterior; a confirmed NX4 US-spec dashboard image still needs to be located in Category:Hyundai Tucson (NX4). Confirm license on the file page before use.",
-      "last_verified": "2026-08-05",
+      "last_verified": "2026-08-17",
       "model_url": "https://www.hyundaiusa.com/us/en/vehicles/tucson-hybrid",
       "max_cargo_cf": {
         "value": 74.5,
@@ -2933,7 +3572,30 @@
         "Smaller than the Santa Fe: ~74.5 cu ft max and a narrower ~40–44 in sleeping width",
         "Hybrid is AWD-only and heavier than the gas Tucson, so no cheaper FWD hybrid option",
         "Cargo/length figures are community-measured (US LWB body) — verify fitment before buying a platform"
-      ]
+      ],
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": true,
+        "roof_rails": true,
+        "power_liftgate": true,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": null,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "U.S. News' interior review notes the adjustable dual-level cargo floor can be set flush with the liftgate sill/folded seats; a separate market review of the same generation describes a slight upward slope toward the folded seatback rather than a perfectly flat floor.",
+        "source": "https://www.kbb.com/hyundai/tucson-hybrid/2023/specs/",
+        "field_sources": {
+          "remote_start": "https://www.reddit.com/r/HyundaiTucson/comments/10px8r7/does_the_23_tuscon_have_remote_start/",
+          "ventilated_front_seats": "https://www.edmunds.com/hyundai/tucson/2023/trims/",
+          "cargo_area_power_outlet": "none",
+          "fold_flat_front_passenger_seat": "https://www.hyundaimanuals.org/hyundai-483.html"
+        },
+        "confidence": "medium"
+      }
     },
     {
       "id": "chevrolet-bolt-ev-gen1",
@@ -3043,10 +3705,15 @@
         "https://www.etrailer.com/roof-2022_chevrolet_bolt+ev.htm",
         "https://www.autopadre.com/ground-clearance/chevrolet-bolt",
         "https://commons.wikimedia.org/wiki/Category:Chevrolet_Bolt_EV_(2022_redesign)",
-        "https://en.wikipedia.org/wiki/Chevrolet_Bolt"
+        "https://en.wikipedia.org/wiki/Chevrolet_Bolt",
+        "https://www.edmunds.com/chevrolet/bolt-ev/2022/features-specs/",
+        "https://www.reddit.com/r/BoltEV/comments/vyu9l0/preconditioning_2022_bolt/",
+        "https://www.edmunds.com/chevrolet/bolt-ev/2022/trims/",
+        "https://www.chevybolt.org",
+        "https://www.reddit.com/r/BoltEV/comments/1249sn4/removing_front_passenger_seat_bolt_ev/"
       ],
       "notes": "Generation: 2017–2023 is a single Bolt EV generation. Wikipedia files the 2022 car as a 'Refresh (2022–2023)' subsection inside the first generation, and Wikimedia Commons categorises 2017–2023 the same way, with the all-new 2027 Bolt (unveiled 9 October 2025) as the second generation. So the 2022 car is a mid-cycle facelift, not a new generation, and the id is 'gen1'. Some outlets loosely call the 2022 refresh 'second-generation'; that reading does not fit this report's make-model-generation id convention and is not used here. The specs in this record are strictly the 2022 facelift car (new hood, fascias, LED lamps, wheels, instrument panel, seats and Electronic Precision Shift pushbuttons). This is the only battery-electric record in the report, and the only one where range is a hard trip constraint rather than a fuel-cost line item. Specs are the US-market Bolt EV hatchback, not the Bolt EUV — the EUV is a separate model, about 6 in longer, with its own cargo figure and its own Super Cruise option; do not mix the two. Powertrain: single permanent-magnet motor, 200 hp / 150 kW, 266 lb-ft, FWD, 65+ kWh pack, 11.5 kW onboard AC charger, DC fast charging standard for 2022 (~100 miles in 30 minutes). Ground clearance is roughly 5.3–5.6 in depending on source — low, with the pack under the floor. Max cargo 57 cu ft seats-folded is GM's own figure; behind the rear seat is about 16.6–17 cu ft (cars.com rounds to 17). Electrical: one 12V accessory outlet rated 20 A max that only works with the vehicle powered on — no 120V household outlet, no V2L, and no factory camp/climate-hold mode, so overnight climate control means leaving the car on and spending range. chevrolet.com/electric/bolt-ev now serves the all-new 2027 Bolt, so GM's 2022 media spec sheet is used as model_url instead. Photos: the exterior file's URL was verified to load (HTTP 200) and its license confirmed on the Commons file page. No 2022-facelift dashboard or cargo photo exists in Category:Chevrolet Bolt EV (2022 redesign), and the available '2021 Chevrolet Bolt EV interior' file shows the pre-facelift dash (different instrument panel, screen and shifter), so those two slots are null rather than misleading.",
-      "last_verified": "2026-08-16",
+      "last_verified": "2026-08-17",
       "model_url": "https://media.chevrolet.com/content/dam/Media/images/US/Vehicles/Chevrolet/Cars/BoltEV/2022/2022%20Chevrolet%20Bolt%20EV.pdf",
       "max_cargo_cf": {
         "value": 57.0,
@@ -3087,7 +3754,30 @@
         "No factory camp or climate-hold mode, unlike several newer EVs",
         "Battery-fire recall history (21V-650 plus two software re-dos) makes recall-completion documentation mandatory before buying, and depresses resale",
         "Aftermarket is thin: no full conversion kit, and none of the platform vendors that serve the SUVs here (Luno, RiverLeaf, Freeway Camper Kit) fit it"
-      ]
+      ],
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": false,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": false,
+        "sunroof": false,
+        "roof_rails": false,
+        "power_liftgate": false,
+        "remote_start": false,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": false,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "A dedicated EV-camping review (rvrove.com) measured roughly a 2-inch step where the folded rear seat cushions meet the cargo floor, not a perfectly flat surface.",
+        "source": "https://www.edmunds.com/chevrolet/bolt-ev/2022/features-specs/",
+        "field_sources": {
+          "remote_start": "https://www.reddit.com/r/BoltEV/comments/vyu9l0/preconditioning_2022_bolt/",
+          "ventilated_front_seats": "https://www.edmunds.com/chevrolet/bolt-ev/2022/trims/",
+          "cargo_area_power_outlet": "https://www.chevybolt.org",
+          "fold_flat_front_passenger_seat": "https://www.reddit.com/r/BoltEV/comments/1249sn4/removing_front_passenger_seat_bolt_ev/"
+        },
+        "confidence": "medium"
+      }
     }
   ]
 }

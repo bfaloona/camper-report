@@ -395,6 +395,12 @@ const towText = v => v.tow_rating ? (v.tow_rating.max ? fmt(v.tow_rating.max) + 
   + (v.tow_rating.tongue ? ' · ' + v.tow_rating.tongue + ' lb tongue' : '') : 'Not rated') : '—';
 // Combined city/hwy cell. For EVs, mpg.city/hwy hold EPA MPGe — a different
 // unit — so the cell says so instead of passing the number off as MPG.
+const cargoLenCell = (v, unit) => {
+  const c = v.cargo_length_behind_front_seats_in || {};
+  if (c.value == null) return '—';
+  return c.value + (unit ? ' in' : '');
+};
+
 const mpgCell = v => {
   const m = v.mpg || {};
   if (m.city == null || m.hwy == null) return '—';
@@ -411,7 +417,7 @@ const COLUMNS = [
   { key: 'length', label: 'L (in)', num: true, get: v => v.exterior_in.length },
   { key: 'width', label: 'W (in)', num: true, get: v => v.exterior_in.width },
   { key: 'height', label: 'H (in)', num: true, get: v => v.exterior_in.height },
-  { key: 'cargo', label: 'Cargo len (in)', num: true, get: v => v.cargo_length_behind_front_seats_in.value },
+  { key: 'cargo', label: 'Cargo len (in)', num: true, get: v => v.cargo_length_behind_front_seats_in.value ?? 0 },
   { key: 'maxcf', label: 'Max cf', num: true, get: v => v.max_cargo_cf ? v.max_cargo_cf.value : 0 },
   // Sorts by the city figure; EVs sort by their MPGe city number (labeled in the cell).
   { key: 'mpg', label: 'MPG city/hwy', num: true, get: v => (v.mpg && v.mpg.city != null) ? v.mpg.city : 0 },
@@ -502,7 +508,7 @@ function renderCards(rows) {
         <div class="spec"><div class="k">KBB (${v.listed_year})</div><div class="v">$${fmt(v.kbb_value_usd.low)}–$${fmt(v.kbb_value_usd.high)}</div></div>
         <div class="spec"><div class="k">MPG city/hwy</div><div class="v" title="${esc(v.mpg.note || '')}">${v.mpg.city} / ${v.mpg.hwy}${v.mpg.mpge ? ' · ' + v.mpg.mpge + ' MPGe · ' + v.mpg.ev_range_mi + ' mi EV' : ''}</div></div>
         <div class="spec"><div class="k">Exterior L×W×H</div><div class="v">${v.exterior_in.length} × ${v.exterior_in.width} × ${v.exterior_in.height} in</div></div>
-        <div class="spec"><div class="k">Cargo length behind front seats</div><div class="v">${v.cargo_length_behind_front_seats_in.value} in <span class="flag" title="${esc(v.cargo_length_behind_front_seats_in.method)}">†</span></div></div>
+        <div class="spec"><div class="k">Cargo length behind front seats</div><div class="v">${cargoLenCell(v, true)} <span class="flag" title="${esc(v.cargo_length_behind_front_seats_in.method)}">†</span></div></div>
         <div class="spec"><div class="k">Camper popularity</div><div class="v pop ${v.camper_popularity.rating}" title="${esc(v.camper_popularity.evidence)}">${v.camper_popularity.rating}</div></div>
         <div class="spec"><div class="k">Tow rating</div><div class="v" title="${v.tow_rating ? esc(v.tow_rating.note) : ''}">${towText(v)}</div></div>
         <div class="spec"><div class="k">Safety suite</div><div class="v">${v.safety.suite}</div></div>
@@ -543,7 +549,7 @@ function renderTable(rows) {
       <td class="num">${v.exterior_in.length}</td>
       <td class="num">${v.exterior_in.width}</td>
       <td class="num">${v.exterior_in.height}</td>
-      <td class="num">${v.cargo_length_behind_front_seats_in.value} <span class="flag" title="${esc(v.cargo_length_behind_front_seats_in.method)}">†</span></td>
+      <td class="num">${cargoLenCell(v, false)} <span class="flag" title="${esc(v.cargo_length_behind_front_seats_in.method)}">†</span></td>
       <td class="num" title="${v.max_cargo_cf ? esc(v.max_cargo_cf.config) : ''}">${v.max_cargo_cf ? v.max_cargo_cf.value : '—'}</td>
       <td class="num" title="${esc(v.mpg && v.mpg.note || '')}">${mpgCell(v)}</td>
       <td class="num" title="${v.tow_rating ? esc(v.tow_rating.note) : ''}">${v.tow_rating ? (v.tow_rating.max ? fmt(v.tow_rating.max) : '0') : '—'}</td>
