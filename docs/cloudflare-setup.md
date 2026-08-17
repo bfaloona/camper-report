@@ -39,9 +39,22 @@ Dashboard → **Storage & Databases → KV → Create instance**.
 Nothing left to do here. The ID is already written into `wrangler.jsonc`, which is what
 binds it — you do **not** add a KV binding in the dashboard (see the warning in step 3).
 
-## 2. Deploy the Worker
+## 2. Deploy the Worker ✅ first deploy done 2026-08-16
 
-Two ways. Pick one.
+Live at **`https://camper-report.brandon-eaa.workers.dev`**. That's the hostname step 4
+needs. Verified after deploy: `/`, `/vehicles.json`, `/shortlist/`, and both shortlist JS
+files serve; `/api/*` returns the expected "not configured" 500 until step 5; and
+`package.json`, `.dev.vars`, `wrangler.jsonc`, `CLAUDE.md`, `functions/*.js`, and the test
+files all 404.
+
+Assets can take a minute to propagate after a deploy — a 404 on a file you know you
+uploaded is worth one retry before you start debugging it.
+
+Preview URLs are disabled in `wrangler.jsonc`. Leave them off: they would put `/shortlist`
+and `/api/*` on a second hostname that the step-4 Access application does not name, and so
+does not gate.
+
+Redeploying, either way below, is safe to repeat.
 
 ### 2a. Git integration (recommended — deploys on every push)
 
@@ -68,9 +81,9 @@ npm run deploy
 `npm run deploy` stages the assets, compiles `functions/` into a Worker script, and
 publishes. Use this for a one-off; it means every future change needs you to run it again.
 
-Either way, note the assigned `camper-report.<your-subdomain>.workers.dev` hostname — you
-need it in step 4. If the Worker has no workers.dev route yet, enable it under
-**Settings → Domains & Routes**.
+The workers.dev route is already enabled. If you ever need to re-check the hostname, it is
+under **Settings → Domains & Routes**.
+
 
 ## 3. Variables and secrets
 
@@ -102,7 +115,7 @@ Zero Trust → **Access controls → Applications → Add an application → Sel
 | Field | Value |
 | --- | --- |
 | Application name | `Camper Shortlist` |
-| Public hostname | your `camper-report.<subdomain>.workers.dev` hostname from step 2 |
+| Public hostname | `camper-report.brandon-eaa.workers.dev` |
 | Paths | `/shortlist*` **and** `/api/*` |
 
 **Do not gate `/`.** Gating the root puts the public report behind a login and breaks the
@@ -130,9 +143,9 @@ value, and **redeploy** (Deployments → latest → Retry, or `npm run deploy` a
 
 From a signed-out browser or a private window:
 
-1. `https://<host>/` → the report loads, **no login prompt**. If you get a login here, the
+1. `https://camper-report.brandon-eaa.workers.dev/` → the report loads, **no login prompt**. If you get a login here, the
    Access application's paths are wrong; fix before continuing.
-2. `https://<host>/api/prefs` → redirected to Google sign-in.
+2. `https://camper-report.brandon-eaa.workers.dev/api/prefs` → redirected to Google sign-in.
 3. Sign in as `bfaloona@gmail.com` → a JSON blob renders.
 4. Sign in as some third Google account → Access denies with its own block page.
 5. Your existing GitHub Pages URL still serves the report unchanged.
@@ -140,8 +153,8 @@ From a signed-out browser or a private window:
 Command-line equivalents for 1 and 2:
 
 ```bash
-curl -si https://<host>/vehicles.json | head -1   # expect 200
-curl -si https://<host>/api/prefs     | head -1   # expect a 302 to the Access login
+curl -si https://camper-report.brandon-eaa.workers.dev/vehicles.json | head -1   # expect 200
+curl -si https://camper-report.brandon-eaa.workers.dev/api/prefs     | head -1   # expect a 302 to the Access login
 ```
 
 Responses you might hit, and what each means:
@@ -153,7 +166,8 @@ Responses you might hit, and what each means:
 | `{"error":"Not authenticated"}` (401) **after a successful Google sign-in** | Almost always a mistyped `CF_ACCESS_TEAM_DOMAIN` or `CF_ACCESS_AUD` — the sign-in succeeded but the Worker can't verify the token it got. The body is deliberately generic; run `npx wrangler tail camper-report` and look for an `auth:` line (e.g. `auth: aud_mismatch`, `auth: jwks_fetch_failed`) to tell the two apart |
 | 404 on a page that used to work | The file isn't in the allowlist in `scripts/build-assets.mjs`. Only files named there are uploaded |
 
-**Between step 2 and step 4 the `/shortlist` page is publicly reachable.** No data leaks —
+**Right now, until you finish step 4, the `/shortlist` page is publicly reachable.** No
+data leaks —
 `/api/prefs` fails closed with a 500 while `CF_ACCESS_AUD` is unset, so the page loads but
 can't read or write anything. If that window bothers you, create the Access application
 before the first deploy.

@@ -17,6 +17,16 @@
 		"binding": "ASSETS"
 	},
 
+	// An Access application covers exactly one hostname. Preview URLs would put
+	// /shortlist and /api/* on a second hostname the Access app does not name,
+	// outside the gate — wrangler turns them on by default, so this must be
+	// explicit. /api/* would still fail closed there (no Access JWT means a 401),
+	// but an ungated copy of the tool is not worth having for a repo that only
+	// ever deploys main. workers_dev is stated for the same reason: it is
+	// load-bearing (it is the only hostname there is), not a default to inherit.
+	"workers_dev": true,
+	"preview_urls": false,
+
 	"kv_namespaces": [
 		{
 			"binding": "PREFS",
