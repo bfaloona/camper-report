@@ -186,12 +186,13 @@
 </style>
 </head>
 <body>
-<header>
-  <h1>Shortlist</h1>
-  <p id="who" class="saving"></p>
-</header>
+<div class="wrap">
+  <header>
+    <h1>Shortlist</h1>
+    <div class="sub" id="who"></div>
+  </header>
 
-<main>
+  <main>
   <section id="prose-section">
     <h2>Describe what you want</h2>
     <textarea id="prose" rows="4" maxlength="4000"
@@ -214,12 +215,13 @@
     <button id="btn-cards" class="active">Cards</button>
     <button id="btn-table">Table</button>
     <button id="btn-ruled-out" aria-pressed="false" hidden></button>
-    <div id="cards"></div>
-    <div id="table-view" style="display:none">
+    <div id="cards" class="cards"></div>
+    <div id="table-view" class="table-wrap" style="display:none">
       <table><thead><tr id="thead-row"></tr></thead><tbody id="tbody"></tbody></table>
     </div>
   </section>
-</main>
+  </main>
+</div>
 
 <script>
 // Shim for `loadPins`, called once inside the synced RENDER block below (it's
