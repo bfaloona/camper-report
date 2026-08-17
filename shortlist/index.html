@@ -173,7 +173,10 @@
 .crit-row { display: grid; grid-template-columns: 1fr 130px 1fr 90px 70px 32px; gap: 8px;
   align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
 .crit-row .rule { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #555; }
-.crit-row.manual .rule { font-style: italic; color: #888; }
+.crit-row.manual .rule { font-style: italic; color: var(--unk-ink); }
+/* An unenforced must-have is the one state that can mislead you about your own
+   results, so the summary says so in the same colour the row badge uses. */
+#count-note.has-inert { color: var(--unk-ink); }
 .excluded { opacity: .45; }
 /* The synced renderTable emits compare checkboxes; this page has no compare
    mode, so hide them rather than ship a control that does nothing. */
@@ -542,8 +545,18 @@ function reRank(criteria) {
 // functions/api/prefs.js). A criterion can have kind !== 'manual' yet a null
 // or malformed `rule` (an older shape, hand-edited KV, etc.), so this must
 // not assume `c.rule.field` exists.
+// Tiers that would filter, if the criterion had a rule the scorer could read.
+const GATE_TIERS = new Set(['must-have', 'deal-breaker']);
+const isInert = c => c.kind === 'manual' || !c.rule || typeof c.rule !== 'object';
+
 function ruleText(c) {
-  if (c.kind === 'manual' || !c.rule || typeof c.rule !== 'object') return 'judge by hand';
+  // "judge by hand" undersold this: an inert criterion does not filter AND does
+  // not score, so a must-have with no rule looked like it was ruling vehicles
+  // out while doing nothing at all. Say which, and say it louder when the tier
+  // promises filtering.
+  if (isInert(c)) {
+    return GATE_TIERS.has(c.tier) ? 'not filtering — judge by hand' : 'not scored — judge by hand';
+  }
   const f = FIELDS[c.rule.field]?.label ?? c.rule.field ?? '?';
   if (c.rule.direction) return `${f}: ${c.rule.direction === 'higher' ? 'more is better' : 'less is better'}`;
   const value = Array.isArray(c.rule.value) ? c.rule.value.join('–') : c.rule.value;
@@ -553,7 +566,7 @@ function ruleText(c) {
 function renderCriteria() {
   const host = document.getElementById('criteria');
   host.innerHTML = prefs.criteria.map(c => `
-    <div class="crit-row ${c.kind === 'manual' ? 'manual' : ''}" data-id="${c.id}">
+    <div class="crit-row ${isInert(c) ? 'manual' : ''}" data-id="${c.id}">
       <input class="c-label" value="${esc(c.label)}" aria-label="Criterion name">
       <select class="c-tier" aria-label="Tier">
         ${['must-have', 'nice-to-have', 'dislike', 'deal-breaker']
@@ -572,9 +585,27 @@ function renderResults() {
   const included = ranked.filter(r => !r.excluded);
   const ruledOut = ranked.length - included.length;
 
-  document.getElementById('count-note').textContent =
-    `${included.length} of ${vehicles.length} vehicles meet your must-haves` +
-    (ruledOut ? ` · ${ruledOut} ruled out` : '');
+  // A must-have with no machine-readable rule filters nothing, so "25 of 25
+  // meet your must-haves" was technically true and practically a lie — it read
+  // as "everything passed your bar" when the bar had never been applied. Name
+  // the unenforced ones instead of quietly counting them as satisfied.
+  const inertGates = prefs.criteria.filter(c => c && GATE_TIERS.has(c.tier) && isInert(c));
+  const enforced = prefs.criteria.filter(c => c && GATE_TIERS.has(c.tier) && !isInert(c)).length;
+  const note = document.getElementById('count-note');
+  // With nothing entered yet there is nothing to warn about — "no must-have is
+  // being enforced" would read as a fault on an empty page.
+  const gateCount = prefs.criteria.filter(c => c && GATE_TIERS.has(c.tier)).length;
+  note.textContent =
+    (enforced
+      ? `${included.length} of ${vehicles.length} vehicles meet your ${enforced} enforced must-have${enforced === 1 ? '' : 's'}`
+      : gateCount
+        ? `${vehicles.length} vehicles · no must-have is being enforced`
+        : `${vehicles.length} vehicles`) +
+    (ruledOut ? ` · ${ruledOut} ruled out` : '') +
+    (inertGates.length
+      ? ` · ${inertGates.length} not applied: ${inertGates.map(c => c.label).join(', ')}`
+      : '');
+  note.classList.toggle('has-inert', inertGates.length > 0);
 
   // Ruled-out vehicles are hidden by default; the toggle appends them, dimmed,
   // after the ones that qualify. rankVehicles already sorts excluded last.
@@ -596,6 +627,13 @@ function renderResults() {
     // Ranked order is the order here — header-click sorting would silently
     // fight rankVehicles, so switch it off on this page.
     document.querySelectorAll('#thead-row th').forEach(th => { th.onclick = null; th.style.cursor = 'default'; });
+    // The synced COLUMNS call this column "Sel" because in the report it holds
+    // the compare checkbox. This page hides that checkbox, so the column shows
+    // only the score and the pin — an unlabelled number reads as part of the
+    // pin control rather than as the ranking it is. Renamed here rather than in
+    // COLUMNS, which --shared overwrites from index.html.
+    const selHead = document.querySelector('#thead-row th[data-key="sel"]');
+    if (selHead) selHead.textContent = 'Score';
   }
 
   // Annotate the synced markup with what the report doesn't know about:
