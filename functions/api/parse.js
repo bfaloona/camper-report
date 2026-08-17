@@ -54,35 +54,57 @@ function validRule(rule) {
   return { field: rule.field, op: rule.op, value: values };
 }
 
-// Anything the model produced that we cannot express against the field
-// vocabulary survives as kind:"manual" — the user's intent is preserved and
-// shown, it just doesn't drive the score automatically.
+// Anything we cannot express against the field vocabulary becomes a NOTE, not
+// a criterion. It used to survive as kind:"manual", which preserved the intent
+// but gave it a criterion's whole apparatus — tier, weight, rank, reorder
+// arrows — none of which did anything, because the scorer ignores a criterion
+// with no rule. A must-have that filtered nothing still reported itself as met.
+// A note claims nothing, so it cannot lie.
 export function validateCriteria(raw) {
-  if (!Array.isArray(raw)) return [];
-  const out = [];
-  for (const entry of raw) {
-    if (!entry || typeof entry !== 'object') continue;
-    const label = typeof entry.label === 'string' ? entry.label.trim() : '';
-    if (!label) continue;
-    if (!TIERS.includes(entry.tier)) continue;
+  return splitParse(raw).criteria;
+}
 
-    const rule = entry.kind === 'manual' ? null : validRule(entry.rule);
-    const kind = rule === null ? 'manual' : (rule.direction ? 'fuzzy' : 'hard');
-    const rank = out.length + 1;
+export function splitParse(raw, extraNotes) {
+  const criteria = [];
+  const notes = [];
+  if (Array.isArray(raw)) {
+    for (const entry of raw) {
+      if (!entry || typeof entry !== 'object') continue;
+      const label = typeof entry.label === 'string' ? entry.label.trim() : '';
+      if (!label) continue;
+      if (!TIERS.includes(entry.tier)) continue;
 
-    out.push({
-      id: newId(),
-      label,
-      tier: entry.tier,
-      rank,
-      weight: weightForRank(rank),
-      weight_locked: false,
-      kind,
-      rule,
-      source_text: typeof entry.source_text === 'string' ? entry.source_text : label,
-    });
+      // validRule is the authority, not the model's own `kind`. A want the
+      // model labelled "hard" against a field that does not exist, or an op the
+      // field cannot take, lands here the same as one it gave up on.
+      const rule = entry.kind === 'manual' ? null : validRule(entry.rule);
+      if (rule === null) {
+        notes.push(label);
+        continue;
+      }
+      const rank = criteria.length + 1;
+      criteria.push({
+        id: newId(),
+        label,
+        tier: entry.tier,
+        rank,
+        weight: weightForRank(rank),
+        weight_locked: false,
+        kind: rule.direction ? 'fuzzy' : 'hard',
+        rule,
+        source_text: typeof entry.source_text === 'string' ? entry.source_text : label,
+      });
+    }
   }
-  return out;
+  if (Array.isArray(extraNotes)) {
+    for (const n of extraNotes) {
+      const s = typeof n === 'string' ? n.trim() : '';
+      if (s) notes.push(s);
+    }
+  }
+  // Duplicates are easy here: the model can emit a want as both an unusable
+  // criterion and a note.
+  return { criteria, notes: [...new Set(notes)] };
 }
 
 // Exported for tests only. The structured-outputs endpoint validates this
@@ -145,22 +167,34 @@ export const SCHEMA = {
         additionalProperties: false,
       },
     },
+    notes: {
+      type: 'array',
+      items: { type: 'string' },
+    },
   },
-  required: ['criteria'],
+  required: ['criteria', 'notes'],
   additionalProperties: false,
 };
 
 const SYSTEM = `You turn a person's prose about the vehicle they want into structured criteria for a camper-conversion shortlist tool.
 
-Split the prose into one criterion per distinct want. For each:
+Split the prose into one distinct want per entry. Each want becomes EITHER a criterion (if a field expresses it) or a note (if none does).
+
+For a criterion:
 
 - "tier": "deal-breaker" if violating it rules a vehicle out entirely; "must-have" if it is required but a judgment call; "nice-to-have" if it is a preference; "dislike" if it is something to avoid.
-- "kind": "hard" when the want maps to a threshold or set membership on one of the available fields; "fuzzy" when it maps to a direction on a numeric field but has no threshold ("as much cargo room as possible"); "manual" when no field expresses it.
-- "rule": for "hard", {field, op, value}. For "fuzzy", {field, direction}. For "manual", null.
+- "kind": "hard" when the want maps to a threshold or set membership on one of the available fields; "fuzzy" when it maps to a direction on a numeric field but has no threshold ("as much cargo room as possible").
+- "rule": for "hard", {field, op, value}. For "fuzzy", {field, direction}.
 - "label": a short human-readable restatement, under 60 characters.
 - "source_text": the fragment of the person's input this came from, verbatim.
 
-Units are inches for dimensions, USD for prices, pounds for towing. camper_popularity is ordinal: 1 = Low, 2 = Medium, 3 = High. Prefer "manual" over forcing a want onto a field that does not really mean the same thing.`;
+Put a want in "notes" instead when no field expresses it. The dataset describes dimensions, cargo, economy, price, towing, reliability, driver-assist safety feature counts, conversion-kit availability, camper popularity, class, powertrain and drivetrain. It records NOTHING about comfort or convenience equipment, so wants like heated seats, sunroof, upholstery, infotainment or seat configuration are always notes. A note is a plain sentence, no fields.
+
+Do not emit a criterion whose rule you cannot fill in. There is no "manual" kind: a want with no usable rule belongs in "notes", where it is shown to the person as something to weigh themselves. That is better than a criterion that appears to filter and does not.
+
+Map wants about driver-assistance or safety technology ("good safety tech", "maximum driver aids", "modern safety features") to safety_feature_count with direction "higher" — that field counts the driver-assist features on record. Only send such a want to notes if it names specific equipment the count cannot capture.
+
+Units are inches for dimensions, USD for prices, pounds for towing. camper_popularity is ordinal: 1 = Low, 2 = Medium, 3 = High. Prefer a note over forcing a want onto a field that does not really mean the same thing.`;
 
 function json(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -227,5 +261,5 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'Unparseable response from the parsing service' }, 502);
   }
 
-  return json({ criteria: validateCriteria(parsed.criteria) });
+  return json(splitParse(parsed.criteria, parsed.notes));
 }

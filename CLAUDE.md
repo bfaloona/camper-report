@@ -114,7 +114,7 @@ per-user state — one person's saved criteria and pins are the other's too.
 | `shortlist/index.html` | The page. Its `/*STYLE-*/` and `/*RENDER-*/` blocks are **copies** — edit `index.html` and re-run `--shared`. |
 | `shortlist/scoring.js` | Pure scoring: field vocabulary (`FIELDS`), hard gates, weighted ranking. Unit-tested. |
 | `shortlist/prefs.js` | Client for `/api/prefs` and `/api/parse`, including the etag conflict guard. |
-| `functions/api/prefs.js` | GET/PUT the shared blob in KV. |
+| `functions/api/prefs.js` | GET/PUT the shared blob in KV (`pins`, `criteria`, `notes`). |
 | `functions/api/parse.js` | Prose → criteria via `claude-opus-5`, validated against the field vocabulary (`FIELD_IDS`). |
 | `functions/_lib/auth.js` | Verifies the Cloudflare Access JWT signature and checks the email allowlist. |
 
@@ -147,6 +147,14 @@ Things that will bite you if you don't know them:
   shims. `window.state = {...}` does **not** work — a classic `<script>`'s `let state`
   shadows an identically-named `window` property — so mutate the existing `state`
   object's fields in place instead of replacing it.
+- **A want with no usable rule becomes a note, not a criterion.** `/api/parse` returns
+  `{ criteria, notes }`; `splitParse` routes anything `validRule` rejects into `notes`,
+  including entries the model confidently labelled `hard`. There is deliberately no
+  `manual` kind any more: an inert criterion carried a tier, weight and rank that did
+  nothing, and a manual "must-have" reported itself as satisfied while filtering nothing.
+  The dataset holds no comfort/equipment data at all, so wants like heated seats or a
+  sunroof can only ever be notes. Criteria stored before this change are migrated into
+  `notes` on page load.
 - **Stored criteria are untrusted on read.** `PUT /api/prefs` validates only that
   `prefs.criteria` and `prefs.pins` are arrays, not the shape of each criterion, by
   design — `/api/parse`'s `validateCriteria` owns that schema. Anything that reads the

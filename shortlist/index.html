@@ -238,6 +238,16 @@
     <span id="save-status" class="saving"></span>
   </section>
 
+  <section id="notes-section">
+    <h2>Notes</h2>
+    <p class="why">Things the data can't check — comfort features, hunches, anything to weigh
+      yourself. These never affect the ranking, which is the point: a criterion that quietly
+      scores nothing is worse than a note that never claimed to.</p>
+    <textarea id="notes" rows="4" maxlength="4000"
+      placeholder="Heated seats. Sunroof. Prefer something that doesn't look like a work van."></textarea>
+    <span id="notes-status" class="saving"></span>
+  </section>
+
   <section id="results-section">
     <h2>Ranked</h2>
     <p id="count-note"></p>
@@ -434,6 +444,7 @@ import { rankVehicles, FIELDS } from './scoring.js';
 import { loadPrefs, savePrefs, parseProse } from './prefs.js';
 
 let prefs = null;
+let migrationNote = '';
 let vehicles = [];
 let ranked = [];
 let view = 'cards';
@@ -486,7 +497,23 @@ async function boot() {
   ]);
   prefs = prefsResult.prefs;
   prefs.criteria = sanitizeCriteria(prefs.criteria);
+  // Older blobs predate notes entirely, so this is absent rather than empty.
+  if (typeof prefs.notes !== 'string') prefs.notes = '';
   vehicles = dataResult.vehicles;
+
+  // Criteria saved before notes existed can be inert — they filter nothing and
+  // score nothing while still occupying a row with a tier and a weight. Move
+  // them across once, rather than leaving the confusing rows in place forever.
+  // Moved, never dropped: the text is the user's, and it lands somewhere visible.
+  const stranded = prefs.criteria.filter(isInert);
+  if (stranded.length) {
+    prefs.criteria = prefs.criteria.filter(c => !isInert(c));
+    reRank(prefs.criteria);
+    prefs.notes = [prefs.notes.trim(), ...stranded.map(c => c.label)]
+      .filter(Boolean).join('\n');
+    migrationNote = `Moved ${stranded.length} criteria that scored nothing into Notes: ` +
+      stranded.map(c => c.label).join(', ');
+  }
   // Signed-in identity and "who last saved" are different facts on a tool
   // two people share — show both rather than letting one stand in for the
   // other.
@@ -499,8 +526,20 @@ async function boot() {
     w.textContent = prefsResult.warning;
     w.hidden = false;
   }
+  document.getElementById('notes').value = prefs.notes;
+  if (migrationNote) {
+    document.getElementById('notes-status').textContent = migrationNote;
+    scheduleSave();
+  }
   render();
 }
+
+document.getElementById('notes').oninput = e => {
+  prefs.notes = e.target.value;
+  // Notes never touch the ranking, so this deliberately does not re-render —
+  // typing in here should not rebuild the results table on every keystroke.
+  scheduleSave();
+};
 
 let saveTimer = null;
 function scheduleSave() {
@@ -680,10 +719,19 @@ document.getElementById('btn-parse').onclick = async () => {
   if (!text) return;
   status.textContent = 'Reading…';
   try {
-    const added = await parseProse(text);
+    const { criteria: added, notes: newNotes } = await parseProse(text);
     prefs.criteria = prefs.criteria.concat(added);
     reRank(prefs.criteria);
-    status.textContent = `Added ${added.length} criteria — edit anything below.`;
+    if (newNotes.length) {
+      prefs.notes = [prefs.notes.trim(), ...newNotes].filter(Boolean).join('\n');
+      document.getElementById('notes').value = prefs.notes;
+    }
+    // Say what went where. Silently filing a want under Notes would look like
+    // the parser had dropped it.
+    status.textContent = [
+      added.length ? `Added ${added.length} criteri${added.length === 1 ? 'on' : 'a'}` : '',
+      newNotes.length ? `${newNotes.length} went to Notes (no data to check them against)` : '',
+    ].filter(Boolean).join(' · ') || 'Nothing usable in that text.';
     document.getElementById('prose').value = '';
     scheduleSave();
     render();

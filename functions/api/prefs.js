@@ -13,6 +13,9 @@ const EMPTY = {
   updated_by: null,
   pins: ['mazda5-gen3', 'chevrolet-bolt-ev-gen1'],
   criteria: [],
+  // Wants no field can express. Absent from older stored blobs, so every
+  // reader must treat a missing value as empty rather than assume the key.
+  notes: '',
 };
 
 async function etagOf(text) {
@@ -99,10 +102,15 @@ export async function onRequestPut({ request, env }) {
     return json({ error: 'prefs.criteria and prefs.pins must be arrays' }, 400);
   }
 
-  // Only these two fields are ever persisted (see next, below) — measure
-  // against what will actually be stored, not the whole caller-supplied body.
+  // Free text, so this is the field a caller would use to turn the blob into
+  // general-purpose storage. It counts toward the size limit below, and is
+  // coerced rather than rejected so a null from an older client is not an error.
+  const notes = typeof body.prefs.notes === 'string' ? body.prefs.notes : '';
+
+  // Only these fields are ever persisted (see next, below) — measure against
+  // what will actually be stored, not the whole caller-supplied body.
   const candidateSize = new TextEncoder().encode(
-    JSON.stringify({ pins: body.prefs.pins, criteria: body.prefs.criteria })
+    JSON.stringify({ pins: body.prefs.pins, criteria: body.prefs.criteria, notes })
   ).length;
   if (candidateSize > MAX_BODY_BYTES) {
     return json({ error: `prefs must be under ${MAX_BODY_BYTES} bytes` }, 400);
@@ -128,6 +136,7 @@ export async function onRequestPut({ request, env }) {
     updated_by: email,
     pins: body.prefs.pins,
     criteria: body.prefs.criteria,
+    notes,
   };
   const text = JSON.stringify(next);
   try {

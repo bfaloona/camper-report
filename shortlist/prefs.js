@@ -44,5 +44,8 @@ export async function parseProse(text) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.error || `Could not parse that text (${res.status})`);
   }
-  return (await res.json()).criteria;
+  const body = await res.json();
+  // `notes` carries the wants no field can express. Defaulted here because an
+  // older deployment of /api/parse returns only `criteria`.
+  return { criteria: body.criteria ?? [], notes: Array.isArray(body.notes) ? body.notes : [] };
 }

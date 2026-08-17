@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validateCriteria, FIELD_IDS, onRequestPost } from './parse.js';
+import { validateCriteria, splitParse, FIELD_IDS, onRequestPost } from './parse.js';
 
 // Loopback + DEV_BYPASS_EMAIL, no CF_ACCESS_AUD: exercises the real requireUser
 // dev-bypass path (see functions/_lib/auth.js) rather than stubbing the guard —
@@ -37,30 +37,31 @@ test('keeps a well-formed fuzzy criterion', () => {
   assert.equal(c.rule.direction, 'higher');
 });
 
-test('demotes an unknown field to manual instead of dropping it', () => {
-  const [c] = validateCriteria([{
+test('routes an unknown field to notes instead of dropping it', () => {
+  const r = splitParse([{
     label: 'Good stereo', tier: 'nice-to-have', kind: 'hard',
     rule: { field: 'stereo_quality', op: '>', value: 3 }, source_text: 'good stereo',
   }]);
-  assert.equal(c.kind, 'manual');
-  assert.equal(c.rule, null);
-  assert.equal(c.label, 'Good stereo');
+  assert.deepEqual(r.criteria, []);
+  assert.deepEqual(r.notes, ['Good stereo']);
 });
 
-test('demotes an unknown operator to manual', () => {
-  const [c] = validateCriteria([{
+test('routes an unknown operator to notes', () => {
+  const r = splitParse([{
     label: 'Length', tier: 'must-have', kind: 'hard',
     rule: { field: 'length_in', op: 'approximately', value: 195 }, source_text: 'about 195',
   }]);
-  assert.equal(c.kind, 'manual');
+  assert.deepEqual(r.criteria, []);
+  assert.deepEqual(r.notes, ['Length']);
 });
 
-test('demotes a non-numeric value on a numeric field', () => {
-  const [c] = validateCriteria([{
+test('routes a non-numeric value on a numeric field to notes', () => {
+  const r = splitParse([{
     label: 'Length', tier: 'must-have', kind: 'hard',
     rule: { field: 'length_in', op: '<', value: 'short' }, source_text: 'short',
   }]);
-  assert.equal(c.kind, 'manual');
+  assert.deepEqual(r.criteria, []);
+  assert.deepEqual(r.notes, ['Length']);
 });
 
 test('accepts enum membership rules', () => {
@@ -80,9 +81,11 @@ test('drops entries with no usable label', () => {
 });
 
 test('assigns sequential ranks and derived weights', () => {
+  // Uses real rules now: an entry with no rule no longer becomes a criterion,
+  // so the old all-manual fixture would have produced an empty list.
   const out = validateCriteria([
-    { label: 'A', tier: 'must-have', kind: 'manual', rule: null },
-    { label: 'B', tier: 'nice-to-have', kind: 'manual', rule: null },
+    { label: 'A', tier: 'must-have', kind: 'hard', rule: { field: 'length_in', op: '<', value: 200 } },
+    { label: 'B', tier: 'nice-to-have', kind: 'hard', rule: { field: 'width_in', op: '<', value: 80 } },
   ]);
   assert.deepEqual(out.map(c => c.rank), [1, 2]);
   assert.deepEqual(out.map(c => c.weight), [5, 4]);
@@ -115,13 +118,13 @@ test('keeps a valid "between" rule, ordering the values low-to-high', () => {
   assert.deepEqual(c.rule, { field: 'price_low', op: 'between', value: [25000, 40000] });
 });
 
-test('demotes a "between" rule whose value is not a two-element numeric array', () => {
-  const [c] = validateCriteria([{
+test('routes a "between" rule whose value is not a two-element numeric array to notes', () => {
+  const r = splitParse([{
     label: 'Mid-size price', tier: 'must-have', kind: 'hard',
     rule: { field: 'price_low', op: 'between', value: [25000] }, source_text: 'around $25k',
   }]);
-  assert.equal(c.kind, 'manual');
-  assert.equal(c.rule, null);
+  assert.deepEqual(r.criteria, []);
+  assert.deepEqual(r.notes, ['Mid-size price']);
 });
 
 test('accepts a bare enum scalar and normalizes it to an array', () => {
@@ -133,22 +136,22 @@ test('accepts a bare enum scalar and normalizes it to an array', () => {
   assert.deepEqual(c.rule, { field: 'drivetrain_bucket', op: 'in', value: ['awd'] });
 });
 
-test('demotes an enum value outside the allowed set', () => {
-  const [c] = validateCriteria([{
+test('routes an enum value outside the allowed set to notes', () => {
+  const r = splitParse([{
     label: 'Hovercraft powertrain', tier: 'nice-to-have', kind: 'hard',
     rule: { field: 'powertrain', op: 'in', value: ['hovercraft'] }, source_text: 'hovercraft',
   }]);
-  assert.equal(c.kind, 'manual');
-  assert.equal(c.rule, null);
+  assert.deepEqual(r.criteria, []);
+  assert.deepEqual(r.notes, ['Hovercraft powertrain']);
 });
 
-test('demotes a numeric operator applied to an enum field', () => {
-  const [c] = validateCriteria([{
+test('routes a numeric operator applied to an enum field to notes', () => {
+  const r = splitParse([{
     label: 'Powertrain', tier: 'nice-to-have', kind: 'hard',
     rule: { field: 'powertrain', op: '<', value: 3 }, source_text: 'powertrain < 3',
   }]);
-  assert.equal(c.kind, 'manual');
-  assert.equal(c.rule, null);
+  assert.deepEqual(r.criteria, []);
+  assert.deepEqual(r.notes, ['Powertrain']);
 });
 
 test('an unauthenticated request never reaches the API key check (401/403 before spending money)', async () => {
@@ -188,4 +191,53 @@ test('the output schema declares a concrete type everywhere', async () => {
   };
   walk(SCHEMA, '');
   assert.deepEqual(offenders, [], `schema nodes with no concrete type: ${offenders.join(', ')}`);
+});
+
+test('a want with no usable rule becomes a note, not an inert criterion', async () => {
+  // The old behaviour kept it as kind:"manual" -- a criterion with a tier and a
+  // weight that filtered nothing and scored nothing, while reporting itself as
+  // a satisfied must-have.
+  const { splitParse } = await import('./parse.js');
+  const r = splitParse([
+    { label: 'Has heated seats', tier: 'nice-to-have', kind: 'manual', rule: null, source_text: 'heated seats' },
+    { label: 'Under 193 inches', tier: 'must-have', kind: 'hard',
+      rule: { field: 'length_in', op: '<', value: 193 }, source_text: 'under 193' },
+  ]);
+  assert.equal(r.criteria.length, 1);
+  assert.equal(r.criteria[0].label, 'Under 193 inches');
+  assert.deepEqual(r.notes, ['Has heated seats']);
+  assert.equal(r.criteria.every(c => c.kind !== 'manual'), true, 'no manual criteria may survive');
+});
+
+test('a criterion naming an unknown field becomes a note even when the model calls it hard', async () => {
+  // validRule is the authority, not the model's own `kind` -- otherwise a
+  // confident hallucination reintroduces exactly the inert criterion we removed.
+  const { splitParse } = await import('./parse.js');
+  const r = splitParse([
+    { label: 'Sunroof', tier: 'nice-to-have', kind: 'hard',
+      rule: { field: 'has_sunroof', op: '==', value: true }, source_text: 'sunroof' },
+  ]);
+  assert.deepEqual(r.criteria, []);
+  assert.deepEqual(r.notes, ['Sunroof']);
+});
+
+test('notes from the model merge with unusable criteria, without duplicates', async () => {
+  const { splitParse } = await import('./parse.js');
+  const r = splitParse(
+    [{ label: 'Sunroof', tier: 'nice-to-have', kind: 'manual', rule: null, source_text: 'sunroof' }],
+    ['Sunroof', 'Prefer a quiet cabin', '  ', 42],
+  );
+  assert.deepEqual(r.notes, ['Sunroof', 'Prefer a quiet cabin']);
+});
+
+test('ranks stay contiguous when unusable entries are filtered out', async () => {
+  // Ranks used to be assigned before the manual/hard split existed; dropping
+  // entries mid-list must not leave a gap the weight calculation inherits.
+  const { splitParse } = await import('./parse.js');
+  const hard = n => ({ label: n, tier: 'must-have', kind: 'hard',
+    rule: { field: 'length_in', op: '<', value: 200 }, source_text: n });
+  const dud = n => ({ label: n, tier: 'must-have', kind: 'manual', rule: null, source_text: n });
+  const r = splitParse([hard('a'), dud('x'), hard('b'), dud('y'), hard('c')]);
+  assert.deepEqual(r.criteria.map(c => c.rank), [1, 2, 3]);
+  assert.deepEqual(r.criteria.map(c => c.label), ['a', 'b', 'c']);
 });

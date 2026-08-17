@@ -9,6 +9,7 @@ const DEFAULT_PREFS = {
   updated_by: null,
   pins: ['mazda5-gen3', 'chevrolet-bolt-ev-gen1'],
   criteria: [],
+  notes: '',
 };
 
 // A tiny fake KV backed by a Map. `get`/`put` can be overwritten per-test to
@@ -140,7 +141,7 @@ test('PUT drops unexpected top-level keys before writing to KV', async () => {
   assert.equal(res.status, 200);
   assert.equal(putCalls.length, 1);
   const stored = JSON.parse(putCalls[0]);
-  assert.deepEqual(Object.keys(stored).sort(), ['criteria', 'pins', 'updated_at', 'updated_by', 'version']);
+  assert.deepEqual(Object.keys(stored).sort(), ['criteria', 'notes', 'pins', 'updated_at', 'updated_by', 'version']);
   assert.deepEqual(stored.pins, ['mazda5-gen3']);
   assert.deepEqual(stored.criteria, []);
 });
@@ -180,4 +181,46 @@ test('PUT ignores a caller-supplied updated_by and stores the authenticated emai
   assert.equal(body.prefs.updated_by, 'bfaloona@gmail.com');
   const stored = JSON.parse(kv.store.get(KEY));
   assert.equal(stored.updated_by, 'bfaloona@gmail.com');
+});
+
+test('notes round-trip through a save', async () => {
+  const kv = makeKv();
+  const env = makeEnv(kv);
+  const etag = await currentEtag(env);
+  const res = await onRequestPut({
+    request: putReq({ etag, prefs: { pins: [], criteria: [], notes: 'Heated seats.\nSunroof.' } }),
+    env,
+  });
+  assert.equal(res.status, 200);
+  assert.equal((await res.json()).prefs.notes, 'Heated seats.\nSunroof.');
+  assert.equal(JSON.parse(kv.store.get(KEY)).notes, 'Heated seats.\nSunroof.');
+});
+
+test('a non-string notes value is coerced, not rejected', async () => {
+  // An older client sends no notes at all, and a malformed one could send null.
+  // Neither should turn a working save into a 400.
+  const kv = makeKv();
+  const env = makeEnv(kv);
+  for (const bad of [undefined, null, 42, { a: 1 }, ['x']]) {
+    const etag = await currentEtag(env);
+    const res = await onRequestPut({
+      request: putReq({ etag, prefs: { pins: [], criteria: [], notes: bad } }),
+      env,
+    });
+    assert.equal(res.status, 200, `notes=${JSON.stringify(bad)} should not fail the save`);
+    assert.equal((await res.json()).prefs.notes, '');
+  }
+});
+
+test('oversized notes are rejected by the size limit', async () => {
+  // notes is the only free-text field, so it is the one a caller would use to
+  // turn the shared blob into general-purpose storage.
+  const kv = makeKv();
+  const env = makeEnv(kv);
+  const etag = await currentEtag(env);
+  const res = await onRequestPut({
+    request: putReq({ etag, prefs: { pins: [], criteria: [], notes: 'x'.repeat(200 * 1024) } }),
+    env,
+  });
+  assert.equal(res.status, 400);
 });
