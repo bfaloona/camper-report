@@ -1,7 +1,7 @@
 # Cloudflare setup runbook
 
 Everything here needs your Cloudflare account, so it can't be automated from a coding
-session. It's plan Task 6, extracted so you don't have to read the plan to do it.
+session.
 
 Roughly 15 minutes. Do the steps in order — `CF_ACCESS_AUD` in step 3 doesn't exist until
 step 4 creates the Access application, so step 3 gets revisited at the end.
@@ -64,12 +64,18 @@ Connect**, and authorize the Cloudflare GitHub App for `bfaloona/camper-report`.
 | Setting | Value |
 | --- | --- |
 | Production branch | `main` |
-| Build command | `npm ci && npm run build` |
+| Build command | `npm run build` |
 | Deploy command | `npx wrangler deploy` |
 
 The Worker's name in the dashboard must match the `name` field in `wrangler.jsonc` or the
 build fails. Both are `camper-report`, so this is already satisfied — just don't rename one
 without the other.
+
+Workers Builds also runs on pushes to **any other branch**, with a separate non-production
+deploy command that defaults to `npx wrangler versions upload`. That publishes a version
+rather than promoting it. With `preview_urls: false` in `wrangler.jsonc` those versions get
+no public hostname, which is the whole reason that setting is there — if you ever turn
+preview URLs back on, every branch you push becomes an ungated copy of `/shortlist`.
 
 ### 2b. Deploy from your laptop
 
@@ -180,6 +186,12 @@ The Access application above covers **one hostname**. Attaching a custom domain 
 Worker does **not** extend that protection to it — you must create a second Access
 application for the new hostname, or the tool becomes reachable there with no
 authentication at all while the workers.dev hostname still looks correctly gated.
+
+Add the domain to `wrangler.jsonc` as well, not only in the dashboard. Wrangler treats the
+config file as the source of truth for routing the same way it does for bindings, so a
+route that exists only in the dashboard is liable to be dropped on the next deploy. That
+failure is quiet: the Worker stays up on workers.dev and only the custom domain stops
+answering.
 
 ## What's still unproven until you run this
 

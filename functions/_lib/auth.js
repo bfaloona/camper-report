@@ -144,12 +144,13 @@ function isLoopbackRequest(request) {
 }
 
 export async function requireUser(request, env, deps) {
-  // Local only: wrangler pages dev can't mint an Access token. Requires all
-  // three: DEV_BYPASS_EMAIL set, CF_ACCESS_AUD absent, and a loopback host.
-  // CF_ACCESS_AUD being unset never happens in a deployed environment, but a
-  // Pages env var can still leak onto a preview deploy — the loopback check is
-  // the one condition nothing set from the dashboard can satisfy, since
-  // `wrangler pages dev` serves on localhost and a deployed Function never does.
+  // Local only: `wrangler dev` can't mint an Access token. Requires all three:
+  // DEV_BYPASS_EMAIL set, CF_ACCESS_AUD absent, and a loopback host.
+  // The loopback check is the load-bearing one, because it is the only condition
+  // nothing set from the dashboard can satisfy. The other two are defence in
+  // depth: CF_ACCESS_AUD should always be set in production, but every deployed
+  // hostname — including a version preview URL, which shares the same variable
+  // set — is reachable only over its public name, never over localhost.
   if (env.DEV_BYPASS_EMAIL && !env.CF_ACCESS_AUD && isLoopbackRequest(request)) {
     const email = (request.headers.get('x-dev-email') || env.DEV_BYPASS_EMAIL).trim().toLowerCase();
     if (!ALLOWED_EMAILS.has(email)) return { email: null, response: deny(403, 'Not authorized') };

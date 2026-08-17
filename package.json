@@ -10,9 +10,9 @@
     "wrangler": "^4.123.0"
   },
   "scripts": {
-    "build": "node scripts/build-assets.mjs && wrangler pages functions build --outdir=./dist/worker/",
-    "dev": "npm run build && wrangler dev",
-    "deploy": "npm run build && wrangler deploy",
+    "build": "node scripts/build-assets.mjs && npx wrangler pages functions build --outdir=./dist/worker/",
+    "dev": "npm run build && npx wrangler dev",
+    "deploy": "npm run build && npx wrangler deploy",
     "test": "node --test \"**/*.test.mjs\""
   }
 }
