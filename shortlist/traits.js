@@ -14,7 +14,19 @@
 // `yes_only: true` marks rows where NO is a control with no sane use — a NO
 // on "flat sleeping floor" would mean "rule out vehicles with flat floors".
 // The UI renders those rows without a NO button and sanitizeTraits drops a
-// stored 'no' for them (review decision, 2026-08-17).
+// stored 'no' for them.
+// Panel sections, in display order. `collapsed` starts a group closed: the ten
+// comfort rows would otherwise drown the camping traits that are the point of
+// the panel. Grouping reads this table rather than the order of TRAITS, so
+// reordering a trait cannot silently split a section in two.
+export const GROUPS = [
+  { name: 'Power & climate' },
+  { name: 'Space & sleeping' },
+  { name: 'Capability' },
+  { name: 'Practicality' },
+  { name: 'Equipment', collapsed: true },
+];
+
 export const TRAITS = [
   // --- Power & climate -------------------------------------------------------
   { id: 'engine_off_climate', group: 'Power & climate',
@@ -92,7 +104,7 @@ export const TRAITS = [
     blurb: 'This generation or a direct successor — a parts and support proxy.',
     field: 'still_in_production', yes_values: ['yes'], yes_only: true },
 
-  // --- Equipment (collapsed subsection in the UI, per review addition R2) ----
+  // --- Equipment (collapsed subsection in the UI) ----------------------------
   ...[
     ['heated_front_seats', 'Heated front seats'],
     ['heated_steering_wheel', 'Heated steering wheel'],
@@ -133,6 +145,11 @@ export function sanitizeTraits(raw) {
 // weight/rank fields are inert placeholders — gates filter, they never score.
 // Ids are stable (`trait_<id>`) and labels human-readable because they are
 // what the ✕/? badges display.
+// The one place a trait becomes a rule. `compileTraits` gates with it and the
+// picker's evidence badges evaluate the same rule through `evaluateGate`, so a
+// badge cannot drift from what the selection actually does.
+export const traitRule = t => ({ field: t.field, op: 'in', value: [...t.yes_values] });
+
 export function compileTraits(traitsMap) {
   const clean = sanitizeTraits(traitsMap);
   const out = [];
@@ -147,7 +164,7 @@ export function compileTraits(traitsMap) {
       rank: 0,
       weight: 1,
       weight_locked: true,
-      rule: { field: t.field, op: 'in', value: [...t.yes_values] },
+      rule: traitRule(t),
       source_text: 'trait picker',
     });
   }

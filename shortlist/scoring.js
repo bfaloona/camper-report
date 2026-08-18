@@ -60,9 +60,9 @@ export const FIELDS = {
 
   // --- Derived camper traits -------------------------------------------------
   // Each is a pure formula over other fields, written down here so a reader can
-  // argue with it rather than hand-rated per vehicle (Approach A in
-  // docs/trait-picker-classification.md, which also records the reviewed
-  // thresholds). Formulas return null on missing input — null gates as
+  // argue with it rather than hand-rated per vehicle. The rationale and the
+  // reviewed thresholds live in docs/trait-picker-classification.md.
+  // Formulas return null on missing input — null gates as
   // 'unknown' and never excludes, in either direction.
 
   // What running heat/AC overnight costs you: PHEV/EV climate runs off the
@@ -120,7 +120,7 @@ export const FIELDS = {
   // --- Researched camper facts (new record fields, value + source) -----------
   // Unlike `equipment`, onboard_ac_power's basis is "available on this
   // generation from the factory, any trim or option" — a deliberate,
-  // documented divergence (decision Q2, 2026-08-17): the listed-trim rule
+  // documented divergence: the listed-trim rule
   // would erase the Sienna's optional 1500W inverter, exactly the fact a
   // camper shopper cares about. Each record's `basis` restates this.
   spare_tire: { label: 'Spare tire', type: 'enum', get: v => (

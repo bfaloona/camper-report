@@ -47,6 +47,7 @@ Run from the repository root.
 import filecmp
 import json
 import re
+import subprocess
 import sys
 import os
 from pathlib import Path
@@ -86,6 +87,23 @@ def trim_vehicle(v):
         else:
             out[k] = val
     return out
+
+
+def check_trait_evidence():
+    """0 if shortlist/trait-evidence.js is current, 1 if stale or unbuildable.
+
+    Delegates to the generator's own --check so the parsing rules live in one
+    place. A missing script is not a failure: the report half of this repo
+    works without the Shortlist.
+    """
+    script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gen_trait_evidence.py")
+    if not os.path.exists(script):
+        return 0
+    result = subprocess.run([sys.executable, script, "--check"], capture_output=True, text=True)
+    if result.returncode != 0:
+        print((result.stdout + result.stderr).strip())
+        return 1
+    return 0
 
 
 def build_block(source, current_block, rebuild):
@@ -192,6 +210,10 @@ def main():
         # so one --check command still verifies everything. sync_shared() is a
         # no-op (exit 0) when that file doesn't exist yet.
         if sync_shared(check=True) != 0:
+            ok = False
+        # And the trait-evidence module, generated from the classification doc.
+        # Same reason: one --check command should catch every stale derived file.
+        if check_trait_evidence() != 0:
             ok = False
         if ok:
             print("HTML data is in sync with vehicles.json.")

@@ -5,759 +5,613 @@ export const TRAIT_EVIDENCE = {
  "overnight_climate": [
   {
    "v": "toyota-rav4-hybrid-xa50",
-   "text": "Hybrid cycles climate control overnight quietly",
-   "polarity": "pro"
+   "text": "Hybrid cycles climate control overnight quietly"
   },
   {
    "v": "ford-transit-connect-gen2",
-   "text": "Must idle for overnight heat/AC",
-   "polarity": "con"
+   "text": "Must idle for overnight heat/AC"
   },
   {
    "v": "honda-odyssey-rl6",
-   "text": "No hybrid — overnight climate means idling",
-   "polarity": "con"
+   "text": "No hybrid — overnight climate means idling"
   },
   {
    "v": "toyota-sienna-xl40",
-   "text": "Hybrid auto engine-cycling = overnight climate control",
-   "polarity": "pro"
+   "text": "Hybrid auto engine-cycling = overnight climate control"
   },
   {
    "v": "chrysler-pacifica-ru",
-   "text": "No engine-off overnight climate",
-   "polarity": "con"
+   "text": "No engine-off overnight climate"
   },
   {
    "v": "chrysler-pacifica-hybrid-ru",
-   "text": "~32-mi EV range — silent engine-off electric climate at camp",
-   "polarity": "pro"
+   "text": "~32-mi EV range — silent engine-off electric climate at camp"
   },
   {
    "v": "kia-carnival-hybrid-ka4pe",
-   "text": "Hybrid engine-cycling supports overnight climate",
-   "polarity": "pro"
+   "text": "Hybrid engine-cycling supports overnight climate"
   },
   {
    "v": "kia-carnival-hybrid-ka4pe",
-   "text": "Small HEV battery — no PHEV-style engine-off camp power",
-   "polarity": "con"
+   "text": "Small HEV battery — no PHEV-style engine-off camp power"
   },
   {
    "v": "honda-crv-hybrid-gen6",
-   "text": "Hybrid engine-cycling overnight climate",
-   "polarity": "pro"
+   "text": "Hybrid engine-cycling overnight climate"
   },
   {
    "v": "toyota-prius-xw60",
-   "text": "Overnight climate on minimal fuel in READY mode",
-   "polarity": "pro"
+   "text": "Overnight climate on minimal fuel in READY mode"
   },
   {
    "v": "toyota-4runner-n280",
-   "text": "No engine-off climate — overnight = idling",
-   "polarity": "con"
+   "text": "No engine-off climate — overnight = idling"
   },
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "Hybrid engine-cycling overnight climate",
-   "polarity": "pro"
+   "text": "Hybrid engine-cycling overnight climate"
   },
   {
    "v": "toyota-rav4-prime-xa50",
-   "text": "42-mi EV range runs silent electric climate ALL NIGHT (documented dry-camping threads)",
-   "polarity": "pro"
+   "text": "42-mi EV range runs silent electric climate ALL NIGHT (documented dry-camping threads)"
   },
   {
    "v": "mitsubishi-outlander-phev-gn",
-   "text": "38-mi EV range + 20-kWh battery: silent engine-off heat/AC overnight",
-   "polarity": "pro"
+   "text": "38-mi EV range + 20-kWh battery: silent engine-off heat/AC overnight"
   },
   {
    "v": "hyundai-santa-fe-phev-tm",
-   "text": "31-mile EV range and ~440 mi total range — silent, gas-free driving around camp and errands",
-   "polarity": "pro"
+   "text": "31-mile EV range and ~440 mi total range — silent, gas-free driving around camp and errands"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
-   "text": "Silent overnight climate control with no idling, no exhaust and no CO risk, which no gas or hybrid vehicle here can offer",
-   "polarity": "pro"
+   "text": "Silent overnight climate control with no idling, no exhaust and no CO risk, which no gas or hybrid vehicle here can offer"
   }
  ],
  "clearance_class": [
   {
    "v": "toyota-rav4-hybrid-xa50",
-   "text": "Standard AWD + 8.1-in clearance for dirt-road sites",
-   "polarity": "pro"
+   "text": "Standard AWD + 8.1-in clearance for dirt-road sites"
   },
   {
    "v": "ford-transit-connect-gen2",
-   "text": "FWD only, low clearance",
-   "polarity": "con"
+   "text": "FWD only, low clearance"
   },
   {
    "v": "honda-odyssey-rl6",
-   "text": "FWD only, low clearance",
-   "polarity": "con"
+   "text": "FWD only, low clearance"
   },
   {
    "v": "ram-promaster-city",
-   "text": "No AWD, low clearance",
-   "polarity": "con"
+   "text": "No AWD, low clearance"
   },
   {
    "v": "subaru-outback-bt",
-   "text": "Standard AWD + 8.7-in clearance",
-   "polarity": "pro"
+   "text": "Standard AWD + 8.7-in clearance"
   },
   {
    "v": "subaru-forester-sk",
-   "text": "Standard AWD + 8.7-in clearance",
-   "polarity": "pro"
+   "text": "Standard AWD + 8.7-in clearance"
   },
   {
    "v": "honda-crv-hybrid-gen6",
-   "text": "8.2-in clearance + light AWD limit rough roads",
-   "polarity": "con"
+   "text": "8.2-in clearance + light AWD limit rough roads"
   },
   {
    "v": "toyota-prius-xw60",
-   "text": "~6-in clearance rules out rough roads",
-   "polarity": "con"
+   "text": "~6-in clearance rules out rough roads"
   },
   {
    "v": "toyota-4runner-n280",
-   "text": "True 4WD + 9.6-in clearance for remote dispersed sites",
-   "polarity": "pro"
+   "text": "True 4WD + 9.6-in clearance for remote dispersed sites"
   },
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "~8-in clearance, no low range",
-   "polarity": "con"
+   "text": "~8-in clearance, no low range"
   },
   {
    "v": "toyota-rav4-prime-xa50",
-   "text": "38 mpg / 94 MPGe with AWD + 8-in clearance",
-   "polarity": "pro"
+   "text": "38 mpg / 94 MPGe with AWD + 8-in clearance"
   },
   {
    "v": "mitsubishi-outlander-phev-gn",
-   "text": "Standard S-AWC AWD + 8.0-in clearance",
-   "polarity": "pro"
+   "text": "Standard S-AWC AWD + 8.0-in clearance"
   },
   {
    "v": "subaru-forester-hybrid-sl",
-   "text": "Standard AWD + 8.7-in clearance and dual-mode X-MODE w/ hill descent on every trim, including the cheapest Premium",
-   "polarity": "pro"
+   "text": "Standard AWD + 8.7-in clearance and dual-mode X-MODE w/ hill descent on every trim, including the cheapest Premium"
   },
   {
    "v": "hyundai-santa-fe-hybrid-mx5",
-   "text": "No hybrid XRT: 7.0-in ground clearance only (vs. 8.3 in on gas XRT), no standard AWD, all-terrain tires, or Terrain Mode on any hybrid trim",
-   "polarity": "con"
+   "text": "No hybrid XRT: 7.0-in ground clearance only (vs. 8.3 in on gas XRT), no standard AWD, all-terrain tires, or Terrain Mode on any hybrid trim"
   },
   {
    "v": "hyundai-santa-fe-hybrid-tm",
-   "text": "8.2 in ground clearance — higher than the Tucson and many car-based crossovers",
-   "polarity": "pro"
+   "text": "8.2 in ground clearance — higher than the Tucson and many car-based crossovers"
   },
   {
    "v": "hyundai-tucson-hybrid-nx4",
-   "text": "8.3 in ground clearance — higher than most car-based crossovers",
-   "polarity": "pro"
+   "text": "8.3 in ground clearance — higher than most car-based crossovers"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
-   "text": "~5.3–5.6 in of ground clearance with the battery under the floor: paved and graded roads only, no rough forest-service tracks",
-   "polarity": "con"
+   "text": "~5.3–5.6 in of ground clearance with the battery under the floor: paved and graded roads only, no rough forest-service tracks"
   }
  ],
  "drivetrain_bucket": [
   {
    "v": "toyota-rav4-hybrid-xa50",
-   "text": "Standard AWD + 8.1-in clearance for dirt-road sites",
-   "polarity": "pro"
+   "text": "Standard AWD + 8.1-in clearance for dirt-road sites"
   },
   {
    "v": "ford-transit-connect-gen2",
-   "text": "FWD only, low clearance",
-   "polarity": "con"
+   "text": "FWD only, low clearance"
   },
   {
    "v": "honda-odyssey-rl6",
-   "text": "FWD only, low clearance",
-   "polarity": "con"
+   "text": "FWD only, low clearance"
   },
   {
    "v": "toyota-sienna-xl40",
-   "text": "AWD available (rare in class)",
-   "polarity": "pro"
+   "text": "AWD available (rare in class)"
   },
   {
    "v": "chrysler-pacifica-ru",
-   "text": "AWD available (keeps 2nd-row Stow 'n Go)",
-   "polarity": "pro"
+   "text": "AWD available (keeps 2nd-row Stow 'n Go)"
   },
   {
    "v": "chrysler-pacifica-hybrid-ru",
-   "text": "FWD only",
-   "polarity": "con"
+   "text": "FWD only"
   },
   {
    "v": "kia-carnival-ka4",
-   "text": "No AWD at any trim",
-   "polarity": "con"
+   "text": "No AWD at any trim"
   },
   {
    "v": "kia-carnival-hybrid-ka4pe",
-   "text": "No AWD",
-   "polarity": "con"
+   "text": "No AWD"
   },
   {
    "v": "mercedes-metris-w447",
-   "text": "RWD with 5,000-lb tow rating",
-   "polarity": "pro"
+   "text": "RWD with 5,000-lb tow rating"
   },
   {
    "v": "ram-promaster-city",
-   "text": "No AWD, low clearance",
-   "polarity": "con"
+   "text": "No AWD, low clearance"
   },
   {
    "v": "subaru-outback-bt",
-   "text": "Standard AWD + 8.7-in clearance",
-   "polarity": "pro"
+   "text": "Standard AWD + 8.7-in clearance"
   },
   {
    "v": "subaru-forester-sk",
-   "text": "Standard AWD + 8.7-in clearance",
-   "polarity": "pro"
+   "text": "Standard AWD + 8.7-in clearance"
   },
   {
    "v": "toyota-4runner-n280",
-   "text": "True 4WD + 9.6-in clearance for remote dispersed sites",
-   "polarity": "pro"
+   "text": "True 4WD + 9.6-in clearance for remote dispersed sites"
   },
   {
    "v": "toyota-rav4-prime-xa50",
-   "text": "38 mpg / 94 MPGe with AWD + 8-in clearance",
-   "polarity": "pro"
+   "text": "38 mpg / 94 MPGe with AWD + 8-in clearance"
   },
   {
    "v": "mitsubishi-outlander-phev-gn",
-   "text": "Standard S-AWC AWD + 8.0-in clearance",
-   "polarity": "pro"
+   "text": "Standard S-AWC AWD + 8.0-in clearance"
   },
   {
    "v": "subaru-forester-hybrid-sl",
-   "text": "Standard AWD + 8.7-in clearance and dual-mode X-MODE w/ hill descent on every trim, including the cheapest Premium",
-   "polarity": "pro"
+   "text": "Standard AWD + 8.7-in clearance and dual-mode X-MODE w/ hill descent on every trim, including the cheapest Premium"
   },
   {
    "v": "hyundai-santa-fe-hybrid-tm",
-   "text": "34 mpg combined (Blue) / 32 combined (SEL Premium, Limited) with standard AWD — long range plus trailhead traction",
-   "polarity": "pro"
+   "text": "34 mpg combined (Blue) / 32 combined (SEL Premium, Limited) with standard AWD — long range plus trailhead traction"
   },
   {
    "v": "hyundai-santa-fe-phev-tm",
-   "text": "Standard HTRAC AWD on both trims — better for trailheads and snow",
-   "polarity": "pro"
+   "text": "Standard HTRAC AWD on both trims — better for trailheads and snow"
   },
   {
    "v": "hyundai-tucson-hybrid-nx4",
-   "text": "37–38 mpg combined with standard HTRAC AWD — excellent range plus trailhead/snow traction in a compact footprint",
-   "polarity": "pro"
+   "text": "37–38 mpg combined with standard HTRAC AWD — excellent range plus trailhead/snow traction in a compact footprint"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
-   "text": "FWD only, no AWD or 4WD offered in any year",
-   "polarity": "con"
+   "text": "FWD only, no AWD or 4WD offered in any year"
   }
  ],
  "camper_popularity_tier": [
   {
    "v": "toyota-rav4-hybrid-xa50",
-   "text": "Huge platform/mattress aftermarket",
-   "polarity": "pro"
+   "text": "Huge platform/mattress aftermarket"
   },
   {
    "v": "ford-transit-connect-gen2",
-   "text": "Boxy walls + sliding doors + off-the-shelf kits",
-   "polarity": "pro"
+   "text": "Boxy walls + sliding doors + off-the-shelf kits"
   },
   {
    "v": "mazda5-gen3",
-   "text": "Discontinued 2015: aging cars, no kit aftermarket",
-   "polarity": "con"
+   "text": "Discontinued 2015: aging cars, no kit aftermarket"
   },
   {
    "v": "chrysler-pacifica-ru",
-   "text": "140.5 cu ft + the largest minivan kit ecosystem",
-   "polarity": "pro"
+   "text": "140.5 cu ft + the largest minivan kit ecosystem"
   },
   {
    "v": "kia-carnival-ka4",
-   "text": "Thinner kit ecosystem than Sienna/Pacifica",
-   "polarity": "con"
+   "text": "Thinner kit ecosystem than Sienna/Pacifica"
   },
   {
    "v": "ram-promaster-city",
-   "text": "Smaller kit ecosystem than Transit Connect",
-   "polarity": "con"
+   "text": "Smaller kit ecosystem than Transit Connect"
   },
   {
    "v": "subaru-outback-bt",
-   "text": "Huge sleep-platform and rooftop-tent scene",
-   "polarity": "pro"
+   "text": "Huge sleep-platform and rooftop-tent scene"
   },
   {
    "v": "honda-crv-hybrid-gen6",
-   "text": "Smaller kit ecosystem than 4Runner",
-   "polarity": "con"
+   "text": "Smaller kit ecosystem than 4Runner"
   },
   {
    "v": "toyota-prius-xw60",
-   "text": "Minimal kit ecosystem",
-   "polarity": "con"
+   "text": "Minimal kit ecosystem"
   },
   {
    "v": "toyota-4runner-n280",
-   "text": "Biggest overland aftermarket here (drawers, RTT-rated racks)",
-   "polarity": "pro"
+   "text": "Biggest overland aftermarket here (drawers, RTT-rated racks)"
   },
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "Small kit ecosystem vs 4Runner",
-   "polarity": "con"
+   "text": "Small kit ecosystem vs 4Runner"
   },
   {
    "v": "toyota-rav4-prime-xa50",
-   "text": "Flat ~71-in platform + full RAV4 camping ecosystem incl. Prime-specific kit",
-   "polarity": "pro"
+   "text": "Flat ~71-in platform + full RAV4 camping ecosystem incl. Prime-specific kit"
   },
   {
    "v": "mitsubishi-outlander-phev-gn",
-   "text": "No US conversion-kit ecosystem — DIY or universal gear only",
-   "polarity": "con"
+   "text": "No US conversion-kit ecosystem — DIY or universal gear only"
   },
   {
    "v": "subaru-forester-hybrid-sl",
-   "text": "A vendor (Compass Camper) already sells a 2025+-specific sleeping platform kit — unusually fast support for a first-year model",
-   "polarity": "pro"
+   "text": "A vendor (Compass Camper) already sells a 2025+-specific sleeping platform kit — unusually fast support for a first-year model"
   },
   {
    "v": "subaru-forester-hybrid-sl",
-   "text": "Essentially no build community yet — no hybrid-specific sleeping-platform guides, forum threads, or YouTube conversions as of mid-2026, so early adopters are mostly DIY-ing it",
-   "polarity": "con"
+   "text": "Essentially no build community yet — no hybrid-specific sleeping-platform guides, forum threads, or YouTube conversions as of mid-2026, so early adopters are mostly DIY-ing it"
   },
   {
    "v": "hyundai-santa-fe-hybrid-mx5",
-   "text": "No MX5-generation or Hybrid-specific conversion kit vendor found; RiverLeaf covers only 2018–2023 Santa Fe, and Santa Fe isn't on Vanpackers' compatibility table",
-   "polarity": "con"
+   "text": "No MX5-generation or Hybrid-specific conversion kit vendor found; RiverLeaf covers only 2018–2023 Santa Fe, and Santa Fe isn't on Vanpackers' compatibility table"
   },
   {
    "v": "hyundai-santa-fe-hybrid-tm",
-   "text": "Camping-kit support is real but second-tier (RiverLeaf/Freeway/Vanpackers) vs the RAV4/CR-V/Outback aftermarket",
-   "polarity": "con"
+   "text": "Camping-kit support is real but second-tier (RiverLeaf/Freeway/Vanpackers) vs the RAV4/CR-V/Outback aftermarket"
   },
   {
    "v": "hyundai-santa-fe-phev-tm",
-   "text": "No PHEV-specific conversion kit; relies on generation-wide (2018–2023) Santa Fe camping products",
-   "polarity": "con"
+   "text": "No PHEV-specific conversion kit; relies on generation-wide (2018–2023) Santa Fe camping products"
   },
   {
    "v": "hyundai-tucson-hybrid-nx4",
-   "text": "Deep, growing aftermarket: model-specific AirBedz, Luno, and a RiverLeaf full kit fit the 2022+ NX4",
-   "polarity": "pro"
+   "text": "Deep, growing aftermarket: model-specific AirBedz, Luno, and a RiverLeaf full kit fit the 2022+ NX4"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
-   "text": "Aftermarket is thin: no full conversion kit, and none of the platform vendors that serve the SUVs here (Luno, RiverLeaf, Freeway Camper Kit) fit it",
-   "polarity": "con"
+   "text": "Aftermarket is thin: no full conversion kit, and none of the platform vendors that serve the SUVs here (Luno, RiverLeaf, Freeway Camper Kit) fit it"
   }
  ],
  "rear_seat_fold": [
   {
    "v": "toyota-rav4-hybrid-xa50",
-   "text": "Rear seats neither remove nor fold flat — platform required",
-   "polarity": "con"
+   "text": "Rear seats neither remove nor fold flat — platform required"
   },
   {
    "v": "ford-transit-connect-gen2",
-   "text": "106 cu ft with long flat load floor — best sleep/build space of the compacts",
-   "polarity": "pro"
+   "text": "106 cu ft with long flat load floor — best sleep/build space of the compacts"
   },
   {
    "v": "ford-transit-connect-gen2",
-   "text": "Rows fold flat into floor — no seat-storage problem",
-   "polarity": "pro"
+   "text": "Rows fold flat into floor — no seat-storage problem"
   },
   {
    "v": "honda-odyssey-rl6",
-   "text": "3rd row stows flat; 2nd row removes for long flat platform",
-   "polarity": "pro"
+   "text": "3rd row stows flat; 2nd row removes for long flat platform"
   },
   {
    "v": "mazda5-gen3",
-   "text": "Rear seats fold to a nearly flat floor",
-   "polarity": "pro"
+   "text": "Rear seats fold to a nearly flat floor"
   },
   {
    "v": "toyota-sienna-xl40",
-   "text": "2nd row not removable — no flat floor without a platform",
-   "polarity": "con"
+   "text": "2nd row not removable — no flat floor without a platform"
   },
   {
    "v": "chrysler-pacifica-ru",
-   "text": "Stow 'n Go: both rows into the floor in seconds — instant flat floor",
-   "polarity": "pro"
+   "text": "Stow 'n Go: both rows into the floor in seconds — instant flat floor"
   },
   {
    "v": "chrysler-pacifica-hybrid-ru",
-   "text": "No 2nd-row Stow 'n Go — heavy seats to remove for a build",
-   "polarity": "con"
+   "text": "No 2nd-row Stow 'n Go — heavy seats to remove for a build"
   },
   {
    "v": "kia-carnival-ka4",
-   "text": "2nd-row removal heavy; VIP lounge chairs can't come out",
-   "polarity": "con"
+   "text": "2nd-row removal heavy; VIP lounge chairs can't come out"
   },
   {
    "v": "kia-carnival-hybrid-ka4pe",
-   "text": "Same heavy 2nd-row seat removal as gas",
-   "polarity": "con"
+   "text": "Same heavy 2nd-row seat removal as gas"
   },
   {
    "v": "honda-crv-hybrid-gen6",
-   "text": "Folded seats leave slope/gap — leveling platform needed",
-   "polarity": "con"
+   "text": "Folded seats leave slope/gap — leveling platform needed"
   },
   {
    "v": "toyota-prius-xw60",
-   "text": "Rear seats fold onto a stepped, sloped floor",
-   "polarity": "con"
+   "text": "Rear seats fold onto a stepped, sloped floor"
   },
   {
    "v": "toyota-4runner-n280",
-   "text": "89.7 cu ft, long near-flat floor (~6-ft sleeping)",
-   "polarity": "pro"
+   "text": "89.7 cu ft, long near-flat floor (~6-ft sleeping)"
   },
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "Folded 2nd row leaves seams/slope — platform needed",
-   "polarity": "con"
+   "text": "Folded 2nd row leaves seams/slope — platform needed"
   },
   {
    "v": "hyundai-santa-fe-hybrid-mx5",
-   "text": "Limited's 60/40 fold-flat bench 2nd row (vs. Calligraphy's captain's chairs) gives a continuous flat load floor for sleeping",
-   "polarity": "pro"
+   "text": "Limited's 60/40 fold-flat bench 2nd row (vs. Calligraphy's captain's chairs) gives a continuous flat load floor for sleeping"
   },
   {
    "v": "hyundai-santa-fe-hybrid-tm",
-   "text": "72.1 cu ft max cargo, flat load floor, identical to the gas Santa Fe (battery under the rear seat, no cargo penalty)",
-   "polarity": "pro"
+   "text": "72.1 cu ft max cargo, flat load floor, identical to the gas Santa Fe (battery under the rear seat, no cargo penalty)"
   },
   {
    "v": "hyundai-santa-fe-hybrid-tm",
-   "text": "Fold-flat 60/40 second row and ~72 in of usable sleeping length on all trims",
-   "polarity": "pro"
+   "text": "Fold-flat 60/40 second row and ~72 in of usable sleeping length on all trims"
   },
   {
    "v": "hyundai-santa-fe-phev-tm",
-   "text": "No PHEV cargo penalty: full 36.4/72.1 cu ft with a flat floor (battery under the floor)",
-   "polarity": "pro"
+   "text": "No PHEV cargo penalty: full 36.4/72.1 cu ft with a flat floor (battery under the floor)"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
-   "text": "60/40 rear seat plus a two-position modular load floor: raised, it nearly squares off the step and gives a usable flat sleeping deck",
-   "polarity": "pro"
+   "text": "60/40 rear seat plus a two-position modular load floor: raised, it nearly squares off the step and gives a usable flat sleeping deck"
   }
  ],
  "sleeps_six_feet": [
   {
    "v": "toyota-rav4-hybrid-xa50",
-   "text": "~6-ft sleeping only with front seats slid forward",
-   "polarity": "con"
+   "text": "~6-ft sleeping only with front seats slid forward"
   },
   {
    "v": "mazda5-gen3",
-   "text": "Only 44.4 cu ft official — 6-footers sleep diagonally",
-   "polarity": "con"
+   "text": "Only 44.4 cu ft official — 6-footers sleep diagonally"
   },
   {
    "v": "subaru-forester-sk",
-   "text": "Flat sleeping needs front seats slid full forward",
-   "polarity": "con"
+   "text": "Flat sleeping needs front seats slid full forward"
   },
   {
    "v": "honda-crv-hybrid-gen6",
-   "text": "76.5 cu ft, ~6.5-ft load length seats-folded",
-   "polarity": "pro"
+   "text": "76.5 cu ft, ~6.5-ft load length seats-folded"
   },
   {
    "v": "toyota-prius-xw60",
-   "text": "Short, shallow cargo bay (<23 in tall) — diagonal sleeping near 6 ft",
-   "polarity": "con"
+   "text": "Short, shallow cargo bay (<23 in tall) — diagonal sleeping near 6 ft"
   },
   {
    "v": "toyota-4runner-n280",
-   "text": "89.7 cu ft, long near-flat floor (~6-ft sleeping)",
-   "polarity": "pro"
+   "text": "89.7 cu ft, long near-flat floor (~6-ft sleeping)"
   },
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "84.3 cu ft, 6.5+ ft load length both rows folded",
-   "polarity": "pro"
+   "text": "84.3 cu ft, 6.5+ ft load length both rows folded"
   },
   {
    "v": "toyota-rav4-prime-xa50",
-   "text": "Flat ~71-in platform + full RAV4 camping ecosystem incl. Prime-specific kit",
-   "polarity": "pro"
+   "text": "Flat ~71-in platform + full RAV4 camping ecosystem incl. Prime-specific kit"
   },
   {
    "v": "toyota-rav4-prime-xa50",
-   "text": "~71–73-in sleeping without sliding fronts forward — tight for tall campers",
-   "polarity": "con"
+   "text": "~71–73-in sleeping without sliding fronts forward — tight for tall campers"
   },
   {
    "v": "hyundai-santa-fe-hybrid-tm",
-   "text": "Fold-flat 60/40 second row and ~72 in of usable sleeping length on all trims",
-   "polarity": "pro"
+   "text": "Fold-flat 60/40 second row and ~72 in of usable sleeping length on all trims"
   },
   {
    "v": "hyundai-tucson-hybrid-nx4",
-   "text": "~75 in of flat load-floor length with the 60/40 row folded — long for a compact SUV",
-   "polarity": "pro"
+   "text": "~75 in of flat load-floor length with the 60/40 row folded — long for a compact SUV"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
-   "text": "~58 in of usable length and only ~38 in between the wheel arches — a solo bed for someone up to about 5'10\", not a two-person platform",
-   "polarity": "con"
+   "text": "~58 in of usable length and only ~38 in between the wheel arches — a solo bed for someone up to about 5'10\", not a two-person platform"
   }
  ],
  "stealth_profile": [
   {
    "v": "toyota-rav4-hybrid-xa50",
-   "text": "No van-style stealth; gear visible through glass",
-   "polarity": "con"
+   "text": "No van-style stealth; gear visible through glass"
   },
   {
    "v": "ford-transit-connect-gen2",
-   "text": "Work-van looks = excellent urban stealth",
-   "polarity": "pro"
+   "text": "Work-van looks = excellent urban stealth"
   },
   {
    "v": "honda-odyssey-rl6",
-   "text": "Minivan anonymity + sliding doors = stealthy urban overnights",
-   "polarity": "pro"
+   "text": "Minivan anonymity + sliding doors = stealthy urban overnights"
   },
   {
    "v": "mazda5-gen3",
-   "text": "Sliding doors in a compact footprint: top stealth + tight parking",
-   "polarity": "pro"
+   "text": "Sliding doors in a compact footprint: top stealth + tight parking"
   },
   {
    "v": "toyota-prius-xw60",
-   "text": "Maximum stealth — reads as a commuter car",
-   "polarity": "pro"
+   "text": "Maximum stealth — reads as a commuter car"
   },
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "Blends in as a family SUV for stealth",
-   "polarity": "pro"
+   "text": "Blends in as a family SUV for stealth"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
-   "text": "163 in long and 69.5 in wide — parks and turns anywhere, including tight trailheads and urban stealth spots",
-   "polarity": "pro"
+   "text": "163 in long and 69.5 in wide — parks and turns anywhere, including tight trailheads and urban stealth spots"
   }
  ],
  "sliding_doors": [
   {
    "v": "ford-transit-connect-gen2",
-   "text": "Boxy walls + sliding doors + off-the-shelf kits",
-   "polarity": "pro"
+   "text": "Boxy walls + sliding doors + off-the-shelf kits"
   },
   {
    "v": "honda-odyssey-rl6",
-   "text": "Minivan anonymity + sliding doors = stealthy urban overnights",
-   "polarity": "pro"
+   "text": "Minivan anonymity + sliding doors = stealthy urban overnights"
   },
   {
    "v": "mazda5-gen3",
-   "text": "Sliding doors in a compact footprint: top stealth + tight parking",
-   "polarity": "pro"
+   "text": "Sliding doors in a compact footprint: top stealth + tight parking"
   }
  ],
  "still_in_production": [
   {
    "v": "ford-transit-connect-gen2",
-   "text": "Discontinued 2023 — parts/support outlook",
-   "polarity": "con"
+   "text": "Discontinued 2023 — parts/support outlook"
   },
   {
    "v": "mazda5-gen3",
-   "text": "Discontinued 2015: aging cars, no kit aftermarket",
-   "polarity": "con"
+   "text": "Discontinued 2015: aging cars, no kit aftermarket"
   },
   {
    "v": "mercedes-metris-w447",
-   "text": "Discontinued after 2023 — support question",
-   "polarity": "con"
+   "text": "Discontinued after 2023 — support question"
   },
   {
    "v": "ram-promaster-city",
-   "text": "Discontinued 2022 — Fiat parts outlook uncertain",
-   "polarity": "con"
+   "text": "Discontinued 2022 — Fiat parts outlook uncertain"
   }
  ],
  "onboard_ac_power": [
   {
    "v": "toyota-sienna-xl40",
-   "text": "Optional 1,500W 120V AC inverter for camp power",
-   "polarity": "pro"
+   "text": "Optional 1,500W 120V AC inverter for camp power"
   },
   {
    "v": "kia-carnival-hybrid-ka4pe",
-   "text": "Small HEV battery — no PHEV-style engine-off camp power",
-   "polarity": "con"
+   "text": "Small HEV battery — no PHEV-style engine-off camp power"
   },
   {
    "v": "honda-crv-hybrid-gen6",
-   "text": "No 115V household outlet on most trims",
-   "polarity": "con"
+   "text": "No 115V household outlet on most trims"
   },
   {
    "v": "toyota-rav4-prime-xa50",
-   "text": "1500W/120V cargo outlet (XSE Premium) powers fridge/cooktop off the battery",
-   "polarity": "pro"
+   "text": "1500W/120V cargo outlet (XSE Premium) powers fridge/cooktop off the battery"
   },
   {
    "v": "mitsubishi-outlander-phev-gn",
-   "text": "Two 120V/1500W household outlets (SEL) run camp gear off the pack",
-   "polarity": "pro"
+   "text": "Two 120V/1500W household outlets (SEL) run camp gear off the pack"
   },
   {
    "v": "hyundai-santa-fe-hybrid-mx5",
-   "text": "Limited adds Blind-Spot View Monitor + Surround View Monitor, Highway Driving Assist, and a KBB-listed interior 120V AC outlet",
-   "polarity": "pro"
+   "text": "Limited adds Blind-Spot View Monitor + Surround View Monitor, Highway Driving Assist, and a KBB-listed interior 120V AC outlet"
   },
   {
    "v": "hyundai-santa-fe-hybrid-tm",
-   "text": "115V/150W cargo outlet is trim-dependent and its presence on specific 2023 hybrid trims is unverified — Blue likely lacks it",
-   "polarity": "con"
+   "text": "115V/150W cargo outlet is trim-dependent and its presence on specific 2023 hybrid trims is unverified — Blue likely lacks it"
   },
   {
    "v": "hyundai-santa-fe-hybrid-tm",
-   "text": "No PHEV-style AC power for camp; hybrid provides no meaningful household outlet on lower trims",
-   "polarity": "con"
+   "text": "No PHEV-style AC power for camp; hybrid provides no meaningful household outlet on lower trims"
   },
   {
    "v": "hyundai-santa-fe-phev-tm",
-   "text": "120V AC outlet (~150W) for laptops, phones, and small electronics at camp",
-   "polarity": "pro"
+   "text": "120V AC outlet (~150W) for laptops, phones, and small electronics at camp"
   },
   {
    "v": "hyundai-santa-fe-phev-tm",
-   "text": "120V outlet is ~150W max — won't run an induction cooktop or a large compressor fridge at full load",
-   "polarity": "con"
+   "text": "120V outlet is ~150W max — won't run an induction cooktop or a large compressor fridge at full load"
   },
   {
    "v": "hyundai-tucson-hybrid-nx4",
-   "text": "No factory 115V/household outlet on any Hybrid trim — aftermarket 12V inverter required for camp power",
-   "polarity": "con"
+   "text": "No factory 115V/household outlet on any Hybrid trim — aftermarket 12V inverter required for camp power"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
-   "text": "No 120V household outlet and no V2L: a single 12V/20A accessory outlet that only works with the car powered on, so an inverter is a required add",
-   "polarity": "con"
+   "text": "No 120V household outlet and no V2L: a single 12V/20A accessory outlet that only works with the car powered on, so an inverter is a required add"
   }
  ],
  "tow_class": [
   {
    "v": "mercedes-metris-w447",
-   "text": "RWD with 5,000-lb tow rating",
-   "polarity": "pro"
+   "text": "RWD with 5,000-lb tow rating"
   },
   {
    "v": "subaru-outback-bt",
-   "text": "CVT limits towing (2,700–3,500 lb)",
-   "polarity": "con"
+   "text": "CVT limits towing (2,700–3,500 lb)"
   },
   {
    "v": "subaru-forester-sk",
-   "text": "1,500-lb tow rating rules out most teardrops",
-   "polarity": "con"
+   "text": "1,500-lb tow rating rules out most teardrops"
   },
   {
    "v": "toyota-rav4-prime-xa50",
-   "text": "2,500-lb tow rating",
-   "polarity": "con"
+   "text": "2,500-lb tow rating"
   },
   {
    "v": "subaru-forester-hybrid-sl",
-   "text": "Low 1,500-lb (Class 1) tow rating rules out most small camping trailers and teardrops",
-   "polarity": "con"
+   "text": "Low 1,500-lb (Class 1) tow rating rules out most small camping trailers and teardrops"
   },
   {
    "v": "hyundai-santa-fe-hybrid-mx5",
-   "text": "Tow rating capped at 2,000 lbs across every hybrid trim (vs. up to 4,500 lbs on gas XRT) — rules out most small trailers",
-   "polarity": "con"
+   "text": "Tow rating capped at 2,000 lbs across every hybrid trim (vs. up to 4,500 lbs on gas XRT) — rules out most small trailers"
   },
   {
    "v": "hyundai-santa-fe-hybrid-tm",
-   "text": "Tow rating only 2,000 lb (vs up to 3,500 lb on the gas 2.5T) — limits trailer options",
-   "polarity": "con"
+   "text": "Tow rating only 2,000 lb (vs up to 3,500 lb on the gas 2.5T) — limits trailer options"
   },
   {
    "v": "hyundai-santa-fe-phev-tm",
-   "text": "Tow rating only 2,000 lb (vs up to 3,500 lb on the gas Santa Fe) — the weakest-towing variant",
-   "polarity": "con"
+   "text": "Tow rating only 2,000 lb (vs up to 3,500 lb on the gas Santa Fe) — the weakest-towing variant"
   },
   {
    "v": "hyundai-tucson-hybrid-nx4",
-   "text": "Tow rating only 2,000 lb — small trailers/teardrops only",
-   "polarity": "con"
+   "text": "Tow rating only 2,000 lb — small trailers/teardrops only"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
-   "text": "Not rated to tow anything — GM's manual says never tow a trailer, so no teardrop, no utility trailer, no cargo trailer",
-   "polarity": "con"
+   "text": "Not rated to tow anything — GM's manual says never tow a trailer, so no teardrop, no utility trailer, no cargo trailer"
   }
  ],
  "roof_rails": [
   {
    "v": "subaru-outback-bt",
-   "text": "Raised rails handle RTTs and boxes",
-   "polarity": "pro"
+   "text": "Raised rails handle RTTs and boxes"
   }
  ],
  "dc_fast_charging": [
   {
    "v": "toyota-rav4-prime-xa50",
-   "text": "No DC fast charging; overnight AC use eats next-day EV range",
-   "polarity": "con"
+   "text": "No DC fast charging; overnight AC use eats next-day EV range"
   },
   {
    "v": "mitsubishi-outlander-phev-gn",
-   "text": "CHAdeMO fast-charge standard is disappearing in the US",
-   "polarity": "con"
+   "text": "CHAdeMO fast-charge standard is disappearing in the US"
   },
   {
    "v": "hyundai-santa-fe-phev-tm",
-   "text": "No DC fast charging and only ~3.3 kW onboard (Level 2 ~3.4–4 hr) — slow to top up on the road",
-   "polarity": "con"
+   "text": "No DC fast charging and only ~3.3 kW onboard (Level 2 ~3.4–4 hr) — slow to top up on the road"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
-   "text": "DC fast charging standard for 2022 (~100 miles in 30 minutes) plus an 11.5 kW onboard charger, so overnight Level 2 tops it off anywhere",
-   "polarity": "pro"
+   "text": "DC fast charging standard for 2022 (~100 miles in 30 minutes) plus an 11.5 kW onboard charger, so overnight Level 2 tops it off anywhere"
   }
  ],
  "spare_tire": [
   {
    "v": "subaru-forester-hybrid-sl",
-   "text": "No spare tire — sealant-and-compressor kit only, since the battery occupies the spare well; remote-travel buyers likely need an aftermarket spare (~$400–510)",
-   "polarity": "con"
+   "text": "No spare tire — sealant-and-compressor kit only, since the battery occupies the spare well; remote-travel buyers likely need an aftermarket spare (~$400–510)"
   }
  ]
 };

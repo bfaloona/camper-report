@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { TRAITS, compileTraits, sanitizeTraits } from './traits.js';
-import { FIELDS, rankVehicles } from './scoring.js';
+import { TRAITS, GROUPS, compileTraits, sanitizeTraits, traitRule } from './traits.js';
+import { FIELDS, rankVehicles, evaluateGate } from './scoring.js';
 
 // The trait-picker analogue of the FIELD_IDS ⊆ FIELDS test: a trait naming a
 // field the scorer can't read, or a value the field can never produce, would
@@ -99,4 +99,29 @@ test('a NO trait excludes the vehicles that match it', () => {
   const byId = Object.fromEntries(rows.map(r => [r.vehicle.id, r]));
   assert.equal(byId['awd-car'].excluded, true);
   assert.equal(byId['fwd-car'].excluded, false);
+});
+
+// The panel renders one section per GROUPS entry and pulls its rows by name, so
+// a trait whose group is absent or misspelled disappears from the UI entirely
+// with nothing thrown.
+test('every trait group has a panel section', () => {
+  const named = new Set(GROUPS.map(g => g.name));
+  for (const t of TRAITS) {
+    assert.ok(named.has(t.group), `${t.id}: group "${t.group}" is not in GROUPS`);
+  }
+  for (const g of GROUPS) {
+    assert.ok(TRAITS.some(t => t.group === g.name), `GROUPS has an empty section: ${g.name}`);
+  }
+});
+
+// The evidence badges evaluate traitRule through evaluateGate; the compiled
+// gate uses the same rule. If those ever diverge, a green tick would sit beside
+// a vehicle the same selection filters out.
+test('the badge rule and the compiled gate rule agree', () => {
+  const awdCar = { id: 'awd-car', drivetrain: 'AWD' };
+  const t = TRAITS.find(x => x.field === 'drivetrain_bucket');
+  const [compiled] = compileTraits({ [t.id]: 'yes' });
+  assert.deepEqual(traitRule(t), compiled.rule);
+  assert.equal(evaluateGate(awdCar, { rule: traitRule(t) }), 'pass');
+  assert.equal(evaluateGate({ id: 'x' }, { rule: traitRule(t) }), 'unknown');
 });
