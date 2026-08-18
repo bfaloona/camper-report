@@ -574,14 +574,14 @@ Bullet text is copied verbatim from `vehicles.json` by the generating script; th
 |---|---|---|---|
 | pro | 75.5 cu ft behind the front seats with both rear rows down — three-row cargo volume in a 189-in body that still fits a normal parking stall | D | max_cargo_cf; length_in |
 | pro | 36/33 mpg AWD (39/35 on the FWD EX) — the hybrid cycles its engine to hold cabin temperature overnight instead of idling all night | D | mpg_city, mpg_hwy; overnight_climate |
-| pro | SX-P is the only 2024 Sorento Hybrid with a 115V household inverter, and both trims add a 12V outlet in the luggage area | D | onboard_ac_power — *the 12V luggage outlet is residue* |
-| pro | AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights | D | drivetrain_bucket; heated_front_seats; ventilated_front_seats; heated_steering_wheel |
-| pro | IIHS 2024 Top Safety Pick and NHTSA 5-star overall, with the full Drive Wise suite standard on both trims | D | safety_feature_count |
+| pro | SX-P is the only 2023 Sorento Hybrid with a 115V household inverter, and it is the first Sorento Hybrid year to offer one at all; both trims add a 12V outlet in the luggage area | D | onboard_ac_power — *the 12V luggage outlet is residue* |
+| pro | AWD standard on SX-P with a centre locking differential and a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights | D | drivetrain_bucket; heated_front_seats; ventilated_front_seats; heated_steering_wheel |
+| pro | IIHS 2023 Top Safety Pick with the SX-P's projector headlights rated Good, and the full Drive Wise suite standard on both trims | D | safety_feature_count |
 | con | 6.85 in ground clearance — among the lowest here, and there is no X-Line/X-Pro version of the hybrid | D+R | ground_clearance_in → clearance_class |
-| con | 1,654 lb tow rating, and that is Kia's unbraked figure — no braked rating or tongue weight appears in Kia's spec sheet | D | tow_class (tow_max) — *the unbraked/braked distinction is residue* |
+| con | 1,654 lb tow rating, and that is Kia's unbraked figure — no braked rating or tongue weight appears in Kia's spec sheet; a 2022 recall on the tow-hitch harness (fire risk) applies to this year | D | tow_class (tow_max) — *the unbraked/braked distinction and the recall are residue* |
 | con | Second row is 50/50 captain's chairs on every hybrid trim with no bench option, so a lengthwise centre gap runs through the bed | E | — (second-row seat configuration; no field) |
 | con | Two fold seams (third row to cargo floor, second-row seatbacks) mean a platform or a thick bridging pad; no first-hand flatness measurement could be found | D | rear_seat_fold |
-| con | Thin aftermarket: Luno fitment and a generic RiverLeaf SUV kit exist, but no Sorento-specific platform or kit was located and the owner forum is tiny | D | camper_popularity_tier, conversion_kit_count |
+| con | Thin aftermarket: a Luno fitment entry and a generic RiverLeaf SUV kit exist, but no Sorento-specific platform or kit was located and the owner forum is tiny | D | camper_popularity_tier, conversion_kit_count |
 
 ### kia-sportage-hybrid-nq5 (SUV, hybrid, AWD)
 

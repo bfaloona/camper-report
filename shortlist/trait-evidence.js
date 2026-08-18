@@ -237,7 +237,7 @@ export const TRAIT_EVIDENCE = {
   },
   {
    "v": "kia-sorento-hybrid-mq4",
-   "text": "AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
+   "text": "AWD standard on SX-P with a centre locking differential and a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
   },
   {
    "v": "kia-sportage-hybrid-nq5",
@@ -323,7 +323,7 @@ export const TRAIT_EVIDENCE = {
   },
   {
    "v": "kia-sorento-hybrid-mq4",
-   "text": "Thin aftermarket: Luno fitment and a generic RiverLeaf SUV kit exist, but no Sorento-specific platform or kit was located and the owner forum is tiny"
+   "text": "Thin aftermarket: a Luno fitment entry and a generic RiverLeaf SUV kit exist, but no Sorento-specific platform or kit was located and the owner forum is tiny"
   },
   {
    "v": "kia-sportage-hybrid-nq5",
@@ -583,7 +583,7 @@ export const TRAIT_EVIDENCE = {
   },
   {
    "v": "kia-sorento-hybrid-mq4",
-   "text": "SX-P is the only 2024 Sorento Hybrid with a 115V household inverter, and both trims add a 12V outlet in the luggage area"
+   "text": "SX-P is the only 2023 Sorento Hybrid with a 115V household inverter, and it is the first Sorento Hybrid year to offer one at all; both trims add a 12V outlet in the luggage area"
   },
   {
    "v": "kia-sportage-hybrid-nq5",
@@ -633,7 +633,7 @@ export const TRAIT_EVIDENCE = {
   },
   {
    "v": "kia-sorento-hybrid-mq4",
-   "text": "1,654 lb tow rating, and that is Kia's unbraked figure — no braked rating or tongue weight appears in Kia's spec sheet"
+   "text": "1,654 lb tow rating, and that is Kia's unbraked figure — no braked rating or tongue weight appears in Kia's spec sheet; a 2022 recall on the tow-hitch harness (fire risk) applies to this year"
   },
   {
    "v": "kia-sportage-hybrid-nq5",
@@ -701,19 +701,19 @@ export const TRAIT_EVIDENCE = {
  "heated_front_seats": [
   {
    "v": "kia-sorento-hybrid-mq4",
-   "text": "AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
+   "text": "AWD standard on SX-P with a centre locking differential and a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
   }
  ],
  "heated_steering_wheel": [
   {
    "v": "kia-sorento-hybrid-mq4",
-   "text": "AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
+   "text": "AWD standard on SX-P with a centre locking differential and a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
   }
  ],
  "ventilated_front_seats": [
   {
    "v": "kia-sorento-hybrid-mq4",
-   "text": "AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
+   "text": "AWD standard on SX-P with a centre locking differential and a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
   }
  ],
  "power_liftgate": [
