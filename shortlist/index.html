@@ -316,6 +316,13 @@ details.trait-group .trait-row:first-of-type { border-top: 1px solid var(--hairl
 .trait-ev ul { margin: 6px 0 2px; padding-left: 18px; }
 .trait-ev li { margin: 2px 0; color: var(--ink-2); }
 .trait-ev li b { font-weight: 600; color: var(--ink-1); }
+/* Inside a trait's evidence the mark is the vehicle's verdict against that
+   trait, not the bullet's pro/con side; the editorial notes at the foot of the
+   panel have no trait to be judged against and keep pro/con. */
+.trait-ev .match::marker { content: "✓ "; color: var(--score-ink); }
+.trait-ev .nomatch::marker { content: "✗ "; color: var(--fail-ink); }
+.trait-ev .nodata::marker { content: "? "; color: var(--unk-ink); }
+.trait-ev .ev-legend { margin: 6px 0 0; color: var(--ink-3); }
 .trait-ev .pro::marker { content: "✓ "; color: var(--score-ink); }
 .trait-ev .con::marker { content: "✗ "; color: var(--fail-ink); }
 #traits > .trait-ev { padding: 8px 12px; border-top: 1px solid var(--hairline); display: block; }
@@ -818,11 +825,26 @@ const vehicleName = id => {
   return v ? `${v.make} ${v.model}` : id;
 };
 
-function evidenceBlock(field) {
-  const items = TRAIT_EVIDENCE[field];
+// A bullet's own pro/con side and the vehicle's verdict against the trait the
+// bullet sits under disagree often enough to mislead. The RAV4 Hybrid's
+// "cycles climate control overnight quietly" is a pro, but a hybrid is
+// engine-cycling, not engine-off, so a YES on "Engine-off overnight climate"
+// rules it out — and a green tick beside a vehicle the selection excludes
+// reads as a bug. Mark the verdict; the text already carries the sentiment.
+function traitVerdict(t, vehicleId) {
+  const v = vehicles.find(x => x.id === vehicleId);
+  if (!v) return 'nodata';
+  const value = fieldValue(v, t.field);
+  if (value === null) return 'nodata';
+  return t.yes_values.includes(value) ? 'match' : 'nomatch';
+}
+
+function evidenceBlock(t) {
+  const items = TRAIT_EVIDENCE[t.field];
   if (!items || !items.length) return '';
-  return `<details class="trait-ev"><summary>evidence (${items.length})</summary><ul>` +
-    items.map(e => `<li class="${e.polarity}"><b>${esc(vehicleName(e.v))}</b>: ${esc(e.text)}</li>`).join('') +
+  return `<details class="trait-ev"><summary>evidence (${items.length})</summary>` +
+    '<p class="ev-legend">✓ matches this trait · ✗ doesn\'t · ? no data</p><ul>' +
+    items.map(e => `<li class="${traitVerdict(t, e.v)}"><b>${esc(vehicleName(e.v))}</b>: ${esc(e.text)}</li>`).join('') +
     '</ul></details>';
 }
 
@@ -839,7 +861,7 @@ function traitRow(t) {
       ${t.yes_only ? '' : seg('no', 'No', 'Rule it out')}
     </span>
     <span class="trait-blurb">${esc(t.blurb)}</span>
-    ${evidenceBlock(t.field)}
+    ${evidenceBlock(t)}
   </div>`;
 }
 
