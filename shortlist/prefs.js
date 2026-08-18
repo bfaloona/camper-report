@@ -7,8 +7,47 @@ let etag = null;
 // when the stored blob was corrupted and defaults were served instead — the
 // server sends it specifically so this doesn't fail silently, so callers must
 // not drop it.
+// An expired Cloudflare Access session does not fail cleanly. Access answers
+// the API call with a redirect to its login page on another origin, so a
+// same-origin fetch either rejects outright (following a cross-origin redirect
+// with no CORS headers is a TypeError) or arrives as a redirected HTML
+// response. Our own guard's 401 means the same thing to the person reading it.
+//
+// Worth naming because the failure is invisible in local development, where
+// DEV_BYPASS_EMAIL means the guard never runs, and because boot() aborts on the
+// first rejection — so an expired session reads as "the whole tool is broken"
+// rather than "sign in again".
+export const SESSION_EXPIRED = 'Your session expired. Reload the page to sign in again.';
+
+export function isSessionExpired(res) {
+  if (!res) return false;
+  if (res.status === 401) return true;
+  if (res.type === 'opaque' || res.type === 'opaqueredirect') return true;
+  if (!res.redirected || !res.url) return false;
+  const here = globalThis.location?.origin;
+  // No origin to compare against means we cannot tell; say no rather than
+  // mislabel a real fault as a sign-in problem.
+  if (!here) return false;
+  // Not URL.parse: it is recent enough that an older browser would throw here,
+  // turning a sign-in prompt into an exception.
+  try {
+    return new URL(res.url, here).origin !== here;
+  } catch {
+    return false;
+  }
+}
+
+// A same-origin call to our own API has no legitimate reason to raise a
+// TypeError, so treat one as the redirect above — unless the browser says we
+// are offline, which is the other honest explanation.
+function rethrowAsSession(err) {
+  if (err instanceof TypeError && navigator.onLine !== false) throw new Error(SESSION_EXPIRED);
+  throw err;
+}
+
 export async function loadPrefs() {
-  const res = await fetch('/api/prefs', { credentials: 'same-origin' });
+  const res = await fetch('/api/prefs', { credentials: 'same-origin' }).catch(rethrowAsSession);
+  if (isSessionExpired(res)) throw new Error(SESSION_EXPIRED);
   if (!res.ok) throw new Error(`Could not load preferences (${res.status})`);
   const body = await res.json();
   etag = body.etag;
@@ -21,7 +60,8 @@ export async function savePrefs(prefs) {
     credentials: 'same-origin',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ prefs, etag }),
-  });
+  }).catch(rethrowAsSession);
+  if (isSessionExpired(res)) throw new Error(SESSION_EXPIRED);
   if (res.status === 409) {
     const err = new Error('Someone else saved changes while you were editing. Reload to see them.');
     err.conflict = true;
@@ -39,7 +79,8 @@ export async function parseProse(text) {
     credentials: 'same-origin',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ text }),
-  });
+  }).catch(rethrowAsSession);
+  if (isSessionExpired(res)) throw new Error(SESSION_EXPIRED);
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.error || `Could not parse that text (${res.status})`);
