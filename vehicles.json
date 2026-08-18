@@ -1,6 +1,6 @@
 {
   "$schema_note": "Source of truth for the Camper Van comparison report. One record per vehicle-generation. listed_year = min(latest model year available, 2024), except for models not sold in the US in or before 2024, which use their first US model year. All measurements in inches. Update last_verified whenever a record is re-researched.",
-  "updated": "2026-08-17",
+  "updated": "2026-08-18",
   "vehicles": [
     {
       "id": "toyota-rav4-hybrid-xa50",
@@ -4631,6 +4631,391 @@
         "No factory camp or climate-hold mode, unlike several newer EVs",
         "Battery-fire recall history (21V-650 plus two software re-dos) makes recall-completion documentation mandatory before buying, and depresses resale",
         "Aftermarket is thin: no full conversion kit, and none of the platform vendors that serve the SUVs here (Luno, RiverLeaf, Freeway Camper Kit) fit it"
+      ]
+    },
+    {
+      "id": "kia-sorento-hybrid-mq4",
+      "make": "Kia",
+      "model": "Sorento Hybrid",
+      "trim": "SX Prestige (SX-P) AWD",
+      "trim_rationale": "The 2024 Sorento Hybrid came in exactly two trims, EX and SX-Prestige (SX-P). SX-P is the camping pick for one decisive reason: it is the only 2024 Sorento Hybrid with the 115V household inverter (Kia's features sheet marks '115V Inverter (accommodates laptop power cords, household electronics)' standard on SX-P, not available on EX). SX-P also makes AWD standard, adds the Snow drive mode, and brings heated + ventilated front seats and a heated steering wheel; the EX is FWD standard with AWD optional and has no AC outlet on any configuration. Both trims share the camping-relevant hardware: 2nd-row 50/50 split-folding captain's chairs, 3rd-row 50/50 split-folding seats, a dual-level cargo floor, roof rails, a power tailgate and a 12V outlet in the luggage area. Trade-offs: SX-P rides on 19-inch wheels rather than the EX's 17s and listed at $42,790 against $39,290 for an EX AWD ($36,990 FWD), and AWD costs real fuel economy (36/33/34 vs the EX FWD's 39/35/37). AWD availability is year-dependent on this hybrid: 2021 and 2022 Sorento Hybrids (S and EX trims) were FWD-only, and AWD plus the 115V inverter first appear for 2023, so this rationale describes the 2024 car specifically.",
+      "class": "SUV",
+      "powertrain": "hybrid",
+      "drivetrain": "AWD",
+      "generation_span": "2021–present in the US (4th gen, chassis code MQ4; Sorento Hybrid added for MY2021). The MQ4 facelift reached the US Sorento Hybrid for MY2025, so the listed 2024 is the pre-facelift US MQ4 — Kia's own spec tables give 189.4 in overall length for 2021–2024 vs 189.6 in for 2025–2026. Note the gas 2.5L Sorento was facelifted a year earlier, for MY2024, so 2024 gas and 2024 hybrid Sorentos are not the same car cosmetically.",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 28080,
+        "high": 35665,
+        "assumption": "KBB.com returns HTTP 403 to both direct fetch and the fetch tool, and this session's web-search budget was exhausted before any search could be run, so no KBB figure — fetched or search-surfaced — could be obtained. These are instead the observed low and high asking prices across 23 nationwide used 2024 Sorento Hybrid listings under 60,000 miles on cars.com, retrieved 2026-08-18 ($28,080 / 36,378 mi EX CPO up to $35,665 / 8,706 mi SX Prestige). They are dealer RETAIL asking prices, not KBB trade-in or private-party values — a trade-in number would sit meaningfully below the low end here, so treat the low figure as a retail floor rather than a trade-in floor.",
+        "source": "https://www.cars.com/shopping/results/?makes[]=kia&models[]=kia-sorento_hybrid&year_max=2024&year_min=2024&stock_type=used&maximum_distance=all&mileage_max=60000"
+      },
+      "exterior_in": {
+        "length": 189.4,
+        "width": 74.8,
+        "height": 66.7
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": null,
+        "method": "No defensible measurement found. The Sorento's second row SLIDES, so there is no single seats-down floor length even in principle, and Kia publishes none. The only car-camping write-ups located for this vehicle are on autoroamer.com — a source this project has already ruled insufficient on its own — and that article disclaims first-hand testing outright ('no claim of first-hand testing'), states only '72 to 75 inches of length with just the third row folded' (behind the SECOND row, not behind the front seats), attributes even that to unnamed 'secondary sources', and says explicitly that 'a first-hand owner tape measurement was not located'. The dedicated owner forum (sorentoforums.com) is very small and surfaced no camping or measurement thread. This session could not run any web search (budget exhausted), so the usual community-measurement channels — Reddit, YouTube tape-measure videos — could not be swept; a future pass with search available should retry.",
+        "source": "https://www.autoroamer.com/posts/what-size-mattress-fits-in-a-kia-sorento-for-car-camping.html"
+      },
+      "mpg": {
+        "city": 36,
+        "hwy": 33,
+        "note": "EPA figures for the listed SX-P, which is AWD-only: 36 city / 33 hwy / 34 combined (fueleconomy.gov vehicle 47148). The EX in FWD form rates 39/35/37 (vehicle 47136) — the best-in-class 37 mpg Kia advertises is the FWD number, not this trim's. Kia's own spec page prints 35 combined for AWD; EPA and Kia's 2024 press release both say 34, so 34 is used here."
+      },
+      "safety": {
+        "suite": "Kia Drive Wise (standard on both 2024 Sorento Hybrid trims)",
+        "features": [
+          "Forward Collision-Avoidance Assist – Junction Turning, car/pedestrian/cyclist detection",
+          "Blind-Spot Collision-Avoidance Assist – Rear with Parallel Exit",
+          "Rear Cross-Traffic Collision-Avoidance Assist",
+          "Lane Keeping Assist + Lane Departure Warning + Lane Following Assist",
+          "Highway Driving Assist and Navigation-Based Smart Cruise Control with Stop & Go (Curve)",
+          "Driver Attention Warning, Safe Exit Assist, Rear Occupant Alert, Intelligent Speed Limit Assist",
+          "Parking Distance Warning front & rear; Surround View Monitor / Blind View Monitor / Parking Collision-Avoidance Rear on SX-P",
+          "IIHS 2024 Top Safety Pick, not Pick+ (headlights rated Acceptable) — IIHS rates the 2024 Sorento 4-door SUV line, not the hybrid separately",
+          "NHTSA 5-star overall for both 2024 Sorento Hybrid FWD and AWD (4-star frontal, 5-star side, 4-star rollover)"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Low",
+        "evidence": "Real but thin. Positive evidence: Luno's fitment database returns a dedicated 'kia sorento hybrid' entry for 2021–2026 (mattress size MTB plus extender B), so its AIR Pro vehicle mattress has vehicle-specific fitment here; RiverLeaf sells a Kia Sorento landing page for its 'Badlands' SUV camper kit with stated 2016–2025 fitment; autoroamer.com carries five Sorento car-camping articles. Against that: no Sorento-specific sleeping platform, drawer system or camper kit was located — the RiverLeaf kit is a fits-most-SUVs modular product with a per-model landing page, not Sorento-engineered — and the dedicated owner forum (sorentoforums.com) is tiny, with thread IDs still in the low hundreds. Nowhere near the RAV4/Outback/4Runner ecosystems, and below the Tucson and Santa Fe. Caveat: this session's web-search budget was exhausted, so the negative side rests on direct checks of vendor sites (Luno, AirBedz/Pittman, BamBeds, CarToCamp, Goose Gear, Freeway Camper Kit) rather than an exhaustive sweep — absence of a hit on a landing page is weaker evidence than a search would be."
+      },
+      "conversion_products": [
+        {
+          "name": "Luno AIR Pro vehicle mattress (Kia Sorento Hybrid fitment, 2021–2026)",
+          "url": "https://lunolife.com/products/air-pro-vehicle-mattress",
+          "type": "dual-chamber air mattress with vehicle-specific fitment (Luno's compatibility tool returns size MTB + extender B for the Sorento Hybrid)"
+        },
+        {
+          "name": "RiverLeaf 'Badlands' SUV Camper Conversion Kit — Kia Sorento (2016–2025)",
+          "url": "https://riverleafcamper.com/pages/kia-sorento-camper-conversion-kit",
+          "type": "modular bed + storage + camp-kitchen kit; fits-most-SUVs design with a Sorento fitment page, not Sorento-specific tooling"
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/2024_Kia_Sorento_%28MQ4%29_Hybrid_1.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:2024_Kia_Sorento_(MQ4)_Hybrid_1.jpg",
+          "license": "CC BY-SA 4.0 (Benespit)",
+          "note": "2024 Sorento Hybrid, MQ4 — the listed generation and powertrain. European-market car; US trim badging and bumper details differ."
+        },
+        "dashboard": null,
+        "cargo": null
+      },
+      "sources": [
+        "https://www.kiamedia.com/us/en/models/sorento-hev/2024/specifications",
+        "https://www.kiamedia.com/us/en/models/sorento-hev/2024/features",
+        "https://www.kiamedia.com/us/en/media/pressreleases/21385/kia-announces-2024-sorento-hybrid",
+        "https://www.kiamedia.com/us/en/models/sorento-hev/2023/features",
+        "https://www.kiamedia.com/us/en/models/sorento-hev/2021/features",
+        "https://www.kiamedia.com/us/en/models/sorento-hev/2025/specifications",
+        "https://www.kiamedia.com/us/en/models/sorento-hev/2026/specifications",
+        "https://www.fueleconomy.gov/ws/rest/vehicle/47148",
+        "https://www.fueleconomy.gov/ws/rest/vehicle/47136",
+        "https://www.cars.com/research/kia-sorento_hybrid-2024/specs/",
+        "https://www.cars.com/shopping/results/?makes[]=kia&models[]=kia-sorento_hybrid&year_max=2024&year_min=2024&stock_type=used&maximum_distance=all&mileage_max=60000",
+        "https://www.iihs.org/ratings/vehicle/kia/sorento-4-door-suv/2024",
+        "https://api.nhtsa.gov/SafetyRatings/VehicleId/19268",
+        "https://api.nhtsa.gov/recalls/recallsByVehicle?make=kia&model=sorento%20hybrid&modelYear=2024",
+        "https://api.nhtsa.gov/recalls/recallsByVehicle?make=kia&model=sorento&modelYear=2024",
+        "https://repairpal.com/reliability/kia/sorento",
+        "https://en.wikipedia.org/wiki/Kia_Sorento",
+        "https://lunolife.com/pages/vehicle-compatibility",
+        "https://lunolife.com/products/air-pro-vehicle-mattress",
+        "https://riverleafcamper.com/pages/kia-sorento-camper-conversion-kit",
+        "https://www.autoroamer.com/posts/what-size-mattress-fits-in-a-kia-sorento-for-car-camping.html",
+        "https://www.autoroamer.com/posts/can-you-sleep-in-a-kia-sorento.html",
+        "https://www.sorentoforums.com/",
+        "https://www.kia.com/us/en/sorento-hybrid",
+        "https://commons.wikimedia.org/wiki/File:2024_Kia_Sorento_(MQ4)_Hybrid_1.jpg"
+      ],
+      "notes": "Standard hybrid (HEV) only. The Sorento Plug-In Hybrid is a separate MQ4 variant with a different battery, EPA rating, cargo floor and trim ladder, and none of its figures are used here; neither are the gas 2.5L / 2.5T Sorento's, whose higher tow rating and whose X-Line raised ground clearance do NOT apply to the hybrid (those gas-model figures were not fetched this pass and are deliberately left unquoted). Powertrain: 1.6L turbo GDI + 44.2 kW motor, 227 hp / 258 lb-ft combined, 6-speed automatic (not a CVT or e-CVT). Two trims for 2024: EX ($36,990 FWD / $39,290 AWD) and SX-P ($42,790), MSRP excluding $1,375 destination. Kia's 2024 press release prints overall length as 189.0 in while Kia's own detailed spec table for the same car says 189.4 in (and 189.4 for 2021–2023, 189.6 for the 2025–26 facelift); 189.4 is used. Kia's spec page also prints 35 mpg combined AWD against EPA's and Kia's own press release's 34 — 34 is used. Cargo: 75.5 cu ft behind row 1 requires BOTH rear rows folded; behind row 2 it is a range (38.5–45.0 cu ft) because the second row slides, and only 12.6 cu ft with all three rows up. Ground clearance is 6.85 in, low for this comparison — there is no X-Line/X-Pro hybrid. Photos left null per the research brief (the coordinator verifies image URLs and licences). Two figures are honestly null: cargo length behind the front seats and sitting height over the folded seats. This session had NO web search available (budget exhausted before the pass began), so every figure here comes from a page fetched directly by URL; KBB, Edmunds, CarMax, J.D. Power, Car and Driver and MotorTrend all refused the fetch, which is why the value range is sourced from cars.com listings and no J.D. Power score is recorded.",
+      "last_verified": "2026-08-18",
+      "model_url": "https://www.kia.com/us/en/sorento-hybrid",
+      "max_cargo_cf": {
+        "value": 75.5,
+        "config": "Behind the 1st row with BOTH the 2nd-row captain's chairs and the 3rd row folded (SAE). Behind the 2nd row it is 38.5–45.0 cu ft — a range, not a typo, because the 2nd row slides fore/aft — and 12.6 cu ft behind the raised 3rd row. Same 75.5 figure across 2021–2026, so the hybrid battery costs no cargo volume against the gas Sorento.",
+        "source": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/specifications"
+      },
+      "tow_rating": {
+        "max": 1654,
+        "tongue": null,
+        "note": "Kia's 2024 Sorento HEV spec table publishes only an UNBRAKED trailer rating of 1,654 lb (same for FWD and AWD) and no braked rating; cars.com likewise lists 1,654 lb as maximum trailering capacity. No manufacturer-published tongue weight was found. Do not borrow the gas Sorento's higher figures — they are a different powertrain.",
+        "source": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/specifications"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5 — rates the Sorento nameplate across all model years and powertrains (12th of 26 compact SUVs, $533/yr average repair cost), not the MQ4 hybrid specifically",
+        "known_issues": "NHTSA lists 0 recalls and 0 open investigations for the 2024 Kia Sorento Hybrid specifically (6 complaints). Two nearby recalls are worth knowing but do NOT list the 2024 hybrid: 24V287000 (April 2024, certain 2024 Sorento — motor-driven power steering wiring harness misassembled, possible loss of power steering) and 25V006000 (January 2025, 2024–2025 Sorento plus 2025 Sorento Hybrid and Plug-In Hybrid — Body Domain Control unit software). Verify current status by VIN at NHTSA before buying.",
+        "source": "https://repairpal.com/reliability/kia/sorento"
+      },
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": true,
+        "dual_zone_climate": true,
+        "sunroof": false,
+        "roof_rails": true,
+        "power_liftgate": true,
+        "remote_start": true,
+        "ventilated_front_seats": true,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "Kia's factory features sheet gives 2nd-row 50/50 split-folding captain's chairs, 3rd-row 50/50 split-folding seats and a dual-level cargo floor (a height-adjustable board that exists to close the step to the folded seatbacks). No first-hand owner or reviewer statement on how flat the resulting surface actually is could be located this pass; the only description found (autoroamer.com, an AI-authored aggregation that disclaims first-hand testing, so not sufficient on its own) says the folded rows leave 'two fold seams — one where the third row meets the cargo floor, one where the second row folds down — and often a slight step and gap at each'. 'near-flat' is recorded on that basis and should be re-checked against a real measurement. Separately and firmly sourced: the captain's chairs are standard on BOTH hybrid trims with no bench option, so a lengthwise centre gap between the two seats is unavoidable on this powertrain.",
+        "source": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/features",
+        "field_sources": {
+          "sunroof": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/features",
+          "remote_start": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/features",
+          "ventilated_front_seats": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/features",
+          "cargo_area_power_outlet": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/features",
+          "fold_flat_front_passenger_seat": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/features",
+          "rear_seat_fold": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/features"
+        },
+        "confidence": "high"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "rear_seat_fold is near-flat, so the datum would be the top of the folded seatbacks; the listed SX-P can be optioned with a panoramic sunroof, so any figure would also need to state whether the car measured had one. No stated measurement exists in any source reachable this pass. The only Sorento car-camping guides found are autoroamer.com articles that explicitly decline to quote a length or height in inches and disclaim first-hand testing; Kia publishes only seated head room by row (40.3 / 39.1 / 36.8 in), which is a different measurement and not usable here. No web search was available this session, so YouTube and forum measurement channels went unswept — 24 of the 25 existing records are honestly null on this field for the same reason.",
+        "source": null
+      },
+      "ground_clearance_in": {
+        "value": 6.85,
+        "note": "Kia's 2024 Sorento HEV spec table: 6.85 in minimum ground clearance, identical for EX and SX-P and unchanged 2021–2026. cars.com rounds this to 7 in. There is no X-Line or X-Pro hybrid, so the gas Sorento X-Line's raised clearance does not apply.",
+        "source": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/specifications"
+      },
+      "spare_tire": {
+        "value": "compact",
+        "note": "Kia's 2024 Sorento HEV spec table lists 'Temporary' spare tire on both trims, and the features sheet lists 'Temporary spare tire' as standard on EX and SX-P — i.e. a compact/donut spare, not a tire mobility kit and not full-size.",
+        "source": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/specifications"
+      },
+      "onboard_ac_power": {
+        "value": "low_watt",
+        "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule (decision Q2, 2026-08-17); dealer-installed accessories still count as none.",
+        "note": "Kia's 2024 Sorento HEV features sheet lists '115V Inverter (accommodates laptop power cords, household electronics)' as standard on SX-P and not available on EX; the inverter first appears on the hybrid for MY2023, so 2021–22 Sorento Hybrids have none. Kia does not print a wattage on the features sheet — classified low_watt on the same basis as the Carnival records in this dataset (Kia's 115V AC inverters are rated 115V/150W maximum per Kia owner's manuals), well inside the ≤400 W low_watt band. Separately, a 12V power outlet in the luggage area is standard on both trims.",
+        "source": "https://www.kiamedia.com/us/en/models/sorento-hev/2024/features"
+      },
+      "still_in_production": {
+        "value": true,
+        "note": "Kia's media site carries full 2026 Sorento HEV specifications and features (same MQ4 generation, facelifted), in the same EX / SX-P trim structure.",
+        "source": "https://www.kiamedia.com/us/en/models/sorento-hev/2026/specifications"
+      },
+      "dc_fast_charging": {
+        "value": false,
+        "note": "no charge port; not a plug-in",
+        "source": null
+      },
+      "camper_pros": [
+        "75.5 cu ft behind the front seats with both rear rows down — three-row cargo volume in a 189-in body that still fits a normal parking stall",
+        "36/33 mpg AWD (39/35 on the FWD EX) — the hybrid cycles its engine to hold cabin temperature overnight instead of idling all night",
+        "SX-P is the only 2024 Sorento Hybrid with a 115V household inverter, and both trims add a 12V outlet in the luggage area",
+        "AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights",
+        "IIHS 2024 Top Safety Pick and NHTSA 5-star overall, with the full Drive Wise suite standard on both trims"
+      ],
+      "camper_cons": [
+        "6.85 in ground clearance — among the lowest here, and there is no X-Line/X-Pro version of the hybrid",
+        "1,654 lb tow rating, and that is Kia's unbraked figure — no braked rating or tongue weight appears in Kia's spec sheet",
+        "Second row is 50/50 captain's chairs on every hybrid trim with no bench option, so a lengthwise centre gap runs through the bed",
+        "Two fold seams (third row to cargo floor, second-row seatbacks) mean a platform or a thick bridging pad; no first-hand flatness measurement could be found",
+        "Thin aftermarket: Luno fitment and a generic RiverLeaf SUV kit exist, but no Sorento-specific platform or kit was located and the owner forum is tiny"
+      ]
+    },
+    {
+      "id": "kia-sportage-hybrid-nq5",
+      "make": "Kia",
+      "model": "Sportage Hybrid",
+      "trim": "EX (AWD)",
+      "class": "SUV",
+      "powertrain": "hybrid",
+      "drivetrain": "AWD",
+      "generation_span": "2023–present in the US (5th gen, chassis code NQ5; US/Canada long-wheelbase body, 183.5 in / 4,660 mm on a 108.5 in wheelbase). Production began 2021; the facelift was revealed 5 Nov 2024 for the 2026 model year, so 2024 sits in the pre-facelift NQ5 run.",
+      "listed_year": 2024,
+      "kbb_value_usd": {
+        "low": 22000,
+        "high": 33000,
+        "assumption": "2024 Sportage Hybrid, all trims, good condition, roughly 19k–56k mi. KBB.com returned HTTP 403 to direct fetch (as did Edmunds, CarMax, iSeeCars and J.D. Power), so these are derived from live cars.com dealer asking prices retrieved 2026-08-18: 18 used listings ran $21,995 (LX, 36k mi) to $36,998 (SX-Prestige, 22k mi), average ~$29,100, with EX examples clustering $26,161–$31,956. Low ≈ the cheapest observed retail asking price and an approximate trade-in floor; high ≈ the SX-Prestige retail cluster top, excluding the single $36,998 outlier. Dealer asking prices sit above private-party and well above trade-in, and they move weekly — treat as directional, not as KBB values.",
+        "source": "https://www.cars.com/shopping/results/?stock_type=used&makes[]=kia&models[]=kia-sportage_hybrid&year_max=2024&year_min=2024&maximum_distance=all"
+      },
+      "exterior_in": {
+        "length": 183.5,
+        "width": 73.4,
+        "height": 66.1
+      },
+      "cargo_length_behind_front_seats_in": {
+        "value": null,
+        "method": "No independent, stated-method measurement of cargo floor length behind the front seats could be found for the NQ5 Sportage. Kia publishes cargo volume but no cargo-bay length. The obvious community sources were unreachable or absent this pass: every general web search engine tried (DuckDuckGo HTML/lite, Bing, Ecosia, Mojeek) returned 403 or junk, reddit.com and old.reddit.com are blocked to this agent's fetcher, the autoroamer.com Sportage page 404s, and findthebestcarprice.com — the tape-measure video series that produced usable numbers for other records — has no Sportage cargo article at the URLs tried. The one figure-bearing camper source found is the cited RiverLeaf Sportage kit page, and it states only a minimum-fit requirement (40 in W x 30 in D) rather than a measurement of this vehicle — it is cited so the field carries a real consulted URL, not because it supports a value. Deliberately left null rather than inferred from the Hyundai Tucson NX4's platform-sibling figure, which is itself uncorroborated in this dataset.",
+        "source": "https://riverleafcamper.com/pages/kia-sportage-camper-conversion-kit"
+      },
+      "mpg": {
+        "city": 38,
+        "hwy": 38,
+        "note": "EX AWD (listed trim): EPA 38 city / 38 hwy / 38 combined, same as SX-Prestige AWD. The FWD LX rates far higher at 42/44/43. Kia's spec sheet publishes MPG by trim rather than by drivetrain, so the LX AWD's own rating is not separately stated there."
+      },
+      "safety": {
+        "suite": "Kia Drive Wise (driver-assistance standard on all Sportage Hybrid trims)",
+        "features": [
+          "Forward collision warning / Forward Collision-Avoidance Assist with pedestrian and cyclist detection",
+          "Lane Keeping Assist (LKA) + Lane Departure Warning (LDW), standard on all trims",
+          "Lane departure steering assist",
+          "Driver Attention Warning (DAW), standard on all trims",
+          "High Beam Assist (HBA), standard on all trims",
+          "Parking Distance Warning — Reverse (PDW-R), standard on all trims",
+          "New for 2024: rear seat-mounted side airbags and LED projection headlights standard on every trim",
+          "2024 IIHS Top Safety Pick (Sportage line, not hybrid-specific): Good in small overlap front, moderate overlap front and side; Acceptable headlights, Acceptable pedestrian front crash prevention; Marginal in the updated vehicle-to-vehicle front crash prevention test",
+          "NHTSA 5-star frontal barrier crash rating, driver and passenger (per cars.com); overall and rollover stars could not be confirmed — nhtsa.gov returned 403 and its API 504 this pass"
+        ]
+      },
+      "camper_popularity": {
+        "rating": "Medium",
+        "evidence": "The NQ5 Sportage has real but thinner camping aftermarket support than the segment leaders. Verified: RiverLeaf sells a vehicle-specific 'Badlands' Kia Sportage camper conversion kit (bed + kitchen module + storage, 48 in x 6 ft platform); Freeway Camper Kit's Compact SUV 'Bounty Hunter' fitment list names the Kia Sportage (Low Profile); kia-forums.com carries a dedicated '2023 Kia Sportage NQ5' section (the URL resolves but its content was paywalled to automated fetch this pass). Against that: Luno's vehicle-compatibility page lists no Kia at all, and the AirBedz XUV mattress is sized by cargo-class (66 x 52 x 10 in) rather than by vehicle-specific Sportage fitment. Toward the lower end of Medium — supported, but with fewer model-specific products than the Tucson NX4, RAV4 or Outback. Caveat: Reddit and most general search engines were unreachable from this research pass, so forum-activity evidence is thinner than it would otherwise be."
+      },
+      "conversion_products": [
+        {
+          "name": "RiverLeaf 'Badlands' SUV Camper Conversion Kit — Kia Sportage",
+          "url": "https://riverleafcamper.com/pages/kia-sportage-camper-conversion-kit",
+          "type": "full modular bed + kitchen (sink/stove) + storage/fridge drawer kit; 48 in x 6 ft sleeping platform. Fitment is stated as a minimum cargo area of 40 in W x 30 in D rather than by model year — confirm with the vendor for a 2024."
+        },
+        {
+          "name": "Freeway Camper Kit 'Bounty Hunter' — Compact SUV",
+          "url": "https://www.freewaycamperkit.com/en/compactsuv/",
+          "type": "modular sleep/kitchen box. The fitment list names '2017–2023 Kia Sportage (Low Profile)'; 2024 is the same NQ5 body but is not itself listed, and the 2017–2023 span straddles the older QL generation, so confirm before buying."
+        },
+        {
+          "name": "AirBedz XUV rear-cargo air mattress",
+          "url": "https://www.pittmanoutdoors.com/collections/airbedz-xuv",
+          "type": "66 x 52 x 10 in air mattress for mid-size SUVs/crossovers with the rear seats folded. Sized by cargo-area class, not vehicle-specific fitment — the vendor explicitly says to measure the cargo area first."
+        }
+      ],
+      "photos": {
+        "exterior": {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/5/51/Kia_Sportage_%28NQ5%29_1X7A0319.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Kia_Sportage_(NQ5)_1X7A0319.jpg",
+          "license": "CC BY-SA 4.0 (Alexander-93)",
+          "note": "NQ5 Sportage photographed in Germany. The European car rides a SHORTER wheelbase than the US long-wheelbase body this record describes (183.5 in), and the powertrain shown is not identified as the hybrid."
+        },
+        "dashboard": null,
+        "cargo": null
+      },
+      "trim_rationale": "The 2024 Sportage Hybrid is sold as LX (FWD or AWD), EX AWD, and SX-Prestige AWD. Every trim shares the same 60:40 folding-and-reclining second row and the same standard dual-level cargo floor, and no trim on any Sportage powertrain offers a factory 115V outlet, so the two camping criteria that usually decide the trim are trim-independent here and the pick comes down to what else is standard. EX AWD is the camping choice: AWD is standard (8.3 in ground clearance versus 7.1 in on the FWD LX), a temporary compact spare is standard where the LX ships only a tire mobility kit, and heated front seats, dual-zone automatic climate, a 10-way power driver's seat and 12V front + cargo outlets are all standard, at $32,290 before the $1,375 destination charge. Trade-offs to know: the FWD LX is dramatically thriftier at 42/44/43 mpg against the EX's 38/38/38, so choose it if fuel economy outranks traction and clearance; and roof rails, the smart power liftgate and the panoramic sunroof are all extra-cost options on EX, standard only on the $37,490 SX-Prestige AWD.",
+      "model_url": "https://www.kia.com/us/en/sportage-hybrid",
+      "last_verified": "2026-08-18",
+      "max_cargo_cf": {
+        "value": 73.7,
+        "config": "Behind the 1st row, 2nd row folded, dual-level cargo floor in the LOW position (Kia spec). With the floor in the HIGH position it is 65.4 cu ft. Behind the 2nd row: 39.5 low / 34.5 high. The 2.5L gas Sportage is marginally larger at 74.1 / 39.6.",
+        "source": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/specifications"
+      },
+      "tow_rating": {
+        "max": 2000,
+        "tongue": 220,
+        "note": "2,000 lb with trailer brakes; 1,653 lb without. Kia's 2024 Sportage HEV spec sheet publishes 220 lb as the 'Maximum Permissible Static Vertical Load on the Coupling Device' — the tongue-load equivalent, and unusually, an actually published figure for this class.",
+        "source": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/specifications"
+      },
+      "reliability": {
+        "score": 4.0,
+        "scale": "RepairPal /5 — scores the Sportage nameplate broadly (4.0 'Above Average', 6th of 26 compact SUVs, ~$462/yr average repair cost vs a $521 class average, 0.19 unscheduled shop visits/yr, 11% severity), not Hybrid- or NQ5-specific",
+        "jd_power": "Kia's own 2024 Sportage Hybrid press page claims the Sportage was 'crowned Top Compact SUV by J.D. Power's Vehicle Dependability Study and ALG Residual Value Awards' and an Edmunds Top Rated SUV. jdpower.com returned HTTP 403 to direct fetch, so the underlying numeric score was not independently verified — treat this as a manufacturer claim.",
+        "known_issues": "cars.com's recall page for the 2024 Sportage Hybrid stated 'There are currently no recorded recalls for this car' (sourced from NHTSA) as of 2026-08-18. NHTSA's own vehicle pages returned 403 and its recall API timed out (504), so this could not be checked at the primary source — verify by VIN at nhtsa.gov before buying. No hybrid-specific pattern failure for the NQ5 was found in reachable sources; note that community-report sources (Reddit, most search engines) were unreachable to this pass, so absence of owner complaints here is weak evidence.",
+        "source": "https://repairpal.com/reliability/kia/sportage"
+      },
+      "sources": [
+        "https://www.kiamedia.com/us/en/models",
+        "https://www.kiamedia.com/us/en/models/sportage-hev/2024",
+        "https://www.kiamedia.com/us/en/models/sportage-hev/2024/specifications",
+        "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features",
+        "https://www.kiamedia.com/us/en/models/sportage-hev/2024/pricing",
+        "https://www.kiamedia.com/us/en/models/sportage/2024/specifications",
+        "https://www.kiamedia.com/us/en/models/sportage/2024/features",
+        "https://www.kiamedia.com/us/en/models/sportage-phev/2024/features",
+        "https://en.wikipedia.org/wiki/Kia_Sportage",
+        "https://www.iihs.org/ratings/vehicle/kia/sportage-4-door-suv/2024",
+        "https://repairpal.com/reliability/kia/sportage",
+        "https://www.cars.com/research/kia-sportage_hybrid-2024/",
+        "https://www.cars.com/research/kia-sportage_hybrid-2024/recalls/",
+        "https://www.cars.com/shopping/results/?stock_type=used&makes[]=kia&models[]=kia-sportage_hybrid&year_max=2024&year_min=2024&maximum_distance=all",
+        "https://riverleafcamper.com/collections/all",
+        "https://riverleafcamper.com/pages/kia-sportage-camper-conversion-kit",
+        "https://www.freewaycamperkit.com/en/compactsuv/",
+        "https://lunolife.com/pages/vehicle-compatibility",
+        "https://lunolife.com/products/air-pro-vehicle-mattress",
+        "https://www.pittmanoutdoors.com/collections/airbedz-xuv",
+        "https://www.kia.com/us/en/sportage-hybrid",
+        "https://commons.wikimedia.org/wiki/File:Kia_Sportage_(NQ5)_1X7A0319.jpg"
+      ],
+      "notes": "NQ5 generation, US long-wheelbase body (183.5 in / 4,660 mm) — not the shorter European SWB Sportage (4,515 mm on a 2,680 mm wheelbase), whose length and cargo figures differ. Standard Hybrid (HEV) only: a Sportage Plug-In Hybrid and a 2.5L gas Sportage share this body and are separate records — every figure here is taken from Kia's 2024 Sportage HEV spec and feature sheets, never the gas or PHEV sheets. Powertrain: 1.6L turbo GDI (177 hp @ 5,500 rpm / 195 lb-ft) plus a 59.3 hp motor = 227 hp / 258 lb-ft combined, 6-speed automatic, 13.7 gal tank. Height varies by trim because the AWD trims sit higher: LX 65.4 in (65.6 with roof rails), EX/SX-Prestige 66.1 in (66.3 with roof rails); this record lists the EX's 66.1 without rails, since roof rails are optional on EX. Ground clearance is likewise published per trim (LX 7.1, EX/SX-Prestige 8.3), so the LX AWD's clearance is not separately stated. Comparison with the platform-sibling hyundai-tucson-hybrid-nx4 in this dataset: the Sportage is 1.2 in longer (183.5 vs 182.3), identical in width (73.4), holds slightly less max cargo by SAE (73.7 vs 74.5 cu ft, and 39.5 vs 38.7 behind the second row), rates 1–2 mpg better on the AWD trims (38/38 vs 37/36), carries the same 2,000 lb tow rating but with a published 220 lb tongue load where Hyundai publishes none, has the same 8.3 in AWD ground clearance, and ships a compact spare on EX/SX-Prestige where the Tucson Hybrid gets a tire mobility kit on every trim. Unlike the Tucson, the Sportage Hybrid offers a FWD trim (LX). Could not verify this pass: cargo length behind the front seats (null — see that field's method), sitting height over the folded seats (null), remote start (null — Kia's feature sheets carry no remote-start row for either the gas or hybrid Sportage, so its absence is not evidence either way), and NHTSA's overall/rollover star ratings. KBB.com, Edmunds, CarMax, iSeeCars, J.D. Power, etrailer and every general search engine tried returned 403/429; used values come from live cars.com dealer listings. Photos set to null per the research brief: the coordinator verifies image URLs and licences directly.",
+      "equipment": {
+        "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
+        "heated_front_seats": true,
+        "heated_steering_wheel": false,
+        "dual_zone_climate": true,
+        "sunroof": false,
+        "roof_rails": false,
+        "power_liftgate": false,
+        "remote_start": null,
+        "ventilated_front_seats": false,
+        "cargo_area_power_outlet": true,
+        "fold_flat_front_passenger_seat": false,
+        "rear_seat_fold": "near-flat",
+        "rear_seat_fold_note": "Kia's 2024 Sportage HEV feature sheet lists the second row only as 'Rear 60:40 folding with recline' (standard on every trim) and a 'Dual-level cargo floor' (also standard on every trim). The dual-level floor is what makes this near-flat rather than uneven: raising it costs 8.3 cu ft of volume (65.4 vs 73.7 cu ft behind the first row) but brings the load floor up toward the folded seatbacks. No independent, stated-method description or measurement of the folded-floor flatness for the NQ5 was reachable this pass, so 'near-flat' is inferred from Kia's own dual-level-floor spec rather than observed — treat it as medium confidence.",
+        "source": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features",
+        "field_sources": {
+          "sunroof": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features (panoramic sunroof with power shade: Optional on EX, Standard on SX-Prestige)",
+          "roof_rails": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features (gloss black flush-type roof rails: Optional on EX, Standard on SX-Prestige)",
+          "power_liftgate": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features (height-adjustable smart power liftgate: Optional on EX, Standard on SX-Prestige)",
+          "remote_start": "none — no remote-start, Kia Connect or Kia Access row appears on either the 2024 Sportage HEV or the 2024 gas Sportage feature sheet, and no other authoritative source was reachable, so this is unknown rather than absent",
+          "cargo_area_power_outlet": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features ('12V power outlet (front x1, cargo x1)' — Standard on EX)",
+          "fold_flat_front_passenger_seat": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features (the seating section lists the passenger seat only as '4-way manual adjustable' on LX and '8-way power adjustable' on EX/SX-Prestige, with no fold-flat row anywhere in an otherwise itemized seating table)",
+          "heated_steering_wheel": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features (SX-Prestige only)",
+          "ventilated_front_seats": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features (SX-Prestige only)"
+        },
+        "confidence": "medium"
+      },
+      "sitting_height_over_folded_seats_in": {
+        "value": null,
+        "method": "rear_seat_fold is near-flat, so the datum would be the top of the folded seatback. The listed EX AWD has no sunroof (it is optional on EX), so a sunroof-equipped car would give up roughly 2–3 in of headroom against this figure. Kia publishes no vertical cargo-opening or cargo-bay height figure for the NQ5, and no reviewer or community measurement with a stated method was reachable this pass — the same search-engine and Reddit blocks that defeated the cargo-length field apply here. No defensible figure found; left null rather than estimated.",
+        "source": null
+      },
+      "ground_clearance_in": {
+        "value": 8.3,
+        "note": "Kia's 2024 Sportage HEV spec sheet publishes ground clearance per trim: 7.1 in for the LX, 8.3 in for EX and SX-Prestige. The listed trim is EX AWD, so 8.3 in applies. Because the sheet is organized by trim rather than by drivetrain, the LX AWD's clearance is not separately stated.",
+        "source": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/specifications"
+      },
+      "spare_tire": {
+        "value": "compact",
+        "note": "Kia's 2024 Sportage HEV feature sheet: 'Temporary Compact Spare Tire' standard on EX and SX-Prestige. The LX ships a Tire Mobility Kit with the compact spare as an option.",
+        "source": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features"
+      },
+      "onboard_ac_power": {
+        "value": "none",
+        "basis": "Available on this generation from the factory, any trim or option package. Deliberately broader than equipment's standard-on-listed-trim rule; dealer-installed accessories still count as none.",
+        "note": "No household AC outlet exists anywhere on the 2024 NQ5 Sportage. All three 2024 feature sheets — Sportage HEV, 2.5L gas Sportage (including X-Line and X-Pro) and Sportage PHEV — list only '12V power outlet (front x1, cargo x1)' plus USB charging, with no 110V/115V, inverter or V2L row on any trim. Camp power therefore needs an aftermarket 12V inverter.",
+        "source": "https://www.kiamedia.com/us/en/models/sportage-hev/2024/features"
+      },
+      "still_in_production": {
+        "value": true,
+        "note": "Kia is selling the 2027 Sportage Hybrid as of Aug 2026 — the same NQ5 generation, facelifted for the 2026 model year. kia.com's Sportage Hybrid page shows the 2027 model and Kia's media site lists a sportage-hev/2027 entry.",
+        "source": "https://www.kia.com/us/en/sportage-hybrid"
+      },
+      "dc_fast_charging": {
+        "value": false,
+        "note": "no charge port; not a plug-in",
+        "source": null
+      },
+      "camper_pros": [
+        "38/38 mpg with AWD standard on the EX — a step better than the Tucson Hybrid's 37/36 AWD rating, and the FWD LX goes to 42/44 if you can give up the traction",
+        "73.7 cu ft behind the front seats with the floor dropped, in a 183.5 in body — a long, deep bay for a compact SUV",
+        "Dual-level cargo floor standard on every trim: raise it to bring the load floor up toward the folded seatbacks for a flatter bed, or drop it for 8.3 cu ft more volume",
+        "8.3 in ground clearance on the AWD trims, and a temporary compact spare is standard on EX and SX-Prestige where the Tucson Hybrid gives you only a tire mobility kit",
+        "Kia publishes a 220 lb max tongue load alongside the 2,000 lb tow rating — rare in this class, and the number you actually need to size a hitch rack or a teardrop"
+      ],
+      "camper_cons": [
+        "No factory 115V/household outlet on any Sportage trim or powertrain (gas, hybrid or PHEV) — 12V front and cargo only, so camp power means an aftermarket inverter",
+        "Cargo-floor length behind the front seats is unverified, and no source confirms the folded floor is genuinely flat — measure the car yourself before ordering a platform or a fitted mattress",
+        "2,000 lb tow rating (with trailer brakes; 1,653 lb without) — teardrops and small utility trailers only",
+        "Thinner camping aftermarket than the RAV4, Outback or CR-V: RiverLeaf and Freeway Camper Kit list the Sportage, but Luno lists no Kia at all and AirBedz sizes by cargo class rather than by vehicle",
+        "Roof rails, power liftgate and sunroof are all extra-cost on the EX — the SX-Prestige AWD that makes them standard costs $5,200 more ($37,490 vs $32,290)"
       ]
     }
   ]
