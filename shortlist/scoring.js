@@ -110,8 +110,12 @@ export const FIELDS = {
     return t === null ? null : t === 0 ? 'none' : t < 2000 ? 'light' : t < 3500 ? 'moderate' : 'substantial';
   } },
 
-  // Reads the researched ground_clearance_in field; null (unknown, never
-  // excludes) until that data lands on a record.
+  // Two views of the researched ground_clearance_in field, matching what
+  // cargo_length_in/sleeps_six_feet and tow_max/tow_class already do: the
+  // number for "at least 8 inches", the class for "handles forest-service
+  // roads". Both are null (unknown, never excludes) on a record without the
+  // measurement.
+  clearance_in: { label: 'Ground clearance (in)', type: 'number', get: v => num(v.ground_clearance_in?.value) },
   clearance_class: { label: 'Ground clearance class', type: 'enum', get: v => {
     const g = num(v.ground_clearance_in?.value);
     return g === null ? null : g >= 8.5 ? 'high' : g >= 7 ? 'moderate' : 'low';

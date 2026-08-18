@@ -5,7 +5,7 @@ const NUMERIC_FIELDS = [
   'length_in', 'width_in', 'height_in', 'cargo_length_in', 'max_cargo_cf',
   'mpg_city', 'mpg_hwy', 'ev_range_mi', 'price_low', 'price_high', 'tow_max',
   'reliability_score', 'safety_feature_count', 'conversion_kit_count',
-  'camper_popularity', 'listed_year', 'sitting_height_in',
+  'camper_popularity', 'listed_year', 'sitting_height_in', 'clearance_in',
 ];
 
 // Equipment booleans are modelled as yes/no enums rather than a new boolean
@@ -282,7 +282,7 @@ Seven derived camper-trait enums are also available (use op "in" / "not_in"):
 - camper_popularity_tier — "High"/"Medium"/"Low". "Popular camper platform", "big conversion aftermarket" → in ["High"].
 - sleeps_six_feet — "yes"/"tight"/"no". "Can sleep a six-footer flat" → in ["yes"], or in ["yes","tight"] when the person sounds flexible. Prefer cargo_length_in when they give a specific number of inches.
 - tow_class — "none"/"light"/"moderate"/"substantial" (not rated / under 2,000 lb / 2,000–3,499 / 3,500+). Prefer tow_max for specific numbers; use tow_class for categorical wants ("needs to tow at all" → not_in ["none"]).
-- clearance_class — "high"/"moderate"/"low" (8.5+ in / 7.0–8.4 / under 7.0). "Handle forest-service roads", "real ground clearance" → in ["high"].
+- clearance_class — "high"/"moderate"/"low" (8.5+ in / 7.0–8.4 / under 7.0). Prefer clearance_in for specific numbers; use clearance_class for categorical wants ("handle forest-service roads", "real ground clearance" → in ["high"]).
 
 And four researched yes/no-style facts (same op "in" usage as equipment):
 

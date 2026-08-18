@@ -129,6 +129,22 @@ surfaces through B9, C3 provides two rows).
   same shape, the resulting criteria render properly in the existing enum
   multi-select editor, and the formula text lives in one place. Not an open
   question, just a recorded road not taken.
+
+  **Revisited after implementation.** The editor reason above is retired: it was
+  wrong twice over. Compiled trait criteria never enter `prefs.criteria`, so they
+  never reach the criteria editor at all, and numeric rules render there anyway.
+  What F4 actually rests on, and did not say, is that `sleeps_six_feet`,
+  `tow_class` and `clearance_class` are **prose-parser vocabulary**, not just
+  picker plumbing — the `SYSTEM` prompt maps categorical wants to them, and
+  parser-emitted criteria on those fields *do* reach `prefs.criteria` and the
+  editor. Removing them to save the enum machinery would leave any stored
+  criterion naming them degrading to `unknown`: it would stop filtering with no
+  error, in a shared blob. The enum path stands, on that reason.
+
+  What the review did surface correctly: each threshold trait should have a
+  numeric twin the parser can prefer when someone gives a specific number.
+  `cargo_length_in` and `tow_max` already played that role; clearance was the only
+  one without one, so `clearance_in` was added.
 - **F5 — two vehicles read `unknown` on B6 by design.** The Santa Fe MX5 and
   Tucson NX4 cargo lengths were nulled as unverifiable (commit `d7f6b28`), so
   `sleeps_six_feet` is null there: they gate as unknown, never excluded, and

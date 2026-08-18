@@ -424,3 +424,14 @@ test('missing data never excludes, in either tier direction', async () => {
     assert.equal(r.unknowns.length, 1, `${tier}: should be flagged as no-data`);
   }
 });
+
+// clearance_in is the numeric twin of clearance_class, matching cargo_length_in
+// beside sleeps_six_feet and tow_max beside tow_class: "at least 8 inches" has
+// to be expressible, not just "handles forest-service roads".
+test('clearance_in exposes the measurement the class buckets', () => {
+  assert.equal(fieldValue({ ground_clearance_in: { value: 8.7 } }, 'clearance_in'), 8.7);
+  assert.equal(fieldValue({ ground_clearance_in: { value: 8.7 } }, 'clearance_class'), 'high');
+  // No measurement stays unknown in both views — unknown never excludes.
+  assert.equal(fieldValue({}, 'clearance_in'), null);
+  assert.equal(fieldValue({ ground_clearance_in: { value: null } }, 'clearance_in'), null);
+});
