@@ -4,3 +4,7 @@ node_modules/
 dist/
 __pycache__/
 .DS_Store
+
+# Manufacturer brochures pulled while researching a record. Cited by URL in
+# vehicles.json; the local copies are working files, not part of the report.
+*.pdf
