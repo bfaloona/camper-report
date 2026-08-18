@@ -54,7 +54,29 @@ FIELD_TOKENS = {
     "still_in_production": "still_in_production",
     "dc_fast_charging": "dc_fast_charging",
     "roof_rails": "roof_rails",
+    "heated_front_seats": "heated_front_seats",
+    "heated_steering_wheel": "heated_steering_wheel",
+    "ventilated_front_seats": "ventilated_front_seats",
+    "dual_zone_climate": "dual_zone_climate",
+    "remote_start": "remote_start",
+    "sunroof": "sunroof",
+    "power_liftgate": "power_liftgate",
+    "cargo_power_outlet": "cargo_power_outlet",
+    "fold_flat_passenger": "fold_flat_passenger",
 }
+
+# Every field a picker row can gate on must be nameable in the classification
+# doc, or a bullet mapped to it produces no evidence and nothing says so — the
+# same silent-no-op the FIELD_IDS/FIELDS test exists to prevent, one layer over.
+def check_token_coverage():
+    traits = os.path.join(REPO, "shortlist", "traits.js")
+    fields = set(re.findall(r"field:\s*'([a-z0-9_]+)'", open(traits, encoding="utf-8").read()))
+    missing = sorted(fields - set(FIELD_TOKENS.values()))
+    if missing:
+        raise SystemExit(
+            "these trait fields cannot be named in the classification doc; "
+            f"add them to FIELD_TOKENS: {', '.join(missing)}"
+        )
 
 HEADING = re.compile(r"^### (\S+) \(")
 ROW = re.compile(r"^\| (pro|con) \| (.*) \| (?:D|R|D\+R|E) \| (.*) \|$")
@@ -64,6 +86,7 @@ ROW_LOOSE = re.compile(r"^\| (?:pro|con) \|")
 
 def build():
     """Parse the classification doc; return (module_text, stats)."""
+    check_token_coverage()
     evidence = {}
     general = []
     vehicle = None

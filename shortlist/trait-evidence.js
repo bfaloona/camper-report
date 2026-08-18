@@ -49,7 +49,7 @@ export const TRAIT_EVIDENCE = {
   },
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "Hybrid engine-cycling overnight climate"
+   "text": "Hybrid engine-cycling keeps climate running overnight without idling a V6"
   },
   {
    "v": "toyota-rav4-prime-xa50",
@@ -66,6 +66,10 @@ export const TRAIT_EVIDENCE = {
   {
    "v": "chevrolet-bolt-ev-gen1",
    "text": "Silent overnight climate control with no idling, no exhaust and no CO risk, which no gas or hybrid vehicle here can offer"
+  },
+  {
+   "v": "kia-sorento-hybrid-mq4",
+   "text": "36/33 mpg AWD (39/35 on the FWD EX) — the hybrid cycles its engine to hold cabin temperature overnight instead of idling all night"
   }
  ],
  "clearance_class": [
@@ -107,7 +111,7 @@ export const TRAIT_EVIDENCE = {
   },
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "~8-in clearance, no low range"
+   "text": "35 mpg city from a three-row SUV, and 8 in of clearance with Trail Mode AWD for forest-road trailheads"
   },
   {
    "v": "toyota-rav4-prime-xa50",
@@ -136,6 +140,14 @@ export const TRAIT_EVIDENCE = {
   {
    "v": "chevrolet-bolt-ev-gen1",
    "text": "~5.3–5.6 in of ground clearance with the battery under the floor: paved and graded roads only, no rough forest-service tracks"
+  },
+  {
+   "v": "kia-sorento-hybrid-mq4",
+   "text": "6.85 in ground clearance — among the lowest here, and there is no X-Line/X-Pro version of the hybrid"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "8.3 in ground clearance on the AWD trims, and a temporary compact spare is standard on EX and SX-Prestige where the Tucson Hybrid gives you only a tire mobility kit"
   }
  ],
  "drivetrain_bucket": [
@@ -192,6 +204,10 @@ export const TRAIT_EVIDENCE = {
    "text": "True 4WD + 9.6-in clearance for remote dispersed sites"
   },
   {
+   "v": "toyota-highlander-hybrid-xu70",
+   "text": "35 mpg city from a three-row SUV, and 8 in of clearance with Trail Mode AWD for forest-road trailheads"
+  },
+  {
    "v": "toyota-rav4-prime-xa50",
    "text": "38 mpg / 94 MPGe with AWD + 8-in clearance"
   },
@@ -218,6 +234,14 @@ export const TRAIT_EVIDENCE = {
   {
    "v": "chevrolet-bolt-ev-gen1",
    "text": "FWD only, no AWD or 4WD offered in any year"
+  },
+  {
+   "v": "kia-sorento-hybrid-mq4",
+   "text": "AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "38/38 mpg with AWD standard on the EX — a step better than the Tucson Hybrid's 37/36 AWD rating, and the FWD LX goes to 42/44 if you can give up the traction"
   }
  ],
  "camper_popularity_tier": [
@@ -262,10 +286,6 @@ export const TRAIT_EVIDENCE = {
    "text": "Biggest overland aftermarket here (drawers, RTT-rated racks)"
   },
   {
-   "v": "toyota-highlander-hybrid-xu70",
-   "text": "Small kit ecosystem vs 4Runner"
-  },
-  {
    "v": "toyota-rav4-prime-xa50",
    "text": "Flat ~71-in platform + full RAV4 camping ecosystem incl. Prime-specific kit"
   },
@@ -300,6 +320,14 @@ export const TRAIT_EVIDENCE = {
   {
    "v": "chevrolet-bolt-ev-gen1",
    "text": "Aftermarket is thin: no full conversion kit, and none of the platform vendors that serve the SUVs here (Luno, RiverLeaf, Freeway Camper Kit) fit it"
+  },
+  {
+   "v": "kia-sorento-hybrid-mq4",
+   "text": "Thin aftermarket: Luno fitment and a generic RiverLeaf SUV kit exist, but no Sorento-specific platform or kit was located and the owner forum is tiny"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "Thinner camping aftermarket than the RAV4, Outback or CR-V: RiverLeaf and Freeway Camper Kit list the Sportage, but Luno lists no Kia at all and AirBedz sizes by cargo class rather than by vehicle"
   }
  ],
  "rear_seat_fold": [
@@ -357,7 +385,7 @@ export const TRAIT_EVIDENCE = {
   },
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "Folded 2nd row leaves seams/slope — platform needed"
+   "text": "Folded third row leaves a step; the floor is near-flat, not flat"
   },
   {
    "v": "hyundai-santa-fe-hybrid-mx5",
@@ -378,6 +406,14 @@ export const TRAIT_EVIDENCE = {
   {
    "v": "chevrolet-bolt-ev-gen1",
    "text": "60/40 rear seat plus a two-position modular load floor: raised, it nearly squares off the step and gives a usable flat sleeping deck"
+  },
+  {
+   "v": "kia-sorento-hybrid-mq4",
+   "text": "Two fold seams (third row to cargo floor, second-row seatbacks) mean a platform or a thick bridging pad; no first-hand flatness measurement could be found"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "Dual-level cargo floor standard on every trim: raise it to bring the load floor up toward the folded seatbacks for a flatter bed, or drop it for 8.3 cu ft more volume"
   }
  ],
  "sleeps_six_feet": [
@@ -407,7 +443,7 @@ export const TRAIT_EVIDENCE = {
   },
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "84.3 cu ft, 6.5+ ft load length both rows folded"
+   "text": "84.3 cu ft and ~78 in of load length with both rear rows folded — a genuine two-person bed"
   },
   {
    "v": "toyota-rav4-prime-xa50",
@@ -428,6 +464,10 @@ export const TRAIT_EVIDENCE = {
   {
    "v": "chevrolet-bolt-ev-gen1",
    "text": "~58 in of usable length and only ~38 in between the wheel arches — a solo bed for someone up to about 5'10\", not a two-person platform"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "Cargo-floor length behind the front seats is unverified, and no source confirms the folded floor is genuinely flat — measure the car yourself before ordering a platform or a fitted mattress"
   }
  ],
  "stealth_profile": [
@@ -450,10 +490,6 @@ export const TRAIT_EVIDENCE = {
   {
    "v": "toyota-prius-xw60",
    "text": "Maximum stealth — reads as a commuter car"
-  },
-  {
-   "v": "toyota-highlander-hybrid-xu70",
-   "text": "Blends in as a family SUV for stealth"
   },
   {
    "v": "chevrolet-bolt-ev-gen1",
@@ -506,6 +542,10 @@ export const TRAIT_EVIDENCE = {
    "text": "No 115V household outlet on most trims"
   },
   {
+   "v": "toyota-highlander-hybrid-xu70",
+   "text": "Two 120V outlets, 1500W shared, one of them in the cargo bay — standard on this trim and enough to run an induction burner or charge a power station off the hybrid battery"
+  },
+  {
    "v": "toyota-rav4-prime-xa50",
    "text": "1500W/120V cargo outlet (XSE Premium) powers fridge/cooktop off the battery"
   },
@@ -540,6 +580,14 @@ export const TRAIT_EVIDENCE = {
   {
    "v": "chevrolet-bolt-ev-gen1",
    "text": "No 120V household outlet and no V2L: a single 12V/20A accessory outlet that only works with the car powered on, so an inverter is a required add"
+  },
+  {
+   "v": "kia-sorento-hybrid-mq4",
+   "text": "SX-P is the only 2024 Sorento Hybrid with a 115V household inverter, and both trims add a 12V outlet in the luggage area"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "No factory 115V/household outlet on any Sportage trim or powertrain (gas, hybrid or PHEV) — 12V front and cargo only, so camp power means an aftermarket inverter"
   }
  ],
  "tow_class": [
@@ -582,12 +630,44 @@ export const TRAIT_EVIDENCE = {
   {
    "v": "chevrolet-bolt-ev-gen1",
    "text": "Not rated to tow anything — GM's manual says never tow a trailer, so no teardrop, no utility trailer, no cargo trailer"
+  },
+  {
+   "v": "kia-sorento-hybrid-mq4",
+   "text": "1,654 lb tow rating, and that is Kia's unbraked figure — no braked rating or tongue weight appears in Kia's spec sheet"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "Kia publishes a 220 lb max tongue load alongside the 2,000 lb tow rating — rare in this class, and the number you actually need to size a hitch rack or a teardrop"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "2,000 lb tow rating (with trailer brakes; 1,653 lb without) — teardrops and small utility trailers only"
   }
  ],
  "roof_rails": [
   {
    "v": "subaru-outback-bt",
    "text": "Raised rails handle RTTs and boxes"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "Roof rails, power liftgate and sunroof are all extra-cost on the EX — the SX-Prestige AWD that makes them standard costs $5,200 more ($37,490 vs $32,290)"
+  }
+ ],
+ "cargo_power_outlet": [
+  {
+   "v": "toyota-highlander-hybrid-xu70",
+   "text": "Two 120V outlets, 1500W shared, one of them in the cargo bay — standard on this trim and enough to run an induction burner or charge a power station off the hybrid battery"
+  }
+ ],
+ "sunroof": [
+  {
+   "v": "toyota-highlander-hybrid-xu70",
+   "text": "Panoramic moonroof costs 1.2 in of front headroom and adds glass overhead to insulate against"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "Roof rails, power liftgate and sunroof are all extra-cost on the EX — the SX-Prestige AWD that makes them standard costs $5,200 more ($37,490 vs $32,290)"
   }
  ],
  "dc_fast_charging": [
@@ -612,6 +692,34 @@ export const TRAIT_EVIDENCE = {
   {
    "v": "subaru-forester-hybrid-sl",
    "text": "No spare tire — sealant-and-compressor kit only, since the battery occupies the spare well; remote-travel buyers likely need an aftermarket spare (~$400–510)"
+  },
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "8.3 in ground clearance on the AWD trims, and a temporary compact spare is standard on EX and SX-Prestige where the Tucson Hybrid gives you only a tire mobility kit"
+  }
+ ],
+ "heated_front_seats": [
+  {
+   "v": "kia-sorento-hybrid-mq4",
+   "text": "AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
+  }
+ ],
+ "heated_steering_wheel": [
+  {
+   "v": "kia-sorento-hybrid-mq4",
+   "text": "AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
+  }
+ ],
+ "ventilated_front_seats": [
+  {
+   "v": "kia-sorento-hybrid-mq4",
+   "text": "AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights"
+  }
+ ],
+ "power_liftgate": [
+  {
+   "v": "kia-sportage-hybrid-nq5",
+   "text": "Roof rails, power liftgate and sunroof are all extra-cost on the EX — the SX-Prestige AWD that makes them standard costs $5,200 more ($37,490 vs $32,290)"
   }
  ]
 };
@@ -799,12 +907,12 @@ export const GENERAL_EVIDENCE = [
  },
  {
   "v": "toyota-highlander-hybrid-xu70",
-  "text": "Quiet comfortable highway cruiser",
+  "text": "Adaptive LED headlights rate Good with IIHS on this trim (Limited only Acceptable, XLE Poor) — the difference you feel on unlit roads",
   "polarity": "pro"
  },
  {
   "v": "toyota-highlander-hybrid-xu70",
-  "text": "16 cu ft daily cargo if 3rd row stays up",
+  "text": "Platinum is 7-seat only, so the channel between the captain's chairs is permanent — a platform is not optional here",
   "polarity": "con"
  },
  {
@@ -905,6 +1013,11 @@ export const GENERAL_EVIDENCE = [
  {
   "v": "chevrolet-bolt-ev-gen1",
   "text": "Battery-fire recall history (21V-650 plus two software re-dos) makes recall-completion documentation mandatory before buying, and depresses resale",
+  "polarity": "con"
+ },
+ {
+  "v": "kia-sorento-hybrid-mq4",
+  "text": "Second row is 50/50 captain's chairs on every hybrid trim with no bench option, so a lengthwise centre gap runs through the bed",
   "polarity": "con"
  }
 ];

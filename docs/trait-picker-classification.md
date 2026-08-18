@@ -429,16 +429,16 @@ Bullet text is copied verbatim from `vehicles.json` by the generating script; th
 
 | | Bullet | Bucket | Trait(s) / disposition |
 |---|---|---|---|
-| pro | 84.3 cu ft, 6.5+ ft load length both rows folded | D | max_cargo_cf; sleeps_six_feet (cargo_length_in) |
-| pro | Hybrid engine-cycling overnight climate | D | overnight_climate |
-| pro | ~35–36 mpg — exceptional for a 3-row SUV | D | mpg_city, mpg_hwy |
-| pro | Quiet comfortable highway cruiser | E | — (comfort judgment) |
-| pro | Blends in as a family SUV for stealth | D | stealth_profile — *conflicts with the class formula (SUV → 'medium') — see flag F3* |
-| con | Folded 2nd row leaves seams/slope — platform needed | D | rear_seat_fold ('near-flat') |
-| con | ~8-in clearance, no low range | R | ground_clearance_in → clearance_class — *'no low range' is residue* |
-| con | Small kit ecosystem vs 4Runner | D | camper_popularity_tier |
-| con | Higher purchase price; hybrid resale premium | D | price_low, price_high |
-| con | 16 cu ft daily cargo if 3rd row stays up | E | — (3rd-row-up daily cargo; no field) |
+| pro | Two 120V outlets, 1500W shared, one of them in the cargo bay — standard on this trim and enough to run an induction burner or charge a power station off the hybrid battery | D | onboard_ac_power; cargo_power_outlet |
+| pro | 84.3 cu ft and ~78 in of load length with both rear rows folded — a genuine two-person bed | D | max_cargo_cf; sleeps_six_feet (cargo_length_in) |
+| pro | Hybrid engine-cycling keeps climate running overnight without idling a V6 | D | overnight_climate |
+| pro | 35 mpg city from a three-row SUV, and 8 in of clearance with Trail Mode AWD for forest-road trailheads | D+R | mpg_city; drivetrain_bucket; ground_clearance_in → clearance_class |
+| pro | Adaptive LED headlights rate Good with IIHS on this trim (Limited only Acceptable, XLE Poor) — the difference you feel on unlit roads | E | — (headlight rating; no field) |
+| con | Platinum is 7-seat only, so the channel between the captain's chairs is permanent — a platform is not optional here | E | — (seat count and the centre channel; no field) |
+| con | Folded third row leaves a step; the floor is near-flat, not flat | D | rear_seat_fold |
+| con | Panoramic moonroof costs 1.2 in of front headroom and adds glass overhead to insulate against | D | sunroof — *the headroom cost is residue* |
+| con | 20-in wheels cost 1 mpg highway versus the XLE and are expensive to re-shoe | D | mpg_hwy — *wheel size and tyre cost are residue* |
+| con | Used Platinums ask $6–8k over Limiteds, and Limited carries the same two 1500W outlets — the only camping-relevant gain is the headlights | D | price_low, price_high — *the Limited comparison is residue* |
 
 ### toyota-rav4-prime-xa50 (SUV, phev, AWD)
 
@@ -567,3 +567,33 @@ Bullet text is copied verbatim from `vehicles.json` by the generating script; th
 | con | No factory camp or climate-hold mode, unlike several newer EVs | E | — (camp-mode software feature; one-off) |
 | con | Battery-fire recall history (21V-650 plus two software re-dos) makes recall-completion documentation mandatory before buying, and depresses resale | E | — (recall history) |
 | con | Aftermarket is thin: no full conversion kit, and none of the platform vendors that serve the SUVs here (Luno, RiverLeaf, Freeway Camper Kit) fit it | D | camper_popularity_tier; conversion_kit_count |
+
+### kia-sorento-hybrid-mq4 (SUV, hybrid, AWD)
+
+| | Bullet | Bucket | Trait(s) / disposition |
+|---|---|---|---|
+| pro | 75.5 cu ft behind the front seats with both rear rows down — three-row cargo volume in a 189-in body that still fits a normal parking stall | D | max_cargo_cf; length_in |
+| pro | 36/33 mpg AWD (39/35 on the FWD EX) — the hybrid cycles its engine to hold cabin temperature overnight instead of idling all night | D | mpg_city, mpg_hwy; overnight_climate |
+| pro | SX-P is the only 2024 Sorento Hybrid with a 115V household inverter, and both trims add a 12V outlet in the luggage area | D | onboard_ac_power — *the 12V luggage outlet is residue* |
+| pro | AWD standard on SX-P with a Snow drive mode, plus heated and ventilated front seats and a heated wheel for shoulder-season nights | D | drivetrain_bucket; heated_front_seats; ventilated_front_seats; heated_steering_wheel |
+| pro | IIHS 2024 Top Safety Pick and NHTSA 5-star overall, with the full Drive Wise suite standard on both trims | D | safety_feature_count |
+| con | 6.85 in ground clearance — among the lowest here, and there is no X-Line/X-Pro version of the hybrid | D+R | ground_clearance_in → clearance_class |
+| con | 1,654 lb tow rating, and that is Kia's unbraked figure — no braked rating or tongue weight appears in Kia's spec sheet | D | tow_class (tow_max) — *the unbraked/braked distinction is residue* |
+| con | Second row is 50/50 captain's chairs on every hybrid trim with no bench option, so a lengthwise centre gap runs through the bed | E | — (second-row seat configuration; no field) |
+| con | Two fold seams (third row to cargo floor, second-row seatbacks) mean a platform or a thick bridging pad; no first-hand flatness measurement could be found | D | rear_seat_fold |
+| con | Thin aftermarket: Luno fitment and a generic RiverLeaf SUV kit exist, but no Sorento-specific platform or kit was located and the owner forum is tiny | D | camper_popularity_tier, conversion_kit_count |
+
+### kia-sportage-hybrid-nq5 (SUV, hybrid, AWD)
+
+| | Bullet | Bucket | Trait(s) / disposition |
+|---|---|---|---|
+| pro | 38/38 mpg with AWD standard on the EX — a step better than the Tucson Hybrid's 37/36 AWD rating, and the FWD LX goes to 42/44 if you can give up the traction | D | mpg_city, mpg_hwy; drivetrain_bucket |
+| pro | 73.7 cu ft behind the front seats with the floor dropped, in a 183.5 in body — a long, deep bay for a compact SUV | D | max_cargo_cf; length_in |
+| pro | Dual-level cargo floor standard on every trim: raise it to bring the load floor up toward the folded seatbacks for a flatter bed, or drop it for 8.3 cu ft more volume | D | rear_seat_fold — *the dual-level floor mechanism is residue* |
+| pro | 8.3 in ground clearance on the AWD trims, and a temporary compact spare is standard on EX and SX-Prestige where the Tucson Hybrid gives you only a tire mobility kit | D+R | ground_clearance_in → clearance_class; spare_tire |
+| pro | Kia publishes a 220 lb max tongue load alongside the 2,000 lb tow rating — rare in this class, and the number you actually need to size a hitch rack or a teardrop | D | tow_class (tow_max) — *published tongue load has no field; residue* |
+| con | No factory 115V/household outlet on any Sportage trim or powertrain (gas, hybrid or PHEV) — 12V front and cargo only, so camp power means an aftermarket inverter | D | onboard_ac_power |
+| con | Cargo-floor length behind the front seats is unverified, and no source confirms the folded floor is genuinely flat — measure the car yourself before ordering a platform or a fitted mattress | D | sleeps_six_feet (cargo_length_in) — *null here, so it gates as unknown* |
+| con | 2,000 lb tow rating (with trailer brakes; 1,653 lb without) — teardrops and small utility trailers only | D | tow_class (tow_max) |
+| con | Thinner camping aftermarket than the RAV4, Outback or CR-V: RiverLeaf and Freeway Camper Kit list the Sportage, but Luno lists no Kia at all and AirBedz sizes by cargo class rather than by vehicle | D | camper_popularity_tier, conversion_kit_count |
+| con | Roof rails, power liftgate and sunroof are all extra-cost on the EX — the SX-Prestige AWD that makes them standard costs $5,200 more ($37,490 vs $32,290) | D | roof_rails, power_liftgate, sunroof |
