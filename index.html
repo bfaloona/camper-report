@@ -4659,8 +4659,10 @@ const DATA = /*DATA-START*/{
 
 /*PURE-START*/
 // This file is served from three places and only one of them has a Shortlist:
-// the Cloudflare Worker. GitHub Pages publishes the same file with no /shortlist
-// path, and it is also opened straight off disk over file://.
+// the Cloudflare Worker. GitHub Pages serves the whole repository root, so
+// /shortlist/ was reachable there until _config.yml excluded it — and it could
+// never work, because the /api/* endpoints it calls exist only on the Worker.
+// The file is also opened straight off disk over file://.
 //
 // An allowlist, not a denylist, so an unrecognised host hides the link rather
 // than showing a broken one. A missing link is a small annoyance; a 404 on the

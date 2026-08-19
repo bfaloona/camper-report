@@ -15,7 +15,8 @@ build step, no framework, no dependencies — just data plus one self-contained 
 | `shortlist/` | The Shortlist tool: a preference-driven ranking view over the same dataset. See below. |
 | `functions/` | Source for the Shortlist tool's `/api/*` endpoints and Access auth guard, in Pages Functions layout. Compiled to a Worker at build time. See below. |
 | `wrangler.jsonc` | Worker config: name, assets directory, KV binding, `keep_vars`. Source of truth for bindings. |
-| `scripts/build-assets.mjs` | Stages the six served files into `dist/client/`. An **allowlist** — a file not named there is never published. |
+| `scripts/build-assets.mjs` | Stages the served files into `dist/client/`. An **allowlist** — a file not named there is never published. |
+| `_config.yml` | The same restriction for GitHub Pages, which serves the repo root: an **exclude list** keeping `shortlist/`, `functions/` and the tooling off the public site. |
 | `docs/cloudflare-setup.md` | One-time Cloudflare dashboard runbook for the Shortlist deployment. |
 
 There is no bundler or generator: `index.html` ships the data inline. The two HTML

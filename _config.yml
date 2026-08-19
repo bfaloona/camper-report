@@ -1,0 +1,22 @@
+# GitHub Pages serves the repository root, so anything committed here is public
+# unless it is excluded. Only the report is meant to be published: the Shortlist
+# is a private tool that lives behind Cloudflare Access on the Worker, and its
+# /api/* endpoints do not exist here at all — published to Pages it is a broken
+# copy of itself that answers "could not load preferences".
+#
+# The Worker does not read this file. It builds from scripts/build-assets.mjs,
+# which is an allowlist and already publishes only the eight files it names.
+# This is the same restriction for the other target, which had none.
+#
+# Keep in sync with build-assets.mjs when the served set changes.
+exclude:
+  - shortlist        # private tool; lives on the Worker behind Access
+  - functions        # Worker source: API handlers and the Access guard
+  - scripts          # build and sync tooling
+  - docs             # internal planning and runbooks
+  - dist             # build output, git-ignored but excluded belt-and-braces
+  - node_modules
+  - package.json
+  - package-lock.json
+  - wrangler.jsonc
+  - CLAUDE.md
