@@ -663,7 +663,7 @@ export const TRAIT_EVIDENCE = {
  "sunroof": [
   {
    "v": "toyota-highlander-hybrid-xu70",
-   "text": "Panoramic moonroof costs 1.2 in of front headroom and adds glass overhead to insulate against"
+   "text": "The tilt/slide moonroof is standard and not deletable, costing 1.6 in of front headroom versus the no-roof L/LE grades"
   },
   {
    "v": "kia-sportage-hybrid-nq5",
@@ -907,12 +907,17 @@ export const GENERAL_EVIDENCE = [
  },
  {
   "v": "toyota-highlander-hybrid-xu70",
-  "text": "Adaptive LED headlights rate Good with IIHS on this trim (Limited only Acceptable, XLE Poor) — the difference you feel on unlit roads",
+  "text": "The 8-passenger fold-flat bench is a factory option on Limited and not offered on Platinum at all — a bench car folds to a floor with no channel down the middle",
   "polarity": "pro"
  },
  {
   "v": "toyota-highlander-hybrid-xu70",
-  "text": "Platinum is 7-seat only, so the channel between the captain's chairs is permanent — a platform is not optional here",
+  "text": "Captain's chairs are the standard second row, so most used Limiteds still have the centre channel — the bench is worth hunting for, not assumed",
+  "polarity": "con"
+ },
+ {
+  "v": "toyota-highlander-hybrid-xu70",
+  "text": "Headlights rate only Acceptable with IIHS — Platinum's curve-adaptive projectors are the one camping-relevant thing the extra money buys, and unlit forest roads are where you notice",
   "polarity": "con"
  },
  {

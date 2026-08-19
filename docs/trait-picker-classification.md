@@ -433,12 +433,12 @@ Bullet text is copied verbatim from `vehicles.json` by the generating script; th
 | pro | 84.3 cu ft and ~78 in of load length with both rear rows folded — a genuine two-person bed | D | max_cargo_cf; sleeps_six_feet (cargo_length_in) |
 | pro | Hybrid engine-cycling keeps climate running overnight without idling a V6 | D | overnight_climate |
 | pro | 35 mpg city from a three-row SUV, and 8 in of clearance with Trail Mode AWD for forest-road trailheads | D+R | mpg_city; drivetrain_bucket; ground_clearance_in → clearance_class |
-| pro | Adaptive LED headlights rate Good with IIHS on this trim (Limited only Acceptable, XLE Poor) — the difference you feel on unlit roads | E | — (headlight rating; no field) |
-| con | Platinum is 7-seat only, so the channel between the captain's chairs is permanent — a platform is not optional here | E | — (seat count and the centre channel; no field) |
+| pro | The 8-passenger fold-flat bench is a factory option on Limited and not offered on Platinum at all — a bench car folds to a floor with no channel down the middle | E | — (second-row seat configuration; no field) |
+| con | Captain's chairs are the standard second row, so most used Limiteds still have the centre channel — the bench is worth hunting for, not assumed | E | — (second-row seat configuration; no field) |
 | con | Folded third row leaves a step; the floor is near-flat, not flat | D | rear_seat_fold |
-| con | Panoramic moonroof costs 1.2 in of front headroom and adds glass overhead to insulate against | D | sunroof — *the headroom cost is residue* |
+| con | The tilt/slide moonroof is standard and not deletable, costing 1.6 in of front headroom versus the no-roof L/LE grades | D | sunroof — *the headroom cost is residue* |
 | con | 20-in wheels cost 1 mpg highway versus the XLE and are expensive to re-shoe | D | mpg_hwy — *wheel size and tyre cost are residue* |
-| con | Used Platinums ask $6–8k over Limiteds, and Limited carries the same two 1500W outlets — the only camping-relevant gain is the headlights | D | price_low, price_high — *the Limited comparison is residue* |
+| con | Headlights rate only Acceptable with IIHS — Platinum's curve-adaptive projectors are the one camping-relevant thing the extra money buys, and unlit forest roads are where you notice | E | — (headlight rating; no field) |
 
 ### toyota-rav4-prime-xa50 (SUV, phev, AWD)
 

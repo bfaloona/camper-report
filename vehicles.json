@@ -2881,17 +2881,17 @@
       "id": "toyota-highlander-hybrid-xu70",
       "make": "Toyota",
       "model": "Highlander Hybrid",
-      "trim": "Platinum AWD",
+      "trim": "Limited AWD",
       "class": "SUV",
       "powertrain": "hybrid",
       "drivetrain": "AWD",
       "generation_span": "2020–present (4th gen XU70)",
       "listed_year": 2020,
       "kbb_value_usd": {
-        "low": 28100,
-        "high": 32500,
-        "assumption": "2020 Highlander Hybrid Platinum Sport Utility 4D, good condition, typical miles; low = KBB trade-in, high = KBB Fair Purchase Price (private-party ,700). Read from the trim's own row on the KBB model-year page, which returns 403 to direct fetch. Retrieved 2026-08-18.",
-        "source": "https://www.kbb.com/toyota/highlander-hybrid/2020/platinum-sport-utility-4d/"
+        "low": 25000,
+        "high": 31300,
+        "assumption": "2020 Highlander Hybrid Limited Sport Utility 4D, good condition, typical miles; low = KBB trade-in, high = KBB Fair Purchase Price (private-party $29,600). Read from the trim's own row on the KBB model-year page, which returns 403 to direct fetch. Retrieved 2026-08-18.",
+        "source": "https://www.kbb.com/toyota/highlander-hybrid/2020/limited-sport-utility-4d/"
       },
       "exterior_in": {
         "length": 194.9,
@@ -2900,7 +2900,7 @@
       },
       "cargo_length_behind_front_seats_in": {
         "value": 78,
-        "method": "Community-measured: ~78–84 in liftgate to front seatbacks with 2nd+3rd rows folded (fronts slid forward for 6-footers). Not truly flat: step at the 3rd-row junction plus a channel between the 2nd-row captain's chairs — on Hybrid Platinum that channel is unavoidable, because Platinum is 7-passenger only and the 8-passenger bench is not offered on it (it is an option on Hybrid Limited and below). CAVEAT: the source this figure came from (autoroamer.com's Highlander camping guide) was removed between 2026-08-17 and 2026-08-18 — the URL now returns a 'This page has been removed' stub, and web.archive.org rate-limited (HTTP 429) every attempt to retrieve a snapshot this pass, so the figure could not be re-verified. It is carried forward from the prior verified pass, not freshly confirmed. Generation-wide (XU70), not year-specific.",
+        "method": "Community-measured: ~78–84 in liftgate to front seatbacks with 2nd+3rd rows folded (fronts slid forward for 6-footers). Not truly flat: step at the 3rd-row junction, plus a channel between the 2nd-row captain's chairs on the standard 7-passenger layout — on Hybrid Limited that channel is avoidable, because the 8-passenger 60/40 fold-flat second-row bench is a factory option on this grade (it is not offered on Platinum at all). CAVEAT: the source this figure came from (autoroamer.com's Highlander camping guide) was removed between 2026-08-17 and 2026-08-18 — the URL now returns a 'This page has been removed' stub, and web.archive.org rate-limited (HTTP 429) every attempt to retrieve a snapshot this pass, so the figure could not be re-verified. It is carried forward from the prior verified pass, not freshly confirmed. Generation-wide (XU70), not year-specific.",
         "source": "https://www.autoroamer.com/posts/2025-toyota-highlander-camping-guide.html"
       },
       "mpg": {
@@ -2919,8 +2919,8 @@
           "Automatic High Beams",
           "Blind Spot Monitor + Rear Cross-Traffic Alert (standard on LE and above, incl. all hybrids)",
           "Front and Rear Parking Assist with Automated Braking (standard on Limited/Platinum)",
-          "Bird's Eye View Camera with Perimeter Scan (standard on Platinum)",
-          "2020 IIHS Top Safety Pick: Good in small overlap front (driver and passenger), moderate overlap front, side (original and updated), roof strength and head restraints; Superior vehicle-to-vehicle and daytime pedestrian front crash prevention. The award applies only to vehicles with specific headlights — Platinum's adaptive LED projectors rate Good, Limited rates Acceptable, and LE/XLE rate Poor, so the listed trim is the one that earns it.",
+          "Bird's Eye View Camera with Perimeter Scan (optional on Limited, standard only on Platinum — not standard on the listed trim)",
+          "2020 IIHS Top Safety Pick: Good in small overlap front (driver and passenger), moderate overlap front, side (original and updated), roof strength and head restraints; Superior vehicle-to-vehicle and daytime pedestrian front crash prevention. IIHS says only 'award applies only to vehicles with specific headlights' without naming trims, but the 2020 criteria page requires 'acceptable or good headlights available' for Top Safety Pick, and IIHS rates Limited/Hybrid Limited's non-adaptive LED projectors Acceptable — so the listed trim meets the award's headlight condition. LE/XLE's LED reflectors rate Poor and do not; Platinum's curve-adaptive projectors are the only ones rated Good.",
           "NHTSA 5-star overall for the 2020 Highlander Hybrid AWD (frontal 4, side 5, rollover 4, 16.4% rollover risk)"
         ]
       },
@@ -2957,7 +2957,7 @@
           "note": "China-market XU70 twin, same bay"
         }
       },
-      "trim_rationale": "Platinum is the camping pick because of the 120V outlets: the 2020 eBrochure's feature table gives Hybrid Limited and Hybrid Platinum 'Two 120V outlets (1500W shared) located on the bottom rear of the center console and in the luggage area', while Hybrid LE/XLE get no 120V outlet at all and the gas Limited/Platinum get only a single 100W console outlet. A 1500W outlet at the cargo floor, fed by a hybrid battery that the engine will restart to top up, is the single biggest camper feature on this vehicle. Over Limited, Platinum adds the panoramic moonroof, heated second-row captain's chairs, digital rearview mirror, head-up display, Bird's Eye View Camera and — the one that matters on a dark forest road — adaptive LED headlights that IIHS rates Good where Limited's rate only Acceptable. The trade-off for a used buyer is real: in the cars.com sample used Platinums asked roughly $6–8k more than Limiteds for the same year, and Platinum is 7-passenger only (no 8-seat bench option), so the channel between the second-row captain's chairs is guaranteed rather than avoidable. Note also that 'Limited Platinum' is not a 2020 trim — Limited and Platinum are separate grades in Toyota's 2020 ladder (L, LE, XLE, Limited, Platinum for gas; LE, XLE, Limited, Platinum for hybrid). FWD is standard on every 2020 hybrid grade and the Electronic On-Demand AWD system with Trail Mode is a factory option, so this record lists a Platinum ordered with AWD; MPG shown is the AWD figure (FWD is 36/35).",
+      "trim_rationale": "Limited is the camping pick because it is the cheapest grade that carries the 120V outlets: the 2020 eBrochure's feature table gives Hybrid Limited and Hybrid Platinum 'Two 120V outlets (1500W shared) located on the bottom rear of the center console and in the luggage area', while Hybrid LE/XLE get no 120V outlet at all and the gas Limited/Platinum get only a single 100W console outlet. A 1500W outlet at the cargo floor, fed by a hybrid battery that the engine will restart to top up, is the single biggest camper feature on this vehicle, and Limited has it. Against Platinum, Limited actually wins twice for camping: the 8-passenger 60/40 sliding, reclining fold-flat second-row bench is a factory option on Hybrid Limited and is not offered on Platinum at all, so a bench-equipped Limited folds to a floor with no channel down the middle; and the standard tilt/slide moonroof leaves more room over that floor than Platinum's panoramic roof — 39.6 in. front and 39.4 in. second-row head room versus 38.4/37.1. Platinum's gains are the panoramic moonroof, heated second-row seats, digital rearview mirror, head-up display, standard Bird's Eye View Camera (an option on Limited) and the one that matters on a dark forest road: LED projector headlights with Adaptive Front-lighting System, which IIHS rates Good where Limited's non-adaptive projectors rate Acceptable. That single headlight upgrade is the only camping-relevant thing the money buys, and it is not cheap — KBB books a 2020 Hybrid Platinum $3,100 above a Limited at trade-in ($28,100 vs $25,000), and the cars.com used-listing sample showed asking prices $6–8k apart. Note also that 'Limited Platinum' is not a 2020 trim — Limited and Platinum are separate grades in Toyota's 2020 ladder (L, LE, XLE, Limited, Platinum for gas; LE, XLE, Limited, Platinum for hybrid). FWD is standard on every 2020 hybrid grade and the Electronic On-Demand AWD system with Trail Mode is a factory option, so this record lists a Limited ordered with AWD; MPG shown is the AWD figure (FWD is 36/35).",
       "model_url": "https://www.toyota.com/highlanderhybrid/",
       "last_verified": "2026-08-18",
       "max_cargo_cf": {
@@ -2984,15 +2984,16 @@
         "https://api.nhtsa.gov/SafetyRatings/VehicleId/15109",
         "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=toyota&model=highlander%20hybrid&modelYear=2020",
         "https://www.iihs.org/ratings/vehicle/toyota/highlander-4-door-suv/2020",
+        "https://www.iihs.org/ratings/top-safety-picks/2020",
         "https://repairpal.com/reliability/toyota/highlander",
         "https://www.toyota.com/highlanderhybrid/",
         "https://lunolife.com/products/air-pro-vehicle-mattress",
         "https://cartocamp.com/products/sleeping-platform",
         "https://campncar.com/blogs/portfolio/toyota-highlander-camper",
         "https://www.autoroamer.com/posts/2025-toyota-highlander-camping-guide.html",
-        "https://www.kbb.com/toyota/highlander-hybrid/2020/platinum-sport-utility-4d/"
+        "https://www.kbb.com/toyota/highlander-hybrid/2020/limited-sport-utility-4d/"
       ],
-      "notes": "Listed at 2020 by explicit request (the skill's rule of min(latest, 2024) would have given 2024; a named year wins). Same XU70 generation as the record this replaces, so the id is unchanged; everything year- and trim-specific was re-researched against Toyota's own 2020 eBrochure. 'Limited Platinum' is not a real 2020 trim — Limited and Platinum are separate grades; Brandon confirmed Platinum. 84.3 cu ft behind row 1; the 3rd row does not fold fully flat. model_url is Toyota's live Highlander Hybrid page, which now serves the 2026 model year — no official 2020 page survives, so the 2020 eBrochure PDF is the primary spec source. Unverified this pass: the cargo length behind the front seats (source page was taken down overnight and Wayback returned 429), and any KBB valuation (kbb.com 403; web-search budget exhausted).",
+      "notes": "Listed at 2020 by explicit request (the skill's rule of min(latest, 2024) would have given 2024; a named year wins). Trim corrected from Platinum to Limited on 2026-08-18 at Brandon's request — same 2020 model year, same XU70 generation, same AWD configuration, so the id is unchanged; every trim-specific field was re-read from the Hybrid Limited column of Toyota's own 2020 eBrochure rather than carried over. 'Limited Platinum' is not a real 2020 trim — Limited and Platinum are separate grades. The two 1500W 120V outlets and the 35/34 AWD EPA figures are shared with Platinum (EPA groups the config as 'Highlander Hybrid AWD LTD/PLAT'; both ride 20-in. wheels), so neither changed with the trim. The KBB figures were read directly from the Limited trim row by the coordinating session on 2026-08-18; kbb.com 403s to direct fetch. 84.3 cu ft behind row 1; the 3rd row does not fold fully flat. model_url is Toyota's live Highlander Hybrid page, which now serves the 2026 model year — no official 2020 page survives, so the 2020 eBrochure PDF is the primary spec source. Unverified this pass: the cargo length behind the front seats (source page was taken down overnight and Wayback returned 429). The WebSearch budget was exhausted this session, so nothing here rests on a search-surfaced figure.",
       "equipment": {
         "basis": "Standard on the listed trim. Optional or dealer-installed counts as false.",
         "heated_front_seats": true,
@@ -3006,13 +3007,14 @@
         "cargo_area_power_outlet": true,
         "fold_flat_front_passenger_seat": false,
         "rear_seat_fold": "near-flat",
-        "rear_seat_fold_note": "The 2020 brochure calls both the second-row captain's chairs and the 60/40 third row 'fold-flat', but Highlander camper builds still add a rigid platform over the folded seats, which points to a step at the third-row junction rather than a true flat floor. On Platinum the second row is captain's chairs only, so there is also a permanent channel down the middle.",
+        "rear_seat_fold_note": "Read from the Hybrid Limited column of the 2020 eBrochure: seven-passenger seating with fold-down second-row captain's chairs is standard, and the eight-passenger 60/40 split, sliding and reclining fold-flat second-row bench is a factory option (the specs table lists Hybrid Limited seating capacity as '7/8', versus '7' for Platinum). The brochure calls both the captain's chairs and the 60/40 third row 'fold-flat', but Highlander camper builds still add a rigid platform over the folded seats, which points to a step at the third-row junction rather than a true flat floor. On a standard captain's-chair Limited there is also a channel down the middle; on a bench-equipped example there is not, so it is worth checking the individual car. Sunroof is the power tilt/slide moonroof, not Platinum's panoramic roof — a different item, and worth 1.2 in. more front head room.",
         "source": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2020/highlander_ebrochure.pdf",
         "field_sources": {
           "heated_steering_wheel": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2020/highlander_ebrochure.pdf",
           "ventilated_front_seats": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2020/highlander_ebrochure.pdf",
           "sunroof": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2020/highlander_ebrochure.pdf",
           "power_liftgate": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2020/highlander_ebrochure.pdf",
+          "roof_rails": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2020/highlander_ebrochure.pdf",
           "cargo_area_power_outlet": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2020/highlander_ebrochure.pdf",
           "remote_start": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2020/highlander_ebrochure.pdf",
           "fold_flat_front_passenger_seat": "https://www.toyota.com/content/dam/toyota/brochures/pdf/2020/highlander_ebrochure.pdf"
@@ -3021,7 +3023,7 @@
       },
       "sitting_height_over_folded_seats_in": {
         "value": null,
-        "method": "No defensible community measurement found. The most detailed source located in prior research (a Van & RV Living Forum dealer-lot comparison of Toyota hybrids) measured RAV4 headroom numerically but for the Highlander only said 'I would still need to stoop in bed', with no figure. Everything else was manufacturer-published seated headroom (explicitly disallowed) or generic listicles. The listed trim has the power panoramic moonroof, whose housing costs 1.2 in. of front headroom versus the tilt/slide roof (38.4 vs 39.6 in. per the 2020 brochure), so any figure found would still have needed that deduction applied.",
+        "method": "No defensible community measurement found. The most detailed source located in prior research (a Van & RV Living Forum dealer-lot comparison of Toyota hybrids) measured RAV4 headroom numerically but for the Highlander only said 'I would still need to stoop in bed', with no figure. Everything else was manufacturer-published seated headroom (explicitly disallowed) or generic listicles. The listed trim has the power tilt/slide moonroof, whose housing costs 1.6 in. of front headroom versus the no-moonroof L/LE grades (39.6 vs 41.2 in. per the 2020 brochure) but leaves 1.2 in. more than Platinum's panoramic roof (38.4 in.), so any figure found would still have needed a roof-specific deduction applied.",
         "source": null
       },
       "ground_clearance_in": {
@@ -3055,14 +3057,14 @@
         "84.3 cu ft and ~78 in of load length with both rear rows folded — a genuine two-person bed",
         "Hybrid engine-cycling keeps climate running overnight without idling a V6",
         "35 mpg city from a three-row SUV, and 8 in of clearance with Trail Mode AWD for forest-road trailheads",
-        "Adaptive LED headlights rate Good with IIHS on this trim (Limited only Acceptable, XLE Poor) — the difference you feel on unlit roads"
+        "The 8-passenger fold-flat bench is a factory option on Limited and not offered on Platinum at all — a bench car folds to a floor with no channel down the middle"
       ],
       "camper_cons": [
-        "Platinum is 7-seat only, so the channel between the captain's chairs is permanent — a platform is not optional here",
+        "Captain's chairs are the standard second row, so most used Limiteds still have the centre channel — the bench is worth hunting for, not assumed",
         "Folded third row leaves a step; the floor is near-flat, not flat",
-        "Panoramic moonroof costs 1.2 in of front headroom and adds glass overhead to insulate against",
+        "The tilt/slide moonroof is standard and not deletable, costing 1.6 in of front headroom versus the no-roof L/LE grades",
         "20-in wheels cost 1 mpg highway versus the XLE and are expensive to re-shoe",
-        "Used Platinums ask $6–8k over Limiteds, and Limited carries the same two 1500W outlets — the only camping-relevant gain is the headlights"
+        "Headlights rate only Acceptable with IIHS — Platinum's curve-adaptive projectors are the one camping-relevant thing the extra money buys, and unlit forest roads are where you notice"
       ]
     },
     {
@@ -4659,7 +4661,7 @@
       "kbb_value_usd": {
         "low": 24800,
         "high": 30300,
-        "assumption": "2023 Sorento Hybrid SX-Prestige Sport Utility 4D, good condition, typical miles; low = KBB trade-in, high = KBB Fair Purchase Price (private-party ,300). Read from the trim's own row on the KBB model-year page, which returns 403 to direct fetch. The same page lists only EX and SX-Prestige for 2023, corroborating the trim ladder. Retrieved 2026-08-18.",
+        "assumption": "2023 Sorento Hybrid SX-Prestige Sport Utility 4D, good condition, typical miles; low = KBB trade-in, high = KBB Fair Purchase Price (private-party $28,300). Read from the trim's own row on the KBB model-year page, which returns 403 to direct fetch. The same page lists only EX and SX-Prestige for 2023, corroborating the trim ladder. Retrieved 2026-08-18.",
         "source": "https://www.kbb.com/kia/sorento-hybrid/2023/sx-prestige-sport-utility-4d/"
       },
       "exterior_in": {
@@ -4853,7 +4855,7 @@
       "kbb_value_usd": {
         "low": 23000,
         "high": 28800,
-        "assumption": "2024 Sportage Hybrid EX Sport Utility 4D, good condition, typical miles; low = KBB trade-in, high = KBB Fair Purchase Price (private-party ,200). Read from the trim's own row on the KBB model-year page, which returns 403 to direct fetch. Retrieved 2026-08-18.",
+        "assumption": "2024 Sportage Hybrid EX Sport Utility 4D, good condition, typical miles; low = KBB trade-in, high = KBB Fair Purchase Price (private-party $26,200). Read from the trim's own row on the KBB model-year page, which returns 403 to direct fetch. Retrieved 2026-08-18.",
         "source": "https://www.kbb.com/kia/sportage-hybrid/2024/ex-sport-utility-4d/"
       },
       "exterior_in": {
