@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { FIELDS, fieldValue, evaluateGate, rankVehicles } from './scoring.js';
+import { FIELDS, fieldValue, fieldNA, evaluateGate, rankVehicles } from './scoring.js';
 
 const v = (id, over = {}) => ({
   id,
@@ -422,6 +422,155 @@ test('missing data never excludes, in either tier direction', async () => {
     const [r] = rankVehicles([unknown], crit, new Set());
     assert.equal(r.excluded, false, `${tier}: unknown data must not exclude`);
     assert.equal(r.unknowns.length, 1, `${tier}: should be flagged as no-data`);
+  }
+});
+
+// --- Unknowns are exempt, not worst-case --------------------------------
+// A scoring criterion with no data for a vehicle drops out of that vehicle's
+// denominator (and dislike offset): the vehicle is scored on the criteria it
+// has data for. Documented absences (fieldNA) are the exception — they score
+// worst-case and are NOT exempt.
+
+test('an unknown no longer drags a score down', () => {
+  const known   = v('known',   { max_cargo_cf: { value: 100 }, sitting_height_over_folded_seats_in: { value: 40 } });
+  const unknown = v('unknown', { max_cargo_cf: { value: 100 } }); // no sitting height measured
+  const out = rankVehicles([known, unknown],
+    [{ ...fuzzy('max_cargo_cf', 'higher'), id: 'c1' },
+     { ...fuzzy('sitting_height_in', 'higher'), id: 'c2' }], new Set());
+  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+  // Both max out every criterion they have data for. Before this change the
+  // unknown vehicle scored 50: the missing criterion stayed in its denominator.
+  assert.equal(byId.known.score, 100);
+  assert.equal(byId.unknown.score, 100);
+  assert.deepEqual(byId.known.exempt, []);
+  assert.deepEqual(byId.unknown.exempt.map(x => x.id), ['c2']);
+});
+
+test('two vehicles differing only in whether a criterion is known rank as expected', () => {
+  // Same reliability everywhere; cargo is worst / best / unmeasured. The
+  // unmeasured vehicle must not sort below the measured-worst one on data it
+  // lacks.
+  const worst = v('worst', { max_cargo_cf: { value: 50 } });
+  const best  = v('best',  { max_cargo_cf: { value: 100 } });
+  const nodata = v('nodata', { max_cargo_cf: null });
+  const out = rankVehicles([worst, best, nodata],
+    [{ ...fuzzy('max_cargo_cf', 'higher'), id: 'c1' },
+     { ...fuzzy('reliability_score', 'higher'), id: 'c2' }], new Set());
+  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+  assert.equal(byId.best.score, 100);
+  assert.equal(byId.nodata.score, 100); // scored on reliability alone, which it maxes
+  assert.equal(byId.worst.score, 50);
+  assert.deepEqual(byId.nodata.exempt.map(x => x.id), ['c1']);
+});
+
+test('a dislike criterion with an unknown behaves symmetrically', () => {
+  // The vehicle missing the length measurement lands mid-pack on cargo. Its
+  // score must be identical whether the unevaluable criterion is a like or a
+  // dislike. Before this change: 25 under a like, 75 under a dislike — the
+  // dislike offset stayed in even when the contribution was exempt.
+  const cars = () => [
+    v('lo',  { max_cargo_cf: { value: 50 } }),
+    v('hi',  { max_cargo_cf: { value: 150 } }),
+    v('mid', { max_cargo_cf: { value: 100 }, exterior_in: null }),
+  ];
+  const run = tier => {
+    const out = rankVehicles(cars(),
+      [{ ...fuzzy('length_in', 'higher', tier), id: 'c1' },
+       { ...fuzzy('max_cargo_cf', 'higher'), id: 'c2' }], new Set());
+    return out.find(r => r.vehicle.id === 'mid');
+  };
+  const asLike = run('nice-to-have');
+  const asDislike = run('dislike');
+  assert.equal(asLike.score, 50);
+  assert.equal(asDislike.score, 50);
+  assert.deepEqual(asLike.exempt.map(x => x.id), ['c1']);
+  assert.deepEqual(asDislike.exempt.map(x => x.id), ['c1']);
+});
+
+test('a vehicle with no evaluable scoring criteria at all scores 0 with everything exempt', () => {
+  const known = v('known', { sitting_height_over_folded_seats_in: { value: 40 } });
+  const mystery = v('mystery');
+  const out = rankVehicles([known, mystery], [fuzzy('sitting_height_in', 'higher')], new Set());
+  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+  assert.equal(byId.mystery.score, 0);
+  assert.deepEqual(byId.mystery.contributions, []);
+  assert.equal(byId.mystery.exempt.length, 1);
+});
+
+// --- n/a: documented absences score worst-case, not exempt ---------------
+
+test('fieldNA marks the documented absences and nothing else', () => {
+  assert.equal(fieldNA(v('g', { powertrain: 'gas' }), 'ev_range_mi'), true);
+  assert.equal(fieldNA(v('h', { powertrain: 'hybrid' }), 'ev_range_mi'), true);
+  assert.equal(fieldNA(v('p', { powertrain: 'phev' }), 'ev_range_mi'), false);
+  assert.equal(fieldNA(v('x', { powertrain: undefined }), 'ev_range_mi'), false);
+  assert.equal(fieldNA(v('e', { powertrain: 'ev' }), 'mpg_city'), true);
+  assert.equal(fieldNA(v('e', { powertrain: 'ev' }), 'mpg_hwy'), true);
+  assert.equal(fieldNA(v('g'), 'mpg_city'), false);
+  assert.equal(fieldNA(v('g'), 'max_cargo_cf'), false);
+});
+
+test('a gas car on an EV-range criterion scores worst-case with no exemption', () => {
+  const gas = v('gas');
+  const phev = v('phev', { powertrain: 'phev', mpg: { city: 25, hwy: 30, ev_range_mi: 40 } });
+  const out = rankVehicles([gas, phev], [fuzzy('ev_range_mi', 'higher')], new Set());
+  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+  assert.equal(byId.phev.score, 100);
+  assert.equal(byId.gas.score, 0);           // worst case, not exempt
+  assert.deepEqual(byId.gas.exempt, []);      // so no asterisk
+  assert.equal(byId.gas.contributions[0].na, true);
+  assert.equal(byId.gas.contributions[0].weighted, 0);
+});
+
+test('an EV on an MPG criterion scores worst-case with no exemption', () => {
+  const gas = v('gas');
+  const ev = v('ev', { powertrain: 'ev', mpg: { city: 131, hwy: 109, ev_range_mi: 259 } });
+  const out = rankVehicles([gas, ev], [fuzzy('mpg_city', 'higher')], new Set());
+  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+  assert.equal(byId.gas.score, 100);
+  assert.equal(byId.ev.score, 0);
+  assert.deepEqual(byId.ev.exempt, []);
+  assert.equal(byId.ev.contributions[0].na, true);
+});
+
+test('an unknown powertrain on an EV-range criterion is exempt, not n/a', () => {
+  // Without the powertrain fact we cannot say the range is absent rather
+  // than unmeasured, so it must not be scored as a zero.
+  const who = v('who', { powertrain: undefined });
+  const phev = v('phev', { powertrain: 'phev', mpg: { city: 25, hwy: 30, ev_range_mi: 40 } });
+  const out = rankVehicles([who, phev], [fuzzy('ev_range_mi', 'higher')], new Set());
+  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+  assert.deepEqual(byId.who.exempt.map(x => x.id), ['f']);
+});
+
+test('gates are unchanged: an EV-range must-have never excludes a gas car', () => {
+  const gas = v('gas');
+  assert.equal(evaluateGate(gas, hard('ev_range_mi', '>=', 100)), 'unknown');
+  const out = rankVehicles([gas], [hard('ev_range_mi', '>=', 100)], new Set());
+  assert.equal(out[0].excluded, false);
+  assert.deepEqual(out[0].unknowns.map(x => x.id), ['h']);
+});
+
+test('a hard nice-to-have with no data is exempt; with n/a data it scores 0', () => {
+  const gas = v('gas');                       // ev_range: n/a for a gas car
+  const nosit = v('nosit');                   // sitting height: unmeasured
+  const evRange = { ...hard('ev_range_mi', '>=', 100, 'nice-to-have'), id: 'r' };
+  const sit = { ...hard('sitting_height_in', '>=', 35, 'nice-to-have'), id: 's' };
+  const out = rankVehicles([gas, nosit], [evRange, sit], new Set());
+  const g = out.find(r => r.vehicle.id === 'gas');
+  assert.deepEqual(g.exempt.map(x => x.id), ['s']);     // no measurement → exempt
+  const naContrib = g.contributions.find(c => c.id === 'r');
+  assert.equal(naContrib.na, true);                     // documented absence → 0
+  assert.equal(naContrib.normalized, 0);
+});
+
+test('a malformed scoring criterion is exempt for every vehicle, never throws', () => {
+  const bad = { id: 'x', label: 'bad', tier: 'nice-to-have', kind: 'hard', rank: 1, weight: 3,
+    rule: { field: 'totally_unknown_field', op: '<', value: 5 } };
+  const out = rankVehicles([v('a'), v('b')], [bad, fuzzy('max_cargo_cf', 'higher')], new Set());
+  for (const r of out) {
+    assert.deepEqual(r.exempt.map(x => x.id), ['x']);
+    assert.ok(Number.isFinite(r.score));
   }
 });
 

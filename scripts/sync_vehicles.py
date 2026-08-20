@@ -23,9 +23,10 @@ Pass --rebuild to regenerate every embedded entry from vehicles.json instead
 reorder a few keys on first run, since the embedded blocks were hand-authored
 with slightly different key order than vehicles.json.
 
-index.html also owns two other marked blocks that a separate page (the
-Shortlist tool, under shortlist/) reuses: /*STYLE-*/ wraps the report's CSS
-and /*RENDER-*/ wraps its card/table render functions. index.html can't
+index.html also owns three other marked blocks that a separate page (the
+Shortlist tool, under shortlist/) reuses: /*STYLE-*/ wraps the report's CSS,
+/*RENDER-*/ wraps its card/table render functions, and /*DETAIL-*/ wraps the
+per-vehicle detail overlay (markup, renderer and close wiring). index.html can't
 export these as ES modules without breaking file:// use, so --shared copies
 the marked text verbatim into shortlist/index.html instead.
 
@@ -37,7 +38,7 @@ Usage:
   --check         exit non-zero if any file would change (no writes); for CI/pre-commit.
                    Also checks the shared blocks against shortlist/index.html when that
                    file exists (skipped, not failed, when it doesn't).
-  --shared        copy the /*STYLE-*/ and /*RENDER-*/ blocks from index.html into
+  --shared        copy the /*STYLE-*/, /*RENDER-*/ and /*DETAIL-*/ blocks from index.html into
                    shortlist/index.html.
   --check-shared  exit non-zero if shortlist/index.html's shared blocks are out of sync
                    (no writes). Exits 0 if shortlist/index.html doesn't exist yet.
@@ -61,7 +62,7 @@ HTML_FILES = [
 MARKER = re.compile(r"(/\*DATA-START\*/)(.*?)(/\*DATA-END\*/)", re.S)
 
 ROOT = Path(REPO)
-SHARED_BLOCKS = ("STYLE", "RENDER")
+SHARED_BLOCKS = ("STYLE", "RENDER", "DETAIL")
 SHORTLIST = ROOT / "shortlist" / "index.html"
 
 
@@ -206,7 +207,7 @@ def main():
             a, b = (os.path.basename(p) for p in HTML_FILES)
             print(f"{a} and {b} are not byte-for-byte identical. Fix: cp {a} {b}")
             ok = False
-        # Also check the shared STYLE/RENDER blocks against shortlist/index.html,
+        # Also check the shared STYLE/RENDER/DETAIL blocks against shortlist/index.html,
         # so one --check command still verifies everything. sync_shared() is a
         # no-op (exit 0) when that file doesn't exist yet.
         if sync_shared(check=True) != 0:

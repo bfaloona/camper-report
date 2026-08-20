@@ -57,13 +57,14 @@ The default mode is append-only, so adding a vehicle produces a minimal diff and
 leaves existing embedded entries untouched. Use `--rebuild` when you have changed a
 field on an *existing* vehicle and need that change to reach the page.
 
-`index.html` also owns the `/*STYLE-*/` and `/*RENDER-*/` marked blocks (its CSS and
-its card/table render functions). The Shortlist page (`shortlist/index.html`) has no
-way to import them as ES modules without breaking `file://` use, so it receives
-copies instead:
+`index.html` also owns three marked blocks — `/*STYLE-*/` (its CSS), `/*RENDER-*/`
+(its card/table render functions) and `/*DETAIL-*/` (the per-vehicle detail overlay:
+its markup, its renderer and its close wiring). The Shortlist page
+(`shortlist/index.html`) has no way to import them as ES modules without breaking
+`file://` use, so it receives copies instead:
 
 ```bash
-python3 scripts/sync_vehicles.py --shared        # copy style + render blocks into shortlist/index.html
+python3 scripts/sync_vehicles.py --shared        # copy the shared blocks into shortlist/index.html
 python3 scripts/sync_vehicles.py --check-shared  # verify those blocks are in sync
 ```
 
@@ -120,7 +121,7 @@ per-user state — one person's saved criteria and pins are the other's too.
 
 | File | Role |
 | --- | --- |
-| `shortlist/index.html` | The page. Its `/*STYLE-*/` and `/*RENDER-*/` blocks are **copies** — edit `index.html` and re-run `--shared`. |
+| `shortlist/index.html` | The page. Its `/*STYLE-*/`, `/*RENDER-*/` and `/*DETAIL-*/` blocks are **copies** — edit `index.html` and re-run `--shared`. |
 | `shortlist/scoring.js` | Pure scoring: field vocabulary (`FIELDS`), hard gates, weighted ranking. Unit-tested. |
 | `shortlist/prefs.js` | Client for `/api/prefs` and `/api/parse`, including the etag conflict guard. |
 | `shortlist/traits.js` | Trait-picker vocabulary (`TRAITS`) + compiler: selections (`prefs.traits`) compile to ordinary gate criteria at rank time, never stored as criteria. Unit-tested. |
@@ -143,11 +144,22 @@ Things that will bite you if you don't know them:
   hold EPA MPGe, not MPG. `FIELDS.mpg_city`/`mpg_hwy` deliberately return `null` for EVs
   so an MPG criterion treats them as no data instead of ranking an EV first on
   "efficiency" against gas vehicles. Don't "fix" that null.
+- **A criterion with no data is dropped from that vehicle's scale, not scored zero.**
+  `rankVehicles` builds the 0..100 denominator per vehicle from the criteria it could
+  actually evaluate, so missing data neither lowers nor raises a score; the criteria
+  left out are returned in `exempt` and the page marks the score with a `*`. The
+  exception is a null the schema documents as a real absence rather than a research
+  gap — an EV has no MPG, a gas car has no EV range. Those fields carry an `naWhen`
+  predicate in `FIELDS` (read it with `fieldNA`), score as the worst case with their
+  weight still in the denominator, and never earn the asterisk. Gating is unaffected:
+  `evaluateGate` still returns `'unknown'` for every null, n/a included, so a
+  must-have never excludes on missing data. `unknowns` on a ranked row now means
+  *gate* criteria that couldn't be checked; scoring gaps live in `exempt`.
 - **Scores are normalized over the surviving (non-excluded) vehicle set**, not a fixed
   scale — the top of a filtered list reads close to 100 regardless of the filter, and a
   score is not comparable between sessions with different criteria. Deliberate.
-- **The `/*STYLE-*/`/`/*RENDER-*/` blocks in `shortlist/index.html` are copies of
-  `index.html`'s, not a shared module.** They're copied instead of imported because the
+- **The `/*STYLE-*/`/`/*RENDER-*/`/`/*DETAIL-*/` blocks in `shortlist/index.html` are
+  copies of `index.html`'s, not a shared module.** They're copied instead of imported because the
   report must keep working when opened directly over `file://`, where the browser
   blocks ES module imports — the Shortlist page doesn't have that constraint (see next
   point), but sharing the presentation this way meant not rewriting it twice.
@@ -158,6 +170,16 @@ Things that will bite you if you don't know them:
   shims. `window.state = {...}` does **not** work — a classic `<script>`'s `let state`
   shadows an identically-named `window` property — so mutate the existing `state`
   object's fields in place instead of replacing it.
+- **The synced detail block injects its own markup and takes a vehicle record, not an
+  id.** `showDetail(v)` is handed the record so the block never has to know where the
+  host page keeps its data (inline `DATA` in the report, a fetched array on the
+  Shortlist page); the overlay and lightbox `<div>`s are appended to `<body>` at load
+  from inside the block, because the `/*NAME-*/` sync only carries script text. The
+  template may only read fields the *trimmed* embedded copy keeps: the Shortlist
+  passes the full record, so a field stripped from the embedded data would render
+  there and break in the report. Wiring
+  a row click to it is the host page's job — the report's `#tbody` handler also owns
+  compare-checkbox behaviour the Shortlist deliberately doesn't have.
 - **A want with no usable rule becomes a note, not a criterion.** `/api/parse` returns
   `{ criteria, notes }`; `splitParse` routes anything `validRule` rejects into `notes`,
   including entries the model confidently labelled `hard`. There is deliberately no

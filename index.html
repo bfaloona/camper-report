@@ -237,9 +237,6 @@
   <footer id="footer"></footer>
 </div>
 
-<div id="detail-overlay" class="overlay"><div class="detail-panel" id="detail-panel"></div></div>
-<div id="lightbox" class="lightbox"><img id="lb-img" src="" alt=""><div class="cap" id="lb-cap"></div></div>
-
 <script>
 const DATA = /*DATA-START*/{
  "updated": "2026-08-18",
@@ -4957,7 +4954,16 @@ document.getElementById('btn-panel').onclick = e => {
 };
 document.getElementById('btn-cards').onclick = () => { state.view = 'cards'; render(); };
 document.getElementById('btn-table').onclick = () => { state.view = 'table'; render(); };
+/*DETAIL-START*/
 // ---- Detail view + lightbox ----
+// Copied into shortlist/index.html by scripts/sync_vehicles.py --shared, so
+// everything the overlay needs lives inside these markers: its markup, its
+// renderer, and its close wiring. showDetail takes the vehicle record itself
+// rather than an id, so the block never has to know where the host page keeps
+// its data (inline DATA here, a fetched array on the Shortlist page).
+document.body.insertAdjacentHTML('beforeend',
+  '<div id="detail-overlay" class="overlay"><div class="detail-panel" id="detail-panel"></div></div>' +
+  '<div id="lightbox" class="lightbox"><img id="lb-img" src="" alt=""><div class="cap" id="lb-cap"></div></div>');
 
 function showLightbox(url, cap) {
   document.getElementById('lb-img').src = url;
@@ -4966,8 +4972,7 @@ function showLightbox(url, cap) {
 }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 
-function showDetail(id) {
-  const v = DATA.vehicles.find(x => x.id === id);
+function showDetail(v) {
   if (!v) return;
   const c = v.cargo_length_behind_front_seats_in;
   const mpgExtra = v.mpg.mpge ? ' · ' + v.mpg.mpge + ' MPGe · ' + v.mpg.ev_range_mi + ' mi EV' : '';
@@ -5026,6 +5031,19 @@ document.addEventListener('click', e => {
   const img = e.target.closest('.photo-cell img');
   if (img) { showLightbox(img.src, img.alt + (img.parentNode.querySelector('.ph-label') ? ' — ' + img.parentNode.querySelector('.ph-label').textContent : '')); return; }
 });
+// close interactions
+document.getElementById('lightbox').addEventListener('click', closeLightbox);
+document.getElementById('detail-overlay').addEventListener('click', e => {
+  if (e.target.id === 'detail-overlay' || e.target.closest('.detail-close')) closeDetail();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.getElementById('lightbox').classList.contains('open')) closeLightbox();
+    else closeDetail();
+  }
+});
+/*DETAIL-END*/
+
 // pin button click (cards + table) -> toggle pin, anywhere on the page
 document.addEventListener('click', e => {
   const btn = e.target.closest('[data-pin]');
@@ -5050,7 +5068,7 @@ document.getElementById('tbody').addEventListener('click', e => {
   }
   if (e.target.closest('a')) return;
   const tr = e.target.closest('tr[data-id]');
-  if (tr) showDetail(tr.dataset.id);
+  if (tr) showDetail(DATA.vehicles.find(x => x.id === tr.dataset.id));
 });
 
 function updateCompareUI() {
@@ -5071,18 +5089,6 @@ document.getElementById('btn-compare').onclick = () => {
   else if (state.selected.size >= 2) { state.compareMode = true; state.view = 'table'; }
   render();
 };
-// close interactions
-document.getElementById('lightbox').addEventListener('click', closeLightbox);
-document.getElementById('detail-overlay').addEventListener('click', e => {
-  if (e.target.id === 'detail-overlay' || e.target.closest('.detail-close')) closeDetail();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    if (document.getElementById('lightbox').classList.contains('open')) closeLightbox();
-    else closeDetail();
-  }
-});
-
 document.getElementById('updated').textContent = DATA.updated;
 if (shortlistAvailable(location.hostname)) {
   document.getElementById('shortlist-link-wrap').hidden = false;

@@ -23,9 +23,15 @@ export const FIELDS = {
   // Reading those as MPG would rank it first on efficiency against every gas
   // vehicle in the set, which is nonsense. Treat mpg.city/mpg.hwy as unknown
   // for EVs so an MPG criterion neither excludes nor falsely favors them.
-  mpg_city:             { label: 'MPG city',            type: 'number', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.city)) },
-  mpg_hwy:               { label: 'MPG highway',         type: 'number', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.hwy)) },
-  ev_range_mi:          { label: 'EV range (mi)',       type: 'number', get: v => num(v.mpg?.ev_range_mi) },
+  // `naWhen`: this null is a documented absence, not missing research — an EV
+  // burns no fuel. For SCORING that reads as worst-case zero (a gas vehicle
+  // really has no EV range; exempting it would rank it as if EV range didn't
+  // matter), while gating keeps treating it as 'unknown' (never excludes).
+  mpg_city:             { label: 'MPG city',            type: 'number', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.city)), naWhen: v => v.powertrain === 'ev' },
+  mpg_hwy:               { label: 'MPG highway',         type: 'number', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.hwy)), naWhen: v => v.powertrain === 'ev' },
+  // A missing powertrain is deliberately NOT n/a — with no powertrain fact we
+  // can't say the range is absent rather than unmeasured, so it stays unknown.
+  ev_range_mi:          { label: 'EV range (mi)',       type: 'number', get: v => num(v.mpg?.ev_range_mi), naWhen: v => v.powertrain === 'gas' || v.powertrain === 'hybrid' },
   price_low:            { label: 'KBB low ($)',         type: 'number', get: v => num(v.kbb_value_usd?.low) },
   price_high:           { label: 'KBB high ($)',        type: 'number', get: v => num(v.kbb_value_usd?.high) },
   tow_max:              { label: 'Tow rating (lbs)',    type: 'number', get: v => num(v.tow_rating?.max) },
@@ -138,6 +144,14 @@ export const FIELDS = {
 export function fieldValue(vehicle, fieldId) {
   const f = FIELDS[fieldId];
   return f ? f.get(vehicle) : null;
+}
+
+// True when a null from this field is a documented "the vehicle has none of
+// this" rather than missing research. Only meaningful when fieldValue is
+// null; scoring treats n/a as worst-case zero instead of exempting it.
+export function fieldNA(vehicle, fieldId) {
+  const f = FIELDS[fieldId];
+  return !!(f && typeof f.naWhen === 'function' && f.naWhen(vehicle));
 }
 
 // 'pass' | 'fail' | 'unknown'. Missing data is never a failure — a vehicle we
@@ -253,24 +267,25 @@ export function rankVehicles(vehicles, criteria, pins) {
   const survivors = gated.filter(g => !g.excluded).map(g => g.vehicle);
   const ranges = rangesFor(survivors, scorers);
 
-  // The reachable range of `raw`, so the 0..100 mapping puts the worst possible
-  // vehicle at 0 and the best at 100 whatever mix of tiers is in play.
-  const posWeight = scorers.reduce((s, c) => s + (c.tier === 'dislike' ? 0 : weightOf(c)), 0);
-  const negWeight = scorers.reduce((s, c) => s + (c.tier === 'dislike' ? weightOf(c) : 0), 0);
-  const span = posWeight + negWeight;
-
-  const rows = gated.map(({ vehicle, index, violations, unknowns: gateUnknowns, pinned, excluded }) => {
-    const unknowns = [...gateUnknowns];
+  const rows = gated.map(({ vehicle, index, violations, unknowns, pinned, excluded }) => {
     const contributions = [];
+    const exempt = [];
+    // The reachable range of `raw` for THIS vehicle: a criterion with no data
+    // here drops out of the denominator and the dislike offset, so missing
+    // data neither lowers nor raises the score — the vehicle is scored on the
+    // criteria it has data for. (An n/a null — see fieldNA — is NOT exempt:
+    // it scores as worst case and keeps its weight in the denominator.)
+    let posWeight = 0, negWeight = 0;
     let raw = 0;
     for (const c of scorers) {
       const weight = weightOf(c);
       const sign = c.tier === 'dislike' ? -1 : 1;
+      const field = c.rule?.field;
       let normalized = null;
+      let na = false;
 
       if (c.kind === 'fuzzy') {
         const range = ranges.get(c.id);
-        const field = c.rule?.field;
         const x = field ? fieldValue(vehicle, field) : null;
         if (range && x !== null) {
           const spanX = range.hi - range.lo;
@@ -280,16 +295,30 @@ export function rankVehicles(vehicles, criteria, pins) {
       } else {
         const verdict = evaluateGate(vehicle, c);
         if (verdict !== 'unknown') normalized = verdict === 'pass' ? 1 : 0;
-        else unknowns.push({ id: c.id, label: c.label });
       }
 
-      if (normalized === null) continue;
+      // Worst case, not exemption, when the absence is a documented fact
+      // about the vehicle (a gas car has no EV range) rather than a research
+      // gap — exempting it would rank the gas car as if EV range didn't
+      // matter. Same arithmetic the old whole-set denominator applied.
+      if (normalized === null && field && fieldValue(vehicle, field) === null && fieldNA(vehicle, field)) {
+        normalized = 0;
+        na = true;
+      }
+
+      if (normalized === null) {
+        exempt.push({ id: c.id, label: c.label });
+        continue;
+      }
+      if (c.tier === 'dislike') negWeight += weight; else posWeight += weight;
       const weighted = Math.round(sign * weight * normalized * 100) / 100;
       raw += weighted;
-      contributions.push({ id: c.id, label: c.label, normalized, weighted });
+      contributions.push({ id: c.id, label: c.label, normalized, weighted, na });
     }
 
-    // Map the signed total onto 0..100 so scores are comparable between runs.
+    // Map the signed total onto 0..100 so the worst evaluable mix reads 0 and
+    // the best 100, whatever tiers are in play for this vehicle.
+    const span = posWeight + negWeight;
     const score = span === 0 ? 0 : Math.round(((raw + negWeight) / span) * 1000) / 10;
 
     return {
@@ -298,7 +327,8 @@ export function rankVehicles(vehicles, criteria, pins) {
       pinned,
       excluded,
       violations,
-      unknowns,
+      unknowns,   // gate criteria with no data (never exclude)
+      exempt,     // scoring criteria with no data — dropped from this vehicle's scale
       contributions,
       _index: index,
     };
