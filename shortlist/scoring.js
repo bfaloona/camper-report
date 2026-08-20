@@ -23,15 +23,18 @@ export const FIELDS = {
   // Reading those as MPG would rank it first on efficiency against every gas
   // vehicle in the set, which is nonsense. Treat mpg.city/mpg.hwy as unknown
   // for EVs so an MPG criterion neither excludes nor falsely favors them.
-  // `naWhen`: this null is a documented absence, not missing research — an EV
-  // burns no fuel. For SCORING that reads as worst-case zero (a gas vehicle
-  // really has no EV range; exempting it would rank it as if EV range didn't
-  // matter), while gating keeps treating it as 'unknown' (never excludes).
-  mpg_city:             { label: 'MPG city',            type: 'number', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.city)), naWhen: v => v.powertrain === 'ev' },
-  mpg_hwy:               { label: 'MPG highway',         type: 'number', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.hwy)), naWhen: v => v.powertrain === 'ev' },
+  // `naValue`: this null is a documented absence, not missing research, and
+  // the number here is what SCORING should use in its place. An EV burns no
+  // gasoline, so no MPG figure can beat it — Infinity puts it at the top of
+  // the scale without a fake number stretching the range everyone else is
+  // measured against. A gas or hybrid car's EV range is a real zero, so it
+  // sits at the bottom of one. Gating ignores naValue entirely and keeps
+  // reading these as 'unknown', which never excludes.
+  mpg_city:             { label: 'MPG city',            type: 'number', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.city)), naValue: v => (v.powertrain === 'ev' ? Infinity : null) },
+  mpg_hwy:               { label: 'MPG highway',         type: 'number', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.hwy)), naValue: v => (v.powertrain === 'ev' ? Infinity : null) },
   // A missing powertrain is deliberately NOT n/a — with no powertrain fact we
   // can't say the range is absent rather than unmeasured, so it stays unknown.
-  ev_range_mi:          { label: 'EV range (mi)',       type: 'number', get: v => num(v.mpg?.ev_range_mi), naWhen: v => v.powertrain === 'gas' || v.powertrain === 'hybrid' },
+  ev_range_mi:          { label: 'EV range (mi)',       type: 'number', get: v => num(v.mpg?.ev_range_mi), naValue: v => (v.powertrain === 'gas' || v.powertrain === 'hybrid' ? 0 : null) },
   price_low:            { label: 'KBB low ($)',         type: 'number', get: v => num(v.kbb_value_usd?.low) },
   price_high:           { label: 'KBB high ($)',        type: 'number', get: v => num(v.kbb_value_usd?.high) },
   tow_max:              { label: 'Tow rating (lbs)',    type: 'number', get: v => num(v.tow_rating?.max) },
@@ -146,12 +149,16 @@ export function fieldValue(vehicle, fieldId) {
   return f ? f.get(vehicle) : null;
 }
 
-// True when a null from this field is a documented "the vehicle has none of
-// this" rather than missing research. Only meaningful when fieldValue is
-// null; scoring treats n/a as worst-case zero instead of exempting it.
+// The value scoring should use when this field is null *because the vehicle
+// documentably has none of it* (an EV's MPG, a gas car's EV range), rather
+// than because nobody measured it. Returns null when the absence is a
+// research gap — those criteria are exempted from the vehicle's scale
+// instead. Infinity is a legal answer: it means no figure can beat this one.
 export function fieldNA(vehicle, fieldId) {
   const f = FIELDS[fieldId];
-  return !!(f && typeof f.naWhen === 'function' && f.naWhen(vehicle));
+  if (!f || typeof f.naValue !== 'function') return null;
+  const x = f.naValue(vehicle);
+  return typeof x === 'number' && !Number.isNaN(x) ? x : null;
 }
 
 // 'pass' | 'fail' | 'unknown'. Missing data is never a failure — a vehicle we
@@ -161,12 +168,10 @@ export function fieldNA(vehicle, fieldId) {
 // preferences endpoint validates only that criteria is an array, not the
 // shape of each item) — every field below is read defensively so a
 // malformed rule degrades to 'unknown' rather than throwing.
-export function evaluateGate(vehicle, criterion) {
-  const rule = criterion?.rule;
-  if (!rule || typeof rule !== 'object' || rule.direction) return 'pass';
-  const value = fieldValue(vehicle, rule.field);
-  if (value === null) return 'unknown';
-
+// The comparison alone, against a value the caller supplies. Split out of
+// evaluateGate so scoring can apply a rule to a documented n/a value (an EV's
+// infinite MPG) while gating keeps treating that same field as unknown.
+function compareValue(value, rule) {
   switch (rule.op) {
     case '<':  return value <  rule.value ? 'pass' : 'fail';
     case '<=': return value <= rule.value ? 'pass' : 'fail';
@@ -185,6 +190,14 @@ export function evaluateGate(vehicle, criterion) {
       return Array.isArray(rule.value) ? (rule.value.includes(value) ? 'fail' : 'pass') : 'unknown';
     default: return 'unknown';
   }
+}
+
+export function evaluateGate(vehicle, criterion) {
+  const rule = criterion?.rule;
+  if (!rule || typeof rule !== 'object' || rule.direction) return 'pass';
+  const value = fieldValue(vehicle, rule.field);
+  if (value === null) return 'unknown';
+  return compareValue(value, rule);
 }
 
 const GATE_TIERS = new Set(['must-have', 'deal-breaker']);
@@ -274,7 +287,7 @@ export function rankVehicles(vehicles, criteria, pins) {
     // here drops out of the denominator and the dislike offset, so missing
     // data neither lowers nor raises the score — the vehicle is scored on the
     // criteria it has data for. (An n/a null — see fieldNA — is NOT exempt:
-    // it scores as worst case and keeps its weight in the denominator.)
+    // it scores from its documented value and keeps its weight.)
     let posWeight = 0, negWeight = 0;
     let raw = 0;
     for (const c of scorers) {
@@ -284,6 +297,12 @@ export function rankVehicles(vehicles, criteria, pins) {
       let normalized = null;
       let na = false;
 
+      // A documented absence scores from its own value rather than being
+      // exempted: exempting a gas car on an EV-range criterion would rank it
+      // as if EV range didn't matter, and scoring an EV worst on MPG would
+      // call the one vehicle that burns no gasoline a guzzler.
+      const naVal = field && fieldValue(vehicle, field) === null ? fieldNA(vehicle, field) : null;
+
       if (c.kind === 'fuzzy') {
         const range = ranges.get(c.id);
         const x = field ? fieldValue(vehicle, field) : null;
@@ -291,19 +310,31 @@ export function rankVehicles(vehicles, criteria, pins) {
           const spanX = range.hi - range.lo;
           const t = spanX === 0 ? 1 : (x - range.lo) / spanX;
           normalized = c.rule?.direction === 'lower' ? 1 - t : t;
+        } else if (naVal !== null) {
+          // Place the documented value on the same 0..1 scale as everyone
+          // else. Infinity sits at the top of it by definition; a finite one
+          // (a gas car's zero EV range) is clamped into the range rather than
+          // stretching it — rangesFor never saw this value, by design.
+          const spanX = range ? range.hi - range.lo : 0;
+          const t = naVal === Infinity ? 1
+            : naVal === -Infinity ? 0
+            : !range ? 0
+            : spanX === 0 ? (naVal >= range.hi ? 1 : 0)
+            : Math.min(1, Math.max(0, (naVal - range.lo) / spanX));
+          normalized = c.rule?.direction === 'lower' ? 1 - t : t;
+          na = true;
         }
       } else {
         const verdict = evaluateGate(vehicle, c);
         if (verdict !== 'unknown') normalized = verdict === 'pass' ? 1 : 0;
-      }
-
-      // Worst case, not exemption, when the absence is a documented fact
-      // about the vehicle (a gas car has no EV range) rather than a research
-      // gap — exempting it would rank the gas car as if EV range didn't
-      // matter. Same arithmetic the old whole-set denominator applied.
-      if (normalized === null && field && fieldValue(vehicle, field) === null && fieldNA(vehicle, field)) {
-        normalized = 0;
-        na = true;
+        else if (naVal !== null) {
+          // "at least 30 mpg" is satisfied by a car that uses no fuel.
+          const naVerdict = compareValue(naVal, c.rule);
+          if (naVerdict !== 'unknown') {
+            normalized = naVerdict === 'pass' ? 1 : 0;
+            na = true;
+          }
+        }
       }
 
       if (normalized === null) {
@@ -318,8 +349,14 @@ export function rankVehicles(vehicles, criteria, pins) {
 
     // Map the signed total onto 0..100 so the worst evaluable mix reads 0 and
     // the best 100, whatever tiers are in play for this vehicle.
+    //
+    // Nothing evaluable at all is not a zero: scoring it zero buried vehicles
+    // at the bottom of the list for the sole reason that nobody had measured
+    // them, which is the same penalty exemption exists to remove. They sort
+    // mid-list instead, and the page shows `–*` rather than a number it can't
+    // justify.
     const span = posWeight + negWeight;
-    const score = span === 0 ? 0 : Math.round(((raw + negWeight) / span) * 1000) / 10;
+    const score = span === 0 ? 50 : Math.round(((raw + negWeight) / span) * 1000) / 10;
 
     return {
       vehicle,

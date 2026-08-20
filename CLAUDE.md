@@ -141,17 +141,25 @@ Things that will bite you if you don't know them:
   attribute means adding it to `NUMERIC_FIELDS`/`ENUM_FIELDS` in `parse.js` (`FIELD_IDS`
   is derived from those) **and** to `FIELDS` in `scoring.js`.
 - **EV fuel economy is not MPG.** For `powertrain: "ev"` records, `mpg.city`/`mpg.hwy`
-  hold EPA MPGe, not MPG. `FIELDS.mpg_city`/`mpg_hwy` deliberately return `null` for EVs
-  so an MPG criterion treats them as no data instead of ranking an EV first on
-  "efficiency" against gas vehicles. Don't "fix" that null.
+  hold EPA MPGe, not MPG, so `FIELDS.mpg_city`/`mpg_hwy` return `null` for EVs rather
+  than passing an MPGe figure off as MPG. What that null *means* for scoring is set by
+  `naValue` (below): an EV burns no gasoline, so its MPG scores as `Infinity` — top of
+  the scale, and the vehicle does rank first on an MPG criterion. That is the owner's
+  call (decision, 2026-08-19), reversing the earlier "treat it as no data" rule. The
+  sentinel never enters `rangesFor`, so the gas and hybrid records keep the full 0..1
+  scale between them instead of all collapsing to the bottom next to an infinity.
 - **A criterion with no data is dropped from that vehicle's scale, not scored zero.**
   `rankVehicles` builds the 0..100 denominator per vehicle from the criteria it could
   actually evaluate, so missing data neither lowers nor raises a score; the criteria
   left out are returned in `exempt` and the page marks the score with a `*`. The
   exception is a null the schema documents as a real absence rather than a research
-  gap — an EV has no MPG, a gas car has no EV range. Those fields carry an `naWhen`
-  predicate in `FIELDS` (read it with `fieldNA`), score as the worst case with their
-  weight still in the denominator, and never earn the asterisk. Gating is unaffected:
+  gap — an EV has no MPG, a gas car has no EV range. Those fields carry an `naValue`
+  predicate in `FIELDS` (read it with `fieldNA`) returning the value scoring should use
+  in place of the null: `Infinity` for an EV's MPG, `0` for a gas car's EV range. They
+  keep their weight in the denominator and never earn the asterisk, and because the
+  value carries the meaning, `direction: 'lower'` flips them like any other number.
+  A vehicle where *nothing* could be scored sits at 50 (mid-list) and shows `–`, not a
+  zero that would read as "bad" when it only means "unmeasured". Gating is unaffected:
   `evaluateGate` still returns `'unknown'` for every null, n/a included, so a
   must-have never excludes on missing data. `unknowns` on a ranked row now means
   *gate* criteria that couldn't be checked; scoring gaps live in `exempt`.

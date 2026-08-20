@@ -736,7 +736,7 @@ document.addEventListener('keydown', e => {
 </script>
 
 <script type="module">
-import { rankVehicles, FIELDS, fieldValue, evaluateGate } from './scoring.js';
+import { rankVehicles, FIELDS, fieldValue, fieldNA, evaluateGate } from './scoring.js';
 import { loadPrefs, savePrefs, parseProse, mergeNotes } from './prefs.js';
 import { TRAITS, GROUPS, compileTraits, sanitizeTraits, traitRule } from './traits.js';
 import { TRAIT_EVIDENCE, GENERAL_EVIDENCE } from './trait-evidence.js';
@@ -1201,14 +1201,19 @@ function renderResults() {
       return `<span class="flag ${cls}" title="${detail}" aria-label="${detail}">${symbol}${items.length}</span>`;
     };
     // `*` = estimated: one or more scoring criteria had no data for this
-    // vehicle and were left out of its scale. `–*` = nothing was scoreable at
-    // all. Genuine n/a (a gas car's EV range) scores worst-case and never
+    // vehicle and were left out of its scale. A dash means nothing was
+    // scored at all — either no criteria are entered yet, or none of them
+    // could be evaluated here, in which case the vehicle sorts mid-list
+    // rather than showing a number nothing supports. Genuine n/a (an EV's
+    // MPG, a gas car's EV range) scores from its documented value and never
     // asterisks. The button opens the full breakdown popup; its aria-label
     // spells out what the asterisk means so it isn't mouse-only.
     const est = r.exempt.length > 0;
-    const scoreText = est && r.contributions.length === 0 ? '–*' : `${r.score}${est ? '*' : ''}`;
-    const chipAria = (est && r.contributions.length === 0
-        ? 'No score: no data for any scoring criterion'
+    const unscored = r.contributions.length === 0;
+    const scoreText = unscored ? (est ? '–*' : '–') : `${r.score}${est ? '*' : ''}`;
+    const chipAria = (unscored
+        ? (est ? 'No score: no data for any scoring criterion, so this sits mid-list'
+               : 'No score: no scoring criteria entered yet')
         : `Score ${r.score}${est ? ` (estimated — no data for: ${r.exempt.map(x => x.label).join(', ')})` : ''}`)
       + '. Show score breakdown.';
     slot.insertAdjacentHTML('afterbegin',
@@ -1251,7 +1256,7 @@ function breakdownHTML(r) {
   const listed = ranked.filter(x => !x.excluded).length;
   const parts = [];
   const est = r.exempt.length > 0;
-  const scoreText = est && r.contributions.length === 0 ? '–' : `${r.score}${est ? '*' : ''}`;
+  const scoreText = r.contributions.length === 0 ? '–' : `${r.score}${est ? '*' : ''}`;
   parts.push(`<h3>${esc(r.vehicle.make + ' ' + r.vehicle.model)} <span class="pop-score">${scoreText}</span></h3>`);
 
   const rows = [...r.contributions].sort((a, b) => Math.abs(b.weighted) - Math.abs(a.weighted));
@@ -1261,16 +1266,23 @@ function breakdownHTML(r) {
     for (const c of rows) {
       const field = critById.get(c.id)?.rule?.field;
       let valText;
-      if (c.na) { valText = '<span class="na-tag">n/a</span>'; hasNA = true; }
+      // Show the documented value itself ("∞ mpg", "0 mi"), not a bare "n/a":
+      // the number is the whole argument for the points it just earned.
+      if (c.na) {
+        valText = `<span class="na-tag">${esc(field ? formatFieldValue(field, fieldNA(r.vehicle, field)) : 'n/a')}</span>`;
+        hasNA = true;
+      }
       else valText = esc(field ? formatFieldValue(field, fieldValue(r.vehicle, field)) : '—');
       const cls = c.weighted > 0 ? 'pts-pos' : c.weighted < 0 ? 'pts-neg' : 'pts-zero';
       const pts = `${c.weighted > 0 ? '+' : ''}${c.weighted}`;
       parts.push(`<tr><td>${esc(c.label)}</td><td class="val">${valText}</td><td class="pts ${cls}">${pts}</td></tr>`);
     }
     parts.push('</table>');
-    if (hasNA) parts.push('<p class="rel-note">n/a — this vehicle genuinely lacks the spec, so it scores worst case (not missing data).</p>');
+    if (hasNA) parts.push('<p class="rel-note">Italic values are documented absences, not missing data: an EV burns no gasoline (∞ mpg), a gas car has no EV range (0 mi). They score from that fact and earn no asterisk.</p>');
   } else {
-    parts.push('<p class="rel-note">No criteria could be scored for this vehicle.</p>');
+    parts.push(`<p class="rel-note">${est
+      ? 'None of your criteria could be scored for this vehicle, so it sits mid-list rather than at the bottom — being unmeasured is not the same as being bad.'
+      : 'No scoring criteria entered yet.'}</p>`);
   }
 
   const list = (title, items, cls) => {
