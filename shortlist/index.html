@@ -300,9 +300,9 @@ header .sub { margin-bottom: 2px; }
    which would force this small table to scroll inside the popup. */
 .score-pop table { width: 100%; min-width: 0; border-collapse: collapse; font-size: 12px; }
 .score-pop td { padding: 2px 0; border: 0; vertical-align: top; }
-.score-pop td.val { color: var(--ink-2); text-align: right; padding-left: 10px; white-space: nowrap; }
-.score-pop td.pts { text-align: right; padding-left: 10px; font-weight: 600;
-  font-variant-numeric: tabular-nums; white-space: nowrap; }
+.score-pop td.val, .score-pop td.pts { text-align: right; padding-left: 10px; white-space: nowrap; }
+.score-pop td.val { color: var(--ink-2); }
+.score-pop td.pts { font-weight: 600; font-variant-numeric: tabular-nums; }
 .score-pop .pts-pos { color: var(--score-ink); }
 .score-pop .pts-neg { color: var(--fail-ink); }
 .score-pop .pts-zero { color: var(--ink-3); font-weight: 400; }
@@ -623,10 +623,12 @@ function renderTable(rows) {
     if (state.sortKey === k) state.sortDir *= -1; else { state.sortKey = k; state.sortDir = COLUMNS.find(c => c.key === k).num ? -1 : 1; }
     render();
   });
-  document.getElementById('tbody').innerHTML = rows.map(v => `
+  document.getElementById('tbody').innerHTML = rows.map(v => {
+  const sub = v.trim + ' · ' + (DT_LABEL[v.drivetrain] || v.drivetrain) + ' · ' + v.generation_span;
+  return `
     <tr data-id="${v.id}" class="${state.pins.has(v.id) ? 'pinned' : ''}">
       <td class="sel-cell"><span class="sel-wrap"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"><button class="pin-btn sm${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}" title="${state.pins.has(v.id) ? 'Unpin' : 'Pin'}" aria-pressed="${state.pins.has(v.id)}">📌</button></span></td>
-      <td class="veh-cell" title="${esc(v.trim + ' · ' + (DT_LABEL[v.drivetrain] || v.drivetrain) + ' · ' + v.generation_span)}">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${DT_LABEL[v.drivetrain] || v.drivetrain} · ${v.generation_span}</span></td>
+      <td class="veh-cell" title="${esc(sub)}">${v.make} ${v.model}<span class="trim-sm">${esc(sub)}</span></td>
       <td>${v.class}</td>
       <td>${PT_LABEL[v.powertrain]}</td>
       <td class="num">${v.listed_year}</td>
@@ -642,7 +644,8 @@ function renderTable(rows) {
       <td><span class="pop ${v.camper_popularity.rating}" title="${esc(v.camper_popularity.evidence)}">${v.camper_popularity.rating}</span></td>
       <td class="num">${v.conversion_products.length}</td>
       <td>${v.model_url ? '<a href="' + v.model_url + '" target="_blank" rel="noopener" title="Model page">&#8599;</a>' : ''}</td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 }
 /*RENDER-END*/
 </script>
@@ -651,9 +654,11 @@ function renderTable(rows) {
 // Synced from index.html — don't edit between the markers.
 /*DETAIL-START*/
 // ---- Detail view + lightbox ----
-// Copied into shortlist/index.html by scripts/sync_vehicles.py --shared, so
-// everything the overlay needs lives inside these markers: its markup, its
-// renderer, and its close wiring. showDetail takes the vehicle record itself
+// Copied into shortlist/index.html by scripts/sync_vehicles.py --shared: the
+// overlay's markup, its renderer and its close wiring. It is not standalone —
+// it calls esc/fmt/photoCell/cargoLenCell/towText and reads PT_LABEL/DT_LABEL
+// from the RENDER block, and its styling comes from STYLE, so a page taking
+// DETAIL must take all three. showDetail takes the vehicle record itself
 // rather than an id, so the block never has to know where the host page keeps
 // its data (inline DATA here, a fetched array on the Shortlist page).
 document.body.insertAdjacentHTML('beforeend',
@@ -741,7 +746,7 @@ document.addEventListener('keydown', e => {
 </script>
 
 <script type="module">
-import { rankVehicles, FIELDS, fieldValue, fieldNA, evaluateGate } from './scoring.js';
+import { rankVehicles, FIELDS, fieldValue, evaluateGate } from './scoring.js';
 import { loadPrefs, savePrefs, parseProse, mergeNotes } from './prefs.js';
 import { TRAITS, GROUPS, compileTraits, sanitizeTraits, traitRule } from './traits.js';
 import { TRAIT_EVIDENCE, GENERAL_EVIDENCE } from './trait-evidence.js';
@@ -755,11 +760,6 @@ let ranked = [];
 // cards you have to scroll past one at a time.
 let view = 'table';
 let showRuledOut = false;
-// The criteria list the last ranking actually used (saved criteria plus
-// compiled trait gates) — the breakdown popup resolves criterion ids
-// against this to find each rule's field.
-let lastEffective = [];
-
 // The classic <script> above (the synced RENDER block) declares its own
 // top-level `let state`, seeded with the report's card/table defaults
 // (fClass/fPower/fDrive, sortKey 'vehicle', sortDir 1, an empty `selected`,
@@ -1128,7 +1128,6 @@ function renderResults() {
   // messaging below — a trait gate that filtered without being counted would
   // exclude vehicles while the summary claimed no must-have was in play.
   const effective = prefs.criteria.concat(compileTraits(prefs.traits));
-  lastEffective = effective;
   ranked = rankVehicles(vehicles, effective, state.pins);
   const included = ranked.filter(r => !r.excluded);
   const ruledOut = ranked.length - included.length;
@@ -1215,7 +1214,6 @@ function renderResults() {
     // spells out what the asterisk means so it isn't mouse-only.
     const est = r.exempt.length > 0;
     const unscored = r.contributions.length === 0;
-    const scoreText = unscored ? (est ? '–*' : '–') : `${r.score}${est ? '*' : ''}`;
     const chipAria = (unscored
         ? (est ? 'No score: no data for any scoring criterion, so this sits mid-list'
                : 'No score: no scoring criteria entered yet')
@@ -1223,7 +1221,7 @@ function renderResults() {
       + '. Show score breakdown.';
     slot.insertAdjacentHTML('afterbegin',
       `<button type="button" class="score-chip" data-breakdown="${esc(r.vehicle.id)}"
-         aria-haspopup="dialog" aria-expanded="false" aria-label="${esc(chipAria)}">${scoreText}</button>` +
+         aria-haspopup="dialog" aria-expanded="false" aria-label="${esc(chipAria)}">${scoreLabel(r)}</button>` +
       flag(r.violations, 'flag-fail', '✕', 'Fails') +
       flag(r.unknowns, 'flag-unknown', '?', 'No data'));
   }
@@ -1237,18 +1235,15 @@ function renderResults() {
 // the chip's rect — an absolutely-positioned child of .table-wrap would be
 // clipped by its overflow-x scroll container.
 
-// The field labels already carry their unit ("Length (in)", "KBB low ($)") —
-// reuse that so the popup shows "190 in" / "$30,000", not a bare number.
-// Fields whose label has no parenthesised unit get one from this map.
-const VALUE_UNITS = { mpg_city: 'mpg', mpg_hwy: 'mpg', safety_feature_count: 'features',
-  conversion_kit_count: 'kits' };
+// "38 mpg" / "$30,000" / "190 in" — the unit comes from FIELDS, beside the
+// label, so renaming a label can't silently change what a value reads as.
 function formatFieldValue(fieldId, value) {
   if (value === null || value === undefined) return '—';
-  const f = FIELDS[fieldId];
-  if (fieldId === 'camper_popularity') return ['Low', 'Medium', 'High'][value - 1] ?? String(value);
+  // Read back through the same map that turned the rating into a number.
+  if (fieldId === 'camper_popularity') return Object.keys(POP_ORDER).find(k => POP_ORDER[k] === value) ?? String(value);
   if (fieldId === 'listed_year') return String(value); // "2024", never "2,024"
   if (typeof value !== 'number') return String(value);
-  const unit = f?.label.match(/\(([^)]+)\)\s*$/)?.[1] ?? VALUE_UNITS[fieldId];
+  const unit = FIELDS[fieldId]?.unit;
   const n = fmt(value);
   if (!unit) return n;
   if (unit === '$') return '$' + n;
@@ -1256,28 +1251,32 @@ function formatFieldValue(fieldId, value) {
   return `${n} ${unit}`;
 }
 
+// One statement of the score's display rule, used by the chip and by the
+// popup's heading — they disagreed about the dash case when it was written
+// twice. A dash means nothing was scored (no criteria, or none evaluable
+// here); the star means some criterion had no data for this vehicle.
+function scoreLabel(r) {
+  return `${r.contributions.length === 0 ? '–' : r.score}${r.exempt.length ? '*' : ''}`;
+}
+
 function breakdownHTML(r) {
-  const critById = new Map(lastEffective.filter(c => c && c.id).map(c => [c.id, c]));
   const listed = ranked.filter(x => !x.excluded).length;
   const parts = [];
   const est = r.exempt.length > 0;
-  const scoreText = r.contributions.length === 0 ? '–' : `${r.score}${est ? '*' : ''}`;
-  parts.push(`<h3>${esc(r.vehicle.make + ' ' + r.vehicle.model)} <span class="pop-score">${scoreText}</span></h3>`);
+  parts.push(`<h3>${esc(r.vehicle.make + ' ' + r.vehicle.model)} <span class="pop-score">${scoreLabel(r)}</span></h3>`);
 
   const rows = [...r.contributions].sort((a, b) => Math.abs(b.weighted) - Math.abs(a.weighted));
   if (rows.length) {
     parts.push('<div class="sect">Points by criterion</div><table>');
     let hasNA = false;
     for (const c of rows) {
-      const field = critById.get(c.id)?.rule?.field;
-      let valText;
-      // Show the documented value itself ("∞ mpg", "0 mi"), not a bare "n/a":
-      // the number is the whole argument for the points it just earned.
-      if (c.na) {
-        valText = `<span class="na-tag">${esc(field ? formatFieldValue(field, fieldNA(r.vehicle, field)) : 'n/a')}</span>`;
-        hasNA = true;
-      }
-      else valText = esc(field ? formatFieldValue(field, fieldValue(r.vehicle, field)) : '—');
+      // The scorer already resolved the field and the value it scored, so
+      // this only formats. Documented absences show the value itself
+      // ("∞ mpg", "0 mi") rather than a bare "n/a": the number is the whole
+      // argument for the points the row just earned.
+      const shown = esc(formatFieldValue(c.field, c.value));
+      const valText = c.na ? `<span class="na-tag">${shown}</span>` : shown;
+      if (c.na) hasNA = true;
       const cls = c.weighted > 0 ? 'pts-pos' : c.weighted < 0 ? 'pts-neg' : 'pts-zero';
       const pts = `${c.weighted > 0 ? '+' : ''}${c.weighted}`;
       parts.push(`<tr><td>${esc(c.label)}</td><td class="val">${valText}</td><td class="pts ${cls}">${pts}</td></tr>`);
@@ -1334,6 +1333,12 @@ function openScorePop(chip, pin) {
   const row = ranked.find(x => x.vehicle.id === chip.dataset.breakdown);
   if (!row) return;
   clearTimeout(popCloseTimer);
+  // One mouse click fires focusin and then click, and a hover first makes it
+  // three — all for the same chip. Rebuild nothing; just record the pin.
+  if (popAnchor === chip && scorePop && !scorePop.hidden) {
+    popPinnedFor = pin ? row.vehicle.id : popPinnedFor;
+    return;
+  }
   const pop = ensureScorePop();
   if (popAnchor && popAnchor !== chip && popAnchor.isConnected) popAnchor.setAttribute('aria-expanded', 'false');
   pop.innerHTML = breakdownHTML(row);
@@ -1371,10 +1376,10 @@ document.addEventListener('click', e => {
   if (!e.target.closest('.score-pop')) closeScorePop();
 });
 document.addEventListener('mouseover', e => {
+  if (popPinnedFor) return;
   if (e.target.closest('.score-pop')) { clearTimeout(popCloseTimer); return; }
   const chip = e.target.closest('.score-chip');
-  if (chip && !popPinnedFor) openScorePop(chip, false);
-  else if (chip) clearTimeout(popCloseTimer);
+  if (chip) openScorePop(chip, false);
 });
 document.addEventListener('mouseout', e => {
   if (popPinnedFor || !scorePop || scorePop.hidden) return;
@@ -1383,19 +1388,29 @@ document.addEventListener('mouseout', e => {
 // Keyboard: focusing a chip opens its breakdown; tabbing away closes an
 // unpinned one.
 document.addEventListener('focusin', e => {
+  if (popPinnedFor) return;
   const chip = e.target.closest('.score-chip');
-  if (chip && !popPinnedFor) openScorePop(chip, false);
-  else if (!chip && !popPinnedFor && !e.target.closest('.score-pop')) closeScorePop();
+  if (chip) openScorePop(chip, false);
+  else if (!e.target.closest('.score-pop')) closeScorePop();
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeScorePop();
 });
 // The table scrolls inside .table-wrap, and the popup is position:fixed — on
-// any scroll, re-anchor a pinned popup and dismiss a hover-only one.
-document.addEventListener('scroll', () => {
+// any scroll, re-anchor a pinned popup and dismiss a hover-only one. Scrolling
+// *inside* the popup is exempt: it has its own max-height and overflow, and
+// reading a long breakdown must not dismiss it.
+let popScrollPending = false;
+document.addEventListener('scroll', e => {
   if (!scorePop || scorePop.hidden) return;
-  if (popPinnedFor && popAnchor && popAnchor.isConnected) positionScorePop(popAnchor);
-  else closeScorePop();
+  if (e.target === scorePop) return;   // the popup scrolling itself
+  if (!popPinnedFor) { closeScorePop(); return; }
+  if (popScrollPending) return;
+  popScrollPending = true;
+  requestAnimationFrame(() => {
+    popScrollPending = false;
+    if (scorePop && !scorePop.hidden && popAnchor && popAnchor.isConnected) positionScorePop(popAnchor);
+  });
 }, true);
 window.addEventListener('resize', () => {
   if (scorePop && !scorePop.hidden && popAnchor && popAnchor.isConnected) positionScorePop(popAnchor);
@@ -1531,9 +1546,7 @@ document.getElementById('btn-ruled-out').onclick = () => { showRuledOut = !showR
 // document-level pin handler below and has to let pin clicks pass rather than
 // treating them as a row click.
 document.getElementById('tbody').addEventListener('click', e => {
-  if (e.target.closest('[data-pin]')) return;
-  if (e.target.closest('a')) return;
-  if (e.target.closest('.score-chip')) return; // chip opens the breakdown, not the overlay
+  if (e.target.closest('[data-pin], a, .score-chip')) return; // chip opens the breakdown, not the overlay
   const tr = e.target.closest('tr[data-id]');
   if (tr) showDetail(vehicles.find(v => v.id === tr.dataset.id));
 });

@@ -18,6 +18,10 @@ const v = (id, over = {}) => ({
   ...over,
 });
 
+const byId = out => Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+// The EV that documents an absence rather than a gap: no MPG, real EV range.
+const evCar = (id = 'ev') => v(id, { powertrain: 'ev', mpg: { city: 131, hwy: 109, ev_range_mi: 259 } });
+
 const hard = (field, op, value, tier = 'must-have') =>
   ({ id: 'h', label: 'gate', tier, kind: 'hard', rank: 1, weight: 5, rule: { field, op, value } });
 const fuzzy = (field, direction, tier = 'nice-to-have', weight = 3) =>
@@ -390,9 +394,9 @@ test('a deal-breaker excludes the vehicles its rule MATCHES', async () => {
     rank: 1, weight: 5, rule: { field: 'cargo_length_in', op: '<', value: 74 },
   }];
   const out = rankVehicles([short, long], crit, new Set());
-  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
-  assert.equal(byId.prius.excluded, true, '68in must be ruled out by "< 74 is a deal-breaker"');
-  assert.equal(byId.van.excluded, false, '90in must survive');
+  const rows = byId(out);
+  assert.equal(rows.prius.excluded, true, '68in must be ruled out by "< 74 is a deal-breaker"');
+  assert.equal(rows.van.excluded, false, '90in must survive');
 });
 
 test('the same rule as a must-have does the opposite', async () => {
@@ -405,9 +409,9 @@ test('the same rule as a must-have does the opposite', async () => {
     rank: 1, weight: 5, rule: { field: 'cargo_length_in', op: '<', value: 74 },
   }];
   const out = rankVehicles([short, long], crit, new Set());
-  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
-  assert.equal(byId.prius.excluded, false);
-  assert.equal(byId.van.excluded, true);
+  const rows = byId(out);
+  assert.equal(rows.prius.excluded, false);
+  assert.equal(rows.van.excluded, true);
 });
 
 test('missing data never excludes, in either tier direction', async () => {
@@ -439,13 +443,13 @@ test('an unknown no longer drags a score down', () => {
   const out = rankVehicles([known, unknown],
     [{ ...fuzzy('max_cargo_cf', 'higher'), id: 'c1' },
      { ...fuzzy('sitting_height_in', 'higher'), id: 'c2' }], new Set());
-  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+  const rows = byId(out);
   // Both max out every criterion they have data for. Before this change the
   // unknown vehicle scored 50: the missing criterion stayed in its denominator.
-  assert.equal(byId.known.score, 100);
-  assert.equal(byId.unknown.score, 100);
-  assert.deepEqual(byId.known.exempt, []);
-  assert.deepEqual(byId.unknown.exempt.map(x => x.id), ['c2']);
+  assert.equal(rows.known.score, 100);
+  assert.equal(rows.unknown.score, 100);
+  assert.deepEqual(rows.known.exempt, []);
+  assert.deepEqual(rows.unknown.exempt.map(x => x.id), ['c2']);
 });
 
 test('two vehicles differing only in whether a criterion is known rank as expected', () => {
@@ -458,11 +462,11 @@ test('two vehicles differing only in whether a criterion is known rank as expect
   const out = rankVehicles([worst, best, nodata],
     [{ ...fuzzy('max_cargo_cf', 'higher'), id: 'c1' },
      { ...fuzzy('reliability_score', 'higher'), id: 'c2' }], new Set());
-  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
-  assert.equal(byId.best.score, 100);
-  assert.equal(byId.nodata.score, 100); // scored on reliability alone, which it maxes
-  assert.equal(byId.worst.score, 50);
-  assert.deepEqual(byId.nodata.exempt.map(x => x.id), ['c1']);
+  const rows = byId(out);
+  assert.equal(rows.best.score, 100);
+  assert.equal(rows.nodata.score, 100); // scored on reliability alone, which it maxes
+  assert.equal(rows.worst.score, 50);
+  assert.deepEqual(rows.nodata.exempt.map(x => x.id), ['c1']);
 });
 
 test('a dislike criterion with an unknown behaves symmetrically', () => {
@@ -493,11 +497,11 @@ test('a vehicle with no evaluable scoring criteria at all floats to mid-list', (
   const known = v('known', { sitting_height_over_folded_seats_in: { value: 40 } });
   const mystery = v('mystery');
   const out = rankVehicles([known, mystery], [fuzzy('sitting_height_in', 'higher')], new Set());
-  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
+  const rows = byId(out);
   // 50, not 0 — being unmeasured must not read as being bad.
-  assert.equal(byId.mystery.score, 50);
-  assert.deepEqual(byId.mystery.contributions, []);
-  assert.equal(byId.mystery.exempt.length, 1);
+  assert.equal(rows.mystery.score, 50);
+  assert.deepEqual(rows.mystery.contributions, []);
+  assert.equal(rows.mystery.exempt.length, 1);
   assert.deepEqual(out.map(r => r.vehicle.id), ['known', 'mystery']);
 });
 
@@ -526,22 +530,22 @@ test('a gas car on an EV-range criterion scores worst-case with no exemption', (
   const gas = v('gas');
   const phev = v('phev', { powertrain: 'phev', mpg: { city: 25, hwy: 30, ev_range_mi: 40 } });
   const out = rankVehicles([gas, phev], [fuzzy('ev_range_mi', 'higher')], new Set());
-  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
-  assert.equal(byId.phev.score, 100);
-  assert.equal(byId.gas.score, 0);           // worst case, not exempt
-  assert.deepEqual(byId.gas.exempt, []);      // so no asterisk
-  assert.equal(byId.gas.contributions[0].na, true);
-  assert.equal(byId.gas.contributions[0].weighted, 0);
+  const rows = byId(out);
+  assert.equal(rows.phev.score, 100);
+  assert.equal(rows.gas.score, 0);           // worst case, not exempt
+  assert.deepEqual(rows.gas.exempt, []);      // so no asterisk
+  assert.equal(rows.gas.contributions[0].na, true);
+  assert.equal(rows.gas.contributions[0].weighted, 0);
 });
 
 test('an EV tops an MPG criterion: no gasoline, so no figure can beat it', () => {
   const gas = v('gas');
-  const ev = v('ev', { powertrain: 'ev', mpg: { city: 131, hwy: 109, ev_range_mi: 259 } });
+  const ev = evCar();
   const out = rankVehicles([gas, ev], [fuzzy('mpg_city', 'higher')], new Set());
-  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
-  assert.equal(byId.ev.score, 100);
-  assert.deepEqual(byId.ev.exempt, []);       // documented fact, so no asterisk
-  assert.equal(byId.ev.contributions[0].na, true);
+  const rows = byId(out);
+  assert.equal(rows.ev.score, 100);
+  assert.deepEqual(rows.ev.exempt, []);       // documented fact, so no asterisk
+  assert.equal(rows.ev.contributions[0].na, true);
 });
 
 test('the EV\'s infinite MPG does not stretch the scale for everyone else', () => {
@@ -550,12 +554,12 @@ test('the EV\'s infinite MPG does not stretch the scale for everyone else', () =
   // both to the bottom.
   const thirsty = v('thirsty', { mpg: { city: 20, hwy: 25 } });
   const frugal  = v('frugal',  { mpg: { city: 40, hwy: 45 } });
-  const ev = v('ev', { powertrain: 'ev', mpg: { city: 131, hwy: 109, ev_range_mi: 259 } });
+  const ev = evCar();
   const out = rankVehicles([thirsty, frugal, ev], [fuzzy('mpg_city', 'higher')], new Set());
-  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
-  assert.equal(byId.frugal.score, 100);
-  assert.equal(byId.thirsty.score, 0);
-  assert.equal(byId.ev.score, 100);
+  const rows = byId(out);
+  assert.equal(rows.frugal.score, 100);
+  assert.equal(rows.thirsty.score, 0);
+  assert.equal(rows.ev.score, 100);
 });
 
 test('direction is respected: preferring LOWER mpg puts the EV last', () => {
@@ -563,15 +567,15 @@ test('direction is respected: preferring LOWER mpg puts the EV last', () => {
   // a hardcoded "best" — flip the preference and infinity becomes the worst.
   const thirsty = v('thirsty', { mpg: { city: 20, hwy: 25 } });
   const frugal  = v('frugal',  { mpg: { city: 40, hwy: 45 } });
-  const ev = v('ev', { powertrain: 'ev', mpg: { city: 131, hwy: 109, ev_range_mi: 259 } });
+  const ev = evCar();
   const out = rankVehicles([thirsty, frugal, ev], [fuzzy('mpg_city', 'lower')], new Set());
-  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
-  assert.equal(byId.thirsty.score, 100);
-  assert.equal(byId.ev.score, 0);
+  const rows = byId(out);
+  assert.equal(rows.thirsty.score, 100);
+  assert.equal(rows.ev.score, 0);
 });
 
 test('a hard MPG nice-to-have is satisfied by a car that burns no fuel', () => {
-  const ev = v('ev', { powertrain: 'ev', mpg: { city: 131, hwy: 109, ev_range_mi: 259 } });
+  const ev = evCar();
   const out = rankVehicles([ev], [hard('mpg_city', '>=', 40, 'nice-to-have')], new Set());
   assert.equal(out[0].contributions[0].normalized, 1);
   assert.equal(out[0].contributions[0].na, true);
@@ -584,8 +588,8 @@ test('an unknown powertrain on an EV-range criterion is exempt, not n/a', () => 
   const who = v('who', { powertrain: undefined });
   const phev = v('phev', { powertrain: 'phev', mpg: { city: 25, hwy: 30, ev_range_mi: 40 } });
   const out = rankVehicles([who, phev], [fuzzy('ev_range_mi', 'higher')], new Set());
-  const byId = Object.fromEntries(out.map(r => [r.vehicle.id, r]));
-  assert.deepEqual(byId.who.exempt.map(x => x.id), ['f']);
+  const rows = byId(out);
+  assert.deepEqual(rows.who.exempt.map(x => x.id), ['f']);
 });
 
 test('gates are unchanged: an EV-range must-have never excludes a gas car', () => {

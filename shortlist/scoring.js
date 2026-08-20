@@ -12,12 +12,16 @@ const num = x => (typeof x === 'number' && Number.isFinite(x) ? x : null);
 // rather than absent.
 const yesNo = b => (b === true ? 'yes' : b === false ? 'no' : null);
 
+// `unit` is what the score-breakdown popup appends when it prints a value
+// ("38 mpg", "$25,000"). It lives beside the label because this object is
+// where every other per-field fact lives — the alternative was a second table
+// in the page, kept in sync by hand.
 export const FIELDS = {
-  length_in:            { label: 'Length (in)',         type: 'number', get: v => num(v.exterior_in?.length) },
-  width_in:             { label: 'Width (in)',          type: 'number', get: v => num(v.exterior_in?.width) },
-  height_in:            { label: 'Height (in)',         type: 'number', get: v => num(v.exterior_in?.height) },
-  cargo_length_in:      { label: 'Cargo length (in)',   type: 'number', get: v => num(v.cargo_length_behind_front_seats_in?.value) },
-  max_cargo_cf:         { label: 'Max cargo (cu ft)',   type: 'number', get: v => num(v.max_cargo_cf?.value) },
+  length_in:            { label: 'Length (in)',         type: 'number', unit: 'in', get: v => num(v.exterior_in?.length) },
+  width_in:             { label: 'Width (in)',          type: 'number', unit: 'in', get: v => num(v.exterior_in?.width) },
+  height_in:            { label: 'Height (in)',         type: 'number', unit: 'in', get: v => num(v.exterior_in?.height) },
+  cargo_length_in:      { label: 'Cargo length (in)',   type: 'number', unit: 'in', get: v => num(v.cargo_length_behind_front_seats_in?.value) },
+  max_cargo_cf:         { label: 'Max cargo (cu ft)',   type: 'number', unit: 'cu ft', get: v => num(v.max_cargo_cf?.value) },
   // EPA MPGe on a battery-electric vehicle is an energy-equivalence figure,
   // not a fuel-burn figure — the Bolt EV shows 131 city / 109 hwy MPGe.
   // Reading those as MPG would rank it first on efficiency against every gas
@@ -30,17 +34,17 @@ export const FIELDS = {
   // measured against. A gas or hybrid car's EV range is a real zero, so it
   // sits at the bottom of one. Gating ignores naValue entirely and keeps
   // reading these as 'unknown', which never excludes.
-  mpg_city:             { label: 'MPG city',            type: 'number', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.city)), naValue: v => (v.powertrain === 'ev' ? Infinity : null) },
-  mpg_hwy:               { label: 'MPG highway',         type: 'number', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.hwy)), naValue: v => (v.powertrain === 'ev' ? Infinity : null) },
+  mpg_city:             { label: 'MPG city',            type: 'number', unit: 'mpg', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.city)), naValue: v => (v.powertrain === 'ev' ? Infinity : null) },
+  mpg_hwy:               { label: 'MPG highway',         type: 'number', unit: 'mpg', get: v => (v.powertrain === 'ev' ? null : num(v.mpg?.hwy)), naValue: v => (v.powertrain === 'ev' ? Infinity : null) },
   // A missing powertrain is deliberately NOT n/a — with no powertrain fact we
   // can't say the range is absent rather than unmeasured, so it stays unknown.
-  ev_range_mi:          { label: 'EV range (mi)',       type: 'number', get: v => num(v.mpg?.ev_range_mi), naValue: v => (v.powertrain === 'gas' || v.powertrain === 'hybrid' ? 0 : null) },
-  price_low:            { label: 'KBB low ($)',         type: 'number', get: v => num(v.kbb_value_usd?.low) },
-  price_high:           { label: 'KBB high ($)',        type: 'number', get: v => num(v.kbb_value_usd?.high) },
-  tow_max:              { label: 'Tow rating (lbs)',    type: 'number', get: v => num(v.tow_rating?.max) },
-  reliability_score:    { label: 'Reliability (/5)',    type: 'number', get: v => num(v.reliability?.score) },
-  safety_feature_count: { label: 'Safety features',     type: 'number', get: v => (Array.isArray(v.safety?.features) ? v.safety.features.length : null) },
-  conversion_kit_count: { label: 'Conversion kits',     type: 'number', get: v => (Array.isArray(v.conversion_products) ? v.conversion_products.length : null) },
+  ev_range_mi:          { label: 'EV range (mi)',       type: 'number', unit: 'mi', get: v => num(v.mpg?.ev_range_mi), naValue: v => (v.powertrain === 'gas' || v.powertrain === 'hybrid' ? 0 : null) },
+  price_low:            { label: 'KBB low ($)',         type: 'number', unit: '$', get: v => num(v.kbb_value_usd?.low) },
+  price_high:           { label: 'KBB high ($)',        type: 'number', unit: '$', get: v => num(v.kbb_value_usd?.high) },
+  tow_max:              { label: 'Tow rating (lbs)',    type: 'number', unit: 'lbs', get: v => num(v.tow_rating?.max) },
+  reliability_score:    { label: 'Reliability (/5)',    type: 'number', unit: '/5', get: v => num(v.reliability?.score) },
+  safety_feature_count: { label: 'Safety features',     type: 'number', unit: 'features', get: v => (Array.isArray(v.safety?.features) ? v.safety.features.length : null) },
+  conversion_kit_count: { label: 'Conversion kits',     type: 'number', unit: 'kits', get: v => (Array.isArray(v.conversion_products) ? v.conversion_products.length : null) },
   camper_popularity:    { label: 'Camper popularity',   type: 'number', get: v => POP_ORDER[v.camper_popularity?.rating] ?? null },
   listed_year:          { label: 'Model year',          type: 'number', get: v => num(v.listed_year) },
   vehicle_class:        { label: 'Class',               type: 'enum',   get: v => v.class ?? null },
@@ -65,7 +69,7 @@ export const FIELDS = {
   // community measurement, not a manufacturer spec, and deliberately NOT
   // derived from published rear headroom, which is taken at the upright
   // seating position and means something else entirely.
-  sitting_height_in:    { label: 'Sitting height (in)', type: 'number', get: v => num(v.sitting_height_over_folded_seats_in?.value) },
+  sitting_height_in:    { label: 'Sitting height (in)', type: 'number', unit: 'in', get: v => num(v.sitting_height_over_folded_seats_in?.value) },
 
   // --- Derived camper traits -------------------------------------------------
   // Each is a pure formula over other fields, written down here so a reader can
@@ -124,7 +128,7 @@ export const FIELDS = {
   // number for "at least 8 inches", the class for "handles forest-service
   // roads". Both are null (unknown, never excludes) on a record without the
   // measurement.
-  clearance_in: { label: 'Ground clearance (in)', type: 'number', get: v => num(v.ground_clearance_in?.value) },
+  clearance_in: { label: 'Ground clearance (in)', type: 'number', unit: 'in', get: v => num(v.ground_clearance_in?.value) },
   clearance_class: { label: 'Ground clearance class', type: 'enum', get: v => {
     const g = num(v.ground_clearance_in?.value);
     return g === null ? null : g >= 8.5 ? 'high' : g >= 7 ? 'moderate' : 'low';
@@ -300,27 +304,27 @@ export function rankVehicles(vehicles, criteria, pins) {
       // A documented absence scores from its own value rather than being
       // exempted: exempting a gas car on an EV-range criterion would rank it
       // as if EV range didn't matter, and scoring an EV worst on MPG would
-      // call the one vehicle that burns no gasoline a guzzler.
-      const naVal = field && fieldValue(vehicle, field) === null ? fieldNA(vehicle, field) : null;
+      // call the one vehicle that burns no gasoline a guzzler. Reading the
+      // field once also states the invariant the branches below rely on —
+      // naVal is non-null only where the value is missing.
+      const x = field ? fieldValue(vehicle, field) : null;
+      const naVal = field && x === null ? fieldNA(vehicle, field) : null;
 
       if (c.kind === 'fuzzy') {
         const range = ranges.get(c.id);
-        const x = field ? fieldValue(vehicle, field) : null;
         if (range && x !== null) {
           const spanX = range.hi - range.lo;
           const t = spanX === 0 ? 1 : (x - range.lo) / spanX;
           normalized = c.rule?.direction === 'lower' ? 1 - t : t;
         } else if (naVal !== null) {
           // Place the documented value on the same 0..1 scale as everyone
-          // else. Infinity sits at the top of it by definition; a finite one
-          // (a gas car's zero EV range) is clamped into the range rather than
-          // stretching it — rangesFor never saw this value, by design.
-          const spanX = range ? range.hi - range.lo : 0;
-          const t = naVal === Infinity ? 1
-            : naVal === -Infinity ? 0
-            : !range ? 0
-            : spanX === 0 ? (naVal >= range.hi ? 1 : 0)
-            : Math.min(1, Math.max(0, (naVal - range.lo) / spanX));
+          // else. Clamping is what keeps it from stretching the scale —
+          // rangesFor never saw this value, by design — and it handles an
+          // infinite one without a special case, except when there is no
+          // range at all to clamp against (every vehicle in the list is an EV).
+          const t = !range ? (naVal === Infinity ? 1 : 0)
+            : range.hi === range.lo ? (naVal >= range.hi ? 1 : 0)
+            : Math.min(1, Math.max(0, (naVal - range.lo) / (range.hi - range.lo)));
           normalized = c.rule?.direction === 'lower' ? 1 - t : t;
           na = true;
         }
@@ -344,7 +348,7 @@ export function rankVehicles(vehicles, criteria, pins) {
       if (c.tier === 'dislike') negWeight += weight; else posWeight += weight;
       const weighted = Math.round(sign * weight * normalized * 100) / 100;
       raw += weighted;
-      contributions.push({ id: c.id, label: c.label, normalized, weighted, na });
+      contributions.push({ id: c.id, label: c.label, field: field || null, value: na ? naVal : x, normalized, weighted, na });
     }
 
     // Map the signed total onto 0..100 so the worst evaluable mix reads 0 and

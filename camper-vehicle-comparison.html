@@ -4881,10 +4881,12 @@ function renderTable(rows) {
     if (state.sortKey === k) state.sortDir *= -1; else { state.sortKey = k; state.sortDir = COLUMNS.find(c => c.key === k).num ? -1 : 1; }
     render();
   });
-  document.getElementById('tbody').innerHTML = rows.map(v => `
+  document.getElementById('tbody').innerHTML = rows.map(v => {
+  const sub = v.trim + ' · ' + (DT_LABEL[v.drivetrain] || v.drivetrain) + ' · ' + v.generation_span;
+  return `
     <tr data-id="${v.id}" class="${state.pins.has(v.id) ? 'pinned' : ''}">
       <td class="sel-cell"><span class="sel-wrap"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"><button class="pin-btn sm${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}" title="${state.pins.has(v.id) ? 'Unpin' : 'Pin'}" aria-pressed="${state.pins.has(v.id)}">📌</button></span></td>
-      <td class="veh-cell" title="${esc(v.trim + ' · ' + (DT_LABEL[v.drivetrain] || v.drivetrain) + ' · ' + v.generation_span)}">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${DT_LABEL[v.drivetrain] || v.drivetrain} · ${v.generation_span}</span></td>
+      <td class="veh-cell" title="${esc(sub)}">${v.make} ${v.model}<span class="trim-sm">${esc(sub)}</span></td>
       <td>${v.class}</td>
       <td>${PT_LABEL[v.powertrain]}</td>
       <td class="num">${v.listed_year}</td>
@@ -4900,7 +4902,8 @@ function renderTable(rows) {
       <td><span class="pop ${v.camper_popularity.rating}" title="${esc(v.camper_popularity.evidence)}">${v.camper_popularity.rating}</span></td>
       <td class="num">${v.conversion_products.length}</td>
       <td>${v.model_url ? '<a href="' + v.model_url + '" target="_blank" rel="noopener" title="Model page">&#8599;</a>' : ''}</td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 }
 /*RENDER-END*/
 
@@ -4961,9 +4964,11 @@ document.getElementById('btn-cards').onclick = () => { state.view = 'cards'; ren
 document.getElementById('btn-table').onclick = () => { state.view = 'table'; render(); };
 /*DETAIL-START*/
 // ---- Detail view + lightbox ----
-// Copied into shortlist/index.html by scripts/sync_vehicles.py --shared, so
-// everything the overlay needs lives inside these markers: its markup, its
-// renderer, and its close wiring. showDetail takes the vehicle record itself
+// Copied into shortlist/index.html by scripts/sync_vehicles.py --shared: the
+// overlay's markup, its renderer and its close wiring. It is not standalone —
+// it calls esc/fmt/photoCell/cargoLenCell/towText and reads PT_LABEL/DT_LABEL
+// from the RENDER block, and its styling comes from STYLE, so a page taking
+// DETAIL must take all three. showDetail takes the vehicle record itself
 // rather than an id, so the block never has to know where the host page keeps
 // its data (inline DATA here, a fetched array on the Shortlist page).
 document.body.insertAdjacentHTML('beforeend',

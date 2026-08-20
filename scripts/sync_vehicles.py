@@ -146,6 +146,26 @@ def _replace(text, name, body):
     return text[:start] + body + text[end:]
 
 
+def label_check_sources(source):
+    """vehicles.json plus each HTML file's embedded copy, as (where, records).
+
+    Checking only vehicles.json would miss the case the limit exists for: the
+    default sync is append-only, so editing a field on an *existing* record
+    without --rebuild leaves the old value embedded in the page while --check
+    still reports everything in sync."""
+    yield "vehicles.json", source["vehicles"]
+    for path in HTML_FILES:
+        with open(path, encoding="utf-8") as f:
+            m = MARKER.search(f.read())
+        if not m:
+            continue
+        try:
+            yield os.path.basename(path), json.loads(m.group(2))["vehicles"]
+        except (ValueError, KeyError):
+            # A malformed block is the DATA check's problem to report, not this one.
+            continue
+
+
 def sync_shared(check=False):
     """Copy the marked style and render blocks from index.html into the
     Shortlist page. index.html is the single source of truth for presentation;
@@ -204,13 +224,15 @@ def main():
 
     if check:
         ok = True
-        for v in source["vehicles"]:
-            for field, limit in LABEL_LIMITS.items():
-                n = len(v.get(field, ""))
-                if n > limit:
-                    print(f"{v['id']}: {field} is {n} chars, over the {limit}-char limit "
-                          f"(it is a label, not prose — move the detail to `notes`)")
-                    ok = False
+        for where, records in label_check_sources(source):
+            for v in records:
+                for field, limit in LABEL_LIMITS.items():
+                    n = len(v.get(field) or "")
+                    if n > limit:
+                        print(f"{v.get('id', '?')}: {field} is {n} chars in {where}, over the "
+                              f"{limit}-char limit (it is a label, not prose — move the "
+                              f"detail to `notes`)")
+                        ok = False
         if changed:
             print("Out of sync: " + ", ".join(changed))
             ok = False
