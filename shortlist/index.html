@@ -143,7 +143,12 @@
   tbody tr.pinned:hover { background: var(--pin-wash); }
   tbody tr.pinned td:first-child { box-shadow: inset 3px 0 0 0 var(--pop-med); }
   .veh-cell { font-weight: 600; white-space: nowrap; }
-  .veh-cell .trim-sm { display: block; font-weight: 400; font-size: 11px; color: var(--ink-2); white-space: normal; }
+  /* Clamped to two lines: this line carries trim, drivetrain and generation
+     span, and one long record used to set the height of every row in the
+     table. The cell's title attribute holds the untruncated text. */
+  .veh-cell .trim-sm { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden; font-weight: 400; font-size: 11px;
+    color: var(--ink-2); white-space: normal; }
   .flag { color: var(--pop-med); cursor: help; }
   .legend { font-size: 11.5px; color: var(--ink-3); margin-top: 10px; }
   footer { margin-top: 26px; font-size: 11.5px; color: var(--ink-3); border-top: 1px solid var(--hairline); padding-top: 12px; }
@@ -621,7 +626,7 @@ function renderTable(rows) {
   document.getElementById('tbody').innerHTML = rows.map(v => `
     <tr data-id="${v.id}" class="${state.pins.has(v.id) ? 'pinned' : ''}">
       <td class="sel-cell"><span class="sel-wrap"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"><button class="pin-btn sm${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}" title="${state.pins.has(v.id) ? 'Unpin' : 'Pin'}" aria-pressed="${state.pins.has(v.id)}">📌</button></span></td>
-      <td class="veh-cell">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${DT_LABEL[v.drivetrain] || v.drivetrain} · ${v.generation_span}</span></td>
+      <td class="veh-cell" title="${esc(v.trim + ' · ' + (DT_LABEL[v.drivetrain] || v.drivetrain) + ' · ' + v.generation_span)}">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${DT_LABEL[v.drivetrain] || v.drivetrain} · ${v.generation_span}</span></td>
       <td>${v.class}</td>
       <td>${PT_LABEL[v.powertrain]}</td>
       <td class="num">${v.listed_year}</td>

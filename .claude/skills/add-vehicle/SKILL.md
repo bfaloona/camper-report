@@ -37,6 +37,8 @@ return 403 to direct fetch — cite search-surfaced figures and note the limitat
 
 - **Identity**: make, model, trim, class (`SUV`/`Minivan`/`Compact minivan`/`Compact
   van`/`Wagon`/`Hatchback`), powertrain, generation_span (e.g. "2019–2023 (4th gen, TM)").
+  Keep generation_span under 160 characters and trim under 60 — the table renders both
+  inline, and `--check` fails when they run over. Detail and caveats belong in `notes`.
 - **Drivetrain**: `AWD`, `4WD`, `FWD`, or `RWD` for the listed trim (the page filters
   `AWD`/`4WD` vs `FWD`/`RWD`).
 - **Tow rating**: max towing capacity in lbs (`0` if not rated for US towing) plus the

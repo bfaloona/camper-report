@@ -63,6 +63,14 @@ MARKER = re.compile(r"(/\*DATA-START\*/)(.*?)(/\*DATA-END\*/)", re.S)
 
 ROOT = Path(REPO)
 SHARED_BLOCKS = ("STYLE", "RENDER", "DETAIL")
+
+# Fields the table renders inline, with the length each one is allowed. These
+# are labels, not prose: one 721-character generation_span (the Sorento's, a
+# research paragraph filed in the wrong field) set the row height for the whole
+# table. The page clamps the line to two rows as a backstop, but the data is
+# where the limit belongs — the overflow argument belongs in `notes`, which the
+# page never renders.
+LABEL_LIMITS = {"generation_span": 160, "trim": 60}
 SHORTLIST = ROOT / "shortlist" / "index.html"
 
 
@@ -196,6 +204,13 @@ def main():
 
     if check:
         ok = True
+        for v in source["vehicles"]:
+            for field, limit in LABEL_LIMITS.items():
+                n = len(v.get(field, ""))
+                if n > limit:
+                    print(f"{v['id']}: {field} is {n} chars, over the {limit}-char limit "
+                          f"(it is a label, not prose — move the detail to `notes`)")
+                    ok = False
         if changed:
             print("Out of sync: " + ", ".join(changed))
             ok = False

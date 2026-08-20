@@ -77,6 +77,10 @@ complete — match that). Measurements are in inches; money in USD. Key conventi
 
 - `id`: kebab-case `make-model-generation`, e.g. `hyundai-tucson-hybrid-nx4`. Unique.
 - `class`: one of `SUV`, `Minivan`, `Compact minivan`, `Compact van`, `Wagon`, `Hatchback`.
+- `generation_span` (160 chars) and `trim` (60) are **labels the table renders inline**,
+  not prose — `--check` fails when either runs over (`LABEL_LIMITS` in the sync script).
+  A 721-character `generation_span` once set the row height for the whole table. The
+  argument, the caveats and the sourcing go in `notes`, which the page never renders.
 - `powertrain`: one of `gas`, `hybrid`, `phev`, `ev`. PHEV and EV records add `mpge` +
   `ev_range_mi` to `mpg`. For `ev` records, `mpg.city`/`mpg.hwy` hold the EPA **MPGe**
   city/highway figures and `mpg.note` must say so.
@@ -223,6 +227,7 @@ Things that will bite you if you don't know them:
 - `vehicles.json` is authoritative; the HTML data block is derived. Edit the JSON, sync the HTML.
 - Keep `index.html` and `camper-vehicle-comparison.html` identical.
 - Bump the top-level `updated` and each record's `last_verified` when you change data.
+- Keep `generation_span` and `trim` short enough to render inline; `--check` enforces it.
 - Every factual field should be defensible from a URL in that record's `sources`.
 - Verify locally by running `python3 scripts/sync_vehicles.py --check` (also enforces
   that `index.html` and `camper-vehicle-comparison.html` are byte-for-byte identical,

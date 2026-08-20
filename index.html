@@ -143,7 +143,12 @@
   tbody tr.pinned:hover { background: var(--pin-wash); }
   tbody tr.pinned td:first-child { box-shadow: inset 3px 0 0 0 var(--pop-med); }
   .veh-cell { font-weight: 600; white-space: nowrap; }
-  .veh-cell .trim-sm { display: block; font-weight: 400; font-size: 11px; color: var(--ink-2); white-space: normal; }
+  /* Clamped to two lines: this line carries trim, drivetrain and generation
+     span, and one long record used to set the height of every row in the
+     table. The cell's title attribute holds the untruncated text. */
+  .veh-cell .trim-sm { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden; font-weight: 400; font-size: 11px;
+    color: var(--ink-2); white-space: normal; }
   .flag { color: var(--pop-med); cursor: help; }
   .legend { font-size: 11.5px; color: var(--ink-3); margin-top: 10px; }
   footer { margin-top: 26px; font-size: 11.5px; color: var(--ink-3); border-top: 1px solid var(--hairline); padding-top: 12px; }
@@ -239,7 +244,7 @@
 
 <script>
 const DATA = /*DATA-START*/{
- "updated": "2026-08-18",
+ "updated": "2026-08-19",
  "vehicles": [
   {
    "id": "toyota-rav4-hybrid-xa50",
@@ -4338,7 +4343,7 @@ const DATA = /*DATA-START*/{
    "class": "SUV",
    "powertrain": "hybrid",
    "drivetrain": "AWD",
-   "generation_span": "2021–present in the US (4th gen, chassis code MQ4; Sorento Hybrid added for MY2021). The MQ4 facelift reached the US Sorento Hybrid for MY2025, so the listed 2023 is a pre-facelift US MQ4 — Kia's own spec tables give 189.4 in overall length for 2021–2024 vs 189.6 in for 2025–2026, and the 2023 and 2024 hybrid spec tables agree line for line on dimensions, cargo volume, ground clearance, towing and EPA figures. Note the gas 2.5L Sorento was facelifted a year earlier, for MY2024, so 2024 gas and 2023–24 hybrid Sorentos are not the same car cosmetically; no gas-model figure is used in this record. Within the hybrid, the meaningful year break is 2023: 2021–22 were FWD-only and inverter-less, 2023 added the AWD SX-P.",
+   "generation_span": "2021–present in the US (4th gen, chassis code MQ4; pre-facelift, the facelift reached the US hybrid for MY2025)",
    "listed_year": 2023,
    "kbb_value_usd": {
     "low": 24800,
@@ -4397,7 +4402,7 @@ const DATA = /*DATA-START*/{
     "dashboard": null,
     "cargo": null
    },
-   "last_verified": "2026-08-18",
+   "last_verified": "2026-08-19",
    "model_url": "https://www.kia.com/us/en/sorento-hybrid",
    "max_cargo_cf": {
     "value": 75.5,
@@ -4495,7 +4500,7 @@ const DATA = /*DATA-START*/{
    "class": "SUV",
    "powertrain": "hybrid",
    "drivetrain": "AWD",
-   "generation_span": "2023–present in the US (5th gen, chassis code NQ5; US/Canada long-wheelbase body, 183.5 in / 4,660 mm on a 108.5 in wheelbase). Production began 2021; the facelift was revealed 5 Nov 2024 for the 2026 model year, so 2024 sits in the pre-facelift NQ5 run.",
+   "generation_span": "2023–present in the US (5th gen, chassis code NQ5; US/Canada long-wheelbase body)",
    "listed_year": 2024,
    "kbb_value_usd": {
     "low": 23000,
@@ -4560,7 +4565,7 @@ const DATA = /*DATA-START*/{
    },
    "trim_rationale": "The 2024 Sportage Hybrid is sold as LX (FWD or AWD), EX AWD, and SX-Prestige AWD. Every trim shares the same 60:40 folding-and-reclining second row and the same standard dual-level cargo floor, and no trim on any Sportage powertrain offers a factory 115V outlet, so the two camping criteria that usually decide the trim are trim-independent here and the pick comes down to what else is standard. EX AWD is the camping choice: AWD is standard (8.3 in ground clearance versus 7.1 in on the FWD LX), a temporary compact spare is standard where the LX ships only a tire mobility kit, and heated front seats, dual-zone automatic climate, a 10-way power driver's seat and 12V front + cargo outlets are all standard, at $32,290 before the $1,375 destination charge. Trade-offs to know: the FWD LX is dramatically thriftier at 42/44/43 mpg against the EX's 38/38/38, so choose it if fuel economy outranks traction and clearance; and roof rails, the smart power liftgate and the panoramic sunroof are all extra-cost options on EX, standard only on the $37,490 SX-Prestige AWD.",
    "model_url": "https://www.kia.com/us/en/sportage-hybrid",
-   "last_verified": "2026-08-18",
+   "last_verified": "2026-08-19",
    "max_cargo_cf": {
     "value": 73.7,
     "config": "Behind the 1st row, 2nd row folded, dual-level cargo floor in the LOW position (Kia spec). With the floor in the HIGH position it is 65.4 cu ft. Behind the 2nd row: 39.5 low / 34.5 high. The 2.5L gas Sportage is marginally larger at 74.1 / 39.6.",
@@ -4879,7 +4884,7 @@ function renderTable(rows) {
   document.getElementById('tbody').innerHTML = rows.map(v => `
     <tr data-id="${v.id}" class="${state.pins.has(v.id) ? 'pinned' : ''}">
       <td class="sel-cell"><span class="sel-wrap"><input type="checkbox" data-sel="${v.id}" ${state.selected.has(v.id) ? 'checked' : ''} title="Select to compare"><button class="pin-btn sm${state.pins.has(v.id) ? ' pinned' : ''}" data-pin="${v.id}" title="${state.pins.has(v.id) ? 'Unpin' : 'Pin'}" aria-pressed="${state.pins.has(v.id)}">📌</button></span></td>
-      <td class="veh-cell">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${DT_LABEL[v.drivetrain] || v.drivetrain} · ${v.generation_span}</span></td>
+      <td class="veh-cell" title="${esc(v.trim + ' · ' + (DT_LABEL[v.drivetrain] || v.drivetrain) + ' · ' + v.generation_span)}">${v.make} ${v.model}<span class="trim-sm">${v.trim} · ${DT_LABEL[v.drivetrain] || v.drivetrain} · ${v.generation_span}</span></td>
       <td>${v.class}</td>
       <td>${PT_LABEL[v.powertrain]}</td>
       <td class="num">${v.listed_year}</td>
